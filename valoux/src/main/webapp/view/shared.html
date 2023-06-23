@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<title>Valoux - Valoux is an online data management system, an appraisal and appraiser network, and an insurance delivery platform</title>
+
+<!-- CSS  -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="../css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/footer.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/animate.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/font-awesome.min.css" rel="stylesheet">
+<link href="../css/custom.css" rel="stylesheet">
+<!-- custom scrollbar stylesheet -->
+<link rel="stylesheet" href="../css/jquery.mCustomScrollbar.css">
+<script src="../js/extLib/jquery-1.12.0.min.js"></script>
+<script src="../js/extLib/materialize.min.js"></script>  
+<script  type="text/javascript" src="../js/extLib/wow.js"></script> 
+<script  type="text/javascript" src="../js/extLib/smoothscroll.js"></script>
+<script src="../js/extLib/jquery.tooltipster.min.js"></script>
+<script src="../js/extLib/custom.js"></script>
+<script src="../js/extLib/angular.min.js"></script>
+<script src="../js/extLib/angular-route.js"></script>
+<script src="../js/app/itemapp.js"></script>
+<script src="../js/app/controller/baseController.js"></script>
+<script src="../js/app/service/service.js"></script>  
+<script src="../js/app/service/masterDataService.js"></script> 
+<script src="../js/app/directives/BaseDirective.js"></script>
+<script src="../js/app/storeManagement/controller/storeManagement.js"></script>
+<script src="../js/app/sharedapp.js"></script>
+<script src="../js/app/storeManagement/directives/storeManagementDirective.js"></script>
+<script src="../js/app/storeManagement/controller/collectionManagement.js"></script>
+<script src="../js/app/directives/validatorDirective.js"></script>
+<!-- custom scrollbar plugin --> 
+ <script src="../js/extLib/jquery.mCustomScrollbar.concat.min.js"></script> 
+<!-- angucomplete files -->
+<link href="../css/angucomplete.css" rel="stylesheet">
+<script src="../js/extLib/angucomplete-alt.js"></script>
+  <!--error handling-->
+<script src="../js/extLib/stacktrace-0.5.0.min.js"></script>
+<script src="../js/app/error-handling.js"></script>
+</head>
+<body ng-app="valouxApp" ng-controller="BaseController" ng-init="checkIsConsumer()">
+<header-loggedin></header-loggedin>
+
+<div ng-view>
+</div>
+<div class="clearfix"></div>
+<footer-element></footer-element>
+
+<div class="loader-overlay" ng-show="fullPageBlockLoading" loading><span class="loader-inner">Processing<div class="clearfix"></div><img src="../img/loader-1.gif"></span></div>
+<!--  Scripts--> 
+<script src="../js/extLib/materialize.min.js"></script>  
+<script  type="text/javascript" src="../js/extLib/wow.js"></script> 
+<script  type="text/javascript" src="../js/extLib/smoothscroll.js"></script>
+<script src="../js/extLib/custom.js"></script>
+
+</body>
+</html>

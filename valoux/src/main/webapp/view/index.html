@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<title>Valoux - Valoux is an online data management system, an appraisal and appraiser network, and an insurance delivery platform</title>
+
+<!-- CSS  -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<link href="../css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/home.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/footer.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/animate.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/font-awesome.min.css" rel="stylesheet">
+<link href="../css/custom.css" rel="stylesheet">
+<!-- custom scrollbar stylesheet -->
+<link rel="stylesheet" href="../css/jquery.mCustomScrollbar.css">
+<!-- JS -->
+<script src="../js/extLib/jquery-1.12.0.min.js"></script>
+<script src="../js/extLib/materialize.min.js"></script>  
+<script  type="text/javascript" src="../js/extLib/wow.js"></script> 
+<script  type="text/javascript" src="../js/extLib/smoothscroll.js"></script>
+<script src="../js/extLib/custom.js"></script>
+<script src="../js/extLib/angular.min.js"></script>
+<script src="../js/app/app.js"></script>
+<script src="../js/app/controller/baseController.js"></script>
+<script src="../js/app/service/service.js"></script>  
+<script src="../js/app/service/masterDataService.js"></script>  
+
+
+<script src="../js/app/directives/BaseDirective.js"></script> 
+<script src="../js/app/userManagement/controller/userManagement.js"></script>
+<script src="../js/app/directives/validatorDirective.js"></script>
+<script type="text/javascript" src="../js/extLib/jquery.anchor.js"></script>
+<!-- custom scrollbar plugin --> 
+ <script src="../js/extLib/jquery.mCustomScrollbar.concat.min.js"></script> 
+<!--error handling-->
+<script src="../js/extLib/stacktrace-0.5.0.min.js"></script>
+<script src="../js/app/error-handling.js"></script>
+</head>
+<body ng-app="valouxApp" ng-controller="BaseController">
+   <header ng-init="sessionAgentConsumer()"> 
+<nav class="tnb lighten-1 navbar-fixed" role="navigation">
+  <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo"><img src="../img/logo.png"  alt=""/></a>
+    <ul class="right hide-on-med-and-down">
+        <li><a href="#offerings" class="anchorLink">OFFERINGS</a> </li>
+        <li><a href="#howitworks" class="anchorLink">HOW IT WORKS</a></li>
+        <li><a href="#ourstory" class="anchorLink">OUR STORY</a></li>
+        <li><a href="javascript:;">CONTACT</a></li>
+      <li ng-show="!checkIsloggedIn()"><a href="javascript:;" class="waves-effect waves-light btn btn-orange" ng-click="loginPopup()">LOGIN</a></li>
+       
+      <li ng-show="!checkIsloggedIn()"><a href="javascript:;" data-activates="dropdown3" class="waves-effect waves-light btn btn-orange dropdown-button dropdown-button1 join-btn">JOIN <i class="mdi-navigation-arrow-drop-down right white-text"></i></a>
+        <ul id="dropdown3" class="dropdown-content dropdown-content1 join-con">
+            <li><a href="join-consumer.html">JOIN AS A CONSUMER</a></li>
+            <li><a href="join-agent.html">JOIN AS A AGENT</a></li>
+          
+          </ul>
+      </li>
+      
+      <li ng-show="(isAgent && checkIsloggedIn())"><a href="dashboard-agent.html">MY VALOUX</a></li>
+      <li ng-show="(isConsumer && checkIsloggedIn())"><a href="dashboard.html">MY VALOUX</a></li>
+      
+    </ul>
+    <ul id="nav-mobile" class="side-nav" style="left: 0px;">
+      <li class="close-top"><a href="javascript:;" id="close-nav" onclick="slide()" class="pull-right close-btn">&nbsp;</a></li><div class="clearfix"></div>
+          <li><a href="#offerings" class="anchorLink">OFFERINGS</a> </li>
+        <li><a href="#howitworks" class="anchorLink">HOW IT WORKS</a></li>
+        <li><a href="#ourstory" class="anchorLink">OUR STORY</a></li>
+        <li><a href="javascript:;">CONTACT</a></li>
+        <li ng-show="!checkIsloggedIn()"><a href="join-consumer.html">JOIN AS A CONSUMER</a></li>
+        <li ng-show="!checkIsloggedIn()"><a href="join-agent.html">JOIN AS A AGENT</a></li>
+        
+      <li ng-show="checkIsloggedIn() && isConsumer"><a href="dashboard.html">MY VALOUX</a></li>
+      <li ng-show="checkIsloggedIn()  && isAgent"><a href="dashboard-agent.html">MY VALOUX</a></li>
+      
+      <li ng-show="!checkIsloggedIn()"><a href="javascript:;" ng-click="loginPopup()" class="waves-effect waves-light btn btn-orange">LOGIN</a> <!-- <a class="waves-effect waves-light btn btn-orange" href="join-consumer.html">JOIN</a> --></li>
+    
+    </ul>
+    <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a> </div>
+</nav>
+</header>
+
+<!--Navigation end here-->
+
+
+
+<!--Parallax start here-->
+<div class="parallax-container parallax-container1">
+  <div class="section no-pad-bot">
+    <div class="container">
+      <div class="row">
+        <div class="col m8 s12 offset-l1 l8 wow fadeInLeft animated" style="-webkit-animation-duration: 1.5s; -moz-animation-duration: 1.5s; animation-duration: 1.5s;-webkit-animation-delay: 0.15s; -moz-animation-delay: 0.15s; animation-delay: 0.15s;">
+          <h1 class="header">VALOUX IS AN ONLINE DATA MANAGEMENT SYSTEM,</h1>
+          <p class="header col s12 light">Valoux allows you to store and protect important information about your
+ jewelry, from the story of its origin to its current value.</p>
+        </div>
+        <div class="col m4 l3 offset-l1 s12 wow fadeInRight animated" style="-webkit-animation-duration: 1.5s; -moz-animation-duration: 1.5s; animation-duration: 1.5s;-webkit-animation-delay: 0.15s; -moz-animation-delay: 0.15s; animation-delay: 0.15s;">
+          <div class="card card-orange">
+            <div class="card-content white-text"> <span class="card-title">Interested in</span>
+              <form action="#">
+                <p>
+                  <input type="checkbox" class="filled-in" id="filled-in-box"  />
+                  <label for="filled-in-box">Real-time Value</label>
+                </p>
+                <p>
+                  <input type="checkbox" class="filled-in" id="filled-in-box2" />
+                  <label for="filled-in-box2">Insurance Quotes</label>
+                </p>
+                <p>
+                  <input type="checkbox" class="filled-in" id="filled-in-box3" />
+                  <label for="filled-in-box3">Online Appraisal </label>
+                </p>
+                <p> <a class="waves-effect waves-light btn btn-large">CONTINUE </a></p>
+              </form>
+            </div>
+   
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="parallax"><img src="../img/paralax-container-pic.jpg" alt=""></div>
+  <div class="parallax-container1-bottom  wow fadeInUp animated">
+    <div class="container">
+      <ul>
+        <li> SAFE & SECURE</li>
+        <li>MARKETPLACE</li>
+        <li>SPECIAL OFFERS</li>
+        <li>MAINTENANCE</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<!--Parallax end here-->
+
+
+<div class="clearfix"></div>
+<span id="offerings"></span>
+<!--What we offer section  start here-->
+<div class="container">
+  <div class="row row-marb0">
+    <div class="col s12">
+      <h2 class="wow fadeInLeft animated center-align" style="-webkit-animation-duration: 1.5s; -moz-animation-duration: 1.5s; animation-duration: 1.5s;-webkit-animation-delay: 0.15s; -moz-animation-delay: 0.15s; animation-delay: 0.15s;">The Valoux Offering</h2>
+      <div class="row card-box">
+        <div class="col s6 m4 row2">
+          <div class="card card1 wow  fadeInLeft animated" style="-webkit-animation-duration: 1.5s; -moz-animation-duration: 1.5s; animation-duration: 1.5s;-webkit-animation-delay: 0.15s; -moz-animation-delay: 0.15s; animation-delay: 0.15s;">
+            <div class="card-image">
+              <div class="thumb1"> <img src="../img/offers-icon1.jpg" alt=""/> </div>
+              <div class="clearfix"></div>
+              <span class="card-title">SECURITY</span> </div>
+            <div class="card-content bord-yellow">
+              <p>Secure, centralized storage of your jewelry information in one easy view.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col s6 m4 row2">
+          <div class="card card1 wow  fadeInLeft animated" style="-webkit-animation-duration: 1.5s; -moz-animation-duration: 1.5s; animation-duration: 1.5s;-webkit-animation-delay: 0.15s; -moz-animation-delay: 0.15s; animation-delay: 0.15s;">
+            <div class="card-image">
+              <div class="thumb1"> <img src="../img/offers-icon2.jpg" alt=""/>              </div>
+              <div class="clearfix"></div>
+              <span class="card-title">CLOUD</span> </div>
+            <div class="card-content bord-yellow">
+              <p>Lifetime storage of your appraisal and jewelry data, Anytime, Anywhere.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col s6 m4 row2">
+          <div class="card card1  wow  fadeInRight animated" style="-webkit-animation-duration: 1.5s; -moz-animation-duration: 1.5s; animation-duration: 1.5s;-webkit-animation-delay: 0.15s; -moz-animation-delay: 0.15s; animation-delay: 0.15s;">
+            <div class="card-image">
+              <div class="thumb1"> <img src="../img/offers-icon3.jpg" alt=""/>              </div>
+              <div class="clearfix"></div>
+              <span class="card-title"> REAL TIME APPRAISAL</span> </div>
+            <div class="card-content bord-light-blue">
+              <p>Fast appraisal creation by owners and jewelers with real-time market valuation.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col s6 m4">
+          <div class="card card1 wow fadeInLeft animated" style="-webkit-animation-duration: 1.5s; -moz-animation-duration: 1.5s; animation-duration: 1.5s;-webkit-animation-delay: 0.15s; -moz-animation-delay: 0.15s; animation-delay: 0.15s;">
+            <div class="card-image">
+              <div class="thumb1"> <img src="../img/offers-icon4.jpg" alt=""/> </div>
+              <div class="clearfix"></div>
+              <span class="card-title">PROMOTIONS</span> </div>
+            <div class="card-content bord-light-green">
+              <p>Exclusive access to special deals from Partner Jewelers tailored just for you.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col s6 m4">
+          <div class="card card1 wow fadeInLeft animated">
+            <div class="card-image">
+              <div class="thumb1"> <img src="../img/offers-icon5.jpg" alt=""/> </div>
+              <div class="clearfix"></div>
+              <span class="card-title"> MARKET PLACE</span> </div>
+            <div class="card-content bord-light-blue no-bord">
+              <p>Members-only marketplace offering instant insurance, financing, and more.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col s6 m4">
+          <div class="card card1 wow fadeInRight animated">
+            <div class="card-image">
+              <div class="thumb1"> <img src="../img/offers-icon7.jpg" alt=""/> </div>
+              <div class="clearfix"></div>
+              <span class="card-title">MAINTENANCE & SUPPORT</span> </div>
+            <div class="card-content no-bord1">
+              <p>Maintain, fix, update your collection with the highest quality from our Partnered Jewelers.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+   
+    </div>
+  </div>
+</div>
+
+<!--What we offer  section  end here-->
+
+
+
+<div class="clearfix"></div>
+
+<!--What we offer section end here-->
+
+
+<div class="bg-white bg-bottom" id="howitworks">
+  <div class="container">
+    <h2 class="wow fadeInLeft animated center-align head2-no-bord">How it works </h2>
+    <div class="row">
+      <div class="col m7 s12 wow fadeInLeft animated">
+        <div id="test1" class="col s12"><a href="javascript:;"><img src="../img/how-it-pic1.jpg"  alt="" class="how-it-pics"/></a></div>
+        <div id="test2" class="col s12"><a href="javascript:;"><img src="../img/how-it-pic1.jpg"  alt="" class="how-it-pics"/></a></div>
+        <div id="test3" class="col s12"><a href="javascript:;"><img src="../img/how-it-pic1.jpg"  alt="" class="how-it-pics" /></a></div>
+        <div id="test4" class="col s12"><a href="javascript:;"><img src="../img/how-it-pic1.jpg"  alt="" class="how-it-pics"/></a></div>
+      </div>
+      <div class="col m5 s12 wow fadeInRight animated">
+        <ul class="tabs tabs1">
+          <li class="tab"><a href="#test1"  class="active"><span>1</span>
+            <h4>CREATE AN APPRAISAL</h4>
+            <p>Quick and easy information entry</p>
+            </a></li>
+          <li class="tab"><a href="#test2"><span>2</span>
+            <h4 onClick="#pic2">STORE DOCUMENTS</h4>
+            <p>Store my documents, receipts, existing paperwork</p>
+            </a></li>
+          <li class="tab"><a href="#test3"><span>3</span>
+            <h4>VIEW/SHARE</h4>
+            <p>See your entire portfolio of jewelry</p>
+            </a></li>
+          <li class="tab"><a href="#test4"><span>4</span>
+            <h4>MARKETPLACE</h4>
+            <p>Get insurance quotes, financing, appraisals and more</p>
+            </a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="clearfix"></div>
+
+<!--Who we are section start here-->
+
+
+<div class="parallax-container parallax-container2" id="ourstory">
+  <div class="section no-pad-bot">
+    <div class="container">
+      <div class="row center marb">
+        <h2 class="wow fadeInLeft animated head2">Our Story</h2>
+        <h5 class="wow fadeInRight animated">Valoux is made up of Jewelers and Jewelry Owners who are bringing jewelry ownership into the modern era.</h5>
+      </div>
+      <div class="row row-marb-sm">
+        <div class="col m5 l4 s12">
+          <blockquote class="blockquote1  wow fadeInLeft animated"> “I feel more secure knowing that Valoux is protecting my the story of my Jewelry for generations to come.” <b>Catherine Baker</b> </blockquote>
+        </div>
+        <div class="col m5 l4 s12">
+          <blockquote class="blockquote1  wow fadeInRight animated"> “It’s so easy to collect and organize my jewelry! It’s great to be able to access it anytime!” <b>Maria Dmos</b> </blockquote>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+      <div class="row">
+        <div class="col m5 l4 s12">
+          <blockquote class="blockquote1  wow fadeInLeft animated"> “Valoux is the perfect combination of LifeLock, Lending Tree and Ancestry.com!” <b>John Smith</b> </blockquote>
+        </div>
+        <div class="col m5 l4 s12">
+          <blockquote class="blockquote1 blockquote2  wow fadeInRight animated">
+            <p>Have<br>
+              Questions?</p>
+            <div class="clearfix"></div>
+            <a href="javascript:;">CONTACT US NOW</a> </blockquote>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="parallax"><img src="../img/paralax-container-pic2.jpg" alt=""></div>
+</div>
+
+<!--Who we are section end here-->
+
+<!--Appraisal certificate section start here-->
+<div class="clearfix"></div>
+<div class="parallax-container parallax-container-bottom">
+  <div class="section">
+    <div class="container">
+      <h3 class="center  wow fadeInLeft animated">Your jewelry is more than just an accessory!</h3>
+      <div class="center  wow fadeInUp animated"> <a class="btn-large btn-large1 waves-effect waves-light" href="javascript:;">BEGIN HERE</a> </div>
+      <div class="center  wow fadeInRight animated">
+        <p>It represents a special moment in time and you should always have access to that moment in time.</p>
+      </div>
+    </div>
+   
+  </div>
+</div>
+
+<!--Appraisal certificate section end here-->
+<div class="clearfix"></div>
+ 
+ <footer-element></footer-element>
+  <!-- Modal Structure -->
+<login></login>
+<!-- Loader -->
+<div class="loader-overlay" ng-show="fullPageBlockLoading" loading><span class="loader-inner">Processing<div class="clearfix"></div><img src="../img/loader-1.gif"></span></div>
+
+
+</body>
+</html>

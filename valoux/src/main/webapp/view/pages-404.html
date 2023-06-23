@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+<title>Valoux - Valoux is an online data management system, an appraisal and appraiser network, and an insurance delivery platform</title>
+
+<!-- CSS  -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="../css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/footer.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/animate.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/font-awesome.min.css" rel="stylesheet">
+<!--css for item section-->
+<link href="../css/item.css" type="text/css" rel="stylesheet"/>
+<!--css for tooltip-->
+<link href="../css/tooltipster.css" type="text/css" rel="stylesheet"/>
+<link href="../css/custom.css" rel="stylesheet">
+<link rel="stylesheet" href="../css/jquery.mCustomScrollbar.css">
+
+<script src="../js/extLib/jquery-1.12.0.min.js"></script>
+<script src="../js/extLib/materialize.min.js"></script>  
+<script  type="text/javascript" src="../js/extLib/wow.js"></script> 
+<script  type="text/javascript" src="../js/extLib/smoothscroll.js"></script>
+<script src="../js/extLib/jquery.tooltipster.min.js"></script>
+<script src="../js/extLib/custom.js"></script>
+<script src="../js/extLib/angular.min.js"></script>
+<script src="../js/extLib/angular-route.js"></script>
+<script src="../js/app/agentapp.js"></script>
+<script src="../js/app/controller/baseController.js"></script>
+<script src="../js/app/service/service.js"></script>  
+<script src="../js/app/service/masterDataService.js"></script> 
+<script src="../js/app/directives/BaseDirective.js"></script>
+
+<script src="../js/app/directives/validatorDirective.js"></script>
+
+<!-- custom scrollbar plugin --> 
+ <script src="../js/extLib/jquery.mCustomScrollbar.concat.min.js"></script> 
+  <!--error handling-->
+<script src="../js/extLib/stacktrace-0.5.0.min.js"></script>
+<script src="../js/app/error-handling.js"></script>
+</head>
+<body ng-app="valouxApp" ng-controller="BaseController">
+<!--Navigation start here-->
+<header-section></header-section>
+<!--Navigation end here-->
+
+<div class="clearfix"></div>
+<div class="graybox">
+  <div class="container"> 
+    <!-- My Items section start here-->
+    <div class="row">
+      <div class="col s12">
+        <div class="page-header">
+          <h1 class="pull-left">404 Page not Found </h1>
+        </div>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="row">
+      <div class="col s12">
+        <div class="whitebox1 whitebox1-nopad whitebox1-padb"> 
+          <div class="page-404">
+   <div class="row">
+   <div class="col m12 l8 s12 col-right">
+     <div class="imgbox5"><img src="../img/page-404.jpg"  alt=""/></div></div>
+    <div class="col m12 l4 s12 col-left"><h4>Oops!</h4>
+   <p>Sorry !! We Could Not Find the Page You Requested.</p>
+   <p>We’ll help you get back on track. Click below links if you’d like to view site.</p>
+
+   <ul>
+   <li><a href="dashboard.html">My Valoux</a></li>
+<li><a href="item.html#/">Jewelry</a></li>
+<li><a href="collection.html#/">Collections</a></li>
+<li><a href="appraisal.html#/">Appraisals</a></li>
+<li><a href="shared.html#/">Shared</a></li>
+<!-- <li><a href="favorites.html">Favorites</a></li> -->
+</ul>
+
+
+   
+   </div>  </div>
+   </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- My Items section end here--> 
+  </div>
+</div>
+<div class="clearfix"></div>
+<div class="loader-overlay" ng-show="fullPageBlockLoading" loading><span class="loader-inner">Processing<div class="clearfix"></div><img src="../img/loader-1.gif"></span></div>
+
+<!--Footer start here-->
+<footer-element></footer-element>
+<!--Footer end here-->
+<!--  Scripts--> 
+
+
+</body>
+</html>

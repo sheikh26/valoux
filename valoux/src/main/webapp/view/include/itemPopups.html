@@ -1,0 +1,342 @@
+<!-- Modal for Popup - Item list start here -->
+<div id="modal-items" class="modal modal-add-new-item">
+  <div class="modal-header">
+    <h4>COLLECTION(S) LIST <span class="small-sub-head">- You have associated this item with <b>({{itemCollectionTotal || 0}})</b> collection(s).</span> <a href="javascript:;" class="modal-action modal-close close-btn2 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Close">&nbsp;</a></h4>
+	
+     <a  ng-show="itemPopupCollection[0].consumerPublicKey == userKey" class="icon-big-plus waves-effect waves-light tooltipped" data-tooltip="Add New Collection" data-delay="50" href="javascript:void(0);"  ng-click="addNewCollectionInExistingItem()"><img alt="" src="../img/icon-plus-big.png"></a> 
+     </div>
+  <div class="modal-content mCustomScrollbar itembox1-scroll2"><br>
+    <div class="row your-items-list" ng-repeat="itemPopupItem in itemPopupCollection">
+      <div class="col m2 l2 s12">
+        <div class="img-con1"><img fallback-src="../img/not-found-collection-small.jpg" ng-src="../valoximage/imageuploaded/{{itemPopupItem.cImages[0].imageUrl}}" alt=""/></div>
+      </div>
+      <div class="col m8 l9 s12"><span class="title1">{{itemPopupItem.cName | limitTo: 50}}{{itemPopupItem.cName.length < 50 ? '' : '...'}} <small>ID#  {{itemPopupItem.cId}}</small></span>
+        <p>{{itemPopupItem.cDescription | limitTo: 200}} {{itemPopupItem.cDescription.length < 200 ? '' : '...'}}</p>
+      </div>
+      <div class="col m2 l1 s12">
+        <div class="action" ng-show="itemPopupItem.consumerPublicKey == userKey">
+        <!-- <a class="a2 tooltipped" href="item.html#/edit/{{collectionPopupItem.itemId}}" data-position="bottom" data-delay="50" data-tooltip="Edit">
+        <img width="17" height="20" alt="" src="../img/icon-edit.jpg"></a>&nbsp;&nbsp; -->
+        
+        <a ng-hide="itemPopupItem.cStatus == 3"  data-position="bottom" data-delay="50" data-tooltip="Delete" class="a2 tooltipped" href="javascript:;" ng-click="DeleteCollectionAssoicatewithietms(itemPopupItem.cId, $index)"><img src="../img/icon-trash.jpg" alt=""/></a></div>
+      </div>
+    </div>
+    
+  </div>
+  <!-- <div class="modal-footer">  </div>--> 
+</div>
+<!-- Modal for Popup - Item list end here --> 
+
+<!-- Modal for Popup - Item list start here -->
+<div id="modal-add-new-items" class="modal modal-add-new-item">
+
+<!-- Modal for Popup - Collection no data start here -->
+<div ng-show="noItemsAvaliable" id="">
+  <div class="modal-header modal-header2">
+    <h4>YOUR COLLECTION(S) <span class="small-sub-head">- You have ({{itemCollectionTotal || 0}}) collection(s).</span> <a href="javascript:;" class="modal-action modal-close close-btn2 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Close">&nbsp;</a></h4>
+ <!-- <a  href="add-item.html" target="_parent" data-position="bottom" data-delay="50" data-tooltip="Add Item" class="icon-big-plus tooltipped" data-tooltip-id="7cfa1202-ce88-6be9-4301-b949e93d7b93"><img src="../img/icon-plus-big.png" alt=""></a> -->
+  </div>
+  
+  <div class="row">
+      <div class="col s12">
+   <div class="dashboard-nodata-wrap no-data">
+           <label>NO COLLECTION AVAILABLE</label>
+                <p>  
+              
+
+Please click below to add new collection.</p>
+<a class="btn3" href="collection.html#/add">Add Collection</a>
+
+</div>
+        </div>
+      </div>
+      
+      </div>
+      
+  
+<!-- Modal for Popup - Collection no data end here -->
+<div ng-show="!noItemsAvaliable">
+  <div class="modal-header">
+    <h4>YOUR COLLECTION(S) <span class="small-sub-head">- You have <b>({{totalItem || 0}})</b> collection(s) available to add.</span> <a href="javascript:;" class="modal-action modal-close close-btn2 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Close">&nbsp;</a></h4>
+  </div>
+  <div class="modal-content mCustomScrollbar itembox1-scroll2"><br>
+    <div class="row your-items-list" ng-repeat="collection in collectionData">
+      <div class="col l1">
+        <div class="input-field">
+          <input ng-model="collection.selected" type="checkbox" class="filled-in" id="filled-in-box{{collection.cId}}"  />
+          <label for="filled-in-box{{collection.cId}}"></label>
+        </div>
+      </div>
+      <div class="col m2">
+        <div class="img-con1"><img fallback-src="../img/not-found-collection-small.jpg" ng-src="../valoximage/imageuploaded/{{collectioncollection.itemImages[0].itemImagePath}}" alt=""/></div>
+      </div>
+      <div class="col m8"><span class="title1">{{collection.cName}} <small>ID#  {{collection.cId}}</small></span>
+        <p>{{collection.cDescription}}</p>
+      </div>
+    </div>
+    
+    
+  </div>
+  <a href="javascript:void(0);" ng-click="addItemlistingCollection()" data-position="bottom" data-delay="50" data-tooltip="Add Now" class="icon-big-ok waves-effect waves-light tooltipped"><img src="../img/icon-ok1.png" alt=""></a>
+
+  </div>
+  </div>
+<!-- Modal for Popup - Item list end here --> 
+    <div class="modal modal-add-to-collection" id="modal-add-to-collection" style="z-index: 1003; display: none; opacity: 1; transform: scaleX(1); top: 10%;">
+   <div class="modal-header">
+    <h4 class="head4"> ADD ITEM TO COLLECTION(S) <a href="javascript:;" class="modal-action modal-close close-btn2 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Close">&nbsp;</a></h4>
+  </div>
+  <div class="modal-content">
+    <div class="row">
+      <div class="input-field col s12 full-width-sm">
+        <div class="input-field">
+
+                <select multiple class="select-dropdown2" ng-change="selectedCollection()" name="collectionData" ng-model="collectionData" ng-options="collectionData.cId as collectionData.cName | limitTo: 30 for collectionData in
+                          collectionDatas">
+                            <option value="" disabled>Select</option>
+                          </select>
+          <label class="label1">Your collection(s) list *</label>
+
+        </div>
+      </div>
+    </div>
+  <div class="row">
+      <div class="col s12">
+     
+      <!-- <a href="javascript:;" class="addmore-btn" onclick="toggle3();" > <img src="../img/icon-plus.jpg" alt=""/> Add more </a> --></div>
+    </div>
+     <label class="error">
+                  <label class="error-msg-form">{{errorSelectedCollection}}</label>
+                  </label>
+    <a href="javascript:;" ng-click="addCollectionlistingItem()" data-position="bottom" data-delay="50" data-tooltip="Add Now" class="icon-big-ok waves-effect waves-light tooltipped modal-action" ><img src="../img/icon-ok1.png" alt=""></a> </div>
+  <!-- <div class="modal-footer">  </div>--> 
+</div>
+
+
+<!-- Modal for Popup - Collection no data start here -->
+<div id="modal-noitems" class="modal modal-add-to-collection">
+  <div class="modal-header modal-header2">
+    <h4>YOUR COLLECTION(S) <span class="small-sub-head">- You have <b>(0)</b> collection(s).</span> <a href="javascript:void(0);" class="modal-action modal-close close-btn2 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Close">&nbsp;</a></h4>
+ <!-- <a  href="javascript:void(0);" onclick=" $('#modal-noitems').closeModal();$('#modal-add-new-items').openModal();" target="_parent" data-position="bottom" data-delay="50" data-tooltip="Add Item" class="icon-big-plus tooltipped modal-trigger" data-tooltip-id="7cfa1202-ce88-6be9-4301-b949e93d7b93"><img src="../img/icon-plus-big.png" alt=""></a> -->
+  </div>
+  
+  <div class="">
+      <div class="col s12">
+   <div class="dashboard-nodata-wrap no-data">
+           <label>NO COLLECTION AVAILABLE</label>
+		   	<span ng-if="itemPopupItem.consumerPublicKey == userKey || itemData[0].consumerPublicKey == userKey || itemData.consumerPublicKey == userKey" >
+                <p>  
+           
+
+Please click below to add new collection.</p>
+ <a class="btn3" href="javascript:void(0);"   ng-click="addNewCollectionInExistingItem()">Add Collection</a> 
+			</span>
+</div>
+        </div>
+      </div>
+      
+      
+    </div> 
+
+    <div class="modal modal-add-to-collection" id="modal-create-to-collection" style="z-index: 1003; display: none; opacity: 1; transform: scaleX(1); top: 10%;">
+   <div class="modal-header">
+    <h4 class="head4"> ADD ITEM TO COLLECTION(S) <a href="javascript:;" class="modal-action modal-close close-btn2 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Close">&nbsp;</a></h4>
+  </div>
+  <div class="modal-content">
+
+      <div class="col s12">
+   <div class="dashboard-nodata-wrap no-data">
+           <label>NO COLLECTION AVAILABLE</label>
+                <p>  
+          
+
+Please click below to add new collection.</p>
+ <a class="btn3" ng-if="!isAgentLogin" class="" href="collection.html#/add" >Add Collection</a> 
+ <a class="btn3" ng-if="isAgentLogin" class="" href="collection-agent.html#/add" >Add Collection</a> 
+
+</div>
+        </div>
+     
+
+   </div>
+  <!-- <div class="modal-footer">  </div>--> 
+</div>
+<!-- Modal for Popup - Collection no data end here --> 
+
+<!-- Modal for Popup - Item list start here -->
+<div id="modal-appraisal" class="modal modal-add-new-item">
+  <div class="modal-header">
+    <h4>APPRAISAL(S) LIST <span class="small-sub-head">- You have associated this item with <b>({{appraisalTotal || 0}})</b> appraisal(s).</span> <a href="javascript:;" class="modal-action modal-close close-btn2 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Close">&nbsp;</a></h4>
+      <a  ng-show="appraisalPopups[0].publicKey == userKey" class="icon-big-plus waves-effect waves-light tooltipped " data-tooltip="Add New Appraisal" data-delay="50" data-position="bottom" href="javascript:void(0);" ng-click="addNewAppraisalExistingItem()"><img alt="" src="../img/icon-plus-big.png"></a>   
+     </div>
+  <div class="modal-content mCustomScrollbar itembox1-scroll2"><br>
+    <div class="row your-items-list" ng-repeat="appraisalPopup in appraisalPopups">
+      <div class="col m2 l2 s12">
+      
+        <div class="img-con1">
+        <img ng-show="appraisalPopup.collectionImages.length>0" fallback-src="../img/not-found-appraisal-small.jpg" ng-src="../valoximage/imageuploaded/{{appraisalPopup.collectionImages[0].cImages[0].imageUrl}}" alt=""/>
+        <img   ng-show="!appraisalPopup.collectionImages.length" fallback-src="../img/not-found-appraisal-small.jpg" ng-src="../valoximage/imageuploaded/{{appraisalPopup.itemImages[0].itemImages[0].itemImagePath}}" alt=""/>
+        <!--<img fallback-src="../img/not-found-appraisal.jpg" ng-src="../valoximage/imageuploaded/{{appraisalPopup.iImages[0].itemImages[0].itemImagePath}}" alt=""/>-->
+        
+        </div>
+        
+      </div>
+      <div class="col m8 l8 s12"><span class="title1">{{appraisalPopup.name | limitTo: 40 }} {{appraisalPopup.name.length < 40 ? '' : '...'}}
+      <!--<a data-tooltip="Favorite" data-delay="50" data-position="bottom" class="heart tooltipped" href="javascript:;">&nbsp;</a>-->
+      <small>ID#  {{appraisalPopup.appraisalId}}</small></span>
+        <p >{{appraisalPopup.shortDescription | limitTo: 100 }} {{appraisalPopup.shortDescription.length < 200 ? '' : '...'}}</p>
+      </div>
+      <div class="col m2 l2 s12">
+        <div class="action action-mart" ng-show="appraisalPopup.publicKey == userKey">
+        <!-- <a class="a2 tooltipped" href="item.html#/edit/{{collectionPopupItem.itemId}}" data-position="bottom" data-delay="50" data-tooltip="Edit">
+        <img width="17" height="20" alt="" src="../img/icon-edit.jpg"></a>&nbsp;&nbsp; -->
+        <a data-position="bottom" ng-hide="appraisalPopup.appraisalStatus == 3"   data-delay="50" data-tooltip="Delete" class="a2 tooltipped" href="javascript:void(0);" ng-click="deleteAppraisal(appraisalPopup.appraisalId, $index)"><img src="../img/icon-trash.jpg"  alt=""/></a></div>
+      
+      <span class="item-folder"><img src="../img/icon-folder.png" alt=""> <strong>{{appraisalPopup.itemsCount}} Items</strong></span>
+      </div>
+    </div>
+    
+  </div>
+  <!-- <div class="modal-footer">  </div>--> 
+</div>
+<!-- Modal for Popup - Item list end here --> 
+
+<!-- Modal for Popup - Collection no data start here -->
+<div id="modal-noAppraisal" class="modal modal-add-new-item">
+  <div class="modal-header modal-header2">
+    <h4>YOUR APPRAISAL(S) <span class="small-sub-head">- You have <b>({{appraisalTotal || 0}})</b> appraisal(s).</span> <a href="javascript:void(0);" class="modal-action modal-close close-btn2 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Close">&nbsp;</a></h4>
+ <!--<a  href="appraisal.html#/add" data-position="bottom" data-delay="50" data-tooltip="Add Item" class="icon-big-plus tooltipped" ><img src="../img/icon-plus-big.png" alt=""></a>--> 
+  </div>
+  
+  <div class="">
+      <div class="col s12">
+   <div class="dashboard-nodata-wrap no-data">
+           <label>NO MORE APPRAISAL AVAILABLE</label>
+                <p>  
+    
+
+Please click below to add new Appraisal.
+</p>
+ <a class="btn3" href="appraisal.html#/add" class="">Add Appraisal</a> 
+
+</div>
+        </div>
+      </div>
+      
+      
+    </div> 
+<!-- Modal for Popup - Collection no data end here --> 
+
+<!-- Modal for Popup - Collection no data start here -->
+<div id="modal-noAppraisallist" class="modal modal-add-to-collection">
+  <div class="modal-header modal-header2">
+    <h4>YOUR APPRAISAL(S)<span class="small-sub-head">- You have <b>(0)</b> appraisal(s).</span> <a href="javascript:void(0);" class="modal-action modal-close close-btn2 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Close">&nbsp;</a></h4>
+ <!--<a  href="javascript:void(0);" ng-click="addNewAppraisalExistingItem()" data-position="bottom" data-delay="50" data-tooltip="Add Item" class="icon-big-plus tooltipped" data-tooltip-id="7cfa1202-ce88-6be9-4301-b949e93d7b93"><img src="../img/icon-plus-big.png" alt=""></a> -->
+  </div>
+  
+  <div class="">
+      <div class="col s12">
+   <div class="dashboard-nodata-wrap no-data">
+           <label>NO APPRAISAL AVAILABLE</label>
+		   	<span ng-show="itemPopupItem.consumerPublicKey == userKey || itemData.consumerPublicKey == userKey || itemData[0].consumerPublicKey == userKey" >
+                <p>  
+   
+Please click below to add new Appraisal.
+</p>
+ <a class="btn3" href="javascript:;" ng-click="addNewAppraisalExistingItem()" >Add Appraisal</a> 
+</span>
+</div>
+        </div>
+      </div>
+      
+      
+    </div> 
+<!-- Modal for Popup - Collection no data end here --> 
+    <div class="modal modal-add-to-collection" id="modal-create-to-appraisal" style="z-index: 1003; display: none; opacity: 1; transform: scaleX(1); top: 10%;">
+   <div class="modal-header">
+    <h4 class="head4"> ADD ITEM TO APPRAISAL(S) <a href="javascript:;" class="modal-action modal-close close-btn2 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Close">&nbsp;</a></h4>
+  </div>
+  <div class="modal-content">
+
+      <div class="col s12">
+   <div class="dashboard-nodata-wrap no-data">
+           <label>NO APPRAISAL AVAILABLE</label>
+                <p>  
+             
+
+Please click below to add new appraisal.</p>
+ <a ng-if="!isAgentLogin" class="btn3"  href="appraisal.html#/add" >Add Appraisal</a> 
+ <a ng-if="isAgentLogin" class="btn3"  href="appraisal-agent.html#/add" >Add Appraisal</a> 
+
+</div>
+        </div>
+     
+
+   </div>
+  <!-- <div class="modal-footer">  </div>--> 
+</div>
+<!-- Modal for Popup -  Add to Appraisal start here -->
+<div id="modal-add-to-appraisal" class="modal modal-add-to-collection">
+  <div class="modal-header">
+    <h4> ADD ITEM TO APPRAISAL(S) <a href="javascript:;" class="modal-action modal-close close-btn2 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Close">&nbsp;</a></h4>
+  </div>
+  <div class="modal-content">
+    <div class="row">
+      <div class="input-field col s12 full-width-sm">
+        <div class="input-field">
+          <select multiple ng-model="appraisalSelect" class="select-dropdown2" ng-change="selected()">
+            <option value="" disabled>Select</option>
+            <option value="{{appraisalAddPopup.appraisalId}}" ng-repeat="appraisalAddPopup in appraisalAddPopups">{{appraisalAddPopup.name | limitTo: 30 }} {{appraisalAddPopup.name.length < 30 ? '' : '...'}}</option>
+
+          </select>
+          <label class="label1">Your appraisal(s) list *</label>
+        </div>
+      </div>
+    </div>
+     <div class="row">
+      <div class="col s12">
+    
+      <!-- <a href="javascript:;" class="addmore-btn" onclick="toggle3();" > <img src="../img/icon-plus.jpg" alt=""/> Add more </a> --></div>
+    </div>
+    <!-- <div class="row">
+      <div class="col s12">
+        <div id="box_show3" class="gray-accord row-hide"> <a class="pull-right close-btn3 tooltipped" onclick="toggle3();" href="javascript:;" data-tooltip="Close" data-delay="50" data-position="bottom">&nbsp;</a>
+          <div class="row head2">
+            <div class="col s12">Add New Appraisal</div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12 full-width-sm">
+              <input id="itemname" type="text" class="validate">
+              <label for="itemname" class="active">Appraisal name  <sup>*</sup></label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12"> <span for="first_name">Description <sup>*</sup></span> <span class="character">Up to 0/120 characters</span>
+              <div class="clearfix"></div>
+              <textarea id="textarea1" class="materialize-textarea textarea1" placeholder="Ex: Lorem ipsum dolar sit is a dummy text"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <label class="error">
+                  <label class="error-msg-form">{{errorSelected}}</label>
+                  </label>
+    <a class="icon-big-ok waves-effect waves-light tooltipped modal-action" data-tooltip="Add Now" data-delay="50" data-position="bottom" href="javascript:;" ng-click="addNewAppraisalInItem()"><img alt="" src="../img/icon-ok1.png"></a> </div>
+  <!-- <div class="modal-footer">  </div>--> 
+</div>
+<!-- Modal for Popup -  Add to Appraisal end here --> 
+
+
+<script>
+$(document).ready(function(){
+  setTimeout(function(){ 
+    $('.modal-trigger').leanModal();
+    $('.tooltipped').tooltip({delay: 50});
+  }, 500);
+  $('.mCustomScrollbar').mCustomScrollbar();  
+
+});
+</script>
+<!-- custom scrollbar plugin --> 
+<!-- <script src="../js/extLib/jquery.mCustomScrollbar.concat.min.js"></script> -->

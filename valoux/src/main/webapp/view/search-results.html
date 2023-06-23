@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+<title>Valoux - Valoux is an online data management system, an appraisal and appraiser network, and an insurance delivery platform</title>
+
+<!-- CSS  -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="../css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/footer.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/animate.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/font-awesome.min.css" rel="stylesheet">
+<link href="../css/custom.css" rel="stylesheet">
+<!--css for item section-->
+<link href="../css/item.css" type="text/css" rel="stylesheet"/>
+<!-- custom scrollbar stylesheet -->
+<link rel="stylesheet" href="../css/jquery.mCustomScrollbar.css">
+<!-- JS -->
+<script src="../js/extLib/jquery-1.12.0.min.js"></script>
+<script src="../js/extLib/materialize.min.js"></script>  
+<script  type="text/javascript" src="../js/extLib/wow.js"></script> 
+<script  type="text/javascript" src="../js/extLib/smoothscroll.js"></script>
+<script src="../js/extLib/custom.js"></script>
+<script src="../js/extLib/angular.min.js"></script>
+<script src="../js/app/app.js"></script>
+<script src="../js/extLib/angular-route.js"></script>
+<script src="../js/app/controller/baseController.js"></script>
+<script src="../js/app/service/service.js"></script>  
+<script src="../js/app/service/masterDataService.js"></script>
+<script src="../js/app/directives/BaseDirective.js"></script>
+<script src="../js/app/storeManagement/directives/storeManagementDirective.js"></script>
+
+<script src="../js/app/storeManagement/controller/storeManagement.js"></script>
+<script src="../js/app/storeManagement/controller/collectionManagement.js"></script>
+<script src="../js/app/storeManagement/controller/appraisalManagement.js"></script>
+<script>
+    app.requires.push('valouxApp', 'ngRoute')
+</script>
+
+<!-- custom scrollbar stylesheet -->
+<script src="../js/extLib/jquery.mCustomScrollbar.concat.min.js"></script>
+</head>
+<body ng-app="valouxApp" ng-controller="BaseController" ng-cloak>
+<!--start Header -->
+<header-loggedin></header-loggedin>
+<!--end Header -->
+<!--Navigation start here-->
+
+<!--Navigation end here-->
+
+<div class="clearfix"></div>
+<div class="graybox" ng-init="searchData()">
+  <div class="container">
+    <div class="row">
+      <div class="col s12">
+        <div class="page-header page-header4">
+          <h1 class="pull-left">Search Results</h1>
+         <div class="itembox itembox-mart itembox3" ng-cloak><b class="badge1">{{searchItemDetail.length + searchCollectionDetail.length + searchAppraisalDetail.length + searchStoreDetail.length + searchAgentDetail.length || 0}}</b>  results found matching with your keyword &lt;{{globalSearch}}&gt;. </div>
+          
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s12">
+        <div class="whitebox1 search-page whitebox1-nopad whitebg-none inner-header"> 
+        <div class="header-bg-1">
+               <nav class="search-bar2">
+            <div class="nav-wrapper">
+            <form name="searchForm" ng-submit="searchSubmit()">
+                <div class="input-field">
+                  <input ng-model="globalSearch" id="search3" type="search" value="" maxlength="100" autocomplete="off">
+                  <label for="search3"><i class="material-icons">search</i></label>
+                  <i class="material-icons tooltipped" data-tooltip="Clear search" ng-click="clearSearch()" data-delay="50" data-position="bottom">close</i> </div>
+             <div class="modal-searchbar-footer"> 
+             <!-- <a ng-click="searchForm.$valid && searchSubmit()" class="btn-large btn-large1 waves-effect waves-light" href="javascript:;">SEARCH</a> -->
+             <button class="btn-large btn-large1 waves-effect waves-light" >SEARCH</button>
+             </div>
+              
+              </form>
+              </div></nav>
+    <small class="small-tabs"><!--<i>View by </i>: <div class="searchbox-left">
+              <select>
+                <option>Consumer name</option>
+            
+              </select>
+            </div>--> <span class="hide-xs1"><i>Filter by </i>: </span>  <a href="javascript:;" ng-click="filterSearch()" class="active" active-search="all">All</a> 
+            <a href="javascript:;" ng-click="filterSearch(searchItemDetail.length, 'item')" active-search="item" ng-cloak>Items ({{searchItemDetail.length?searchItemDetail.length:0}})</a>
+             <a active-search="collection" ng-click="filterSearch(searchCollectionDetail.length, 'collection')" href="javascript:;" ng-cloak>Collections ({{searchCollectionDetail.length?searchCollectionDetail.length:0}})</a>
+              <a active-search="appraisal" ng-click="filterSearch(searchAppraisalDetail.length, 'appraisal')" href="javascript:;" ng-cloak>Appraisals ({{searchAppraisalDetail.length?searchAppraisalDetail.length:0}})</a>
+              <a ng-if="!isAgentLogin" active-search="store" ng-click="filterSearch(searchStoreDetail.length, 'store')" href="javascript:;" ng-cloak>Store ({{searchStoreDetail.length?searchStoreDetail.length:0}})</a>
+              <a ng-if="!isAgentLogin" active-search="agent" ng-click="filterSearch(searchAgentDetail.length, 'agent')" href="javascript:;" ng-cloak>Agent ({{searchAgentDetail.length?searchAgentDetail.length:0}})</a>
+                <!--<span class="advanced-filter"><a href="javascript:;" class="a1"><i class="fa fa-filter" aria-hidden="true"></i> Advanced filter</a></span>--></small>
+      </div>
+
+        
+          <div id="demo" ng-hide="searchBlank">
+          
+          <div class="margin-search" ng-if="searchItemDetail.length > 0" ng-controller="storeManagement">
+          <item-popup></item-popup>
+            <ul class="u-fancy-load">
+              <!-- item list row start here-->
+              
+              <li class="showItem" ng-repeat="searchItemDetails in searchItemDetail" >
+                <div class="row">
+                
+               
+                  <div class="col m12 l12">
+                    <div class="card-panel card-panel3 card-panel3-box-shadow card-panel3-box-shadow-none">
+                      <div class="row">
+
+                        <div class="col s12 m2 l2">
+                          <div class="img-box2"><img fallback-src="../img/not-found-item.jpg" ng-src="../valoximage/imageuploaded/{{searchItemDetails.images[0].imagePath}}" alt="" class="responsive-img"></div>
+                        </div>
+                        <div class="col m6 l7 s12">
+                          <div class="card-content"> <span class="card-title" >
+                          <a ng-if="!isAgentLogin" href="item.html#/detail/{{searchItemDetails.id}}" ng-bind-html="searchItemDetails.name | strLimit:40 | highlight:globalSearch"></a>
+                          <a ng-if="isAgentLogin" ng-click="agentItemRedirect(searchItemDetails.id, searchItemDetails.consumerPublicKey)" href="javascript:;" ng-bind-html="searchItemDetails.name | strLimit:40 | highlight:globalSearch"></a>
+                            <small>ID#  {{searchItemDetails.id}}</small></span>
+                          <span ng-if="isAgentLogin" class="card-sub-title"> <i>Shared by</i>: <b>{{searchItemDetails.consumerDeatil.firstName}} {{searchItemDetails.consumerDeatil.middleName}} {{searchItemDetails.consumerDeatil.lastName}}</b></span>
+                          <p ng-bind-html="searchItemDetails.description | strLimit:200 | highlight:globalSearch | newLine"></p>
+                          <div ng-if="!isAgentLogin" class="disp-cell"><img alt="" src="../img/icon-associate.jpg"></div>
+
+                          <div class="disp-cell txt13" ng-if="!isAgentLogin">Item associated with<br>
+                              <a class="txt13" href="javascript:void(0);" ng-click="itemListedCollection(searchItemDetails.id,searchItemDetails.noOfCollection)">Collections (<span id="collection_item_{{searchItemDetails.id}}">{{searchItemDetails.noOfCollection}}</span>)</a>, 
+                              <a class="txt13" ng-click="itemListedAppraisal(searchItemDetails.id,searchItemDetails.noOfAppraisal)" href="javascript:;">Appraisals (<span id="appraisal_item_{{searchItemDetails.id}}">{{searchItemDetails.noOfAppraisal}}</span>)</a>
+                          </div>
+                            
+                            <div ng-if="searchItemDetails.componentList.length>0 && !isAgentLogin" class="item-components"> Item Components<br>
+                                 <div class="items hover-none" >
+                                  <small ng-repeat="componentList in searchItemDetails.componentList | limitTo:5">{{componentList.componentName | limitTo: 8}}{{componentList.componentName.length < 8 ? '' : '...'}} ({{componentList.componentQuantity}})</small> 
+                                  <strong ng-if="items.componentList.length>5" class="txt-blue1"><small href="javascript:void(0);">.. +{{items.componentList.length-5}}</small></strong>
+                                 </div>
+                            </div>
+                            <div class="row-grey-gradient" ng-if="searchItemDetails.itemStatus == 3 || isAgentLogin">
+                              <div class="grey-gradient hide-md">
+                                <ul>
+                                  <li ng-if="searchItemDetails.itemStatus==3">
+                                    <label>Appraised Value</label>
+                                    ${{searchItemDetails.appraisedValue | number:2}}</li>
+                                    <li ng-if="searchItemDetails.itemStatus !=3">
+                                    <label>Final Value</label>
+                                    ${{searchItemDetails.finalPrice | number:2}}</li>
+                                  <li>
+                                    <label>Market Value</label>
+                                    ${{searchItemDetails.marketValue | number:2}}
+                                  <small>{{searchItemDetails.marketValueDate | marketDateFormat}}<i ng-if="searchItemDetails.marketValueDate">at</i> {{searchItemDetails.marketValueDate | marketTimeFormat}}</small></li>
+                                  <li ng-if="searchItemDetails.itemStatus==3">
+                                    <label>Change</label>
+                                    <span ng-if="searchItemDetails.priceChange == 2" class="red-text">{{searchItemDetails.changePercentage |number:2}}% <i class="fa fa-sort-desc"></i></span>
+                                    <span ng-if="searchItemDetails.priceChange == 1" class="green-text">{{searchItemDetails.changePercentage |number:2}}% <i class="fa fa-sort-asc"></i></span>
+                                    <span ng-if="searchItemDetails.priceChange == 3" >{{searchItemDetails.changePercentage |number:2}}%</span> </li>
+                                  <li ng-if="searchItemDetails.itemStatus==3">
+                                    <label>Last Appraised</label>
+                                    {{searchItemDetails.lastAppraisedDate | myDateFormat}} <img src="../img/ribbon.png" alt="" class="img2"></li>
+                                  <!-- <li><span class="green-label">+50%</span></li>-->
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- <div class="col s12 m3 l3">
+                          <div class="card-panel3-box-shadow-right">
+                            <ul class="collection hide-xs ">
+                            <ul class="collection border-left">
+                                <li ng-if="!isAgentLogin" class="collection-item"><span class="disp-cell"><img alt="" src="../img/icon-appraisal.png"></span> <span class="disp-cell"><a href="javascript:void(0);" class="" ng-click="addAppraisalInItem(searchItemDetails.id)">ADD TO APPRAISAL</a></span></li>
+
+                                <li ng-if="isAgentLogin" class="collection-item"><span class="disp-cell"><img alt="" src="../img/icon-appraisal.png"></span> <span class="disp-cell"><a href="javascript:void(0);" class="" ng-click="addAppraisalInItem(searchItemDetails.id, searchItemDetails.consumerPublicKey)">ADD TO APPRAISAL</a></span></li>
+
+
+                                <li ng-if="!isAgentLogin" class="collection-item"><span class="disp-cell"><img alt="" src="../img/icon-collection1.png"></span> <span class="disp-cell"><a href="javascript:void(0);" class="" ng-click="ItemAddcollection(searchItemDetails.id)">ADD TO COLLECTION</a></span></li>
+
+                                <li ng-if="isAgentLogin" class="collection-item"><span class="disp-cell"><img alt="" src="../img/icon-collection1.png"></span> <span class="disp-cell"><a href="javascript:void(0);" class="" ng-click="ItemAddcollection(searchItemDetails.id, searchItemDetails.consumerPublicKey)">ADD TO COLLECTION</a></span></li>
+
+
+                                <li ng-if="!isAgentLogin" class="collection-item"><span class="disp-cell"><img alt="" src="../img/icon-edit.png" ></span> <span class="disp-cell"><a href="item.html#/edit/{{searchItemDetails.id}}">EDIT ITEM</a></span></li>
+                                <li ng-if="isAgentLogin" class="collection-item"><span class="disp-cell"><img alt="" src="../img/icon-edit.png" ></span> <span class="disp-cell"><a href="javascript:;" ng-click="editItemAgent(searchItemDetails.consumerPublicKey, searchItemDetails.id)">EDIT ITEM</a></span></li>
+                                <li ng-if="!isAgentLogin" class="collection-item"><span class="disp-cell"><img src="../img/icon-share.png" alt=""></span> <span class="disp-cell"><a class=""  href="javascript:;" ng-click="setShareId(searchItemDetails.id,1)" >SHARE </a></span></li>
+
+
+                              </ul>
+                            </ul>
+                            <ul class="collection show-xs">
+                              <li ng-if="!isAgentLogin" class="collection-item"><a href="javascript:;" ng-click="addAppraisalInItem(searchItemDetails.id)" data-tooltip="ADD TO APPRAISAL" data-delay="50" data-position="bottom" class="tooltipped"><span class="disp-cell"><img src="../img/icon-appraisal.png"  alt=""/></span></a></li>
+                              <li ng-if="!isAgentLogin" class="collection-item"><a  ng-click="ItemAddcollection(searchItemDetails.id)"  href="javascript:;" data-tooltip="ADD TO COLLECTION" data-delay="50" data-position="bottom" class="tooltipped"><span class="disp-cell"><img src="../img/icon-collection1.png"  alt=""/></span></a></li>
+
+                              <li ng-if="isAgentLogin" class="collection-item"><a href="javascript:;" ng-click="addAppraisalInItem(searchItemDetails.id, searchItemDetails.consumerPublicKey)" data-tooltip="ADD TO APPRAISAL" data-delay="50" data-position="bottom" class="tooltipped"><span class="disp-cell"><img src="../img/icon-appraisal.png"  alt=""/></span></a></li>
+                              <li ng-if="isAgentLogin" class="collection-item"><a  ng-click="ItemAddcollection(searchItemDetails.id, searchItemDetails.consumerPublicKey)"  href="javascript:;" data-tooltip="ADD TO COLLECTION" data-delay="50" data-position="bottom" class="tooltipped"><span class="disp-cell"><img src="../img/icon-collection1.png"  alt=""/></span></a></li>
+
+                              <li ng-if="!isAgentLogin" class="collection-item"><a   href="item.html#/edit/{{searchItemDetails.id}}"  data-tooltip="EDIT" data-delay="50" data-position="bottom" class="tooltipped"><span class="disp-cell"><img alt="" src="../img/icon-edit.png"></span></a></li>
+
+                               <li ng-if="isAgentLogin" class="collection-item"><a   href="javascript:;" ng-click="editItemAgent(searchItemDetails.consumerPublicKey, searchItemDetails.id)" data-tooltip="EDIT" data-delay="50" data-position="bottom" class="tooltipped"><span class="disp-cell"><img alt="" src="../img/icon-edit.png"></span></a></li>
+
+                              <li ng-if="!isAgentLogin" class="collection-item"><a   href="javascript:;" ng-click="setShareId(searchItemDetails.id,1)"  data-tooltip="SHARE" data-delay="50" data-position="bottom" class="tooltipped"><span class="disp-cell"><img alt="" src="../img/icon-share.png"></span></a></li>
+                              
+                            </ul>
+                             
+                          </div>
+                        </div> -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              </ul>
+               </div>
+            <!-- item list row end here--> 
+              <!-- collection list row start here-->
+
+             <div class="margin-search" ng-if="searchCollectionDetail.length > 0" ng-controller="collectionManagement">
+          <collection-popup></collection-popup>
+            <ul class="u-fancy-load">
+              
+              <li class="showCollection" ng-repeat="searchCollectionDetails in searchCollectionDetail">
+                <div class="row">
+                  <div class="col m12 l12">
+                    <div class="card-panel card-panel3 card-panel3-box-shadow">
+                      <div class="row">
+                        <div class="col s12 m3 l2">
+                          <div class="img-box2" ng-if="searchCollectionDetails.images.length > 0">
+                          <img fallback-src="../img/not-found-collection.jpg" ng-src="../valoximage/imageuploaded/{{searchCollectionDetails.images[0].imagePath}}" alt="" class="responsive-img"></div>
+
+                          <div class="img-box2" ng-if="searchCollectionDetails.images.length == 0">
+                          <img fallback-src="../img/not-found-collection.jpg" ng-src="../valoximage/imageuploaded/{{searchCollectionDetails.items[0].itemImages[0].itemImagePath}}" alt="" class="responsive-img"></div>
+                        </div>
+                        <div class="col m6 l7 s12">
+                          <div class="card-content"> <span class="card-title">
+
+                          <a ng-if="!isAgentLogin" href="collection.html#/detail/{{searchCollectionDetails.id}}" ng-bind-html="searchCollectionDetails.name | strLimit:40 | highlight:globalSearch"></a> 
+
+                           <a ng-if="isAgentLogin" ng-click="agentCollectionRedirect(searchCollectionDetails.id, searchCollectionDetails.consumerPublicKey)" href="javascript:;" ng-bind-html="searchCollectionDetails.name | strLimit:40 | highlight:globalSearch"></a> 
+
+                          <small>ID#  {{searchCollectionDetails.id}}</small></span>
+                          <span ng-if="isAgentLogin" class="card-sub-title"> <i>Shared by</i>: <b>{{searchCollectionDetails.consumerDeatil.firstName}} {{searchCollectionDetails.consumerDeatil.middleName}} {{searchCollectionDetails.consumerDeatil.lastName}}</b></span>
+                            <p ng-bind-html="searchCollectionDetails.description | strLimit: 200  | highlight:globalSearch | newLine"></p>
+                            <div class="item-components"> Collection associated with<br>
+                              <div class="items">
+                              <a ng-if="!isAgentLogin" href="javascript:;" ng-click="appraisalListedItem(searchCollectionDetails.id, searchCollectionDetails.noOfAppraisal)" class="">Appraisals (<span id="collection_appraisal_col_{{searchCollectionDetails.id}}">{{searchCollectionDetails.noOfAppraisal}}</span>)</a>
+
+                              <a ng-if="isAgentLogin" class="" href="javascript:;" ng-click="collectionListedItem(searchCollectionDetails.id, searchCollectionDetails.noOfItem,searchCollectionDetails.items,searchCollectionDetails.consumerPublicKey,searchCollectionDetails.cStatus)">Items (<span id="collection_item_Col_{{searchCollectionDetails.id}}">{{searchCollectionDetails.noOfItem}}</span>)</a> 
+                              <a ng-if="!isAgentLogin" class="" href="javascript:;" ng-click="collectionListedItem(searchCollectionDetails.id, searchCollectionDetails.noOfItem,searchCollectionDetails.items,' ',searchCollectionDetails.cStatus)">Items (<span id="collection_item_Col_{{searchCollectionDetails.id}}">{{searchCollectionDetails.noOfItem}}</span>)</a>
+                                
+                              </div>
+                            </div>
+                            <div class="row-grey-gradient" ng-if="searchCollectionDetails.cStatus == 3 || isAgentLogin">
+                              <div class="total-box">Total Value of Collection <b>${{ cStatus==3?searchCollectionDetails.appraisedValue:searchCollectionDetails.finalPrice | number:2}}</b></div>
+                            </div>
+                          </div>
+                        </div>
+                          
+                          <div class="col s12 m3 l3">
+                          <!-- <div class="card-panel3-box-shadow-right">
+                            <div class="collection-icons">
+                              <ul class="collection border-left">
+                                <li ng-if="!isAgentLogin" class="collection-item"><span class="disp-cell"><img src="../img/icon-appraisal.png" alt=""></span> <span class="disp-cell"><a href="javascript:;" ng-click="addAppraisalInCollection(searchCollectionDetails.id)" class="">ADD TO APPRAISAL</a></span></li>
+                                <li ng-if="isAgentLogin" class="collection-item"><span class="disp-cell"><img src="../img/icon-appraisal.png" alt=""></span> <span class="disp-cell"><a href="javascript:;" ng-click="addAppraisalInCollection(searchCollectionDetails.id, button,searchCollectionDetails.consumerPublicKey)" class="">ADD TO APPRAISAL</a></span></li>
+
+                                <li ng-if="!isAgentLogin" class="collection-item"><span class="disp-cell"><img src="../img/icon-add-component.png" alt=""></span> <span class="disp-cell"><a href='javascript:void(0);' ng-click="collectionAddItem(searchCollectionDetails.id)" class="">ADD NEW ITEMS</a></span></li>
+                                <li ng-if="isAgentLogin" class="collection-item"><span class="disp-cell"><img src="../img/icon-add-component.png" alt=""></span> <span class="disp-cell"><a href='javascript:void(0);' ng-click="collectionAddItem(searchCollectionDetails.id, searchCollectionDetails.consumerPublicKey)" class="">ADD NEW ITEMS</a></span></li>
+                                
+                                <li ng-if="!isAgentLogin" class="collection-item"><span class="disp-cell"><img src="../img/icon-edit.png" alt=""></span> <span class="disp-cell"><a href="collection.html#/edit/{{searchCollectionDetails.id}}">EDIT COLLECTION</a></span></li>
+
+                                <li ng-if="isAgentLogin" class="collection-item"><span class="disp-cell"><img src="../img/icon-edit.png" alt=""></span> <span class="disp-cell"><a href="javascript:;" ng-click="editCollectionAgent(searchCollectionDetails.consumerPublicKey, searchCollectionDetails.id)">EDIT COLLECTION</a></span></li>
+
+                                <li ng-if="!isAgentLogin" class="collection-item"><span class="disp-cell"><img alt="" src="../img/icon-share.png"></span> <span class="disp-cell"><a class=""  href="javascript:void(0);" ng-click="setShareId(searchCollectionDetails.id,2)">SHARE </a></span></li>
+                                
+                              </ul>
+                            </div>
+                            <div class="collection-icons-xs">
+                              <ul class="collection border-left">
+                                <li ng-if="!isAgentLogin" class="collection-item"><a href="javascript:;" ng-click="addAppraisalInCollection(searchCollectionDetails.id)" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="ADD TO APPRAISAL"><span class="disp-cell"><img src="../img/icon-appraisal.png" alt=""></span></a></li>
+
+                                <li ng-if="isAgentLogin" class="collection-item"><a href="javascript:;" ng-click="addAppraisalInCollection(searchCollectionDetails.id, button,searchCollectionDetails.consumerPublicKey)" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="ADD TO APPRAISAL"><span class="disp-cell"><img src="../img/icon-appraisal.png" alt=""></span></a></li>
+
+                                <li ng-if="!isAgentLogin" class="collection-item"><a href="javascript:;" class="tooltipped" data-position="bottom" ng-click="collectionAddItem(searchCollectionDetails.id)" data-delay="50" data-tooltip="ADD NEW ITEMS"><span class="disp-cell"><img src="../img/icon-add-component.png" alt=""></span></a> </li>
+
+                                <li ng-if="isAgentLogin" class="collection-item"><a href="javascript:;" class="tooltipped" data-position="bottom" ng-click="collectionAddItem(searchCollectionDetails.id, searchCollectionDetails.consumerPublicKey)" data-delay="50" data-tooltip="ADD NEW ITEMS"><span class="disp-cell"><img src="../img/icon-add-component.png" alt=""></span></a> </li>
+
+                                <li ng-if="!isAgentLogin" class="collection-item"><a href="collection.html#/edit/{{searchCollectionDetails.id}}" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="EDIT COLLECTION"><span class="disp-cell"><img src="../img/icon-edit.png" alt=""></span></a> </li>
+
+                                <li ng-if="isAgentLogin" class="collection-item"><a href="javascript:;" class="tooltipped" ng-click="editCollectionAgent(searchCollectionDetails.consumerPublicKey, searchCollectionDetails.id)" data-position="bottom" data-delay="50" data-tooltip="EDIT COLLECTION"><span class="disp-cell"><img src="../img/icon-edit.png" alt=""></span></a> </li>
+
+                                <li ng-if="!isAgentLogin" class="collection-item"> <a href="javascript:void(0);" class="tooltipped" data-position="bottom" data-delay="50" ng-click="setShareId(searchCollectionDetails.id,2)" data-tooltip="SHARE"><span class="disp-cell"><img alt="" src="../img/icon-share.png"></span></a><a href="javascript:;"> <span class="disp-cell">SHARE</span> </a></li>
+
+                                
+                              </ul>
+                            </div>
+                          </div> -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              </ul>
+              </div> 
+              <!-- collection list row end here--> 
+              <!-- Appraisal list row start here-->
+              <div class="margin-search" ng-if="searchAppraisalDetail.length > 0" ng-controller="appraisalManagement">
+          <appraisal-popup></appraisal-popup>
+            <ul class="u-fancy-load">
+              
+              <li class="showAppraisal" ng-repeat="searchAppraisalDetails in searchAppraisalDetail">
+                <div class="row">
+                  <div class="col m12 l12">
+                    <div class="card-panel card-panel3 card-panel3-box-shadow">
+                      <div class="row">
+                        <div class="col s12 m3 l2">
+                          <div class="img-box2" ng-if="searchAppraisalDetails.collectionImages.length > 0">
+
+                          <img fallback-src="../img/not-found-appraisal.jpg" ng-src="../valoximage/imageuploaded/{{searchAppraisalDetails.collectionImages[0].cImages[0].imageUrl}}" alt="" class="responsive-img">
+
+                          </div>
+                          <div ng-if="searchAppraisalDetails.collectionImages.length == 0" class="img-box2">
+
+                          <img fallback-src="../img/not-found-appraisal.jpg" ng-src="../valoximage/imageuploaded/{{searchAppraisalDetails.itemImages[0].itemImages[0].itemImagePath}}" alt="" class="responsive-img">
+
+                          </div>
+                        </div>
+                        <div class="col m6 l7 s12">
+                          <div class="card-content"> <span class="card-title">
+                          <a ng-if="!isAgentLogin" href="appraisal.html#/detail/{{searchAppraisalDetails.id}}" ng-bind-html="searchAppraisalDetails.name | strLimit:40 | highlight:globalSearch"></a>
+                           <a ng-if="isAgentLogin" ng-click="agentAppraisalDetail(searchAppraisalDetails.id, searchAppraisalDetails.consumerPublicKey)" href="javascript:;" ng-bind-html="searchAppraisalDetails.name | strLimit:40 | highlight:globalSearch"></a>
+
+                           <small>ID#  {{searchAppraisalDetails.id}}</small></span>
+                          <span ng-if="isAgentLogin" class="card-sub-title"> <i>Shared by</i>: <b>{{searchAppraisalDetails.consumerDeatil.firstName}} {{searchAppraisalDetails.consumerDeatil.middleName}} {{searchAppraisalDetails.consumerDeatil.lastName}}</b></span>
+                            <p ng-bind-html="searchAppraisalDetails.description | strLimit:200 | highlight:globalSearch | newLine"></p>
+                            <div class="item-components"> Appraisal associated with<br>
+                              <div class="items">
+                              <a ng-if="!isAgentLogin" href="javascript:;"
+                              
+                               class="" ng-click="modelCollectionListing(searchAppraisalDetails.id,'',searchAppraisalDetails.aStatus)">Collections (<span id="collection_appraisal_app{{searchAppraisalDetails.id}}">{{searchAppraisalDetails.noOfCollection}}</span>)</a> 
+                               
+                              <a ng-if="isAgentLogin" href="javascript:;" class="" ng-click="modelCollectionListing(searchAppraisalDetails.id,searchAppraisalDetails.consumerPublicKey,searchAppraisalDetails.aStatus)">Collections (<span id="collection_appraisal_app{{searchAppraisalDetails.id}}">{{searchAppraisalDetails.noOfCollection}}</span>)</a> 
+                              <a ng-if="!isAgentLogin" href="javascript:;" ng-click="modelItemListing(searchAppraisalDetails.id,'',searchAppraisalDetails.aStatus)" class="">Items (<span id="items_appraisal_app{{searchAppraisalDetails.id}}">{{searchAppraisalDetails.noOfItem}}</span>)</a>
+                               <a ng-if="isAgentLogin" href="javascript:;" ng-click="modelItemListing(searchAppraisalDetails.id,searchAppraisalDetails.consumerPublicKey,searchAppraisalDetails.aStatus)" class="">Items (<span id="items_appraisal_app{{searchAppraisalDetails.id}}">{{searchAppraisalDetails.noOfItem}}</span>)</a>
+                              </div>
+                            </div>
+                            <div class="row-grey-gradient" ng-if="searchAppraisalDetails.appraisalStatus == 3">
+                              <div class="total-box">Last Appraised <b>{{searchAppraisalDetails.lastAppraisedDate | myDateFormat}}</b></div>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="col s12 m3 l3">
+                          <!-- <div class="card-panel3-box-shadow-right">
+                            <div class="collection-icons">
+                              <ul class="collection border-left">
+                              <li ng-if="!isAgentLogin" class="collection-item"><span class="disp-cell"><img src="../img/icon-edit.png" alt=""></span> <span class="disp-cell"><a href="appraisal.html#/edit/{{searchAppraisalDetails.id}}" >EDIT APPRAISAL</a></span></li>
+                              <li ng-if="isAgentLogin" class="collection-item"><span class="disp-cell"><img src="../img/icon-edit.png" alt=""></span> <span class="disp-cell"><a href="javascript:;" ng-click="editAppraisalAgent(searchAppraisalDetails.consumerPublicKey,searchAppraisalDetails.id)" >EDIT APPRAISAL</a></span></li>
+                                
+                                <li ng-if="!isAgentLogin" class="collection-item"><span class="disp-cell"><img alt="" src="../img/icon-share.png"></span> <span class="disp-cell"><a class=""  href="javascript:void(0);" ng-click="setShareId(searchAppraisalDetails.id,3)">SHARE </a></span></li>
+                                
+                              </ul>
+                            </div>
+                            <div class="collection-icons-xs">
+                              <ul class="collection border-left">
+                              <li class="collection-item"><a href="appraisal.html#/edit/{{searchAppraisalDetails.id}}" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="EDIT APPRAISAL"><span class="disp-cell"><img src="../img/icon-edit.png" alt=""></span></a></li>
+                                <li class="collection-item"><a ng-click="editAppraisalAgent(searchAppraisalDetails.consumerPublicKey,searchAppraisalDetails.id)" href="javascript:;" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="EDIT APPRAISAL"><span class="disp-cell"><img src="../img/icon-edit.png" alt=""></span></a></li>
+
+                                
+                                <li ng-if="!isAgentLogin" class="collection-item"> <a href="javascript:;" ng-click="setShareId(searchAppraisalDetails.id,3)" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="SHARE"><span class="disp-cell"><img alt="" src="../img/icon-share.png"></span></a><a href="javascript:;"> <span class="disp-cell">SHARE</span> </a></li>
+                                
+                              </ul>
+                            </div>
+                          </div> -->
+                        </div>
+
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li> 
+              </ul>
+              </div> 
+              <!-- store--> 
+              <div class="margin-search" ng-if="searchStoreDetail.length > 0" ng-if="!isAgentLogin">
+            <ul class="u-fancy-load">
+              
+              <li class="showStore" ng-repeat="searchStoreDetails in searchStoreDetail">
+                <div class="row">
+                  <div class="col m12 l12">
+                    <div class="card-panel card-panel3 card-panel3-box-shadow">
+                      <div class="row">
+                        <div class="col s12 m3 l2">
+                          <div class="img-box9">
+
+                          <img fallback-src="../img/profile-pic-default.jpg" ng-src="../img/profile-pic-default.jpg" alt="" class="responsive-img">
+
+                          </div>
+                          <!-- <div ng-if="searchAppraisalDetails.collectionImages.length == 0" class="img-box2">
+
+                          <img fallback-src="../img/not-found-appraisal.jpg" ng-src="../valoximage/imageuploaded/{{searchAppraisalDetails.itemImages[0].itemImages[0].itemImagePath}}" alt="" class="responsive-img">
+
+                          </div>-->
+                        </div> 
+                        <div class="col m6 l7 s12">
+                        <div class="card-content">
+
+                        <span class="card-title">
+                        <span ng-bind-html="searchStoreDetails.storeName | strLimit:40 | highlight:globalSearch"></span> 
+                        <!-- <a data-tooltip="Favorite" data-delay="50" data-position="bottom" class="heart tooltipped active" href="javascript:;">&nbsp;</a> --> </span>
+                        <div class="row row-list">
+                              <div class="col s6 m5"><span class="lable-phone">Phone:</span> {{searchStoreDetails.phone || 'NA'}}</div>
+                              <!-- <div class="col s6 m7">Email: 
+                              <a class="mail" href="mailto:XXX.xxxx">XXXXX.XXXX</a></div> -->
+                            </div>
+    
+    
+      <p class="para3"><span class="disp-cell"><i class="fa fa-map-marker txt20"></i></span> <span class="disp-cell">
+      <span ng-if="searchStoreDetails.storeAddress.addressLine1">{{searchStoreDetails.storeAddress.addressLine1}},</span>
+      <span ng-if="searchStoreDetails.storeAddress.addressLine2">{{searchStoreDetails.storeAddress.addressLine2}},</span>
+      <span ng-if="searchStoreDetails.storeAddress.city">{{searchStoreDetails.storeAddress.city}},</span>
+      <span ng-if="searchStoreDetails.storeAddress.state">{{searchStoreDetails.storeAddress.state}} -</span>
+        <span ng-if="searchStoreDetails.storeAddress.zipCode">{{searchStoreDetails.storeAddress.zipCode}},</span>
+      <span ng-if="searchStoreDetails.storeAddress.country">{{searchStoreDetails.storeAddress.country}}</span>   
+       </span></p>
+                 </div>
+                        </div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </li> 
+              </ul>
+              </div> 
+
+              <!-- store--> 
+
+              <!-- Agent--> 
+              <div class="margin-search" ng-if="searchAgentDetail.length > 0" ng-if="!isAgentLogin">
+            <ul class="u-fancy-load">
+              
+              <li class="showAgent" ng-repeat="searchAgentDetails in searchAgentDetail">
+                <div class="row">
+                  <div class="col m12 l12">
+                    <div class="card-panel card-panel3 card-panel3-box-shadow">
+                      <div class="row">
+                        <div class="col s12 m3 l2">
+                          <div class="img-box9">
+
+                          <img fallback-src="../img/profile-pic-default.jpg" ng-src="../img/profile-pic-default.jpg" alt="" class="responsive-img">
+
+                          </div>
+                          <!-- <div ng-if="searchAppraisalDetails.collectionImages.length == 0" class="img-box2">
+
+                          <img fallback-src="../img/not-found-appraisal.jpg" ng-src="../valoximage/imageuploaded/{{searchAppraisalDetails.itemImages[0].itemImages[0].itemImagePath}}" alt="" class="responsive-img">
+
+                          </div>-->
+                        </div> 
+                        <div class="col m6 l7 s12">
+                        <div class="card-content">
+
+                        <span class="card-title">
+                        
+                        <span ng-bind-html="searchAgentDetails.firstName | strLimit:40 | highlight:globalSearch"></span>
+                        <span ng-bind-html="searchAgentDetails.lastName | strLimit:40 | highlight:globalSearch"></span>
+                        
+                        <!-- <a data-tooltip="Favorite" data-delay="50" data-position="bottom" class="heart tooltipped active" href="javascript:;">&nbsp;</a> --> </span>
+                        <div class="row search-phone">
+                              <div class="col s6 m5"><span class="lable-phone">Phone:</span> {{searchAgentDetails.mobilePhone || 'NA'}}</div>
+                               <div class="col s6 m7">Email: 
+                              <a class="mail" href="mailto:{{searchAgentDetails.emailId}}">{{searchAgentDetails.emailId}}</a></div> 
+                            </div>
+    
+      
+      <p class="para3">
+     <span ng-if="searchAgentDetails.storeData.storeName" class="lable-phone"><b>Store Name:</b></span> {{searchAgentDetails.storeData.storeName}} <br>
+      <span class="disp-cell"><i class="fa fa-map-marker txt20"></i></span> <span class="disp-cell">
+      <span ng-if="searchAgentDetails.storeData.storeAddress.addressLine1">{{searchAgentDetails.storeData.storeAddress.addressLine1}},</span>
+      <span ng-if="searchAgentDetails.storeData.storeAddress.addressLine2">{{searchAgentDetails.storeData.storeAddress.addressLine2}},</span>
+      <span ng-if="searchAgentDetails.storeData.storeAddress.city">{{searchAgentDetails.storeData.storeAddress.city}},</span>
+      <span ng-if="searchAgentDetails.storeData.storeAddress.state">{{searchAgentDetails.storeData.storeAddress.state}} -</span>
+        <span ng-if="searchAgentDetails.storeData.storeAddress.zipCode">{{searchAgentDetails.storeData.storeAddress.zipCode}},</span>
+      <span ng-if="searchAgentDetails.storeData.storeAddress.country">{{searchAgentDetails.storeData.storeAddress.country}}</span>   
+       </span></p>
+                 </div>
+                        </div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </li> 
+              </ul>
+              </div> 
+
+              <!-- Agent-->
+              <!-- No record found--> 
+              
+              <ul class="">
+             <li ng-if="(searchCollectionDetail.length == 0 && searchAppraisalDetail.length == 0 && searchItemDetail.length == 0 && searchStoreDetail.length == 0 && searchAgentDetail.length == 0 && !isagentLogin)">
+                <div class="row">
+                  <div class="col m12 l12 s12">
+                    <div class="card-panel card-panel3 card-panel3-box-shadow">
+                      <div class="dashboard-nodata-wrap no-data">
+           <label>(0) RESULT FOUND.</label>
+                <p>  
+             Matching with your keyword <b>"{{globalSearch}}"</b>. <br>
+             Try another keyword.
+             </p>
+             </div>
+             </div>
+                  </div>
+                </div>
+              </li> 
+               </ul> 
+              <!-- No record found -->
+
+              <!-- No record found--> 
+              
+              <ul class="">
+             <li ng-if="(searchCollectionDetail.length == 0 && searchAppraisalDetail.length == 0 && searchItemDetail.length == 0 && isAgentLogin)">
+                <div class="row">
+                  <div class="col m12 l12 s12">
+                    <div class="card-panel card-panel3 card-panel3-box-shadow">
+                      <div class="dashboard-nodata-wrap no-data">
+           <label>(0) RESULT FOUND.</label>
+                <p>  
+             Matching with your keyword <b>"{{globalSearch}}"</b>. <br>
+             Try another keyword.
+             </p>
+             </div>
+             </div>
+                  </div>
+                </div>
+              </li> 
+               </ul> 
+              <!-- No record found -->
+
+              <!-- No record found--> 
+              <ul class="">
+             <li class="noDataFound" ng-if="!isAgentLogin" ng-hide="(searchCollectionDetail.length == 0 && searchAppraisalDetail.length == 0 && searchItemDetail.length == 0 && searchStoreDetail.length == 0 && searchAgentDetail.length == 0)" style="display:none">
+                <div class="row">
+                  <div class="col m12 l12 s12">
+                    <div class="card-panel card-panel3 card-panel3-box-shadow">
+                      <div class="dashboard-nodata-wrap no-data">
+           <label>(0) RESULT FOUND.</label>
+                <p>  
+             No {{name}} available matching with your keyword <b>"{{globalSearch}}"</b>. <br>
+             Try another keyword.
+             </p>
+             </div>
+                      
+                    </div>
+                  </div>
+                </div>
+              </li>
+              
+            </ul> 
+
+            <!-- No record found--> 
+              <ul class="">
+             <li class="noDataFound" ng-if="isAgentLogin" ng-hide="(searchCollectionDetail.length == 0 && searchAppraisalDetail.length == 0 && searchItemDetail.length == 0)" style="display:none">
+                <div class="row">
+                  <div class="col m12 l12 s12">
+                    <div class="card-panel card-panel3 card-panel3-box-shadow">
+                      <div class="dashboard-nodata-wrap no-data">
+           <label>(0) RESULT FOUND.</label>
+                <p>  
+             No {{name}} available matching with your keyword <b>"{{globalSearch}}"</b>. <br>
+             Try another keyword.
+             </p>
+             </div>
+                      
+                    </div>
+                  </div>
+                </div>
+              </li>
+              
+            </ul> 
+              
+          </div>
+
+          <div id="demo" ng-show="searchBlank">
+          
+          <ul class="">
+             <li>
+                <div class="row">
+                  <div class="col m12 l12 s12">
+                    <div class="card-panel card-panel3 card-panel3-box-shadow">
+                      <div class="dashboard-nodata-wrap no-data">
+           <label>(0) RESULT FOUND.</label>
+                <p>  
+             Matching with your keyword <b>"{{globalSearch}}"</b>. <br>
+             Try another keyword.
+             </p>
+             </div>
+             </div>
+                  </div>
+                </div>
+              </li> 
+               </ul> 
+          </div>
+          <!-- <div class="paging2"><a onclick="toggle2();" href="javascript:;">Load more..</a></div>--> 
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="clearfix"></div>
+<!--Footer start here-->
+<footer-element></footer-element>
+<share></share>
+<thankyoushare></thankyoushare>
+
+
+<!--Footer end here--> 
+<div class="loader-overlay" ng-show="fullPageBlockLoading" loading><span class="loader-inner">Processing<div class="clearfix"></div><img src="../img/loader-1.gif"></span></div>
+
+
+</body>
+</html>

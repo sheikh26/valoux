@@ -1,0 +1,554 @@
+<!--component properties section starts-->
+<div id="daimondPopup" class="MatModal-container" ng-init="initDaimondProperty()" style="display: none;">
+  <div class="MatModal-inner"> <span class="MatRound"></span>
+    <div class="MatModal-content">
+      <div class="mid-con">
+        <div class="row component-head">
+          <div class="col s12 m5 l5 component-head-l">ADD COMPONENT PROPERTIES</div>
+          <div class="col s12 m7 l7 component-head-r">ITEM NAME
+              <div class="item-name">{{itemName}} - {{propertyItem.componentName}} <a href="javascript:void(0)" ng-click="closePropertyPopup()" target="_parent" class="close-btn2 waves-effect waves-light tooltipped" data-tooltip="CANCEL" data-delay="50" data-position="bottom"></a></div>
+          </div>
+        </div>
+        <div class="head-space">
+          <div class="row">
+            <div class="col s12 m3 l2 mobile-components-link">
+              <div class="sub-components-link">
+                <h6>SUB COMPONENTS</h6>
+                <ul class="tabs">
+                  <li class="tab"><a href="javascript:void(0);" ng-click="showPropertyTab(1);" ng-class="propertyTab.showProperty? 'active' :''"><span class="sub-component-icon1">&nbsp;</span><span class="link-txt">Diamond</span></a></li>
+                  <li class="tab"><a href="javascript:void(0);" ng-click="showPropertyTab(2);" ng-class="propertyTab.showImages? 'active' :''"><span class="sub-component-icon2">&nbsp;</span><span class="link-txt">Photo</span></a></li>
+                  <li class="tab"><a href="javascript:void(0);" ng-click="showPropertyTab(3);" ng-class="propertyTab.showReceipt? 'active' :''"><span class="sub-component-icon3">&nbsp;</span><span class="link-txt">Receipt</span></a></li>
+                  <li class="tab"><a href="javascript:void(0);" ng-click="showPropertyTab(4);" ng-class="propertyTab.showCertificate? 'active' :''"><span class="sub-component-icon4">&nbsp;</span><span class="link-txt">Certificate</span></a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="col s12 m9 l10">
+              <div class="row">
+                    <div class="error-msg" ng-if="propertyFormError">
+                        <div class="disp-cell">
+                        <i class="fa fa-exclamation-triangle"></i>
+                        </div> 
+                        <div class="disp-cell">
+                        <span>{{propertyErrorMessage}}</span>
+                        </div>
+                    </div>
+      
+                    <div class="success-msg mt-10 mb-10" ng-if="propertyFormSuccess">
+                        <div class="disp-cell">
+                        <i class="fa fa-thumbs-o-up"></i>
+                        </div> 
+                        <div class="disp-cell">
+                        <span>{{propertySuccessMessage}}</span>
+                        </div>
+                        <div class="clear"></div>
+                   </div> 
+                  <div ng-show="propertyTab.showProperty" class="col s12 m12 l11 component-r-panel"> 
+                    <form autofocus-form name="diamondForm" ng-submit="diamondForm.$valid && addupdateItemComponentProperties()" novalidate>   
+                  <!--component-tab starts-->
+                  <div>
+                    <div class="row row2-marb0">
+                        
+                        <div class="col s12 m12 l6">
+                        <div class="col-l1">
+                          <div class="row">
+                          <div class="input-field col s12">
+                            <select ng-model="propertyAttribute.shape" ng-disabled="readOnlyProperty.shape" ng-change="changePropertyShapeDaimond();" name="diamondShape" ng-options="diamondShapesObj.value as diamondShapesObj.name for diamondShapesObj in diamondShapes | orderBy:'name'" required>
+                              <option value="" >Select</option>
+                            </select>
+                            <label class="label-7">Shape <sup>*</sup><img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                            <label class="error" ng-show="diamondForm.$submitted || (diamondForm.diamondShape.$dirty && diamondForm.diamondShape.$invalid)">
+                                <label class="error-msg-form" ng-show="diamondForm.diamondShape.$error.required">Shape is required.</label>
+                            </label>
+                          </div>
+                          </div>
+                        </div>
+                      </div>
+<!--                      <div class="col l12 shape-con">
+                        <div class="col s12">
+                          <label class="label-7">Shape <sup>*</sup> <img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                          <ul>
+                              <li ng-repeat="diamondShapeObj in componentShape | filter: { componentType: 1}" ng-class="propertyAttribute.shape==diamondShapeObj.value?'active':''">
+                                  <a href="javascript:void(0)" ng-click="changePropertyShapeDaimond(diamondShapeObj.value,diamondShapeObj.shapeType)" class="tooltipped" data-tooltip="{{diamondShapeObj.name}}" data-delay="50" data-position="bottom"><img alt="{{diamondShapeObj.name}}" src="../img/{{diamondShapeObj.img}}"/></a>
+                              </li>
+                          </ul>
+                          <input type="hidden" name="hdnDiamondShape" ng-model="propertyAttribute.shape" required>
+                          <label class="error" ng-show="diamondForm.$submitted || (diamondForm.hdnDiamondShape.$dirty && diamondForm.hdnDiamondShape.$invalid)">
+                                <label class="error-msg-form" ng-show="diamondForm.hdnDiamondShape.$error.required">Shape is required.</label>
+                          </label>
+                        </div>
+                      </div>-->
+                    </div>
+                    <div class="row row2-marb0">
+                      <div class="col s12 m6 l6">
+                        <div class="col-r1">
+                          <div class="row">
+                          <div class="input-field col s12 m6 l6">
+                              <input ng-model="propertyAttribute.singleWeight" name="diamondSingleWeight" ng-blur="callcertificateApi();"  id="diamondSingleWeight" type="text" ng-class="propertyAttribute.singleWeight?'active':''" limit-double5 ng-pattern="/^(([0-9]*)|(([0-9]*)\.([0-9]*)))$/" required maxlength="10">
+                            <label for="diamondSingleWeight" ng-class="propertyAttribute.singleWeight?'active':''" class="label-7">Weight <sup>*</sup><sup class="sml-txt">(ct)</sup><img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                            <label class="error" ng-show="diamondForm.$submitted ||  diamondForm.diamondSingleWeight.$touched || (diamondForm.diamondSingleWeight.$dirty && diamondForm.diamondSingleWeight.$invalid)">
+                                    <label class="error-msg-form" ng-show="diamondForm.diamondSingleWeight.$error.pattern">Invalid number.</label>
+                                    <label class="error-msg-form" ng-show="diamondForm.diamondSingleWeight.$error.tooLong">Number too long.</label>
+                                    <label class="error-msg-form" ng-show="diamondForm.diamondSingleWeight.$error.required">Weight is required.</label>
+<!--                                    <label class="error-msg-form" ng-show="diamondForm.diamondSingleWeight.$error.lessZero">Invalid number.</label>greater-Zero -->
+                            </label>
+                          </div>
+                          <div class="input-field col s12 m6 l6">
+                            <select ng-model="propertyAttribute.cut" ng-disabled="readOnlyProperty.cut" name="diamondCut" ng-options="diamondCutsObj.value as diamondCutsObj.name for diamondCutsObj in diamondQualityType" required>
+                              <option value="" >Select</option>
+                            </select>
+                            <label class="label-7">Cut <sup>*</sup><img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                            <label class="error" ng-show="diamondForm.$submitted || (diamondForm.diamondCut.$dirty && diamondForm.diamondCut.$invalid)">
+                                <label class="error-msg-form" ng-show="diamondForm.diamondCut.$error.required">Cut is required.</label>
+                            </label>
+                          </div>
+                          </div>
+                        </div>
+                      </div>
+                       <div class="col s12 m6 l6">
+                        <div class="col-r1">
+                          <div class="row">
+                          <div class="input-field col s12 m6 l6">
+                              <select ng-model="propertyAttribute.color" ng-disabled="readOnlyProperty.color" name="diamondColor" ng-change="getDiamondSpecifyPrice();" ng-options="diamondColorObj.value as diamondColorObj.name for diamondColorObj in diamondColor" required>
+                              <option value="" >Select</option>
+                            </select>
+                            <label class="label-7">Color <sup>*</sup><img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                            <label class="error" ng-show="diamondForm.$submitted || (diamondForm.diamondColor.$dirty && diamondForm.diamondColor.$invalid)">
+                                <label class="error-msg-form" ng-show="diamondForm.diamondColor.$error.required">Color is required.</label>
+                            </label>
+                          </div>
+                          <div class="input-field col s12 m6 l6">
+                              <select ng-model="propertyAttribute.clarityId" ng-disabled="readOnlyProperty.clarityId" name="diamondClarityId" ng-change="getDiamondSpecifyPrice();" ng-options="clarityTypeObj.value as clarityTypeObj.name for clarityTypeObj in clarityType" required >
+                              <option value="" >Select</option>
+                            </select>
+                            <label class="label-7">Clarity <sup>*</sup><img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                            <label class="error" ng-show="diamondForm.$submitted || (diamondForm.diamondClarityId.$dirty && diamondForm.diamondClarityId.$invalid)">
+                                <label class="error-msg-form" ng-show="diamondForm.diamondClarityId.$error.required">Clarity is required.</label>
+                            </label>
+                          </div>
+                          </div>
+                        </div>
+                      </div> 
+                       
+                    </div>
+                    
+                    <div class="row row2-marb0">
+                      <div class="col s12 m6 l6">
+                        <div class="col-l1">
+                            <div class="row">
+                          <div class="input-field col s12 m6 l6">
+                              <select ng-model="propertyAttribute.componentCertificate.lab" ng-change="callcertificateApi();" name="componentCertificateLab" ng-options="certificateTypeObj.value as certificateTypeObj.name for certificateTypeObj in certificateType">
+                              <option value="" >Select</option>
+                            </select>
+                            <label class="label-7">Certificate <img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                            
+                          </div>
+                          <div class="input-field col s12 m6 l6">
+                              <input id="certificateNumber" ng-model="propertyAttribute.componentCertificate.certificateNumber" ng-blur="callcertificateApi();" name="componentCertificateNo"  type="text" maxlength="40" ng-class="propertyAttribute.componentCertificate.certificateNumber?'active':''" ng-required="propertyAttribute.componentCertificate.lab==3">
+                              <label for="certificateNumber" ng-class="propertyAttribute.componentCertificate.certificateNumber?'active':''" class="label-7">Certificate No. <img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                              <label class="error" ng-show="diamondForm.$submitted || (diamondForm.componentCertificateNo.$dirty && diamondForm.componentCertificateNo.$invalid)">
+                                <label class="error-msg-form" ng-show="diamondForm.componentCertificateNo.$error.required">Certificate No is required.</label>
+                             </label>
+                          </div>
+                          </div>
+                                                      
+                        </div>
+                      </div>
+                      <div class="col s12 m6 l6">
+                        <div class="col-l1">
+                          <div class="col s12">
+                            <label class="label-7">Placement <img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                            <div class="clearfix"></div>
+                            <div class="row radio-box">
+                              <div class="col s6">
+                                <p>
+                                    <input  ng-model="propertyAttribute.placement" value="1" name="placement" type="radio" id="Mounted" />
+                                  <label for="Mounted">Mounted</label>
+                                </p>
+                              </div>
+                              <div class="col s6">
+                                <p>
+                                  <input ng-model="propertyAttribute.placement"  value="2" name="placement" type="radio" id="Unmounted" />
+                                  <label for="Unmounted">Unmounted</label>
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="row row2-marb0">
+                      <div class="col s12 m12 l6" ng-if="!propertyAttribute.showRoundShape">
+                        <div class="col-r1">
+                          <div class="row">
+<!--                            <div class="input-field col s6 m4 l3">
+                              <input ng-class="propertyAttribute.diamondHeight?'active':''" ng-model="propertyAttribute.diamondHeight" name="diamondHeightIn" id="diamondHeightIn" type="text" limit-double5 ng-pattern="/^(([0-9]*)|(([0-9]*)\.([0-9]*)))$/">
+                              <label ng-class="propertyAttribute.diamondHeight?'active':''" class="label-7" for="diamondHeightIn">Height <sup class="sml-txt">(mm)</sup> <img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                              <label class="error" ng-show="diamondForm.$submitted ||  diamondForm.diamondHeightIn.$touched || (diamondForm.diamondHeightIn.$dirty && diamondForm.diamondHeightIn.$invalid)">
+                                    <label class="error-msg-form" ng-show="diamondForm.diamondHeightIn.$error.pattern">Invalid Number.</label>
+                                    <label class="error-msg-form" ng-show="diamondForm.diamondHeightIn.$error.tooLong">Number too long.</label>
+                              </label>
+                            </div>-->
+                            <div class="input-field col s12 m6 l6">
+                              <input ng-class="propertyAttribute.diamondLength?'active':''" ng-model="propertyAttribute.diamondLength" ng-readonly="readOnlyProperty.diamondLength" name="diamondLengthIn" id="diamondLengthIn" type="text" limit-double5 ng-pattern="/^(([0-9]*)|(([0-9]*)\.([0-9]*)))$/" maxlength="10">
+                              <label ng-class="propertyAttribute.diamondLength?'active':''" class="label-7" for="diamondLengthIn">Length <sup class="sml-txt">(mm)</sup> <img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                              <label class="error" ng-show="diamondForm.$submitted ||  diamondForm.diamondLengthIn.$touched || (diamondForm.diamondLengthIn.$dirty && diamondForm.diamondLengthIn.$invalid)">
+                                    <label class="error-msg-form" ng-show="diamondForm.diamondLengthIn.$error.pattern">Invalid Number.</label>
+                                    <label class="error-msg-form" ng-show="diamondForm.diamondLengthIn.$error.tooLong">Number too long.</label>
+                              </label>
+                            </div>
+                            <div class="input-field col m6 s12">
+                            <input ng-class="propertyAttribute.diamondWidth?'active':''" ng-model="propertyAttribute.diamondWidth" ng-readonly="readOnlyProperty.diamondWidth" name="diamondWidth" id="diamondWidth" type="text" limit-double5 ng-pattern="/^(([0-9]*)|(([0-9]*)\.([0-9]*)))$/" maxlength="10">
+                            <label ng-class="propertyAttribute.diamondWidth?'active':''" for="diamondWidth" class="label-7">Width <sup class="sml-txt">(mm)</sup> <img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                            <label class="error" ng-show="diamondForm.$submitted ||  diamondForm.diamondWidth.$touched || (diamondForm.diamondWidth.$dirty && diamondForm.diamondWidth.$invalid)">
+                                    <label class="error-msg-form" ng-show="diamondForm.diamondWidth.$error.pattern">Invalid Number.</label>
+                                    <label class="error-msg-form" ng-show="diamondForm.diamondWidth.$error.tooLong">Number too long.</label>
+                            </label>
+                          </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col s12 m6 l6">
+                        <div class="col-r1">
+                            <div class="input-field col s12 m6 l6">
+                                <input ng-class="propertyAttribute.depth?'active':''" name="diamondDepthIn" id="diamondDepthIn" ng-model="propertyAttribute.depth" ng-readonly="readOnlyProperty.depth"  type="text" limit-double5 ng-pattern="/^(([0-9]*)|(([0-9]*)\.([0-9]*)))$/" maxlength="10">
+                              <label ng-class="propertyAttribute.depth?'active':''" class="label-7" for="diamondDepthIn" >Depth <sup class="sml-txt">(mm)</sup><img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                              <label class="error" ng-show="diamondForm.$submitted ||  diamondForm.diamondDepthIn.$touched || (diamondForm.diamondDepthIn.$dirty && diamondForm.diamondDepthIn.$invalid)">
+                                    <label class="error-msg-form" ng-show="diamondForm.diamondDepthIn.$error.pattern">Invalid Number.</label>
+                                    <label class="error-msg-form" ng-show="diamondForm.diamondDepthIn.$error.tooLong">Number too long.</label>
+                              </label>
+                            </div>
+                            <div class="input-field col s12 m6 l6" ng-if="!propertyAttribute.showRoundShape">
+                              <input ng-class="propertyAttribute.lengthWidthRatio?'active':''" ng-model="propertyAttribute.lengthWidthRatio" ng-readonly="readOnlyProperty.lengthWidthRatio" name="diamondLengthWidthRatioIn" id="diamondLengthWidthRatioIn" type="text" limit-double5 ng-pattern="/^(([0-9]*)|(([0-9]*)\.([0-9]*)))$/" maxlength="10">
+                              <label ng-class="propertyAttribute.lengthWidthRatio?'active':''" class="label-7" for="diamondLengthWidthRatioIn">Length/Width Ratio <img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                              <label class="error" ng-show="diamondForm.$submitted ||  diamondForm.diamondLengthWidthRatioIn.$touched || (diamondForm.diamondLengthWidthRatioIn.$dirty && diamondForm.diamondLengthWidthRatioIn.$invalid)">
+                                    <label class="error-msg-form" ng-show="diamondForm.diamondLengthWidthRatioIn.$error.pattern">Invalid Number.</label>
+                                    <label class="error-msg-form" ng-show="diamondForm.diamondLengthWidthRatioIn.$error.tooLong">Number too long.</label>
+                              </label>
+                            </div>
+                            
+                        </div>
+                      </div>
+                      <div ng-if="propertyAttribute.showRoundShape" class="col s12 m12 l6">
+                                <div class="col-r1">
+                                  <div class="row">
+                                    <div class="input-field col s12 m6 l6">
+                                      <input ng-class="propertyAttribute.maxDiameter?'active':''" type="text" ng-model="propertyAttribute.maxDiameter" ng-readonly="readOnlyProperty.maxDiameter" name="diamondMaxDiameter" id="diamondMaxDiameter" value="" limit-double5 ng-pattern="/^(([0-9]*)|(([0-9]*)\.([0-9]*)))$/" maxlength="10"/>
+                                      <label ng-class="propertyAttribute.maxDiameter?'active':''" class="label-7" for="diamondMaxDiameter">Max Diameter <img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                                      <label class="error" ng-show="diamondForm.$submitted ||  diamondForm.diamondMaxDiameter.$touched || (diamondForm.diamondMaxDiameter.$dirty && diamondForm.diamondMaxDiameter.$invalid)">
+                                            <label class="error-msg-form" ng-show="diamondForm.diamondMaxDiameter.$error.pattern">Invalid Number.</label>
+                                            <label class="error-msg-form" ng-show="diamondForm.diamondMaxDiameter.$error.tooLong">Number too long.</label>
+                                      </label>
+                                    </div>
+                                    <div class="input-field col s12 m6 l6">
+                                      <input ng-class="propertyAttribute.minDiameter?'active':''" type="text" ng-model="propertyAttribute.minDiameter" ng-readonly="readOnlyProperty.minDiameter" name="diamondMinDiameter" id="diamondMinDiameter" value="" limit-double5 ng-pattern="/^(([0-9]*)|(([0-9]*)\.([0-9]*)))$/" maxlength="10"/>
+                                      <label ng-class="propertyAttribute.minDiameter?'active':''" class="label-7" for="diamondMinDiameter">Min Diameter <img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                                      <label class="error" ng-show="diamondForm.$submitted ||  diamondForm.diamondMinDiameter.$touched || (diamondForm.diamondMinDiameter.$dirty && diamondForm.diamondMinDiameter.$invalid)">
+                                            <label class="error-msg-form" ng-show="diamondForm.diamondMinDiameter.$error.pattern">Invalid Number.</label>
+                                            <label class="error-msg-form" ng-show="diamondForm.diamondMinDiameter.$error.tooLong">Number too long.</label>
+                                      </label>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="row row2-marb0">
+                      <div class="col s12 m12 l6">
+                        <div class="col-l1">
+                          <div class="row">
+                            
+                            <div class="input-field col s12 m6 l6">
+                              <input ng-class="propertyAttribute.depthPercentage?'active':''" ng-model="propertyAttribute.depthPercentage" ng-readonly="readOnlyProperty.depthPercentage" name="diamondDepthPer" id="diamondDepthPer" type="text" limit-double5 ng-pattern="/^(([0-9]*)|(([0-9]*)\.([0-9]*)))$/" maxlength="10">
+                              <label ng-class="propertyAttribute.depthPercentage?'active':''" class="label-7" for="diamondDepthPer">Depth % <img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                              <label class="error" ng-show="diamondForm.$submitted ||  diamondForm.diamondDepthPer.$touched || (diamondForm.diamondDepthPer.$dirty && diamondForm.diamondDepthPer.$invalid)">
+                                    <label class="error-msg-form" ng-show="diamondForm.diamondDepthPer.$error.pattern">Invalid Number.</label>
+                                    <label class="error-msg-form" ng-show="diamondForm.diamondDepthPer.$error.tooLong">Number too long.</label>
+                              </label>
+                            </div>
+                            <div class="input-field col s12 m6 l6">
+                              <input ng-class="propertyAttribute.tablePercentage?'active':''" ng-model="propertyAttribute.tablePercentage" ng-readonly="readOnlyProperty.tablePercentage" name="diamondtablePer" id="diamondtablePer" type="text" limit-double5 ng-pattern="/^(([0-9]*)|(([0-9]*)\.([0-9]*)))$/" maxlength="10">
+                              <label ng-class="propertyAttribute.tablePercentage?'active':''" class="label-7" for="diamondtablePer">Table % <img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                              <label class="error" ng-show="diamondForm.$submitted ||  diamondForm.diamondtablePer.$touched || (diamondForm.diamondtablePer.$dirty && diamondForm.diamondtablePer.$invalid)">
+                                    <label class="error-msg-form" ng-show="diamondForm.diamondtablePer.$error.pattern">Invalid Number.</label>
+                                    <label class="error-msg-form" ng-show="diamondForm.diamondtablePer.$error.tooLong">Number too long.</label>
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                        <div class="col s12 m12 l6">
+                        <div class="col-r1">
+                          <div class="row">
+                            <div class="input-field col s12 m6 l6">
+                              <select ng-model="propertyAttribute.polish" ng-disabled="readOnlyProperty.polish" ng-options="polishObj.value as polishObj.name for polishObj in diamondQualityType">
+                                <option value="">Select</option>
+                              </select>
+                              <label class="label-7">Polish <img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                            </div>
+                            <div class="input-field col s12 m6 l6">
+                            <select ng-model="propertyAttribute.symmetry" ng-disabled="readOnlyProperty.symmetry" ng-options="symmetryobj.value as symmetryobj.name for symmetryobj in diamondQualityType">
+                              <option value="" >Select</option>
+                            </select>
+                            <label class="label-7">Symmetry<img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                          </div>
+                          </div>
+                        </div>
+                      </div>
+                        
+                    </div>
+                    
+                    <div class="row row2-marb0">
+                       
+                      <div class="col s12 m12 l6">
+                        <div class="col-r1">
+                          <div class="row">
+                            <div class="input-field col s12 m6 l6">
+                            <select ng-model="propertyAttribute.thickness" ng-disabled="readOnlyProperty.thickness" ng-options="thicknessobj.value as thicknessobj.name for thicknessobj in thickness">
+                              <option value="" >Select</option>
+                            </select>
+                            <label class="label-7">Girdle Thickness<img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                          </div>
+                            <div class="input-field col s12 m6 l6">
+                              <select ng-model="propertyAttribute.girdleThicknessDescription" ng-disabled="readOnlyProperty.girdleThicknessDescription" id="girdleThickness" ng-options="girdleThicknessObj.value as girdleThicknessObj.name for girdleThicknessObj in girdleThickness">
+                                <option value="">Select</option>
+                            </select>
+                            <label class="label-7">Girdle Thickness Description <img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                          </div>
+                          </div>
+                        </div>
+                      </div>                        
+                      <div class="col s12 m12 l6">
+                        <div class="col-r1">
+                          <div class="row">
+                            <div class="input-field col s12 m6 l6">
+                            <select ng-model="propertyAttribute.cutlet" ng-disabled="readOnlyProperty.cutlet" ng-options="diamondCutletObj.value as diamondCutletObj.name for diamondCutletObj in diamondCutlet">
+                              <option value="">None</option>
+                            </select>
+                            <label class="label-7">Cutlet <img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                          </div>
+                            <div class="input-field col s12 m6 l6">
+                              <select ng-model="propertyAttribute.fluorescence" ng-disabled="readOnlyProperty.fluorescence" ng-options="fluorescenceObj.value as fluorescenceObj.name for fluorescenceObj in fluorescence">
+                                <option value="">Select</option> 
+                              </select>
+                              <label class="label-7">Fluorescence <img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row row2-marb0">
+                        <div class="col s12 m12 l6">
+                        <div class="col-r1">
+                          <div class="row">
+                            <div class="input-field col s12 m6 l6">
+                              <select ng-model="propertyAttribute.fancyColor" ng-disabled="readOnlyProperty.fancyColor" ng-options="fancyColorObj.value as fancyColorObj.name for fancyColorObj in fancyColor">
+                                <option value="">Select</option>
+                              </select>
+                              <label class="label-7">Fancy Color <img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                            </div>
+                            <div class="input-field col s12 m6 l6">
+                              <select ng-model="propertyAttribute.secondaryHue" ng-disabled="readOnlyProperty.secondaryHue" ng-options="secondaryHueObj.value as secondaryHueObj.name for secondaryHueObj in secondaryHue">
+                                <option value="">Select</option>
+                              </select>
+                              <label class="label-7">Secondary Hue <img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                        <div class="col s12 m6 l6">
+                        <div class="col-l1">
+                          <div class="input-field col s12">
+                            <select ng-model="propertyAttribute.weightMeasure" ng-disabled="readOnlyProperty.weightMeasure" name="diamondWeightMeasure" id="diamondWeightMeasure" ng-options="weightMeasureObj.value as weightMeasureObj.name for weightMeasureObj in weightMeasure">
+                                <option value="">Select</option>
+                            </select>
+                            <label ng-class="propertyAttribute.weightMeasure?'active':''" for="diamondWeightMeasure" class="label-7">Weight Measure <img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                            <label class="error" ng-show="diamondForm.$submitted ||  diamondForm.diamondWeightMeasure.$touched || (diamondForm.diamondWeightMeasure.$dirty && diamondForm.diamondWeightMeasure.$invalid)">
+                                    <label class="error-msg-form" ng-show="diamondForm.diamondWeightMeasure.$error.pattern">Invalid Number.</label>
+                                    <label class="error-msg-form" ng-show="diamondForm.diamondWeightMeasure.$error.tooLong">Number too long.</label>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="row row2-marb0">                      
+                      <div class="col s12 m6 l6">
+                        <div class="col-l1">
+                          
+                        </div>
+                      </div>
+<!--                      <div class="col s12 m6 l6">
+                        <div class="col-r1">
+                          <div class="input-field col s12">
+                            <input ng-model="propertyAttribute.totalWeight" name="diamondTotalWeight" id="diamondTotalWeight" type="text" class="active" ng-pattern="/^(([0-9]*)|(([0-9]*)\.([0-9]*)))$/">
+                            <label for="diamondTotalWeight" class="active label-7">Total Weight <sup class="sml-txt">(In)</sup></label>
+                            <label class="error" ng-show="diamondForm.$submitted ||  diamondForm.diamondTotalWeight.$touched || (diamondForm.diamondTotalWeight.$dirty && diamondForm.diamondTotalWeight.$invalid)">
+                                    <label class="error-msg-form" ng-show="diamondForm.diamondTotalWeight.$error.pattern">Invalid Number.</label>
+                            </label>
+                          </div>
+                        </div>
+                      </div>-->
+                    </div>
+                    
+                     
+                    <div class="row">
+                      <div class="col s12 m12"> <b class="col s12">Inclusions</b></div>
+                    </div>
+                    <div class="row row2-marb0">
+                      <div class="col s12 m12 l6">
+                        <div class="col-l1">
+                          <div class="input-field col s12">
+                              <select class="select-dropdown2" ng-model="propertyAttribute.internalInclusions" ng-disabled="readOnlyProperty.internalInclusions" name="gemInternalInclusions" ng-options="internalInclusionsObj.value as internalInclusionsObj.name for internalInclusionsObj in internalInclusions" multiple>
+                              <option value="" disabled >Select</option>
+                            </select>
+                            <label class="label-7">Internal Inclusions<img alt="" class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                            <label class="error" ng-show="diamondForm.$submitted || (diamondForm.gemInternalInclusions.$dirty && diamondForm.gemInternalInclusions.$invalid)">
+                                <label class="error-msg-form" ng-show="diamondForm.gemInternalInclusions.$error.required">Internal Inclusions is required.</label>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col s12 m12 l6">
+                        <div class="col-l1">
+                          <div class="input-field col s12">
+                            <select class="select-dropdown2" ng-model="propertyAttribute.externalInclusions" ng-disabled="readOnlyProperty.externalInclusions" ng-options="externalInclusionsObj.value as externalInclusionsObj.name for externalInclusionsObj in externalInclusions" multiple>
+                              <option value="" disabled >Select</option>
+                            </select>
+                            <label class="label-7">External
+                              Inclusions<img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                          </div>
+                        </div>
+                      </div>
+                      
+                    </div>
+                      <div class="row" ng-show="!isAgentLogin">
+                          <div class="col s12">
+                              <div class="component-price-main">
+                          <div class="component-price">
+                              <span class="head-8">Suggested Retail Price: {{(propertyAttribute.priceProperty.marketValue* 60)/100 | currency}} to {{(propertyAttribute.priceProperty.marketValue* 80)/100 | currency}} (per unit)</span>
+                          </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="row" ng-show="isAgentLogin">
+                      <div class="col s12">
+                        <div class="component-price-main">
+                          <div class="component-price">
+                              <span class="head-8">Market Suggested Price: - ${{propertyAttribute.priceProperty.marketValue}} * {{propertyItem.componentQuantity}}qty = ${{(propertyAttribute.priceProperty.marketValue * propertyItem.componentQuantity)|number:2}}</span>
+                              <div class="clearfix"></div>
+                              <div class="row">
+                                  <div class="col s12 divider-row">&nbsp;</div>
+                                    
+                              </div>
+                            <div class="row row2-marb0 purchased-price">
+                              <div class="row">
+                                <div class="col s12 m6 l6">
+                                  <div class="col-l1"> <span class="head7">PRICE ADJUSTMENT</span>
+                                    <div class="row">
+<!--                                     <div class="col s2 select-dropdown3">
+                                        <select ng-model="propertyAttribute.priceProperty.generalPriceAdjustmentOperator" ng-options="masterAdjustmentOperatorObj.value as masterAdjustmentOperatorObj.name for masterAdjustmentOperatorObj in masterAdjustmentOperator">
+                                        </select>
+                                      </div>-->
+                                      <div class="col s6 select-dropdown3">
+                                          <input ng-model="propertyAttribute.priceProperty.generalPriceOperatorValue" ng-keyup="calculateFinalPrice()" name="diamondGeneralPriceOperatorValue" ng-pattern="/^[-+]?[0-9]*\.?[0-9]?(\d{1,8})$/" type="text" placeholder="Amount" maxlength="10">
+                                        <label class="error" ng-show="diamondForm.$submitted ||  diamondForm.diamondGeneralPriceOperatorValue.$touched || (diamondForm.diamondGeneralPriceOperatorValue.$dirty && diamondForm.diamondGeneralPriceOperatorValue.$invalid)">
+                                            <label class="error-msg-form" ng-show="diamondForm.diamondGeneralPriceOperatorValue.$error.pattern">Invalid Amount.</label>
+                                        </label>
+                                      </div>
+                                      <div class="col s6">
+                                        <select ng-model="propertyAttribute.priceProperty.generalPriceAdjustmentType" ng-change="calculateFinalPrice();" ng-options="masterAdjustmentTypeObj.value as masterAdjustmentTypeObj.name for masterAdjustmentTypeObj in masterAdjustmentType">
+                                        </select>
+                                      </div>
+                                    </div>
+                                    <label class="label1 head6">Notes <span class="note-txt">(optional)</span></label>
+                                    <div class="row">
+                                      <div class="col s12 col-pdnone">
+                                        <textarea ng-model="propertyAttribute.priceProperty.generalPriceAdjustmentNotes" class="materialize-textarea textarea-2" placeholder="Enter here"></textarea>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col s12 m6 l6 brand-adjust-con">
+                                  <div class="col-r1"> <span class="head7">BRAND ADJUSTMENT</span>
+                                    <div class="row">
+<!--                                      <div class="col s2 select-dropdown3">
+                                        <select ng-model="propertyAttribute.priceProperty.brandPriceAdjustmentOperator" ng-options="masterAdjustmentOperatorObj.value as masterAdjustmentOperatorObj.name for masterAdjustmentOperatorObj in masterAdjustmentOperator">
+
+                                        </select>
+                                      </div>-->
+                                      <div class="col s6 select-dropdown3">
+                                          <input type="text" ng-model="propertyAttribute.priceProperty.brandPriceOperatorValue" ng-keyup="calculateFinalPrice()" name="diamondBrandPriceOperatorValue" ng-pattern="/^[-+]?[0-9]*\.?[0-9]?(\d{1,8})$/" placeholder="Amount" maxlength="10">
+                                          <label class="error" ng-show="diamondForm.$submitted ||  diamondForm.diamondBrandPriceOperatorValue.$touched || (diamondForm.diamondBrandPriceOperatorValue.$dirty && diamondForm.diamondBrandPriceOperatorValue.$invalid)">
+                                            <label class="error-msg-form" ng-show="diamondForm.diamondBrandPriceOperatorValue.$error.pattern">Invalid Amount.</label>
+                                        </label>
+                                      </div>
+                                      <div class="col s6">
+                                        <select ng-model="propertyAttribute.priceProperty.brandPriceAdjustmentType" ng-change="calculateFinalPrice();" ng-options="masterAdjustmentTypeObj.value as masterAdjustmentTypeObj.name for masterAdjustmentTypeObj in masterAdjustmentType">
+                                        </select>
+                                      </div>
+                                    </div>
+                                    <label class="label1 head6">Notes <span class="note-txt">(optional)</span></label>
+                                    <div class="row">
+                                      <div class="col s12 col-pdnone">
+                                        <textarea ng-model="propertyAttribute.priceProperty.brandPriceAdjustmentNotes" class="materialize-textarea textarea-2" placeholder="Enter here"></textarea>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                               <div class="clearfix"></div>
+                              <div class="col s12 m6 l6">
+                                <div class="col-l1">
+                                    <strong>Purchased price <img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></strong>
+                                    <input ng-model="propertyAttribute.priceProperty.purchasePrice" ng-keyup="calculateFinalPrice()" name="diamondPurchasedPrice" id="diamondPurchasedPrice" type="text" class="active" ng-pattern="/^(([0-9]*)|(([0-9]*)\.([0-9]*)))$/" maxlength="15">
+                                    <label class="error" ng-show="diamondForm.$submitted ||  diamondForm.diamondPurchasedPrice.$touched || (diamondForm.diamondPurchasedPrice.$dirty && diamondForm.diamondPurchasedPrice.$invalid)">
+                                        <label class="error-msg-form" ng-show="diamondForm.diamondPurchasedPrice.$error.pattern">Invalid Number.</label>
+                                    </label>
+                                </div>
+                              </div>
+<!--                              <div class="col s12 m6 l6">
+                                  <div class="col-l1"> 
+                                      <strong>Market Value</strong>
+                                  <input type="text" ng-model="propertyAttribute.priceProperty.marketValue">
+                                </div>
+                              </div>-->
+                            </div>
+                            <div class="row">
+                              <div class="col s12">
+                                <div class="component-price-foot">
+                                  <div class="row">
+                                    <div class="col s12 final-price">
+                                        <button type="submit" class="ok-btn2 waves-effect waves-light tooltipped pull-right" data-tooltip="SUBMIT" data-delay="50" data-position="top"><img src="../img/icon-ok1.png"/></button>
+<!--                                        <a href="item-added-successfully.html" target="_parent" class="ok-btn2 waves-effect waves-light tooltipped pull-right" data-tooltip="SUBMIT" data-delay="50" data-position="top">
+                                            <img src="../img/icon-ok2.png"/></a> -->
+                                    Final Price <span class="price-txt">${{propertyAttribute.priceProperty.finalPrice}} * {{propertyItem.componentQuantity}}qty = ${{(propertyAttribute.priceProperty.finalPrice * propertyItem.componentQuantity)|number:2}}</span> 
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="center" ng-if="!isAgentLogin">
+                        <button type="submit" class="ok-btn2 waves-effect waves-light tooltipped" data-tooltip="SUBMIT" data-delay="50" data-position="top"><img src="../img/icon-ok1.png"/></button>
+<!--                        <a href="item-added-successfully.html" target="_parent" class="ok-btn2 waves-effect waves-light tooltipped" data-tooltip="SUBMIT" data-delay="50" data-position="top"><img src="../img/icon-ok2.png"/></a>-->
+                    </div>
+                  </div>
+                  </form> 
+                </div>
+                <!--component-tab ends--> 
+                <div ng-include="'include/property-uploader.html'"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--<div class="popup-footer"> 
+            <a href="item-added-successfully.html" target="_parent" class="ok-btn2 waves-effect waves-light tooltipped" data-tooltip="SUBMIT" data-delay="50" data-position="top"><img src="img/icon-ok2.png"/></a> </div>--> 
+      </div>
+    </div>
+  </div>
+    
+</div>
+<!--component properties section ends-->

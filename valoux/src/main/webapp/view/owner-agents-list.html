@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<title>Valoux - Valoux is an online data management system, an appraisal and appraiser network, and an insurance delivery platform</title>
+
+<!-- CSS  -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="../css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/footer.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/animate.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/font-awesome.min.css" rel="stylesheet">
+<!--css for item section-->
+<link href="../css/item.css" type="text/css" rel="stylesheet"/>
+<!--css for tooltip-->
+<link href="../css/tooltipster.css" type="text/css" rel="stylesheet"/>
+<link href="../css/custom.css" rel="stylesheet">
+<link rel="stylesheet" href="../css/jquery.mCustomScrollbar.css">
+
+<script src="../js/extLib/jquery-1.12.0.min.js"></script>
+<script src="../js/extLib/materialize.min.js"></script>  
+<script  type="text/javascript" src="../js/extLib/wow.js"></script> 
+<script  type="text/javascript" src="../js/extLib/smoothscroll.js"></script>
+<script src="../js/extLib/jquery.tooltipster.min.js"></script>
+<script src="../js/extLib/custom.js"></script>
+<script src="../js/extLib/angular.min.js"></script>
+<script src="../js/extLib/angular-route.js"></script>
+<script src="../js/app/app.js"></script>
+<script src="../js/app/controller/baseController.js"></script>
+<script src="../js/app/service/service.js"></script>  
+<script src="../js/app/service/masterDataService.js"></script> 
+<script src="../js/app/directives/BaseDirective.js"></script>
+<script src="../js/app/userManagement/controller/userManagement.js"></script>
+<script src="../js/app/userManagement/directives/userManagementDirective.js"></script>
+<script src="../js/app/directives/validatorDirective.js"></script>
+<!-- angucomplete files -->
+
+  <!--error handling-->
+<script src="../js/extLib/stacktrace-0.5.0.min.js"></script>
+<script src="../js/app/error-handling.js"></script>
+
+</head>
+<script>
+    app.requires.push('valouxApp', 'ngRoute')
+</script>
+</head>
+<body ng-app="valouxApp" ng-controller="BaseController">
+<header-loggedin></header-loggedin>
+<div class="clearfix"></div>
+<div class="graybox">
+<div  ng-controller="userManagement">
+
+
+     <div class="container" ng-init="agentListing()" ng-cloak>
+    <div class="row">
+      <div class="col s12">
+        <div class="page-header page-header2 page-header-marl0">
+          <div class="row">
+            <div class="col m4 s12">
+              <h1>My Agents </h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col m12 s12" ng-if="successMessage" id="showMessage">
+                 <div class="success-msg mt-10 mb-10">
+                  <div class="disp-cell"><i class="fa fa-thumbs-o-up"></i></div>
+                  <div class="disp-cell"><span>{{successMessage}}</span></div>
+                  <div class="clear"></div>
+                </div>
+              </div>
+  
+    <!-- Consumer section start here-->
+    
+    <div class="row" ng-if="agentDatas.length > 1">
+      <div class="col s12">
+        <div class="whitebox1 whitebox1-nopad owner-table">
+    <table border="0" class="bordered dataTable  table1" id="example">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Agent Name</th>
+             <th>Items </th> 
+             <th>Collections </th> 
+             <th>Appraisals </th> 
+            <th>Status </th>
+            <!-- <th style="background:none;">Action </th> -->
+            </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="agentdata in agentDatas | filter :agentself(agentdata.rKey )" >
+            <td>
+            <div class="img-box2"><img class="responsive-img" alt="" fallback-src="../img/profile-pic-default.jpg" ng-src="../img/profile-pic-default.jpg"></div></td>
+            <td><span class="card-title">{{agentdata.firstName}} {{agentdata.lastName}}</span>
+              Phone:{{agentdata.mobilePhone}}<br>
+              
+              <p class="para3"><span class="disp-cell"><i class="fa fa-map-marker txt20"></i></span> <span class="disp-cell">{{agentdata.userAddress.addressLine1}}<span ng-if="agentdata.userAddress.addressLine2">, {{agentdata.userAddress.addressLine2}}</span>, {{agentdata.userAddress.city}}, {{agentdata.userAddress.state}}, {{agentdata.userAddress.zipCode}}, {{agentdata.userAddress.country}}</span></p></td>
+            <!-- <td><a href="javascript:;">{{agentdata.sharedAppraisalCount}}</a><br>
+              <a href="javascript:;" class="btn-xs-gray">View Requests</a></td> -->
+
+             <td>{{agentdata.shareditemCount}}</td> 
+             <td>{{agentdata.sharedCollectionCount}}</td> 
+             <td>{{agentdata.sharedAppraisalCount}}</td> 
+
+            <td><div ng-if= "agentdata.userStatus==1"><a data-position="bottom" data-delay="50" data-tooltip="Deactivate" class="tooltipped" href="javascript:;" ng-click="agentStatus(agentdata.rKey,agentdata.userStatus)"><span class="status-blue"><small>&nbsp;</small></span></a></div>
+            <div ng-if= "agentdata.userStatus!=1"><a data-position="bottom" data-delay="50" data-tooltip="Activate" class="tooltipped" href="javascript:;" ng-click="agentStatus(agentdata.rKey,agentdata.userStatus)"><span class="status-grey"><small>&nbsp;</small></span></a></div>
+            </td>
+           <!--  <td><a data-position="bottom" data-delay="50" data-tooltip="Edit" class="tooltipped" href="javascript:;"><img alt="" src="../img/icon-edit.png"></a> &nbsp;&nbsp; </td> -->
+            
+            </tr>
+          
+          </tbody>
+             
+                
+              
+        </table>
+        </div> 
+        <div class="whitebox1 whitebox1-nopad owner-table">
+        <div class="drag-icon"><img src="../img/drag-icon.png" alt=""/> Drag to View</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Consumer section end here--> 
+
+<div ng-if="agentDatas.length == 1 || noAgentAvaliable">
+                <div class="row">
+                  <div class="col m12 l12 s12">
+                    <div class="card-panel card-panel3 card-panel3-box-shadow">
+                      <div class="dashboard-nodata-wrap no-data">
+           <label>NO AGENT</label>
+                <!-- <p>  
+              You store have no agent<br>
+
+please click below to add new agent.</p>
+<a class="btn3" href="item.html#/add">Add Item</a> -->
+
+</div>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div> 
+
+
+  </div>
+
+ 
+
+</div>
+</div>
+
+<!--Middle container end here--> 
+<div class="clearfix"></div>
+<!--Footer start here-->
+
+
+<div class="loader-overlay" ng-show="fullPageBlockLoading" loading><span class="loader-inner">Processing<div class="clearfix"></div><img src="../img/loader-1.gif"></span></div>
+<!--footer starts-->
+<footer-element></footer-element>
+<!--footer ends-->
+
+<script src="../js/extLib/jquery.mCustomScrollbar.concat.min.js"></script> 
+<script src="../js/app/customJs/common.js"></script>
+</body>
+</html>
+

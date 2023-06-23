@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<title>Valoux - Valoux is an online data management system, an appraisal and appraiser network, and an insurance delivery platform</title>
+
+<!-- CSS  -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<link href="../css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/footer.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/animate.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/font-awesome.min.css" rel="stylesheet">
+<link href="../css/custom.css" rel="stylesheet">
+<!--css for item section-->
+<link href="../css/item.css" type="text/css" rel="stylesheet"/>
+<!--css for tooltip-->
+<link href="../css/tooltipster.css" type="text/css" rel="stylesheet"/>
+
+<!-- custom scrollbar stylesheet -->
+<link rel="stylesheet" href="../css/jquery.mCustomScrollbar.css">
+<!-- Google fonts  -->
+<!-- JS -->
+<script src="../js/extLib/jquery-1.12.0.min.js"></script>
+<script src="../js/extLib/materialize.min.js"></script>  
+<script  type="text/javascript" src="../js/extLib/wow.js"></script> 
+<script  type="text/javascript" src="../js/extLib/smoothscroll.js"></script>
+<script src="../js/extLib/jquery.tooltipster.min.js"></script>
+<script src="../js/extLib/custom.js"></script>
+<script src="../js/extLib/angular.min.js"></script>
+<script src="../js/extLib/angular-route.js"></script>
+<script src="../js/app/app.js"></script>
+
+<script src="../js/app/controller/baseController.js"></script>
+<script src="../js/app/service/service.js"></script>
+<script src="../js/app/service/masterDataService.js"></script>  
+
+<script src="../js/app/directives/BaseDirective.js"></script>
+<script src="../js/app/storeManagement/controller/dashboardManagement.js"></script>
+<script>
+    app.requires.push('valouxApp', 'ngRoute')
+</script>
+<!-- custom scrollbar plugin --> 
+ <script src="../js/extLib/jquery.mCustomScrollbar.concat.min.js"></script>
+<!--error handling-->
+<script src="../js/extLib/stacktrace-0.5.0.min.js"></script>
+<script src="../js/app/error-handling.js"></script>
+</head>
+<body ng-app="valouxApp" ng-controller="BaseController">
+<header-loggedin></header-loggedin>
+
+<!--Middle container here-->
+<div class="graybox" ng-controller="dashboardManagement" ng-init="checkIsAgent()">
+  <div class="container" ng-init="initAgentDashboard()">
+    <div class="row">
+      <div class="col s12">
+        <div class="page-header page-header2 page-header-marl0">
+          <div class="row">
+            <div class="col m3 s12">
+              <h1>My Valoux</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Latest Activity section start here-->
+    
+    <div class="row">
+      <div class="col s12">
+        <div class="whitebox1 whitebox1-nopad" ng-class="(agentDashboardNot || !filtered.length)?'dashboard-nodata':''">
+          <div class="row">
+            <div class="col s12 m12 ">
+              <div class="card-panel card-panel2"> <span class="white-text">
+                <h2><img src="../img/icon-appraisal-big.png"  alt="" style="display:inline-block;"/> Appraisals in Progress</h2>
+                <br>
+                <small>Latest activities lorem ipsum dolar sit</small> </span></div>
+            </div>
+              <div class="col m12 l12" ng-if="agentDashboardNot || !filtered.length">
+              <div class="card-panel card-panel3">
+                <div class="row">                  
+                  <div class="col s12 m7 l7"><div class="dashboard-nodata-wrap">
+           <label>NO APPRAISALS AVAILABLE</label>
+           <p> There is no appraisal request available.</p>
+          </div>
+                  </div>
+                        <div class="col  s12 m5 l5">
+                    <div class="dashboard-nodata-pic"><img alt="" src="../img/dashboard-agent-nodata-pic1.jpg"></div>
+                   
+                      
+              
+                  </div>
+            
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+         
+
+          <div class="row" ng-if="!agentDashboardNot" ng-repeat="agentDashboardList in filtered =( agentDashboardListed | filter : appraisalStatus | orderBy:'-id')">
+            <div class="col m12 l12">
+              <div class="card-panel card-panel3">
+                <div class="row">
+                  <div class="col s12 m2">
+                    <div class="img-box2">
+
+                    <img ng-if="agentDashboardList.collectionImages.length > 0" fallback-src="../img/not-found-appraisal.jpg" ng-src="../valoximage/imageuploaded/{{agentDashboardList.collectionImages[0].cImages[0].imageUrl}}" alt="" class="responsive-img"/>
+                    <img ng-if="agentDashboardList.collectionImages.length == 0" fallback-src="../img/not-found-appraisal.jpg" ng-src="../valoximage/imageuploaded/{{agentDashboardList.itemImages[0].itemImages[0].itemImagePath}}" alt="" class="responsive-img"/>
+
+                    </div>
+                  </div>
+                  <div class="col m10 s12">
+                    <div class="card-content"> <span class="card-title"><a href="javascript:;" ng-click="dashboardToAppraisalDetail(agentDashboardList.id,agentDashboardList.userPublickKey)">{{agentDashboardList.name  | limitTo: 30 }} {{agentDashboardList.name.length < 30 ? '' : '...'}}</a> <small>ID#  {{agentDashboardList.id}}</small></span> <span class="card-sub-title"> <i>Requested by</i>: <b><span>{{agentDashboardList.sharedBy.firstName}} {{agentDashboardList.sharedBy.middleName}} {{agentDashboardList.sharedBy.lastName}}</span></b></span>
+                      <p ng-bind-html="agentDashboardList.description | strLimit : 200 | newLine"></p>
+                      <ul>
+                         <li>
+                          <label> Value</label>
+                          ${{agentDashboardList.finalPrice | number:2}}</li> 
+                        <li>
+                          <label>Last updated on</label>
+                          {{agentDashboardList.lastUpdated | myDateFormat}}</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- <div class="paging3"><a href="javascript:;" onclick="toggle2();">Load more..</a></div> -->
+        </div>
+      </div>
+    </div>
+    
+    <!-- Latest Activity section end here--> 
+    <br>
+    <br>
+    
+     <!-- Appraisals to be Renewed start here-->
+    <div class="row">
+      <div class="col s12">
+        <div class="whitebox1 whitebox1-nopad dashboard-nodata">
+          <div class="row">
+            <div class="col s12 m12">
+              <div class="card-panel card-panel2 card-panel4"> <span class="white-text">
+                <h2><img src="../img/icon-appraisal-big.png"  alt="" style="display:inline-block;"/> Appraisals to be Renewed</h2>
+                <br>
+                <small> Lorem Ipsum is simply dummy text of the printing and typesetting industry</small></span></div>
+            </div>
+              <div class="col m12 l12" ng-if="agentDashboardNot || !filtere.length">
+              <div class="card-panel card-panel3">
+                <div class="row">                  
+                  <div class="col s12 m7 l7"><div class="dashboard-nodata-wrap">
+           <label>NO APPRAISALS AVAILABLE</label>
+           <p> There is no appraisal request available.</p>
+          </div>
+                  </div>
+                        <div class="col  s12 m5 l5">
+                    <div class="dashboard-nodata-pic"><img alt="" src="../img/dashboard-agent-nodata-pic2.jpg"></div>
+                   
+                      
+              
+                  </div>
+            
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="row" ng-if="!agentDashboardNot" ng-repeat="agentDashboardList in filtere =( agentDashboardListed  | filter : {appraisalStatus : 3} | filter : {priceChange : 1} | orderBy:'-id')">
+            <div class="col m12 l12">
+              <div class="card-panel card-panel3">
+                <div class="row">
+                  <div class="col s12 m2">
+                    <div class="img-box2"><img ng-if="agentDashboardList.collectionImages.length > 0" fallback-src="../img/not-found-appraisal.jpg" ng-src="../valoximage/imageuploaded/{{agentDashboardList.collectionImages[0].cImages[0].imageUrl}}" alt="" class="responsive-img"/>
+                    <img ng-if="agentDashboardList.collectionImages.length == 0" fallback-src="../img/not-found-appraisal.jpg" ng-src="../valoximage/imageuploaded/{{agentDashboardList.itemImages[0].itemImages[0].itemImagePath}}" alt="" class="responsive-img"/></div>
+                  </div>
+                  <div class="col m10 s12">
+                    <div class="card-content"> <span class="card-title"><a href="javascript:;" ng-click="dashboardToAppraisalDetail(agentDashboardList.id,agentDashboardList.userPublickKey)">{{agentDashboardList.name  | limitTo: 30 }} {{agentDashboardList.name.length < 30 ? '' : '...'}}</a> <small>ID#  {{agentDashboardList.id}}</small></span>
+                      <span class="card-sub-title"> <i>Requested by</i>: <b><span>{{agentDashboardList.sharedBy.firstName}} {{agentDashboardList.sharedBy.middleName}} {{agentDashboardList.sharedBy.lastName}}</span></b></span>
+                      <p ng-bind-html="agentDashboardList.description | strLimit : 200 | newLine"></p>
+                       <ul>
+                        <li>
+                          <label> Appraised Value</label>
+                          ${{agentDashboardList.appraisedValue | number:2}}</li>
+                        <li>
+                          <label>Market Value</label>
+                          ${{agentDashboardList.marketValue | number:2}}  </li>
+                        <li> <label>Change</label>
+                          <span class="green-text" ng-if="agentDashboardList.priceChange == 1">{{agentDashboardList.changePercentage | number:2}}% <i class="fa fa-sort-asc"></i></span> 
+                          <span class="red-text" ng-if="agentDashboardList.priceChange == 2">{{agentDashboardList.changePercentage | number:2}}% <i class="fa fa-sort-desc"></i></span>
+                          <span ng-if="agentDashboardList.priceChange == 3">{{agentDashboardList.changePercentage | number:2}}%</span>
+                          </li>
+                        <li>
+                          <label>Last Appraised</label>
+                          {{agentDashboardList.lastAppraisedDate | myDateFormat}}<img class="img2" alt="" src="../img/ribbon.jpg"></li>
+                        <li> <span class="green-label"  ng-if="agentDashboardList.priceChange == 1">+{{agentDashboardList.changePercentage | number:2}}%</span> </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          
+          
+       
+          <div class="clearfix"></div>
+          <!-- <div class="paging3"><a href="javascript:;" onclick="toggle3();" >Load more..</a></div> -->
+        </div>
+      </div>
+    </div>
+    
+    <!-- Appraisals to be Renewed end here--> 
+  </div>
+</div>
+
+<!--Middle container end here--> 
+
+<!--Footer start here-->
+<div class="clearfix"></div>
+<footer-element></footer-element>
+
+<!--Footer end here--> 
+
+<!--  Loader--> 
+
+<div class="loader-overlay" ng-show="fullPageBlockLoading" loading><span class="loader-inner">Processing<div class="clearfix"></div><img src="../img/loader-1.gif"></span></div>
+
+
+
+</body>
+</html>

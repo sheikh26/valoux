@@ -1,0 +1,161 @@
+<header>
+  <nav role="navigation" id="detail" class="tnb lighten-1 navbar-fixed header1 header-inner">
+    <div ng-init="loggedUsername()" class="nav-wrapper container" auto-active><a class="brand-logo" href="index.html" id="logo-container" style="visibility: visible;"><img alt="" src="../img/logo.png"></a>
+      <div class="welcomebox" > <span class="wel-txt">Welcome, </span>
+        <div class="clearfix"></div>
+        <a style="visibility: visible;" data-activates="dropdown3" href="javascript:;" class="drop-down dropdown-button dropdown-button1  right"> <span class="disp-cell right-align" ng-cloak>
+        <div class="clearfix"></div>
+        {{firstName.charAt(0).toUpperCase() + firstName.slice(1) | limitTo: 13 }} {{firstName.length < 13 ? '' : '...'}}</span> <span class="disp-cell"><i class="mdi-navigation-arrow-drop-down right"></i></span></a>
+        <ul class="dropdown-content dropdown-content1" id="dropdown3">
+          <li ng-if="!isAgentLogin"><a href="dashboard.html" target="_self"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+          <li ng-if="isAgentLogin"><a href="dashboard-agent.html" target="_self"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+          <li ng-if="!isAgentLogin"><a href="consumer-details.html" target="_self"><i class="fa fa-user"></i> Profile</a></li>
+         <!--  <li ng-if="isAgentLogin" ng-class="class"><a href="javascript:;" target="_self"><i class="fa fa-user"></i>Profile</a></li> -->
+          <!-- <li ng-if="!isAgentLogin"><a href="edit-consumer.html" target="_self"><i class="fa fa-user"></i> Edit Profile</a></li> -->
+          <li ng-if="isAgentLogin" ><a href="edit-agent.html" target="_self"><i class="fa fa-user"></i> Edit Profile</a></li>
+          <li><a href="change-password.html" target="_self"><i class="fa fa-key"></i> Change Password</a></li>
+          <li><a href="javascript:;" ng-click="logout()" target="_self"><i class="fa fa-power-off"></i> Logout</a></li>
+        </ul>
+      </div>
+     <!--   consumer links-->
+     <ul class="right hide-on-med-and-down" style="visibility: visible;">
+
+     <!-- Consumer -->
+        <li ng-show="!isAgentLogin"><a href="dashboard.html" target="_self">MY VALOUX</a> </li>
+
+        <li ng-show="!isAgentLogin"><a href="item.html" target="_self">JEWELRY</a></li>
+        <li ng-show="!isAgentLogin"><a href="collection.html" target="_self">COLLECTIONS</a></li>
+        <li ng-show="!isAgentLogin"><a href="appraisal.html" target="_self">APPRAISALS</a></li>
+       <li ng-show="!isAgentLogin" ng-class="{'active':showSelectedSharedWithMe==1}" ><a href="shared.html" target="_self">SHARED</a></li>
+        <!--<li ng-show="!isAgentLogin"><a href="javascript:;" target="_self">FAVORITES</a></li>-->
+        <li ng-show="!isAgentLogin"><a href="javascript:;" class="MatModal"><i class="material-icons search-icon1">search</i></a></li>
+
+
+        <!-- Agent -->
+
+        <li ng-show="isAgentLogin"><a target="_self" href="dashboard-agent.html">MY VALOUX</a> </li>
+        <li ng-show="agentowner"><a href="owner-agents-list.html"  target="_self">AGENTS</a></li> 
+        <li ng-show="isAgentLogin" class="request" ng-class="{'active':sharerequest}"><a target="_self" href="shared-request-agent.html">REQUEST <span id="request-count" class="badge">{{RequestCount}}</span></a></li>
+        <li ng-show="isAgentLogin"><a target="_self"  href="owner-consumer-list.html">CONSUMERS </a> </li>
+        <li ng-show="isAgentLogin"><a href="item-agent.html" target="_self">JEWELRY</a></li>
+        <li ng-show="isAgentLogin"><a href="collection-agent.html" target="_self">COLLECTIONS</a></li>
+        <li ng-show="isAgentLogin"><a href="appraisal-agent.html"  target="_self">APPRAISALS</a></li>
+        <li ng-show="isAgentLogin"><a href="javascript:;" class="MatModal"><i class="material-icons search-icon1">search</i></a></li>
+
+      </ul>
+      <ul class="side-nav" id="nav-mobile" style="left: 0px;">
+      <!-- Mobile consumer -->
+        <li ng-show="!isAgentLogin" class="close-top"><a class="pull-right close-btn" onclick="slide()" id="close-nav" href="javascript:;">&nbsp;</a></li>
+        <li ng-show="!isAgentLogin"><a href="dashboard.html" target="_self">MY VALOUX</a> </li>
+        <li ng-show="!isAgentLogin"><a href="item.html" target="_self">JEWELRY</a></li>
+        <li ng-show="!isAgentLogin"><a href="collection.html" target="_self">COLLECTIONS</a></li>
+        <li ng-show="!isAgentLogin"><a href="appraisal.html" target="_self">APPRAISALS</a></li>
+        <li ng-show="!isAgentLogin" ng-class="{'active':showSelectedSharedWithMe==1}" ><a href="shared.html" target="_self">SHARED</a></li>
+        <!-- <li ng-show="!isAgentLogin"><a href="javascript:;" target="_self">FAVORITES</a></li> -->
+        <li ng-show="!isAgentLogin"><a href="javascript:;" class="MatModal"><i class="material-icons">search</i></a></li>
+
+        <!-- Mobile Agent -->
+        <li ng-show="isAgentLogin" class="close-top"><a class="pull-right close-btn" onclick="slide()" id="close-nav" href="javascript:;">&nbsp;</a></li>
+        <li ng-show="isAgentLogin"><a target="_self" href="dashboard-agent.html">MY VALOUX</a> </li>
+         <li ng-show="agentowner"><a href="owner-agents-list.html"  target="_self">AGENTS</a></li> 
+        <li ng-show="isAgentLogin" ng-class="{'active':sharerequest}"><a target="_self" class="request" href="shared-request-agent.html">REQUEST <span id="side-request-count" class="badge">{{RequestCount}}</span></a></li>
+        <li ng-show="isAgentLogin"><a target="_self" href="owner-consumer-list.html">CONSUMERS </a> </li>
+        <li ng-show="isAgentLogin"><a href="item-agent.html" target="_self">JEWELRY</a></li>
+        <li ng-show="isAgentLogin"><a href="collection-agent.html" target="_self">COLLECTIONS</a></li>
+        <li ng-show="isAgentLogin"><a href="appraisal-agent.html"  target="_self">APPRAISALS</a></li>
+        
+        <li ng-show="isAgentLogin"><a href="javascript:;" class="MatModal"><i class="material-icons">search</i></a></li>
+
+      </ul>
+      <!--   consumer links-->
+<!--   agent links-->
+      <!-- <ul ng-show="userRoleType == roleType.AGENT" class="right hide-on-med-and-down" style="visibility: visible;">
+        <li><a href="dashboard-agent.html">MY VALOUX</a> </li>
+        <li ng-if="userRole==1"><a href="owner-agents-list.html"  target="_self">AGENTS</a></li>
+        <li><a target="_self" href="shared-request-agent.html">REQUEST <span id="request-count" class="badge">{{RequestCount}}</span></a></li>
+        <li><a target="_self"  href="owner-consumer-list.html">CONSUMERS </a> </li>
+        <li><a href="item-agent.html" target="_self">JEWELRY</a></li>
+        <li><a href="collection-agent.html" target="_self">COLLECTIONS</a></li>
+        <li><a href="appraisal-agent.html"  target="_self">APPRAISALS</a></li>
+        <li><a href="javascript:;" class="MatModal"><i class="material-icons search-icon1">search</i></a></li>
+      </ul> -->
+       <!-- <ul ng-show="userRoleType == roleType.AGENT" class="side-nav" id="nav-mobile" style="left: 0px;">
+        <li class="close-top"><a class="pull-right close-btn" onclick="slide()" id="close-nav" href="javascript:;">&nbsp;</a></li>
+        <li><a href="dashboard-agent.html">MY VALOUX</a> </li>
+        <li><a href="owner-agents-list.html"  target="_self">AGENTS</a></li>
+        <li><a target="_self" href="shared-request-agent.html">REQUEST <span id="side-request-count" class="badge">{{RequestCount}}</span></a></li>
+        <li><a target="_self" href="owner-consumer-list.html">CONSUMERS </a> </li>
+        <li><a href="item-agent.html" target="_self">JEWELRY</a></li>
+        <li><a href="collection-agent.html" target="_self">COLLECTIONS</a></li>
+        <li><a href="appraisal-agent.html"  target="_self">APPRAISALS</a></li>
+        <li><a href="javascript:;" class="MatModal"><i class="material-icons">search</i></a></li>
+      </ul> -->
+<!--   agent links-->
+      <a class="button-collapse" data-activates="nav-mobile" href="#"><i class="material-icons">menu</i></a> </div>
+  </nav>
+</header>
+
+<!--Navigation end here-->
+
+<div class="clearfix"></div>
+
+<!--component properties section starts-->
+<div id="MatModal-container">
+  <div id="MatModal-inner"> <span class="MatRound"></span>
+    <div class="MatModal-content modal-searchbar">
+<a data-position="bottom" data-delay="50" data-tooltip="CANCEL" class="close-btn2 waves-effect waves-light tooltipped" target="_parent" href="#" id="close-MatModal" data-tooltip-id="955dfe11-d651-f61f-c44b-94c7667589be"></a>
+           <nav class="search-bar2">
+            <div class="nav-wrapper">
+            <form name="globalSearchForm" ng-submit="searchSubmit()">
+                <div class="input-field">
+                  <input ng-model="globalSearch" id="search3" type="search" placeholder="Type keyword(s) here" maxlength="100" autocomplete="off">
+                  <label for="search3"><i class="material-icons">search</i></label>
+                  <i class="material-icons tooltipped" data-tooltip="Clear search" ng-click="clearSearch()" data-delay="50" data-position="bottom">close</i> </div>
+             <div class="modal-searchbar-footer"> 
+             <!-- <a class="btn-large btn-large1 waves-effect waves-light" href="javascript:;" ng-click="globalSearchForm.$valid && searchSubmit()">SEARCH</a> --> 
+             <button class="btn-large btn-large1 waves-effect waves-light">SEARCH</button>
+             </div>
+              
+              </form>
+              </div></nav>
+    </div>
+  </div>
+</div>
+<!--component properties section ends-->
+
+<script>
+    $('.button-collapse').sideNav();
+    $('.dropdown-button').dropdown({
+      inDuration: 300,
+      outDuration: 225,
+      constrain_width: false, // Does not change width of dropdown to that of the activator
+      hover: false, // Activate on hover
+      gutter: 0, // Spacing from edge
+      belowOrigin: false, // Displays dropdown below the button
+      alignment: 'left' // Displays dropdown with edge aligned to the left of button
+    }
+  );
+    jQuery(function($){
+    $('.MatModal').click(function(e){
+        e.preventDefault();
+        $('#MatModal-container').show(0,function(){
+            $(this).addClass('show-MatModal1');
+            setTimeout(function(){
+                $('#MatModal-container').addClass('');
+        $('body').css('overflow','hidden');
+            },0);
+        });
+    });
+    $('#close-MatModal').click(function(e){
+        e.preventDefault();
+        closeMatModal();
+    });
+    function closeMatModal(){
+        $('#MatModal-container').removeClass('seeModal show-MatModal1');
+        setTimeout(function(){
+            $('#MatModal-container').hide(0);
+      $('body').css('overflow','auto');
+        },0);
+    };
+});
+</script>

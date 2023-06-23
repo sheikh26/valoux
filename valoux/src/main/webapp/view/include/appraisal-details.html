@@ -1,0 +1,994 @@
+<!--Navigation end here-->
+<div class="clearfix"></div>
+<div class="header-collection">&nbsp;</div>
+<div class="graybox graybox-padt0" ng-init="appraisalDetail()" ng-cloak>
+<div class="container container-collection">
+  <div class="row">
+    <div class="col s12">
+      <div class="page-header">
+        <h6 class="pull-left">APPRAISAL DETAIL</h6>
+
+        <div class="rightbox rightbox4">
+
+             <div class="view-list" ng-if="isAgentLogin" ng-init="initConsumerInformation()">
+              <div class="searchbox-left searchbox-left1"><i class="txt13">View items by:</i>
+              <select id="viewedItemsBy" ng-change="storeAgentInfoDropdown(viewItemBy)" name="viewItemsBy" ng-model="viewItemBy" ng-options="viewItemsBy.consumerPublicKey as (viewItemsBy.firstName + ' ' + viewItemsBy.middleName + ' ' + viewItemsBy.lastName) for viewItemsBy in viewByConsumer">
+              <option value="">Consumer name</option>
+              </select>
+           <a data-position="bottom" data-delay="50" data-tooltip="Invite new consumer &amp; add an appraisal." class="user tooltipped" href="javascript:;" ng-click="inviteNewConsumerAgent('home')" data-tooltip-id="15eadc9e-637d-0dde-bcc6-563b27ddd274"><i aria-hidden="true" class="fa fa-user-plus"></i></a>
+            </div>
+            </div>
+
+
+
+
+
+        <span ng-if="!isAgentLogin"><a href="appraisal.html#/"><img src="../img/icon-listing.png" alt=""/> LISTING </a></span>
+        <span ng-if="isAgentLogin"><a href="appraisal-agent.html#/"><img src="../img/icon-listing.png" alt=""/> LISTING </a></span>
+          <!-- <div class="pull-right"><span><a href="javascript:;"><img src="img/arrow-previous.png" alt=""/> PREVIOUS</a></span> <a href="javascript:;">NEXT <img src="img/arrow-next.png" alt=""/></a></div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s12">
+      <div class="">
+
+
+      <div class="whitebox1 whitebox1-nopad">
+        <div class="header-bg-1 margbtn0" ng-if="isAgentLogin">
+        <!-- <a data-tooltip="Add New Item" data-delay="50" data-position="bottom" class="icon-big-plus waves-effect waves-light tooltipped" href="collection-agent.html#/add"><img alt="" src="../img/icon-plus-big.png"></a> -->
+            <div class="agent-left-con">
+        <div class="pic-con2"><img fallback-src="../img/profile-pic-default.jpg" ng-src="../valoximage/consumerimageuploaded/{{sharedBy.imageUrl}}" alt=""></div>
+        
+        <span>{{sharedBy.firstName}} {{sharedBy.middleName}} {{sharedBy.lastName}}</span> 
+        </div>
+        
+        <a class="back-btn2" href="appraisal-agent.html#/"><img src="../img/arrow-previous.png" alt="">Back</a>
+      </div>
+
+        <div class="row row-marbot0">
+          <div class="col m12 l12 s12">
+            <div class="card-panel card-panel3 card-panel3-box-shadow card-panel3-box-shadow1">
+              <div class="row">
+              <div class="success-msg mt-10 mb-10" ng-if="successMessage" id="successAppraised">
+              <div class="disp-cell"><i class="fa fa-thumbs-o-up"></i></div>
+               <div class="disp-cell"><span>{{successMessage}}</span></div>
+          
+            </div> 
+                <div class="" ng-class="(appraisalDetail.appraisalList.appraisalStatus == 3 || successfullyAppraised)?'col m12 s12':'col m8 l9 s12'">
+                  <div class="card-content"> <span class="card-title card-title1">{{appraisalDetail.appraisalList.name}} <!--<a href="javascript:;" class="heart tooltipped" data-position="bottom" data-delay="50" data-tooltip="Favorite">&nbsp;</a>-->
+                    <div class="clearfix"></div>
+                    <small>ID#  {{appraisalDetail.appraisalList.appraisalId}}</small></span>
+                    <div class="card-para">
+                      <p ng-bind-html="appraisalDetail.appraisalList.shortDescription | newLine"></p>
+                    </div>
+                    <div class="item-components"> Appraisal associated with<br>
+                      <div class="items"><a href="javascript:;" ng-click="scrollToCollection(appraisalDetail.appraisalCount, 'collection')" class="anchorLink">Collections ({{appraisalDetail.appraisalCount}})</a> <a href="javascript:;" ng-click="scrollToItem(appraisalDetail.itemsCount, 'items')" class="anchorLink">Items ({{appraisalDetail.itemsCount}})</a></div>
+                    </div>
+                    <div class="row-grey-gradient" ng-if="isAgentLogin || successfullyAppraised || appraisalDetail.appraisalList.appraisalStatus == 3">
+                        <div class="grey-gradient grey-gradient3">
+                          <ul>
+                              <li ng-if="appraisalDetail.appraisalList.appraisalStatus == 3">
+                              <label>Appraised Value</label>
+                             ${{appraisalDetail.appraisalList.appraisedValue | number:2}}
+                            </li>
+                            <li ng-if="appraisalDetail.appraisalList.appraisalStatus != 3">
+                              <label>Appraisal Value</label>
+                             ${{appraisalDetail.appraisalList.finalPrice | number:2}}
+                            </li>
+                            <li>
+                              <label>Market Value</label>
+                             ${{appraisalDetail.appraisalList.marketValue | number:2}}
+                              <small>{{appraisalDetail.appraisalList.marketValueDate | marketDateFormat}} <i ng-if="appraisalDetail.appraisalList.marketValueDate">at</i> {{appraisalDetail.appraisalList.marketValueDate | marketTimeFormat}}</small></li>
+                            <li ng-if="appraisalDetail.appraisalList.appraisalStatus == 3"> <label>Change</label>
+                            <span ng-if="appraisalDetail.appraisalList.priceChange == 3">{{appraisalDetail.appraisalList.changePercentage |number:2}}% </span> 
+                            <span class="green-text" ng-if="appraisalDetail.appraisalList.priceChange == 1">{{appraisalDetail.appraisalList.changePercentage |number:2}}% <i class="fa fa-sort-asc"></i></span> 
+                              <span class="red-text" ng-if="appraisalDetail.appraisalList.priceChange == 2">{{appraisalDetail.appraisalList.changePercentage |number:2}}% <i class="fa fa-sort-desc"></i></span> </li>
+                            <li ng-if="appraisalDetail.appraisalList.appraisalStatus == 3">
+                              <label>Last Appraised</label>
+                              <span ng-if="appraisalDetail.appraisalList.lastAppraisedDate">{{appraisalDetail.appraisalList.lastAppraisedDate | myDateFormat}}</span>
+                              <span ng-if="!appraisalDetail.appraisalList.lastAppraisedDate">--</span>
+                               <img src="../img/ribbon.png" alt="" class="img2"></li>
+                       <!--     <li><span class="green-label">+50%</span></li>-->
+                          </ul>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+                <div class="col s12 m4 l3">
+                  <div class="card-panel3-box-shadow-right" ng-hide="appraisalDetail.appraisalList.appraisalStatus == 3 || successfullyAppraised">
+                    <div class="collection-icons" ng-show="appraisalDetail.appraisalList.consumerPublickey==userKey || isAgentLogin">
+                      <ul class="collection">
+
+                        <li class="collection-item"><span class="disp-cell"><img src="../img/icon-add-component.png" alt=""></span> <span class="disp-cell"><a href="javascript:;" class="" ng-click="addItemsInAppraisals(appraisalDetail.appraisalList.appraisalId)">ADD NEW ITEMS</a></span></li>
+
+                        <li ng-if="!isAgentLogin" class="collection-item"><span class="disp-cell"><img src="../img/icon-add-component.png" alt=""></span> <span class="disp-cell"><a ng-click="addCollectionInAppraisals(appraisalDetail.appraisalList.appraisalId)" href="javascript:;" class="">ADD NEW COLLECTIONS</a></span></li>
+
+                        <li ng-if="isAgentLogin" class="collection-item"><span class="disp-cell"><img src="../img/icon-add-component.png" alt=""></span> <span class="disp-cell"><a ng-click="addCollectionInAppraisalsAgent(appraisalDetail.appraisalList.appraisalId)" href="javascript:;" class="">ADD NEW COLLECTIONS</a></span></li>
+
+                        <li ng-if="!isAgentLogin" class="collection-item"><span class="disp-cell"><img src="../img/icon-edit.png" alt=""></span> <span class="disp-cell"><a href="appraisal.html#/edit/{{appraisalDetail.appraisalList.appraisalId}}">EDIT APPRAISAL</a></span></li>
+
+                        <li ng-if="!isAgentLogin" class="collection-item"><span class="disp-cell"><img src="../img/ico-delete.png" alt=""></span> <span class="disp-cell"><a href="javascript:;" ng-click="deleteAppraisalByDetails(appraisalDetail.appraisalList.appraisalId,'')">DELETE APPRAISAL</a></span></li>
+                         
+                        <li ng-if="isAgentLogin" class="collection-item"><span class="disp-cell"><img src="../img/icon-edit.png" alt=""></span> <span class="disp-cell"><a href="appraisal-agent.html#/edit/{{appraisalDetail.appraisalList.appraisalId}}">EDIT APPRAISAL</a></span></li>
+<li ng-if="isAgentLogin" class="collection-item"><span class="disp-cell"><img src="../img/ico-delete.png" alt=""></span> <span class="disp-cell"><a href="javascript:;" ng-click="deleteAppraisalByDetails(appraisalDetail.appraisalList.appraisalId,appraisalDetail.appraisalList.consumerPublickey)">DELETE APPRAISAL</a></span></li>
+                        <li ng-if="!isAgentLogin" class="collection-item"><span class="disp-cell"><img alt="" src="../img/icon-share.png"></span> <span class="disp-cell"><a class="" ng-click="setShareId(appraisalDetail.appraisalList.appraisalId,3)" href="javascript:;">SHARE </a></span></li>
+
+                        <!-- <li class="collection-item"><span class="disp-cell"><img alt="" src="../img/icon-share-with.png"></span> <span class="disp-cell"><a class="" href="javascript:;">SHARED WITH <big>22</big></a></span> </li> -->
+
+                        <li ng-if="isAgentLogin" ng-hide="isAppraiserLogin" class="collection-item"><a href="javascript:;" ng-click="agentSharingPopup(appraisalDetail.appraisalList.appraisalId,appraisalDetail.appraisalList.consumerPublickey)" class="btn-large btn-large1 btn-large4 waves-effect waves-light"> <img alt="" src="../img/icon-certificate-small.png"><span>REQUEST TO</span>APPRAISE</a></li>
+
+
+                        <li ng-if="isAppraiserLogin" class="collection-item"><a class="btn-large btn-large1 btn-large4 waves-effect waves-light btn-appraised" ng-click="requestToAppraisedConfirm(appraisalDetail.appraisalList.appraisalId)" href="javascript:;"> <span style="font-size:14px !important;">APPRAISE NOW</span>  <img src="../img/ribbon2.png" alt=""/></a></li>
+
+                        
+                      </ul>
+                    </div>
+                    <div class="collection-icons-xs"  ng-hide="appraisalDetail.appraisalList.appraisalStatus == 3 || successfullyAppraised" ng-show="appraisalDetail.appraisalList.consumerPublickey==userKey || isAgentLogin" >
+                      <ul class="collection border-left">
+                        <li class="collection-item"><a class="tooltipped" data-position="bottom" ng-click="addItemsInAppraisals(appraisalDetail.appraisalList.appraisalId)" data-delay="50" data-tooltip="ADD NEW ITEMS" href="javascript:;"><span class="disp-cell"><img src="../img/icon-add-component.png" alt=""></span> </a></li>
+                        <li ng-if="!isAgentLogin" class="collection-item"><a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="ADD NEW COLLECTIONS" href="javascript:;" ng-click="addCollectionInAppraisals(appraisalDetail.appraisalList.appraisalId)"><span class="disp-cell"><img src="../img/icon-add-component.png" alt=""></span> </a></li>
+
+                        <li ng-if="isAgentLogin" class="collection-item"><a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="ADD NEW COLLECTIONS" href="javascript:;" ng-click="addCollectionInAppraisalsAgent(appraisalDetail.appraisalList.appraisalId)"><span class="disp-cell"><img src="../img/icon-add-component.png" alt=""></span> </a></li>
+
+                        <li ng-if="!isAgentLogin" class="collection-item"><a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="EDIT APPRAISAL" href="appraisal.html#/edit/{{appraisalDetail.appraisalList.appraisalId}}"><span class="disp-cell"><img src="../img/icon-edit.png" alt=""></span></a> </li>
+
+                         <li ng-if="!isAgentLogin" class="collection-item"><a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="DELETE APPRAISAL" href="javascript:;" ng-click="deleteAppraisalByDetails(appraisalDetail.appraisalList.appraisalId,'')"><span class="disp-cell"><img src="../img/ico-delete.png" alt=""></span></a> </li>
+
+                         <li ng-if="isAgentLogin" class="collection-item"><a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="EDIT APPRAISAL" href="appraisal-agent.html#/edit/{{appraisalDetail.appraisalList.appraisalId}}"><span class="disp-cell"><img src="../img/icon-edit.png" alt=""></span></a> </li>
+                         <li ng-if="isAgentLogin" class="collection-item"><a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="DELETE APPRAISAL" href="javascript:;" ng-click="deleteAppraisalByDetails(appraisalDetail.appraisalList.appraisalId,appraisalDetail.appraisalList.consumerPublickey)"><span class="disp-cell"><img src="../img/ico-delete.png" alt=""></span></a> </li>
+                          <li ng-if="isAppraiserLogin" class="collection-item"><a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="APPRAISE NOW" href="javascript:;" ng-click="requestToAppraisedConfirm(appraisalDetail.appraisalList.appraisalId)"><span class="disp-cell"><img src="../img/ribbon.png" width="19" alt=""></span></a> </li>
+                         <!-- <li ng-if="isAppraisarLogin" class="collection-item"><a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="APPRAISE NOW" href="javascript:;" ng-click="requestToAppraisedConfirm(appraisalDetail.appraisalList.appraisalId)"> <img src="../img/ribbon.png" alt=""/></a></li> -->
+                        <li ng-if="!isAgentLogin" class="collection-item"><a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="SHARE" href="javascript:;" ng-click="setShareId(appraisalDetail.appraisalList.appraisalId,3)"><span class="disp-cell"><img alt="" src="../img/icon-share.png"></a> </li>
+                        <!-- <li class="collection-item"><a class="tooltipped modal-trigger" data-position="bottom" data-delay="50" data-tooltip="SHARED WITH" href="#modal-sharewith"><span class="disp-cell"><img alt="" src="../img/icon-share-with.png"></span> <span class="disp-cell">SHARED WITH</span></a> </li> -->
+                        
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row position-relative"><span name="collection" class="anchor-set">&nbsp;</span>
+                <div class="col s12" ng-if="appraisalDetail.appraisalCount > 0">
+                  <h4>COLLECTIONS</h4>
+                </div>
+              </div>
+              <div class="row" ng-repeat="collectionLists in appraisalDetail.collectionList">
+                <div class="col s12">
+                  <div class="card-panel2"><a ng-if="!isAgentLogin" href="collection.html#/detail/{{collectionLists.vcid}}" class="a5">{{collectionLists.cname | limitTo: 80 }} {{collectionLists.cname.length < 80 ? '' : '...'}}</a>
+                  <a ng-if="isAgentLogin" href="collection-agent.html#/detail/{{collectionLists.vcid}}" class="a5">{{collectionLists.cname | limitTo: 80 }} {{collectionLists.cname.length < 80 ? '' : '...'}}</a>  
+                   - 
+                  <small>Have <b>{{collectionLists.noOfItem}}</b> items </small><small ng-if="appraisalDetail.appraisalList.appraisalStatus == 3 || successfullyAppraised">totaling ${{collectionLists.appraisedValue | number:2}}</small><br>
+                    <small>ID#  {{collectionLists.vcid}}</small></div>
+                  <div class="row">
+                    <div class="col s12 m12">
+                      <div class="card card-position-static"  ng-repeat="itemLists in collectionLists.itemList">
+                        <div class="card-header">
+                          <div class="welcomebox" ng-show="appraisalDetail.appraisalList.consumerPublickey==userKey || isAgentLogin" > <a ng-hide="itemLists.itemStatus == 3" data-activates="dropdown_collection{{collectionLists.vcid+'_items_'+($index+1)}}" href="javascript:;" class="drop-down dropdown-button dropdown-button1 right"> <span class="disp-cell"><i class="ellpsis-v right">&nbsp;</i></span></a> 
+                         <ul class="dropdown-content dropdown-content1" id="dropdown_collection{{collectionLists.vcid+'_items_'+($index+1)}}">                          
+                          <!-- <li class="collection-item"><span class="disp-cell"><img src="../img/icon-add-component.png" alt=""></span> <span class="disp-cell"><a href="javascript:;">ADD NEW COMPONENT</a></span></li> -->
+                           <li ng-hide="itemLists.itemStatus == 3"  ng-if="!isAgentLogin" class="collection-item"><span class="disp-cell"><img alt="" src="../img/icon-edit.png"></span> <span class="disp-cell"><a href="item.html#/edit/{{itemLists.itemId}}">EDIT ITEM  </a></span></li>
+                           <li ng-hide="itemLists.itemStatus == 3" ng-if="isAgentLogin" class="collection-item"><span class="disp-cell"><img alt="" src="../img/icon-edit.png"></span> <span class="disp-cell"><a href="item-agent.html#/edit/{{itemLists.itemId}}">EDIT ITEM  </a></span></li>
+                           <li ng-if="!isAgentLogin" class="collection-item"><span class="disp-cell"><img alt="" src="../img/icon-share.png"></span> <span class="disp-cell"><a ng-click="setShareId(itemLists.itemId,1)" class="" href="javascript:;">SHARE </a></span></li>
+                          </ul>
+                          </div>
+                          <div class="img-con1"><img alt="" fallback-src="../img/not-found-item.jpg" ng-src="../valoximage/imageuploaded/{{itemLists.itemImages[0].itemImagePath}}"></div>
+                          <div class="card-header-right"><a ng-if="!isAgentLogin" href="item.html#/detail/{{itemLists.itemId}}">
+                          {{itemLists.name | limitTo: 80 }} {{itemLists.name.length < 80 ? '' : '...'}}</a>
+
+                          <a ng-if="isAgentLogin" href="item-agent.html#/detail/{{itemLists.itemId}}">{{itemLists.name | limitTo: 80 }} {{itemLists.name.length < 80 ? '' : '...'}}</a>
+
+                           <!--<a href="javascript:;" class="heart tooltipped" data-position="bottom" data-delay="50" data-tooltip="Favorite">&nbsp;</a>--> <br>
+                            <small>ID#  {{itemLists.itemId}}</small></div>
+                            <div ng-if="isAgentLogin || successfullyAppraised || appraisalDetail.appraisalList.appraisalStatus == 3 || itemLists.itemStatus == 3" class="grey-gradient grey-gradient5">
+                          <ul>
+                            <li ng-if="appraisalDetail.appraisalList.appraisalStatus == 3">
+                              <label>Appraised Value</label>
+                            ${{itemLists.appraisedValue | number:2}}</li>
+                            
+                            <li ng-if="appraisalDetail.appraisalList.appraisalStatus != 3">
+                              <label>Collection Value</label>
+                            ${{itemLists.finalPrice | number:2}}</li>
+                            <li>
+                              <label>Market Value</label>
+                             ${{itemLists.marketValue | number:2}}
+                              <small>{{itemLists.marketValueDate | marketDateFormat}} <i ng-if="itemLists.marketValueDate">at</i> {{itemLists.marketValueDate | marketTimeFormat}}</small></li>
+                            <li ng-if="appraisalDetail.appraisalList.appraisalStatus == 3"> <label>Change</label>
+                            <span class="" ng-if="itemLists.priceChange == 3">{{itemLists.changePercentage |number:2}}% </span>
+                            <span class="red-text" ng-if="itemLists.priceChange == 2">{{itemLists.changePercentage |number:2}}% <i class="fa fa-sort-desc"></i></span>
+                              <span class="green-text" ng-if="itemLists.priceChange == 1">{{itemLists.changePercentage |number:2}}% <i class="fa fa-sort-asc"></i></span> </li>
+                          </ul>
+                        </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="card-content">
+                          <div class="row">
+                            <div class="col s12 m12 l6" ng-repeat="componentListsCollection in itemLists.componentList">
+                              <div class="card-panel card-panel5">
+                                <div class="header">
+                                  <div class="thumbnail"><img fallback-src="../img/not-found-item.jpg" ng-src="../valoximage/imageuploaded/{{componentListsCollection.componentProperty.componentPhotosImages[0].imgUrl}}" alt=""/></div>
+                                  <small>{{componentListsCollection.componentTypeName}} </small> <br>
+                                  {{componentListsCollection.componentName | limitTo: 30 }} {{componentListsCollection.componentName.length < 30 ? '' : '...'}}</div>
+                                  
+                                  
+                                   <!-- diamond -->
+                                <div class="content appraisal-scroll mCustomScrollbar" ng-if="componentListsCollection.componentType == 1 && componentListsCollection.propertyFlag">
+                                  <div class="col s12 m6">
+                                    <div class="row" ng-if="componentListsCollection.componentProperty.shapeName">
+                                      <div class="col s12 m6">Shape</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentListsCollection.componentProperty.shapeName"></span></div>
+                                    </div>
+                                       <div class="row" ng-if="componentListsCollection.componentProperty.singleWeight">
+                                      <div class="col s12 m6">Weight <sup class="sml-txt">(ct)</sup></div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentListsCollection.componentProperty.singleWeight"></span></div>
+                                    </div>
+                                      <div class="row" ng-if="componentListsCollection.componentProperty.cutName">
+                                      <div class="col s12 m6">Cut</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentListsCollection.componentProperty.cutName"></span></div>
+                                    </div>
+                                       <div class="row" ng-if="componentListsCollection.componentProperty.colorName">
+                                      <div class="col s12 m6">Color</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentListsCollection.componentProperty.colorName"></span></div>
+                                    </div>
+                                    
+                                      <div class="row" ng-if="componentListsCollection.componentProperty.clarityName">
+                                      <div class="col s12 m6">Clarity</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentListsCollection.componentProperty.clarityName"></span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentListsCollection.componentProperty.componentCertificate.labName">
+                                      <div class="col s12 m6">Certificate</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentListsCollection.componentProperty.componentCertificate.labName"></span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentListsCollection.componentProperty.componentCertificate.certificateNumber">
+                                      <div class="col s12 m6">Certificate No.</div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentListsCollection.componentProperty.componentCertificate.certificateNumber}}</span></div>
+                                    </div>
+                                    
+                                   
+                                      
+                                       <div class="row" ng-if="componentListsCollection.componentProperty.placementName">
+                                      <div class="col s12 m6">Placement</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentListsCollection.componentProperty.placementName"></span></div>
+                                    </div>
+                                      <div class="row" ng-if="componentListsCollection.componentProperty.shape!=1 && componentListsCollection.componentProperty.diamondLength">
+                                      <div class="col s12 m6">Length <sup class="sml-txt">(mm)</sup></div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentListsCollection.componentProperty.diamondLength}}</span></div>
+                                    </div>
+                                      
+                                     <div class="row" ng-if="componentListsCollection.componentProperty.shape!=1 && componentListsCollection.componentProperty.diamondWidth">
+                                      <div class="col s12 m6">Width <sup class="sml-txt">(mm)</sup></div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentListsCollection.componentProperty.diamondWidth}}</span></div>
+                                    </div> 
+                                      
+                                      
+                                      <div class="row" ng-if="componentListsCollection.componentProperty.depth">
+                                      <div class="col s12 m6">Depth <sup class="sml-txt">(mm)</sup></div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentListsCollection.componentProperty.depth}}</span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentListsCollection.componentProperty.shape==1 &&  componentListsCollection.componentProperty.maxDiameter">
+                                      <div class="col s12 m6">Max Diameter</div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentListsCollection.componentProperty.maxDiameter}}</span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentListsCollection.componentProperty.shape==1 &&  componentListsCollection.componentProperty.minDiameter">
+                                      <div class="col s12 m6">Min Diameter</div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentListsCollection.componentProperty.minDiameter}}</span></div>
+                                    </div>
+                                      <div class="row" ng-if="componentListsCollection.componentProperty.shape!=1 &&  componentListsCollection.componentProperty.lengthWidthRatio">
+                                      <div class="col s12 m6">Length/Width Ratio</div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentListsCollection.componentProperty.lengthWidthRatio}}</span></div>
+                                    </div>
+                                      
+                                      <div class="row" ng-if="componentListsCollection.componentProperty.depthPercentage">
+                                      <div class="col s12 m6">Depth %</div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentListsCollection.componentProperty.depthPercentage}}</span></div>
+                                    </div>
+                                      
+                                  </div>
+                                  
+                                  <div class="col s12 m6">
+                                      
+                                    <div class="row" ng-if="componentListsCollection.componentProperty.tablePercentage">
+                                      <div class="col s12 m6">Table %</div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentListsCollection.componentProperty.tablePercentage}}</span></div>
+                                    </div>
+                                    
+                                    <div class="row" ng-if="componentListsCollection.componentProperty.polishName">
+                                      <div class="col s12 m6">Polish</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentListsCollection.componentProperty.polishName"></span></div>
+                                    </div>
+                                      <div class="row" ng-if="componentListsCollection.componentProperty.symmetryName">
+                                      <div class="col s12 m6">Symmetry</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentListsCollection.componentProperty.symmetryName"></span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentListsCollection.componentProperty.thicknessName">
+                                      <div class="col s12 m6">Girdle Thickness</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentListsCollection.componentProperty.thicknessName"></span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentListsCollection.componentProperty.girdleThicknessDescriptionName">
+                                      <div class="col s12 m6">Girdle Thickness Description</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentListsCollection.componentProperty.girdleThicknessDescriptionName"></span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentListsCollection.componentProperty.cutletName">
+                                      <div class="col s12 m6">Cutlet</div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentListsCollection.componentProperty.cutletName}}</span></div>
+                                    </div>
+                                     
+                                       <div class="row" ng-if="componentListsCollection.componentProperty.fluorescenceName">
+                                      <div class="col s12 m6">Fluorescence</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentListsCollection.componentProperty.fluorescenceName"></span></div>
+                                    </div>
+                                      <div class="row" ng-if="componentListsCollection.componentProperty.fancyColorName">
+                                      <div class="col s12 m6">Fancy Color</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentListsCollection.componentProperty.fancyColorName"></span></div>
+                                    </div>
+                                      <div class="row" ng-if="componentListsCollection.componentProperty.secondaryHueName">
+                                      <div class="col s12 m6">Secondary Hue</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentListsCollection.componentProperty.secondaryHueName"></span></div>
+                                    </div>
+                                      <div class="row" ng-if="componentListsCollection.componentProperty.weightMeasure">
+                                      <div class="col s12 m6">Weight Measure </div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentListsCollection.componentProperty.weightMeasureName}}</span></div>
+                                    </div>
+                                      
+                                      <div class="row" ng-if="componentListsCollection.componentProperty.internalInclusionsName">
+                                      <div class="col s12 m6">Internal Inclusions</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentListsCollection.componentProperty.internalInclusionsName"></span></div>
+                                    </div>
+                                      <div class="row" ng-if="componentListsCollection.componentProperty.externalInclusionsName">
+                                      <div class="col s12 m6">External Inclusions </div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentListsCollection.componentProperty.externalInclusionsName}}</span></div>
+                                    </div>
+                                    
+                                  </div>
+                                  
+                                </div>
+                                  <!-- diamond -->
+                                  
+                                  
+                                  
+                                  <!-- Gemstone -->
+                                <div class="content appraisal-scroll mCustomScrollbar" ng-if="componentListsCollection.componentType == 2 && componentListsCollection.propertyFlag">
+                                  <div class="col s12 m6">
+                                    <div class="row" ng-if="componentListsCollection.componentProperty.shapeName">
+                                      <div class="col s12 m6">Shape</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentListsCollection.componentProperty.shapeName"></span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentListsCollection.componentProperty.gemstonesTypeName">
+                                      <div class="col s12 m6">Type</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentListsCollection.componentProperty.gemstonesTypeName"></span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentListsCollection.componentProperty.placementName">
+                                      <div class="col s12 m6">Placement</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentListsCollection.componentProperty.placementName"></span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentListsCollection.componentProperty.cutName">
+                                      <div class="col s12 m6">Cut</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentListsCollection.componentProperty.cutName"></span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentListsCollection.componentProperty.enhancementName">
+                                      <div class="col s12 m6">Enhancement</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentListsCollection.componentProperty.enhancementName"></span></div>
+                                    </div>
+                                    
+                                  </div>
+                                  
+
+
+                                  <div class="col s12 m6">
+                                    <div class="row" ng-if="componentListsCollection.componentProperty.originName">
+                                      <div class="col s12 m6">Origin</div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentListsCollection.componentProperty.originName}}</span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentListsCollection.componentProperty.weight">
+                                      <div class="col s12 m6">Weight <sup class="sml-txt">(ct)</sup></div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentListsCollection.componentProperty.weight}}</span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentListsCollection.componentProperty.measurements">
+                                      <div class="col s12 m6">Measurements <sup class="sml-txt">(l x w x d (mm))</sup></div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentListsCollection.componentProperty.measurements}}</span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentListsCollection.componentProperty.externalInclusionsName">
+                                      <div class="col s12 m6">External Inclusions</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentListsCollection.componentProperty.externalInclusionsName"></span></div>
+                                    </div>
+                                        <div class="row" ng-if="componentListsCollection.componentProperty.internalInclusionsName">
+                                      <div class="col s12 m6">Internal Inclusions</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentListsCollection.componentProperty.internalInclusionsName"></span></div>
+                                    </div>
+                                    
+                                    
+                                  </div>
+                                  
+                                </div>
+                                  <!-- Gemstone -->
+                                  
+                                   <!-- metals -->
+                                <div class="content appraisal-scroll mCustomScrollbar" ng-if="componentListsCollection.componentType == 4 && componentListsCollection.propertyFlag">
+                                  <div class="col s12 m12">
+                                    <div class="row" ng-if="componentListsCollection.componentProperty.metalsTypeName">
+                                      <div class="col s12 m6">Type</div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentListsCollection.componentProperty.metalsTypeName}}</span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentListsCollection.componentProperty.typeSpecified">
+                                      <div class="col s12 m6">Type – Specified</div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentListsCollection.componentProperty.typeSpecified}}</span></div>
+                                    </div>
+                                      
+                                    <div class="row" ng-if="(componentListsCollection.componentProperty.metalsType==1 || componentListsCollection.componentProperty.metalsType==2 || componentListsCollection.componentProperty.metalsType==3) && componentListsCollection.componentProperty.purityName">
+                                      <div class="col s12 m6">Purity</div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentListsCollection.componentProperty.purityName}}</span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentListsCollection.componentProperty.metalsType==1 && componentListsCollection.componentProperty.colorName">
+                                      <div class="col s12 m6">Color</div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentListsCollection.componentProperty.colorName}}</span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentListsCollection.componentProperty.weight">
+                                      <div class="col s12 m6">Weight <sup class="sml-txt">(g)</sup></div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentListsCollection.componentProperty.weight"></span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentListsCollection.componentProperty.measurements">
+                                      <div class="col s12 m6">Measurements <sup class="sml-txt">(l x w x d (mm))</sup></div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentListsCollection.componentProperty.measurements"></span></div>
+                                    </div>
+                                    
+                                    <div class="row" ng-if="componentListsCollection.componentProperty.typeDeterminedName">
+                                      <div class="col s12 m6">Type Determined</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentListsCollection.componentProperty.typeDeterminedName"></span></div>
+                                    </div>
+                                                       
+                                  </div>
+                                </div>
+                                  <!-- metals -->
+                                  
+                                  
+                                  
+                                  
+                                  <!-- Pearls -->
+                                <div class="content appraisal-scroll mCustomScrollbar" ng-if="componentListsCollection.componentType == 3 && componentListsCollection.propertyFlag">
+                                  <div class="col s12 m6">
+                                    <div class="row" ng-if="componentListsCollection.componentProperty.shapeName">
+                                      <div class="col s12 m6">Shape</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentListsCollection.componentProperty.shapeName"></span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentListsCollection.componentProperty.pearlTypeName">
+                                      <div class="col s12 m6">Type</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentListsCollection.componentProperty.pearlTypeName"></span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentListsCollection.componentProperty.weight">
+                                      <div class="col s12 m6">Weight <sup class="sml-txt">(ct)</sup></div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentListsCollection.componentProperty.weight}}</span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentListsCollection.componentProperty.measurements">
+                                      <div class="col s12 m6">Measurements <sup class="sml-txt">(l x w x d (mm))</sup></div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentListsCollection.componentProperty.measurements}}</span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentListsCollection.componentProperty.pearlsMin">
+                                      <div class="col s12 m6">Min <sup class="sml-txt">(mm)</sup></div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentListsCollection.componentProperty.pearlsMin}}</span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentListsCollection.componentProperty.pearlsMax">
+                                      <div class="col s12 m6">Max <sup class="sml-txt">(mm)</sup></div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentListsCollection.componentProperty.pearlsMax}}</span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentListsCollection.componentProperty.originName">
+                                      <div class="col s12 m6">Origin</div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentListsCollection.componentProperty.originName}}</span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentListsCollection.componentProperty.compositionName">
+                                      <div class="col s12 m6">Composition</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentListsCollection.componentProperty.compositionName"></span></div>
+                                    </div>
+                                  </div>
+                                  
+
+
+                                  <div class="col s12 m6">
+                                    
+                                    <div class="row" ng-if="componentListsCollection.componentProperty.pearlsStyleName">
+                                      <div class="col s12 m6">Style</div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentListsCollection.componentProperty.pearlsStyleName}}</span></div>
+                                    </div>
+                                        <div class="row" ng-if="componentListsCollection.componentProperty.pearlsLength">
+                                      <div class="col s12 m6">Length <sup class="sml-txt">(mm)</sup></div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentListsCollection.componentProperty.pearlsLength}}</span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentListsCollection.componentProperty.colorName">
+                                      <div class="col s12 m6">Color</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentListsCollection.componentProperty.colorName"></span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentListsCollection.componentProperty.lusterName">
+                                      <div class="col s12 m6">Luster</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentListsCollection.componentProperty.lusterName"></span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentListsCollection.componentProperty.blemishName">
+                                      <div class="col s12 m6">Blemish</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentListsCollection.componentProperty.blemishName"></span></div>
+                                    </div>
+                                    
+                                    <div class="row" ng-if="componentListsCollection.componentProperty.matchingName">
+                                      <div class="col s12 m6">Matching</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentListsCollection.componentProperty.matchingName"></span></div>
+                                    </div>
+                                      <div class="row" ng-if="componentListsCollection.componentProperty.enhancementsName">
+                                      <div class="col s12 m6">Enhancements</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentListsCollection.componentProperty.enhancementsName"></span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentListsCollection.componentProperty.drilledName">
+                                      <div class="col s12 m6">Drilled</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentListsCollection.componentProperty.drilledName"></span></div>
+                                    </div>
+                                  </div>
+                                  
+                                </div>
+                                  <!-- Pearls -->
+                                <div class="clearfix"></div>
+                              </div>
+                            </div>
+                            
+                          </div>
+                        </div>
+                      </div>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+           
+              <div class="row position-relative" ng-if="appraisalDetail.itemsCount > 0"><span name="items" class="anchor-set1">&nbsp;</span>
+                <div class="col s12">
+                  <div class="card-panel2" >ITEMS - <small>Have <b>{{appraisalDetail.itemsCount}}</b> item </small><small ng-if="appraisalDetail.appraisalList.appraisalStatus == 3 || successfullyAppraised">totaling ${{getTotalCountItems(appraisalDetail.itemsList) | number:2}}</small><br>
+                  </div>
+                  <div class="row row-marbot0" ng-repeat="itemsLists in appraisalDetail.itemsList">
+                    <div class="col s12 m12">
+                      <div class="card card-position-static">
+                        <div class="card-header">
+                          <div class="welcomebox" ng-show="appraisalDetail.appraisalList.consumerPublickey==userKey || isAgentLogin"> <a ng-hide="itemsLists.itemStatus == 3"  data-activates="dropdown_items{{itemsLists.itemId}}" href="javascript:;" class="drop-down dropdown-button dropdown-button1 right"> <span class="disp-cell"><i class="ellpsis-v right">&nbsp;</i></span></a> 
+                          <ul class="dropdown-content dropdown-content1" id="dropdown_items{{itemsLists.itemId}}">                          
+                          <!-- <li class="collection-item"><span class="disp-cell"><img src="../img/icon-add-component.png" alt=""></span> <span class="disp-cell"><a href="javascript:;">ADD NEW COMPONENT</a></span></li> -->
+                           <li ng-hide="itemsLists.itemStatus == 3" ng-if="!isAgentLogin" class="collection-item"><span class="disp-cell"><img alt="" src="../img/icon-edit.png"></span> <span class="disp-cell"><a href="item.html#/edit/{{itemsLists.itemId}}">EDIT ITEM  </a></span></li>
+                           <li ng-hide="itemsLists.itemStatus == 3" ng-if="isAgentLogin" class="collection-item"><span class="disp-cell"><img alt="" src="../img/icon-edit.png"></span> <span class="disp-cell"><a href="item-agent.html#/edit/{{itemsLists.itemId}}">EDIT ITEM  </a></span></li>
+                           <li ng-if="!isAgentLogin" class="collection-item"><span class="disp-cell"><img alt="" src="../img/icon-share.png"></span> <span class="disp-cell"><a ng-click="setShareId(itemsLists.itemId,1)" class="" href="javascript:;">SHARE </a></span></li>
+                          </ul>
+                          </div>
+
+                          <div class="img-con1"><img alt="" fallback-src="../img/not-found-item.jpg" ng-src="../valoximage/imageuploaded/{{itemsLists.itemImages[0].itemImagePath}}"></div>
+                          <div class="card-header-right">
+                          <a ng-if="!isAgentLogin" href="item.html#/detail/{{itemsLists.itemId}}">
+                            
+                          {{itemsLists.name | limitTo: 80 }} {{itemsLists.name.length < 80 ? '' : '...'}}</a>
+                          <a ng-if="isAgentLogin" href="item-agent.html#/detail/{{itemsLists.itemId}}">
+                            {{itemsLists.name | limitTo: 80 }} {{itemsLists.name.length < 80 ? '' : '...'}}</a>
+
+                           <!--<a href="javascript:;" class="heart tooltipped" data-position="bottom" data-delay="50" data-tooltip="Favorite">&nbsp;</a>--> <br>
+                            <small>ID#  {{itemsLists.itemId}}</small></div>
+                            <div class="grey-gradient grey-gradient5" ng-if="isAgentLogin || successfullyAppraised || appraisalDetail.appraisalList.appraisalStatus == 3 || itemsLists.itemStatus == 3">
+                          <ul>
+                            <li ng-if="appraisalDetail.appraisalList.appraisalStatus == 3">
+                              <label>Appraised Value</label>
+                            ${{itemsLists.appraisedValue | number:2}}</li>
+                           
+                            <li ng-if="appraisalDetail.appraisalList.appraisalStatus != 3">
+                              <label>Final Price</label>
+                            ${{itemsLists.finalPrice | number:2}}</li>
+                            <li>
+                              <label>Market Value</label>
+                            ${{itemsLists.marketValue | number:2}}
+                              <small>{{itemsLists.marketValueDate | marketDateFormat}} <i ng-if="itemsLists.marketValueDate">at</i> {{itemsLists.marketValueDate | marketTimeFormat}}</small></li>
+                            <li ng-if="appraisalDetail.appraisalList.appraisalStatus == 3"> <label>Change</label>
+                              <span class="green-text" ng-if="itemsLists.priceChange ==1">{{itemsLists.changePercentage |number:2}}% <i class="fa fa-sort-asc"></i></span>
+                              <span class="red-text" ng-if="itemsLists.priceChange == 2">{{itemsLists.changePercentage |number:2}}% <i class="fa fa-sort-desc"></i></span>
+                              <span ng-if="itemsLists.priceChange == 3">{{itemsLists.changePercentage |number:2}}%</span> </li>
+                          </ul>
+                        </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="card-content">
+                          <div class="row">
+                            
+                            
+                            <div class="col s12 m12 l6" ng-repeat="componentLists in itemsLists.componentList">
+                              <div class="card-panel card-panel5">
+                                <div class="header">
+                                  <div class="thumbnail"><img alt="" fallback-src="../img/not-found-item.jpg" ng-src="../valoximage/imageuploaded/{{componentLists.componentProperty.componentPhotosImages[0].imgUrl}}"></div>
+                                  <small>{{componentLists.componentTypeName}}</small> <br>
+                                  {{componentLists.componentName | limitTo: 20 }} {{componentLists.componentName.length < 20 ? '' : '...'}}</div>
+                                
+                                  
+                                     <!-- diamond -->
+                                <div class="content appraisal-scroll mCustomScrollbar" ng-if="componentLists.componentType == 1 && componentLists.propertyFlag">
+                                  <div class="col s12 m6">
+                                    <div class="row" ng-if="componentLists.componentProperty.shapeName">
+                                      <div class="col s12 m6">Shape</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentLists.componentProperty.shapeName"></span></div>
+                                    </div>
+                                       <div class="row" ng-if="componentLists.componentProperty.singleWeight">
+                                      <div class="col s12 m6">Weight <sup class="sml-txt">(ct)</sup></div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentLists.componentProperty.singleWeight"></span></div>
+                                    </div>
+                                      <div class="row" ng-if="componentLists.componentProperty.cutName">
+                                      <div class="col s12 m6">Cut</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentLists.componentProperty.cutName"></span></div>
+                                    </div>
+                                       <div class="row" ng-if="componentLists.componentProperty.colorName">
+                                      <div class="col s12 m6">Color</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentLists.componentProperty.colorName"></span></div>
+                                    </div>
+                                    
+                                      <div class="row" ng-if="componentLists.componentProperty.clarityName">
+                                      <div class="col s12 m6">Clarity</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentLists.componentProperty.clarityName"></span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentLists.componentProperty.componentCertificate.labName">
+                                      <div class="col s12 m6">Certificate</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentLists.componentProperty.componentCertificate.labName"></span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentLists.componentProperty.componentCertificate.certificateNumber">
+                                      <div class="col s12 m6">Certificate No.</div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentLists.componentProperty.componentCertificate.certificateNumber}}</span></div>
+                                    </div>
+                                    
+                                   
+                                      
+                                       <div class="row" ng-if="componentLists.componentProperty.placementName">
+                                      <div class="col s12 m6">Placement</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentLists.componentProperty.placementName"></span></div>
+                                    </div>
+                                      <div class="row" ng-if="componentLists.componentProperty.shape!=1 && componentLists.componentProperty.diamondLength">
+                                      <div class="col s12 m6">Length <sup class="sml-txt">(mm)</sup></div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentLists.componentProperty.diamondLength}}</span></div>
+                                    </div>
+                                      
+                                     <div class="row" ng-if="componentLists.componentProperty.shape!=1 && componentLists.componentProperty.diamondWidth">
+                                      <div class="col s12 m6">Width <sup class="sml-txt">(mm)</sup></div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentLists.componentProperty.diamondWidth}}</span></div>
+                                    </div> 
+                                      
+                                      
+                                      <div class="row" ng-if="componentLists.componentProperty.depth">
+                                      <div class="col s12 m6">Depth <sup class="sml-txt">(mm)</sup></div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentLists.componentProperty.depth}}</span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentLists.componentProperty.shape==1 && componentLists.componentProperty.maxDiameter">
+                                      <div class="col s12 m6">Max Diameter</div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentLists.componentProperty.maxDiameter}}</span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentLists.componentProperty.shape==1 && componentLists.componentProperty.minDiameter">
+                                      <div class="col s12 m6">Min Diameter</div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentLists.componentProperty.minDiameter}}</span></div>
+                                    </div>
+                                      <div class="row" ng-if="componentLists.componentProperty.shape!=1 && componentLists.componentProperty.lengthWidthRatio">
+                                      <div class="col s12 m6">Length/Width Ratio</div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentLists.componentProperty.lengthWidthRatio}}</span></div>
+                                    </div>
+                                      
+                                      <div class="row" ng-if="componentLists.componentProperty.depthPercentage">
+                                      <div class="col s12 m6">Depth %</div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentLists.componentProperty.depthPercentage}}</span></div>
+                                    </div>
+                                      
+                                       
+                                      
+                                     
+                                  </div>
+                                  
+
+
+                                  <div class="col s12 m6">
+                                      
+                                    <div class="row" ng-if="componentLists.componentProperty.tablePercentage">
+                                      <div class="col s12 m6">Table %</div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentLists.componentProperty.tablePercentage}}</span></div>
+                                    </div>
+                                    
+                                    <div class="row" ng-if="componentLists.componentProperty.polishName">
+                                      <div class="col s12 m6">Polish</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentLists.componentProperty.polishName"></span></div>
+                                    </div>
+                                      <div class="row" ng-if="componentLists.componentProperty.symmetryName">
+                                      <div class="col s12 m6">Symmetry</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentLists.componentProperty.symmetryName"></span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentLists.componentProperty.thicknessName">
+                                      <div class="col s12 m6">Girdle Thickness</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentLists.componentProperty.thicknessName"></span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentLists.componentProperty.girdleThicknessDescriptionName">
+                                      <div class="col s12 m6">Girdle Thickness Description</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentLists.componentProperty.girdleThicknessDescriptionName"></span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentLists.componentProperty.cutletName">
+                                      <div class="col s12 m6">Cutlet</div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentLists.componentProperty.cutletName}}</span></div>
+                                    </div>
+                                     
+                                       <div class="row" ng-if="componentLists.componentProperty.fluorescenceName">
+                                      <div class="col s12 m6">Fluorescence</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentLists.componentProperty.fluorescenceName"></span></div>
+                                    </div>
+                                      <div class="row" ng-if="componentLists.componentProperty.fancyColorName">
+                                      <div class="col s12 m6">Fancy Color</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentLists.componentProperty.fancyColorName"></span></div>
+                                    </div>
+                                      <div class="row" ng-if="componentLists.componentProperty.secondaryHueName">
+                                      <div class="col s12 m6">Secondary Hue</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentLists.componentProperty.secondaryHueName"></span></div>
+                                    </div>
+                                      <div class="row" ng-if="componentLists.componentProperty.weightMeasure">
+                                      <div class="col s12 m6">Weight Measure </div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentLists.componentProperty.weightMeasureName}}</span></div>
+                                    </div>
+                                      
+                                      <div class="row" ng-if="componentLists.componentProperty.internalInclusionsName">
+                                      <div class="col s12 m6">Internal Inclusions</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentLists.componentProperty.internalInclusionsName"></span></div>
+                                    </div>
+                                      <div class="row" ng-if="componentLists.componentProperty.externalInclusionsName">
+                                      <div class="col s12 m6">External Inclusions </div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentLists.componentProperty.externalInclusionsName}}</span></div>
+                                    </div>
+                                    
+                                  </div>
+                                  
+                                </div>
+                                  <!-- diamond -->
+                                  
+                                  
+                                  
+                                  <!-- Gemstone -->
+                                <div class="content appraisal-scroll mCustomScrollbar" ng-if="componentLists.componentType == 2 && componentLists.propertyFlag">
+                                  <div class="col s12 m6">
+                                    <div class="row" ng-if="componentLists.componentProperty.shapeName">
+                                      <div class="col s12 m6">Shape</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentLists.componentProperty.shapeName"></span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentLists.componentProperty.gemstonesTypeName">
+                                      <div class="col s12 m6">Type</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentLists.componentProperty.gemstonesTypeName"></span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentLists.componentProperty.placementName">
+                                      <div class="col s12 m6">Placement</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentLists.componentProperty.placementName"></span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentLists.componentProperty.cutName">
+                                      <div class="col s12 m6">Cut</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentLists.componentProperty.cutName"></span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentLists.componentProperty.enhancementName">
+                                      <div class="col s12 m6">Enhancement</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentLists.componentProperty.enhancementName"></span></div>
+                                    </div>
+                                    
+                                  </div>
+                                  
+
+
+                                  <div class="col s12 m6">
+                                    <div class="row" ng-if="componentLists.componentProperty.originName">
+                                      <div class="col s12 m6">Origin</div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentLists.componentProperty.originName}}</span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentLists.componentProperty.weight">
+                                      <div class="col s12 m6">Weight <sup class="sml-txt">(ct)</sup></div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentLists.componentProperty.weight}}</span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentLists.componentProperty.measurements">
+                                      <div class="col s12 m6">Measurements <sup class="sml-txt">(l x w x d (mm))</sup></div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentLists.componentProperty.measurements}}</span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentLists.componentProperty.externalInclusionsName">
+                                      <div class="col s12 m6">External Inclusions</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentLists.componentProperty.externalInclusionsName"></span></div>
+                                    </div>
+                                        <div class="row" ng-if="componentLists.componentProperty.internalInclusionsName">
+                                      <div class="col s12 m6">Internal Inclusions</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentLists.componentProperty.internalInclusionsName"></span></div>
+                                    </div>
+                                    
+                                    
+                                  </div>
+                                </div>
+                                  <!-- Gemstone -->
+                                  
+                                   <!-- metals -->
+                                <div class="content appraisal-scroll mCustomScrollbar" ng-if="componentLists.componentType == 4 && componentLists.propertyFlag">
+                                  <div class="col s12 m12">
+                                    <div class="row" ng-if="componentLists.componentProperty.metalsTypeName">
+                                      <div class="col s12 m6">Type</div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentLists.componentProperty.metalsTypeName}}</span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentLists.componentProperty.typeSpecified">
+                                      <div class="col s12 m6">Type – Specified</div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentLists.componentProperty.typeSpecified}}</span></div>
+                                    </div>
+                                    <div class="row" ng-if="(componentLists.componentProperty.metalsType==1 || componentLists.componentProperty.metalsType==2 || componentLists.componentProperty.metalsType==3) && componentLists.componentProperty.purityName">
+                                      <div class="col s12 m6">Purity</div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentLists.componentProperty.purityName}}</span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentLists.componentProperty.metalsType==1 && componentLists.componentProperty.colorName">
+                                      <div class="col s12 m6">Color</div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentLists.componentProperty.colorName}}</span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentLists.componentProperty.weight">
+                                      <div class="col s12 m6">Weight <sup class="sml-txt">(g)</sup></div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentLists.componentProperty.weight"></span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentLists.componentProperty.measurements">
+                                      <div class="col s12 m6">Measurements <sup class="sml-txt">(l x w x d (mm))</sup></div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentLists.componentProperty.measurements"></span></div>
+                                    </div>
+                                    
+                                    <div class="row" ng-if="componentLists.componentProperty.typeDeterminedName">
+                                      <div class="col s12 m6">Type Determined</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentLists.componentProperty.typeDeterminedName"></span></div>
+                                    </div>
+                                    
+                                  </div>
+                                </div>
+                                  <!-- metals -->
+                                  
+                                  
+                                  
+                                  
+                                  <!-- Pearls -->
+                                <div class="content appraisal-scroll mCustomScrollbar" ng-if="componentLists.componentType == 3 && componentLists.propertyFlag">
+                                  <div class="col s12 m6">
+                                    <div class="row" ng-if="componentLists.componentProperty.shapeName">
+                                      <div class="col s12 m6">Shape</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentLists.componentProperty.shapeName"></span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentLists.componentProperty.pearlTypeName">
+                                      <div class="col s12 m6">Type</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentLists.componentProperty.pearlTypeName"></span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentLists.componentProperty.weight">
+                                      <div class="col s12 m6">Weight <sup class="sml-txt">(ct)</sup></div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentLists.componentProperty.weight}}</span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentLists.componentProperty.measurements">
+                                      <div class="col s12 m6">Measurements <sup class="sml-txt">(l x w x d (mm))</sup></div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentLists.componentProperty.measurements}}</span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentLists.componentProperty.pearlsMin">
+                                      <div class="col s12 m6">Min <sup class="sml-txt">(mm)</sup></div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentLists.componentProperty.pearlsMin}}</span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentLists.componentProperty.pearlsMax">
+                                      <div class="col s12 m6">Max <sup class="sml-txt">(mm)</sup></div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentLists.componentProperty.pearlsMax}}</span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentLists.componentProperty.originName">
+                                      <div class="col s12 m6">Origin</div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentLists.componentProperty.originName}}</span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentLists.componentProperty.compositionName">
+                                      <div class="col s12 m6">Composition</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentLists.componentProperty.compositionName"></span></div>
+                                    </div>
+                                  </div>
+                                  
+
+
+                                  <div class="col s12 m6">
+                                    
+                                    <div class="row" ng-if="componentLists.componentProperty.pearlsStyleName">
+                                      <div class="col s12 m6">Style</div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentLists.componentProperty.pearlsStyleName}}</span></div>
+                                    </div>
+                                        <div class="row" ng-if="componentLists.componentProperty.pearlsLength">
+                                      <div class="col s12 m6">Length <sup class="sml-txt">(mm)</sup></div>
+                                      <div class="col s12 m6">: <span class="txt-gray">{{componentLists.componentProperty.pearlsLength}}</span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentLists.componentProperty.colorName">
+                                      <div class="col s12 m6">Color</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentLists.componentProperty.colorName"></span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentLists.componentProperty.lusterName">
+                                      <div class="col s12 m6">Luster</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentLists.componentProperty.lusterName"></span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentLists.componentProperty.blemishName">
+                                      <div class="col s12 m6">Blemish</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentLists.componentProperty.blemishName"></span></div>
+                                    </div>
+                                    
+                                    <div class="row" ng-if="componentLists.componentProperty.matchingName">
+                                      <div class="col s12 m6">Matching</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentLists.componentProperty.matchingName"></span></div>
+                                    </div>
+                                      <div class="row" ng-if="componentLists.componentProperty.enhancementsName">
+                                      <div class="col s12 m6">Enhancements</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentLists.componentProperty.enhancementsName"></span></div>
+                                    </div>
+                                    <div class="row" ng-if="componentLists.componentProperty.drilledName">
+                                      <div class="col s12 m6">Drilled</div>
+                                      <div class="col s12 m6">: <span class="txt-gray" ng-bind="componentLists.componentProperty.drilledName"></span></div>
+                                    </div>
+                                  </div>
+                                  
+                                </div>
+                                  <!-- Pearls -->
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                <div class="clearfix"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+
+        <div ng-if="isAgentLogin" ng-hide="isAppraiserLogin || appraisalDetail.appraisalList.appraisalStatus == 3" class="center whitebox1-footer whitebox1-footer3 btn-con"> <a ng-click="agentSharingPopup(appraisalDetail.appraisalList.appraisalId,appraisalDetail.appraisalList.consumerPublickey)" href="javascript:;" class="btn-large btn-large1 btn-large4 waves-effect waves-light">
+       <img src="../img/icon-certificate-small.png" alt="">   <span>REQUEST TO</span> 
+         APPRAISE</a> </div>
+
+        <div ng-hide="appraisalDetail.appraisalList.appraisalStatus == 3 || successfullyAppraised" ng-if="isAppraiserLogin" class="center whitebox1-footer whitebox1-footer3 btn-con"> <a ng-click="requestToAppraisedConfirm(appraisalDetail.appraisalList.appraisalId)" class="btn-large btn-large1 btn-large4 waves-effect waves-light btn-appraised2" href="javascript:;" style="padding-top:0px !important;">
+       <span>APPRAISE NOW</span>  <img src="../img/ribbon2.png" alt=""/></a> 
+         </div>
+
+         <div class="whitebox1-footer whitebox1-footer3 btn-con" ng-if="appraisalDetail.appraisalList.appraisalStatus == 3 || successfullyAppraised"> 
+        <div class="footer-left">
+      <div class="row" ng-if="appraisalDetail.appraisalList.lastAppraisedDate">
+                                      <div class="col s6 m4 right-align">Date</div>
+                                      <div class="col s6 m8" ng-if="appraisalDetail.appraisalList.lastAppraisedDate"> <strong>{{appraisalDetail.appraisalList.lastAppraisedDate | myDateFormat}}</strong></div>
+                                    </div>
+                                     <div class="row" ng-if="appraisalDetail.agentData.storeData.storeName">
+                                      <div class="col s6 m4 right-align">Agent / Store:</div>
+                                      <div class="col s6 m8"><strong> {{appraisalDetail.agentData.storeData.storeName}}</strong><br>
+<span ng-if="appraisalDetail.agentData.storeData.storeAddress.addressLine1">{{appraisalDetail.agentData.storeData.storeAddress.addressLine1}},</span>
+<span ng-if="appraisalDetail.agentData.storeData.storeAddress.addressLine2">{{appraisalDetail.agentData.storeData.storeAddress.addressLine2}},</span>
+<span ng-if="appraisalDetail.agentData.storeData.storeAddress.city">{{appraisalDetail.agentData.storeData.storeAddress.city}}, </span>
+
+<span ng-if="appraisalDetail.agentData.storeData.storeAddress.state">{{appraisalDetail.agentData.storeData.storeAddress.state}} </span>
+<span ng-if="appraisalDetail.agentData.storeData.storeAddress.zipCode">{{appraisalDetail.agentData.storeData.storeAddress.zipCode}},</span>
+<span ng-if="appraisalDetail.agentData.storeData.storeAddress.country">{{appraisalDetail.agentData.storeData.storeAddress.country}}</span>
+
+
+
+</div>
+                                    </div>
+                        
+        </div>
+        
+                <div class="footer-right" ng-if="appraisalDetail.agentData.signUrl || appraisalDetail.agentData.signName">
+      <div class="row">
+                                      <div class="col s12 m12 l4 right-align"><span class="sign">Signature of Appraiser</span></div>
+                                      <div class="col s12 m12 l8">
+                                      <div class="signature">
+                                      <div class="signature-img" ng-if="appraisalDetail.agentData.signUrl">
+                                      <img alt="" fallback-src="../img/profile-pic-default.jpg" ng-src="../valoximage/agentsign/{{appraisalDetail.agentData.signUrl}}"></div>
+                                      <div class="signature-txt" ng-hide="appraisalDetail.agentData.signUrl" ng-if="appraisalDetail.agentData.signName">{{appraisalDetail.agentData.signName}}
+                                      </div></div>
+
+                                      <b>{{appraisalDetail.agentData.firstName}} {{appraisalDetail.agentData.lastName}}</b>, {{appraisalDetail.agentData.storeData.storeName}}</div>
+                  </div>
+                      
+                        
+        </div>
+        
+        
+        </div>
+      </div>
+    </div>
+  </div>
+</div></div>
+<div class="clearfix"></div>
+<appraisal-popup></appraisal-popup>
+<share></share>
+<thankyoushare></thankyoushare>

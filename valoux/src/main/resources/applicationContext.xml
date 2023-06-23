@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springfparamework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springfparamework.org/schema/context"
+	xmlns:tx="http://www.springfparamework.org/schema/tx" xmlns:p="http://www.springfparamework.org/schema/p"
+	xsi:schemaLocation="
+			http://www.springfparamework.org/schema/beans
+			 http://www.springfparamework.org/schema/beans/spring-beans-4.1.xsd
+			 http://www.springfparamework.org/schema/context 
+			 http://www.springfparamework.org/schema/context/spring-context-4.1.xsd
+			http://www.springfparamework.org/schema/tx 
+			http://www.springfparamework.org/schema/tx/spring-tx-4.1.xsd">
+
+
+
+	<!-- Scan for Jersey Rest Annotations and Spring Annotations -->
+	<context:component-scan base-package="com.valoux"/>
+	<context:annotation-config />
+	<tx:annotation-driven />
+
+	<!-- Where the properties files live -->
+	<context:property-placeholder location="classpath*:/*.properties" />
+
+	<!-- configure hibernate session factory for FirstDB database -->
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${database.driverClassName}" />
+		<property name="url" value="${database.url}" />
+		<property name="username" value="${database.username}" />
+		<property name="password" value="${database.password}" />
+	</bean>
+
+	<bean id="sessionFactory"
+		class="org.springfparamework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation">
+			<value>classpath:info.hibernate.cfg.xml</value>
+		</property>
+		<property name="configurationClass">
+			<value>org.hibernate.cfg.AnnotationConfiguration</value>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${database.dialect}</prop>
+				<prop key="hibernate.show_sql">${database.show_sql}</prop>
+				<prop key="hibernate.hbm2ddl.auto">${database.hbm2ddl.auto}</prop>
+				<prop key="connection.autoReconnect">${database.autoReconnect}</prop>
+                <prop key="connection.autoReconnectForPools">${database.autoReconnectForPools} </prop>
+                <prop key="connection.is-connection-validation-required">${database.connection.validation.required} </prop>
+                <prop key="hibernate.c3p0.min_size">${database.hibernate.c3p0.min_size} </prop>
+                <prop key="hibernate.c3p0.max_size">${database.hibernate.c3p0.max_size} </prop>
+                <prop key="hibernate.c3p0.timeout">${database.hibernate.c3p0.timeout} </prop>
+                <prop key="hibernate.c3p0.max_statements">${database.hibernate.c3p0.max_statements} </prop>
+                <prop key="hibernate.c3p0.idle_test_period">${database.hibernate.c3p0.idle_test_period} </prop>
+			</props>
+		</property>
+	</bean>
+
+
+
+
+	<!-- configure hibernate session factory for SecondDB database -->
+
+	<bean id="secondDBdataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${database.driverClassName.agent}" />
+		<property name="url" value="${database.url.agent}" />
+		<property name="username" value="${database.username.agent}" />
+		<property name="password" value="${database.password.agent}" />
+	</bean>
+
+	<bean id="secondDBSessionFactory"
+		class="org.springfparamework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="secondDBdataSource" />
+		<property name="configLocation">
+			<value>classpath:auth.hibernate.cfg.xml</value>
+		</property>
+		<property name="configurationClass">
+			<value>org.hibernate.cfg.AnnotationConfiguration</value>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${database.dialect.agent}</prop>
+				<prop key="hibernate.show_sql">${database.show_sql.agent}</prop>
+				<prop key="hibernate.hbm2ddl.auto">${database.hbm2ddl.auto.agent}</prop>
+				<prop key="connection.autoReconnect">${database.autoReconnect.agent}</prop>
+                <prop key="connection.autoReconnectForPools">${database.autoReconnectForPools.agent} </prop>
+                <prop key="connection.is-connection-validation-required">${database.connection.validation.required.agent} </prop>
+                 <prop key="hibernate.c3p0.min_size">${database.hibernate.c3p0.min_size} </prop>
+                <prop key="hibernate.c3p0.max_size">${database.hibernate.c3p0.max_size} </prop>
+                <prop key="hibernate.c3p0.timeout">${database.hibernate.c3p0.timeout} </prop>
+                <prop key="hibernate.c3p0.max_statements">${database.hibernate.c3p0.max_statements} </prop>
+                <prop key="hibernate.c3p0.idle_test_period">${database.hibernate.c3p0.idle_test_period} </prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- configure hibernate session factory for SecondDB database -->
+
+	<bean id="thirdDBdataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${database.driverClassName.appraisal}" />
+		<property name="url" value="${database.url.appraisal}" />
+		<property name="username" value="${database.username.appraisal}" />
+		<property name="password" value="${database.password.appraisal}" />
+	</bean>
+
+	<bean id="thirdDBSessionFactory"
+		class="org.springfparamework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="thirdDBdataSource" />
+		<property name="configLocation">
+			<value>classpath:appraisal.hibernate.cfg.xml</value>
+		</property>
+		<property name="configurationClass">
+			<value>org.hibernate.cfg.AnnotationConfiguration</value>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${database.dialect.appraisal}</prop>
+				<prop key="hibernate.show_sql">${database.show_sql.appraisal}</prop>
+				<prop key="hibernate.hbm2ddl.auto">${database.hbm2ddl.auto.appraisal}</prop>
+				<prop key="connection.autoReconnect">${database.autoReconnect.appraisal}</prop>
+                <prop key="connection.autoReconnectForPools">${database.autoReconnectForPools.appraisal} </prop>
+                <prop key="connection.is-connection-validation-required">${database.connection.validation.required.appraisal} </prop>
+                 <prop key="hibernate.c3p0.min_size">${database.hibernate.c3p0.min_size} </prop>
+                <prop key="hibernate.c3p0.max_size">${database.hibernate.c3p0.max_size} </prop>
+                <prop key="hibernate.c3p0.timeout">${database.hibernate.c3p0.timeout} </prop>
+                <prop key="hibernate.c3p0.max_statements">${database.hibernate.c3p0.max_statements} </prop>
+                <prop key="hibernate.c3p0.idle_test_period">${database.hibernate.c3p0.idle_test_period} </prop>
+			</props>
+		</property>
+	</bean>
+
+
+
+	<bean id="transactionManager"
+		class="org.springfparamework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+
+	<!-- All bean services -->
+
+	<bean id="userService" class="com.valoux.serviceImpl.UserServiceImpl">
+	</bean>
+
+	<bean id="agentService" class="com.valoux.serviceImpl.AgentServiceImpl">
+	</bean>
+
+	<bean id="itemService" class="com.valoux.serviceImpl.ItemServiceImpl">
+	</bean>
+	<bean id="storeService" class="com.valoux.serviceImpl.ValouxStoreServiceImpl">
+	</bean>
+	
+	<bean id="collectionService" class="com.valoux.serviceImpl.CollectionServiceImpl">
+	</bean>
+	
+	<bean id="appraisalService" class="com.valoux.serviceImpl.AppraisalServiceImpl">
+	</bean>
+
+	<bean id="agentDao" class="com.valoux.daoImpl.AgentDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="appraisalCollectionDao" class="com.valoux.daoImpl.AppraisalCollectionDaoImpl">
+		<property name="thirdDBSessionFactory" ref="thirdDBSessionFactory" />
+	</bean>
+	
+	<bean id="appraisalDao" class="com.valoux.daoImpl.AppraisalDaoImpl">
+		<property name="thirdDBSessionFactory" ref="thirdDBSessionFactory" />
+	</bean>
+	
+	<bean id="appraisalItemsDao" class="com.valoux.daoImpl.AppraisalItemsDaoImpl">
+		<property name="thirdDBSessionFactory" ref="thirdDBSessionFactory" />
+	</bean>
+	
+	<bean id="countryDao" class="com.valoux.daoImpl.CountryDaoImpl">
+		<property name="secondDBSessionFactory" ref="secondDBSessionFactory" />
+	</bean>
+	
+	<bean id="interestInDao" class="com.valoux.daoImpl.InterestInDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="itemComponentCertificateDao" class="com.valoux.daoImpl.ItemComponentCertificateDaoImpl">
+		<property name="thirdDBSessionFactory" ref="thirdDBSessionFactory" />
+	</bean>
+	
+	<bean id="itemImageDao" class="com.valoux.daoImpl.ItemImageDaoImpl">
+		<property name="thirdDBSessionFactory" ref="thirdDBSessionFactory" />
+	</bean>
+	
+	<bean id="loginDao" class="com.valoux.daoImpl.LoginDaoImpl">
+		<property name="secondDBSessionFactory" ref="secondDBSessionFactory" />
+	</bean>
+	
+	<bean id="loginLogDao" class="com.valoux.daoImpl.LoginLogDaoImpl">
+		<property name="secondDBSessionFactory" ref="secondDBSessionFactory" />
+	</bean>
+	
+	<bean id="masterRoleDao" class="com.valoux.daoImpl.MasterRoleDaoImpl">
+		<property name="secondDBSessionFactory" ref="secondDBSessionFactory" />
+	</bean>
+	
+	<bean id="stateDao" class="com.valoux.daoImpl.StateDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="valouxCollectionItemDao" class="com.valoux.daoImpl.ValouxCollectionItemDaoImpl">
+		<property name="thirdDBSessionFactory" ref="thirdDBSessionFactory" />
+	</bean>
+	
+	<bean id="valouxCollectionImageDao" class="com.valoux.daoImpl.ValouxCollectionImageDaoImpl">
+		<property name="thirdDBSessionFactory" ref="thirdDBSessionFactory" />
+	</bean>
+	
+	<bean id="valouxCollectionDao" class="com.valoux.daoImpl.ValouxCollectionDaoImpl">
+		<property name="thirdDBSessionFactory" ref="thirdDBSessionFactory" />
+	</bean>
+	
+	<bean id="valouxComponentsImageDao" class="com.valoux.daoImpl.ValouxComponentsImageDaoImpl">
+		<property name="thirdDBSessionFactory" ref="thirdDBSessionFactory" />
+	</bean>
+	
+	<bean id="valouxDiamondDao" class="com.valoux.daoImpl.ValouxDiamondDaoImpl">
+		<property name="thirdDBSessionFactory" ref="thirdDBSessionFactory" />
+	</bean>
+	
+	<bean id="valouxAccessPermissionDao" class="com.valoux.daoImpl.ValouxAccessPermissionDaoImpl">
+		<property name="thirdDBSessionFactory" ref="thirdDBSessionFactory" />
+	</bean>
+	
+	<bean id="valouxGemstoneDao" class="com.valoux.daoImpl.ValouxGemstoneDaoImpl">
+		<property name="thirdDBSessionFactory" ref="thirdDBSessionFactory" />
+	</bean>
+	
+	<bean id="valouxItemComponentDao" class="com.valoux.daoImpl.ValouxItemComponentDaoImpl">
+		<property name="thirdDBSessionFactory" ref="thirdDBSessionFactory" />
+	</bean>
+	
+	<bean id="userAboutDao" class="com.valoux.daoImpl.UserAboutDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="userDao" class="com.valoux.daoImpl.UserDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="userPersonalPreferencesDao" class="com.valoux.daoImpl.UserPersonalPreferencesDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="userJewelryComponentsDao" class="com.valoux.daoImpl.UserJewelryComponentsDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean id="userInterestInDao" class="com.valoux.daoImpl.UserInterestInDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean id="userRoleDao" class="com.valoux.daoImpl.UserRoleDaoImpl">
+		<property name="secondDBSessionFactory" ref="secondDBSessionFactory" />
+	</bean>
+	
+	<bean id="userTypeDao" class="com.valoux.daoImpl.UserTypeDaoImpl">
+		<property name="secondDBSessionFactory" ref="secondDBSessionFactory" />
+	</bean>
+	
+	<bean id="valouxAgentStoreDao" class="com.valoux.daoImpl.ValouxAgentStoreDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="valouxInterestInDao" class="com.valoux.daoImpl.ValouxInterestInDaoImpl">
+		<property name="secondDBSessionFactory" ref="secondDBSessionFactory" />
+	</bean>
+	
+	<bean id="valouxItemDao" class="com.valoux.daoImpl.ValouxItemDaoImpl">
+		<property name="thirdDBSessionFactory" ref="thirdDBSessionFactory" />
+	</bean>
+	
+	<bean id="valouxItemTypeDao" class="com.valoux.daoImpl.ValouxItemTypeDaoImpl">
+		<property name="thirdDBSessionFactory" ref="thirdDBSessionFactory" />
+	</bean>
+	
+	<bean id="valouxMetalDao" class="com.valoux.daoImpl.ValouxMetalDaoImpl">
+		<property name="thirdDBSessionFactory" ref="thirdDBSessionFactory" />
+	</bean>
+
+	<bean id="valouxPearlDao" class="com.valoux.daoImpl.ValouxPearlDaoImpl">
+		<property name="thirdDBSessionFactory" ref="thirdDBSessionFactory" />
+	</bean>
+
+	<bean id="storeDao" class="com.valoux.daoImpl.ValouxStoreDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="valouxPersonalPreferencesDaoImpl" class="com.valoux.daoImpl.ValouxPersonalPreferencesDaoImpl">
+		<property name="secondDBSessionFactory" ref="secondDBSessionFactory" />
+	</bean>
+	
+	<bean id="valouxSharedRequestDaoImpl" class="com.valoux.daoImpl.ValouxSharedRequestDaoImpl">
+		<property name="thirdDBSessionFactory" ref="thirdDBSessionFactory" />
+	</bean>
+	
+	<bean id="valouxStoreAdvertisementDaoImpl" class="com.valoux.daoImpl.ValouxStoreAdvertisementDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="valouxDiamondMasterPriceDao" class="com.valoux.daoImpl.ValouxDiamondMasterPriceDaoImpl">
+		<property name="thirdDBSessionFactory" ref="thirdDBSessionFactory" />
+	</bean>
+	
+	<bean id="valouxMetalMasterPriceDao" class="com.valoux.daoImpl.ValouxMetalMasterPriceDaoImpl">
+		<property name="thirdDBSessionFactory" ref="thirdDBSessionFactory" />
+	</bean>
+	
+	<bean id="valouxAppraisalItemsComponentPriceDao" class="com.valoux.daoImpl.ValouxAppraisalItemsComponentPriceDaoImpl">
+		<property name="thirdDBSessionFactory" ref="thirdDBSessionFactory" />
+	</bean>
+	
+	<bean id="valouxAppraisalItemsPriceDao" class="com.valoux.daoImpl.ValouxAppraisalItemsPriceDaoImpl">
+		<property name="thirdDBSessionFactory" ref="thirdDBSessionFactory" />
+	</bean>
+	
+	<!-- gis service access for diamond certificate-->
+	 <bean id="reportCheckWS_PortType" class="com.ngs.model.reportcheck.service.ReportCheckWSProxy">
+	 </bean>
+	 
+	 <bean id="valouxOriginDao" class="com.valoux.daoImpl.ValouxOriginDaoImpl">
+		<property name="secondDBSessionFactory" ref="secondDBSessionFactory" />
+	</bean>
+	
+	 <bean id="valouxInclusionDao" class="com.valoux.daoImpl.ValouxInclusionDaoImpl">
+		<property name="thirdDBSessionFactory" ref="thirdDBSessionFactory" />
+	</bean>
+	
+</beans>

@@ -1,0 +1,313 @@
+<!--component properties section starts-->
+<div id="pearlPopup" class="MatModal-container" style="display: none;">
+  <div class="MatModal-inner"> <span class="MatRound"></span>
+    <div class="MatModal-content">
+      <div class="mid-con">
+        <div class="row component-head">
+          <div class="col s12 m5 l5 component-head-l">ADD COMPONENT PROPERTIES</div>
+          <div class="col s12 m7 l7 component-head-r">ITEM NAME
+              <div class="item-name">{{itemName}} - {{propertyItem.componentName}} <a href="javascript:void(0)" ng-click="closePropertyPopup()" target="_parent" class="close-btn2 waves-effect waves-light tooltipped" data-tooltip="CANCEL" data-delay="50" data-position="bottom"></a></div>
+          </div>
+        </div>
+        <div class="head-space">
+          <div class="row">
+            <div class="col s12 m3 l2 mobile-components-link">
+              <div class="sub-components-link">
+                <h6>SUB COMPONENTS</h6>
+                <ul class="tabs">
+                  <li class="tab"><a href="javascript:void(0);" ng-click="showPropertyTab(1);" ng-class="propertyTab.showProperty? 'active' :''"><span class="sub-component-icon7">&nbsp;</span><span class="link-txt">Pearls</span></a></li>
+                  <li class="tab"><a href="javascript:void(0);" ng-click="showPropertyTab(2);" ng-class="propertyTab.showImages? 'active' :''"><span class="sub-component-icon2">&nbsp;</span><span class="link-txt">Photo</span></a></li>
+                  <li class="tab"><a href="javascript:void(0);" ng-click="showPropertyTab(3);" ng-class="propertyTab.showReceipt? 'active' :''"><span class="sub-component-icon3">&nbsp;</span><span class="link-txt">Receipt</span></a></li>
+                  <li class="tab"><a href="javascript:void(0);" ng-click="showPropertyTab(4);" ng-class="propertyTab.showCertificate? 'active' :''"><span class="sub-component-icon4">&nbsp;</span><span class="link-txt">Certificate</span></a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="col s12 m9 l10">
+              <div class="row">
+                  <div class="error-msg" ng-if="propertyFormError">
+                        <div class="disp-cell">
+                        <i class="fa fa-exclamation-triangle"></i>
+                        </div> 
+                        <div class="disp-cell">
+                        <span>{{propertyErrorMessage}}</span>
+                        </div>
+                    </div>
+      
+                    <div class="success-msg mt-10 mb-10" ng-if="propertyFormSuccess">
+                        <div class="disp-cell">
+                        <i class="fa fa-thumbs-o-up"></i>
+                        </div> 
+                        <div class="disp-cell">
+                        <span>{{propertySuccessMessage}}</span>
+                        </div>
+                        <div class="clear"></div>
+                   </div>
+                <div ng-show="propertyTab.showProperty" class="col s12 m12 l11 component-r-panel"> 
+                    <form autofocus-form name="pearlForm" ng-submit="pearlForm.$valid && addupdateItemComponentProperties()" novalidate>
+                  <!--component-tab starts-->
+                  <div>
+                     <div class="row row2-marb0">
+                      <div class="col l12 shape-con">
+                        <div class="col s12">
+                          <label class="label-7">Shape <sup>*</sup><img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                          <ul>
+                              <li ng-repeat="diamondShapeObj in componentShape | filter: { componentType: 3}" ng-class="propertyAttribute.shape==diamondShapeObj.value?'active':''">
+                                  <a href="javascript:void(0)" ng-click="changePropertyShape(diamondShapeObj.value)" class="tooltipped" data-tooltip="{{diamondShapeObj.name}}" data-delay="50" data-position="bottom"><img alt="Diamond Oval" src="../img/{{diamondShapeObj.img}}"/></a>
+                              </li>
+                          </ul>
+                          <input type="hidden" name="hdnpearlShape" ng-model="propertyAttribute.shape" required>
+                          <label class="error" ng-show="pearlForm.$submitted || (pearlForm.hdnpearlShape.$dirty && pearlForm.hdnpearlShape.$invalid)">
+                                <label class="error-msg-form" ng-show="pearlForm.hdnpearlShape.$error.required">Shape is required.</label>
+                          </label>
+                        </div>
+                      </div>
+                    </div>       
+                  </div>
+                  <div class="row row2-marb0">
+                    <div class="col s12 m6 l6">
+                      <div class="col-r1">
+                        <div class="input-field col s12">
+                            <select ng-model="propertyAttribute.pearlType" name="pearlType" id="pearlType" ng-options="pearlTypeObj.value as pearlTypeObj.name for pearlTypeObj in pearlType" required>
+                            <option value="" >Select</option>
+                          </select>
+                          <label class="label-7">Type <sup>*</sup><img alt="" class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                          <label class="error" ng-show="pearlForm.$submitted || (pearlForm.pearlType.$dirty && pearlForm.pearlType.$invalid)">
+                                <label class="error-msg-form" ng-show="pearlForm.pearlType.$error.required">Type is required.</label>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row row2-marb0">
+                    <div class="col s12 m6 l6">
+                      <div class="col-l1">
+                        <div class="row">
+                          <div class="input-field col s12 m6 l6">
+                              <input ng-class="propertyAttribute.weight?'active':''" ng-model="propertyAttribute.weight" id="pearlWeight" name="pearlWeight" type="text" limit-double5 ng-pattern="/^(([0-9]*)|(([0-9]*)\.([0-9]*)))$/" maxlength="10">
+                            <label ng-class="propertyAttribute.weight?'active':''" for="pearlWeight" class="label-7">Weight <sup class="sml-txt">(ct)</sup><img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                            <label class="error" ng-show="pearlForm.$submitted ||  pearlForm.pearlWeight.$touched || (pearlForm.pearlWeight.$dirty && pearlForm.pearlWeight.$invalid)">
+                                    <label class="error-msg-form" ng-show="pearlForm.pearlWeight.$error.pattern">Invalid Number.</label>
+                                    <label class="error-msg-form" ng-show="pearlForm.pearlWeight.$error.tooLong">Number too long.</label>
+                              </label>
+                          </div>
+                          <div class="input-field col s12 m6 l6">
+                              <input ng-class="propertyAttribute.measurements?'active':''" ng-model="propertyAttribute.measurements" id="pearlMeasurements" name="pearlMeasurements" type="text" limit-double5 ng-pattern="/^([0-9 .xX]*)$/" maxlength="20" required>
+                            <label ng-class="propertyAttribute.measurements?'active':''" for="pearlMeasurements" class="label-7 label-mart">Measurements <sup>*</sup><sup class="sml-txt">(l x w x d (mm))</sup><img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                            <label class="error" ng-show="pearlForm.$submitted ||  pearlForm.pearlMeasurements.$touched || (pearlForm.pearlMeasurements.$dirty && pearlForm.pearlMeasurements.$invalid)">
+                                    <label class="error-msg-form" ng-show="pearlForm.pearlMeasurements.$error.required">Measurements is required.</label>
+                                    <label class="error-msg-form" ng-show="pearlForm.pearlMeasurements.$error.pattern">Invalid Number.</label>
+                                    <label class="error-msg-form" ng-show="pearlForm.pearlMeasurements.$error.tooLong">Number too long.</label>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col s12 m6 l6">
+                      <div class="col-r1">
+                        <div class="input-field col s12 m6 l6">
+                          <input ng-class="propertyAttribute.pearlsMin?'active':''" ng-model="propertyAttribute.pearlsMin" id="pearlMin" name="pearlMin"  type="text" limit-double5 ng-pattern="/^(([0-9]*)|(([0-9]*)\.([0-9]*)))$/" maxlength="10">
+                          <label ng-class="propertyAttribute.pearlsMin?'active':''" for="pearlMin" class="label-7">Min <sup class="sml-txt">(mm)</sup> <img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                          <label class="error" ng-show="pearlForm.$submitted ||  pearlForm.pearlMin.$touched || (pearlForm.pearlMin.$dirty && pearlForm.pearlMin.$invalid)">
+                                    <label class="error-msg-form" ng-show="pearlForm.pearlMin.$error.pattern">Invalid Number.</label>
+                                    <label class="error-msg-form" ng-show="pearlForm.pearlMin.$error.tooLong">Number too long.</label>
+                          </label>
+                        </div>
+                        <div class="input-field col s12 m6 l6">
+                          <input ng-class="propertyAttribute.pearlsMax?'active':''" ng-model="propertyAttribute.pearlsMax" id="pearlMax" name="pearlMax"  type="text" limit-double5 ng-pattern="/^(([0-9]*)|(([0-9]*)\.([0-9]*)))$/" maxlength="10">
+                          <label ng-class="propertyAttribute.pearlsMax?'active':''" for="pearlMax" class="label-7">Max <sup class="sml-txt">(mm)</sup> <img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                          <label class="error" ng-show="pearlForm.$submitted ||  pearlForm.pearlMax.$touched || (pearlForm.pearlMax.$dirty && pearlForm.pearlMax.$invalid)">
+                                <label class="error-msg-form" ng-show="pearlForm.pearlMax.$error.pattern">Invalid Number.</label>
+                                 <label class="error-msg-form" ng-show="pearlForm.pearlMax.$error.tooLong">Number too long.</label>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row row2-marb0">
+                    
+                      <div class="col s12 m6 l6">
+                      <div class="col-r1">
+                        <div class="input-field col s12">
+                          <select ng-model="propertyAttribute.origin" ng-options="allCountriesObj.countryId as allCountriesObj.countryName for allCountriesObj in allCountries">
+                            <option value="" >Select</option>
+                          </select>
+                          <label class="label-7">Origin<img alt="" class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                        </div>
+                      </div>
+                    </div>
+                     
+                    
+                    <div class="col s12 m6 l6">
+                      <div class="col-r1">
+                        <div class="col s12">
+                          <label class="label-7">Composition <img src="../img/icon-info.jpg" class="icon-info tooltip tooltipstered"></label>
+                          <div class="clearfix"></div>
+                          <div class="row radio-box">
+                            <div class="col s6">
+                              <p>
+                                  <input ng-model="propertyAttribute.composition" value="1" type="radio" id="pearlCompositionUniform" name="pearlComposition">
+                                <label for="pearlCompositionUniform">Uniform</label>
+                              </p>
+                            </div>
+                            <div class="col s6">
+                              <p>
+                                <input ng-model="propertyAttribute.composition" value="2" type="radio" id="pearlCompositionGraduated" name="pearlComposition">
+                                <label for="pearlCompositionGraduated">Graduated</label>
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row row2-marb0">
+                    <div class="col s12 m6 l6">
+                      <div class="col-l1">
+                        <div class="row">
+                          <div class="input-field col s12 m12 l12">
+                            <select ng-model="propertyAttribute.pearlsStyle" ng-options="pearlsStyleObj.value as pearlsStyleObj.name for pearlsStyleObj in pearlsStyle">
+                              <option value="" >Select</option>
+                            </select>
+                            <label class="label-7">Style<img alt="" class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col s12 m6 l6">
+                      <div class="col-r1">
+                        <div class="input-field col s12">
+                            <input ng-class="propertyAttribute.pearlsLength?'active':''" ng-model="propertyAttribute.pearlsLength" id="pearlLength" name="pearlLength" type="text" limit-double5 ng-pattern="/^(([0-9]*)|(([0-9]*)\.([0-9]*)))$/" maxlength="10">
+                          <label ng-class="propertyAttribute.pearlsLength?'active':''" for="pearlLength" class="label-7">Length <sup class="sml-txt">(mm)</sup> <img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                          <label class="error" ng-show="pearlForm.$submitted ||  pearlForm.pearlLength.$touched || (pearlForm.pearlLength.$dirty && pearlForm.pearlLength.$invalid)">
+                                <label class="error-msg-form" ng-show="pearlForm.pearlLength.$error.pattern">Invalid Number.</label>
+                                <label class="error-msg-form" ng-show="pearlForm.pearlLength.$error.tooLong">Number too long.</label>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row row2-marb0">
+                    <div class="col s12 m6 l6">
+                      <div class="col-r1">
+                        <div class="input-field col s12">
+                          <select ng-model="propertyAttribute.color" ng-options="pearlColorObj.value as pearlColorObj.name for pearlColorObj in pearlColors">
+                            <option value="" >Select</option>
+                          </select>
+                          <label class="label-7">Color<img alt="" class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col s12 m6 l6">
+                      <div class="col-l1">
+                        <div class="row">
+                          <div class="input-field col s12 m12 l12">
+                            <select ng-model="propertyAttribute.luster" ng-options="polishObj.value as polishObj.name for polishObj in diamondQualityType">
+                              <option value="" >Select</option>
+                            </select>
+                            <label class="label-7">Luster<img alt="" class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row row2-marb0">
+                    <div class="col s12 m6 l6">
+                      <div class="col-r1">
+                        <div class="input-field col s12">
+                          <select ng-model="propertyAttribute.blemish" ng-options="blemishObj.value as blemishObj.name for blemishObj in blemish">
+                            <option value="" >Select</option>
+                          </select>
+                          <label class="label-7">Blemish<img alt="" class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col s12 m6 l6">
+                      <div class="col-r1">
+                   <div class="row">
+                          <div class="input-field col s12 m12 l12">
+                            <select ng-model="propertyAttribute.matching" ng-options="polishObj.value as polishObj.name for polishObj in diamondQualityType">
+                              <option value="" >Select</option>
+                            </select>
+                            <label class="label-7">Matching<img alt="" class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row row2-marb0">
+                    <div class="col s12 m6 l6">
+                      <div class="col-l1">
+                       <div class="col s12">
+                          <label class="label-7">Enhancements <img class="icon-info tooltip tooltipstered" src="../img/icon-info.jpg"></label>
+                          <div class="clearfix"></div>
+                          <div class="row radio-box">
+                            <div class="col s6">
+                              <p>
+                                  <input ng-model="propertyAttribute.enhancements" value="1" type="radio" name="pearlEnhancements" id="pearlDyeing">
+                                <label for="pearlDyeing">Dyeing</label>
+                              </p>
+                            </div>
+                            <div class="col s6">
+                              <p>
+                                  <input ng-model="propertyAttribute.enhancements" value="2" type="radio" name="pearlEnhancements" id="pearlIrradiation">
+                                <label for="pearlIrradiation">Irradiation</label>
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col s12 m6 l6">
+                      <div class="col-l1">
+                       <div class="col s12">
+                          <label class="label-7">Drilled <img alt="" class="icon-info tooltip tooltipstered" src="../img/icon-info.jpg"></label>
+                          <div class="clearfix"></div>
+                          <div class="row radio-box">
+                            <div class="col s6">
+                              <p>
+                                  <input ng-model="propertyAttribute.drilled" value="1" type="radio" name="pearldrilled" id="pearlSide">
+                                <label for="pearlSide">Side</label>
+                              </p>
+                            </div>
+                            <div class="col s6">
+                              <p>
+                                  <input ng-model="propertyAttribute.drilled" value="2" type="radio" name="pearldrilled" id="pearlTop">
+                                <label for="pearlTop">Top</label>
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row row2-marb0" ng-if="isAgentLogin">
+                    <div class="col s12 m6 l6">
+                      <div class="col-r1">
+                        <div class="input-field col s12">
+                            <input ng-class="propertyAttribute.priceProperty.purchasePrice?'active':''" ng-model="propertyAttribute.priceProperty.purchasePrice" id="pearlPurchasedPrice" name="pearlPurchasedPrice" type="text" ng-pattern="/^(([0-9]*)|(([0-9]*)\.([0-9]*)))$/" maxlength="15">
+                          <label ng-class="propertyAttribute.priceProperty.purchasePrice?'active':''" for="pearlLength" class="label-7">Purchased price</label>
+                          <label class="error" ng-show="pearlForm.$submitted ||  pearlForm.pearlPurchasedPrice.$touched || (pearlForm.pearlPurchasedPrice.$dirty && pearlForm.pearlPurchasedPrice.$invalid)">
+                                <label class="error-msg-form" ng-show="pearlForm.pearlPurchasedPrice.$error.pattern">Invalid Number.</label>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    
+                  </div>
+                  <div class="center">
+                        <button type="submit" class="ok-btn2 waves-effect waves-light tooltipped" data-tooltip="SUBMIT" data-delay="50" data-position="top"><img src="../img/icon-ok1.png"/></button>
+<!--                        <a href="item-added-successfully.html" target="_parent" class="ok-btn2 waves-effect waves-light tooltipped" data-tooltip="SUBMIT" data-delay="50" data-position="top"><img src="../img/icon-ok2.png"/></a>-->
+                    </div>
+                </form>
+                </div>
+                <!--component-tab ends--> 
+                <div ng-include="'include/property-uploader.html'"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--component properties section ends-->

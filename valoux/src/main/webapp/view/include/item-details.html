@@ -1,0 +1,687 @@
+  <div class="container" ng-cloak>
+    <div class="row">
+      <div class="col s12">
+        <div class="page-header">
+          <h1 class="pull-left">Item Details 
+          
+          </h1>
+          <a ng-if="!isAgentLogin" href="item.html#/" class="back"><img alt="" src="../img/arrow-back.png"> BACK</a>
+          <div class="rightbox2">
+          <div class="view-list" ng-init="initConsumerInformation()" ng-show="isAgentLogin && inviteNewConsumer">
+              <div class="searchbox-left searchbox-left1"><i class="txt13">Select Consumer:</i><br>
+              <select id="viewedItemsBy" ng-change="storeConsumerInfoDropdown(viewItemBy)" name="viewItemsBy" ng-model="viewItemBy" ng-options="viewItemsBy.consumerPublicKey as (viewItemsBy.firstName + ' ' + viewItemsBy.middleName + ' ' + viewItemsBy.lastName) for viewItemsBy in viewByConsumer">
+              <option value="">Consumer name</option>
+              </select>
+           <a data-position="bottom" data-delay="50" data-tooltip="Invite new consumer &amp; add an item." class="user tooltipped" href="javascript:;" ng-click="inviteNewConsumerAgent()" data-tooltip-id="15eadc9e-637d-0dde-bcc6-563b27ddd274"><i aria-hidden="true" class="fa fa-user-plus"></i></a>
+            </div>
+            </div>
+            
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s12">
+      <div class="header-bg-1" ng-if="isAgentLogin">
+        <!-- <a data-tooltip="Add New Item" data-delay="50" data-position="bottom" class="icon-big-plus waves-effect waves-light tooltipped" href="collection-agent.html#/add"><img alt="" src="../img/icon-plus-big.png"></a> -->
+            <div class="agent-left-con">
+        <div class="pic-con2"><img alt="" fallback-src="../img/profile-pic-default.jpg" ng-src="../valoximage/consumerimageuploaded/{{consumerList.imageUrl}}"></div>
+        
+         <span>{{consumerList.firstName}}  {{consumerList.middleName}} {{consumerList.lastName}}</span>  
+        </div>
+        
+        <a href="item-agent.html#/" class="back-btn2"><img alt="" src="../img/arrow-previous.png">BACK</a>
+      </div>
+        <div class="whitebox1 padb0 whitebox2 step2-con whitebox1-pdt-0">
+        
+          <div class="item-detail-con">
+            <div class="row" ng-init="itemAddedSuccess()"> 
+              <!--left product section starts-->
+              <div class="col s12 m8 l8" > 
+                <item-popup></item-popup>
+                <!--responsive steps section starts-->
+                <!-- <div class="row resp-step-con">
+                  <div class="col s12"> <span><img src="../img/right-tick.png"/> Step 1</span><a class="anchorLink" href="javascript:;" ng-click="scrollToStep('step2')" id="anchor2">Step 2 <img src="../img/down-arrow.png"/></a> </div>
+                </div> -->
+                <!--responsive steps section ends-->
+                
+                <div class="row">
+                  <div class="col l4 prod-thumb"> 
+                    <!--product gallery starts-->
+                    <div id="gallery" class="simplegallery">
+                        <div ng-if="itemData.itemImages && itemData.itemImages.length>0" class="content item-con2">
+                          <img ng-class="$index>0 ? 'row-hide' : ''"  ng-repeat="itemsImg in itemData.itemImages" src="../valoximage/imageuploaded/{{itemsImg.itemImagePath}}" class="responsive-img image_{{$index+1}}" alt="" /> 
+                      </div>
+                        <div ng-if="!itemData.itemImages || itemData.itemImages.length<=0" class="content item-con2">
+                          <img src="../img/not-found-item.jpg" class="responsive-img image_1" alt="" /> 
+                      </div>
+                      <div class="clear"></div>
+                      <div class="thumbnail item-thumb gallery-cutom-thumb">
+                        <ul>
+                            <li class="thumb" ng-repeat="itemsImg in itemData.itemImages"> 
+                                <a href="javascript:void(0);" rel="{{$index+1}}"><img src="../valoximage/imageuploaded/{{itemsImg.itemImagePath}}" id="thumb_{{$index+1}}" alt="" /> </a> 
+                            </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <!--product gallery ends--> 
+                  </div>
+                  <div class="col l8 s12">
+                    <div class="item-box">
+                      <div class="item-head">
+                        <h3>{{itemData.name}}</h3> <!--<a data-tooltip="Favorite" data-delay="50" data-position="bottom" class="heart tooltipped" href="javascript:;" data-tooltip-id="9bbf3e35-c43f-d5f2-15bd-a38162950bab">&nbsp;</a>--> 
+
+                        <!-- <div class="welcomebox" ng-show="itemData.consumerPublicKey == userKey || isAgentLogin"> <a data-activates="dropdown110" href="javascript:;" class="drop-down dropdown-button dropdown-button1 right"> <span class="disp-cell"><i class="material-icons right">more_vert</i></span></a>
+                        <ul  class="dropdown-content dropdown-content1" id="dropdown110">
+                          <li class="collection-item"><span class="disp-cell"><img src="../img/icon-appraisal.png" alt=""></span> <span class="disp-cell"><a href="javascript:void(0);" ng-click="addAppraisalInItem(itemData.itemId, itemData.consumerPublicKey)" class="">ADD TO APPRAISAL</a></span></li>
+                          <li class="collection-item"><span class="disp-cell"><img src="../img/icon-collection1.png" alt=""></span> <span class="disp-cell"><a  ng-click="ItemAddcollection(itemData.itemId, itemData.consumerPublicKey)" href="javascript:void(0);" class="">ADD TO COLLECTION</a></span></li>
+                           <li ng-if="!isAgentLogin" class="collection-item"><span class="disp-cell"><img alt="" src="../img/icon-share.png"></span> <span class="disp-cell"><a class=""  href="javascript:void(0);" ng-click="setShareId(itemData.itemId,1)" >SHARE </a></span></li>
+                          <li ng-hide="itemData.itemStatus == 3" ng-if="!isAgentLogin" class="collection-item"><span class="disp-cell"><img alt="" src="../img/icon-edit.png"></span> <span class="disp-cell"><a href="item.html#/edit/{{itemData.itemId}}">EDIT ITEM</a></span></li>
+                          <li ng-hide="itemData.itemStatus == 3" ng-if="isAgentLogin" class="collection-item"><span class="disp-cell"><img alt="" src="../img/icon-edit.png"></span> <span class="disp-cell"><a href="item-agent.html#/edit/{{itemData.itemId}}">EDIT ITEM</a></span></li>
+                         
+                        </ul>
+                      </div> -->
+                        <small>ID#  {{itemData.itemId}}</small>
+                        <span class="quick-links" ng-show="itemData.consumerPublicKey == userKey || isAgentLogin">
+                            <a href="javascript:;" class="tooltipped" data-tooltip="ADD TO APPRAISAL" data-delay="50" ng-click="addAppraisalInItem(itemData.itemId, itemData.consumerPublicKey)" data-position="bottom"><img src="../img/icon-appraisal-1.png"/></a> 
+                            <a href="javascript:;" class="tooltipped" data-tooltip="ADD TO COLLECTION" ng-click="ItemAddcollection(itemData.itemId, itemData.consumerPublicKey)" data-delay="50" data-position="bottom"><img src="../img/icon-add-collection.png"/></a> 
+                            <a ng-if="!isAgentLogin" class="tooltipped"  href="javascript:;" ng-click="setShareId(itemData.itemId,1)" data-tooltip="SHARE" data-delay="50" data-position="bottom"><img src="../img/icon-add-share.png"/></a> 
+                            <a ng-hide="itemData.itemStatus == 3" ng-if="isAgentLogin" href="item-agent.html#/edit/{{itemData.itemId}}" class="tooltipped" data-tooltip="EDIT" data-delay="50" data-position="bottom"><img src="../img/icon-edit2.png"/></a>
+                            <a ng-hide="itemData.itemStatus == 3" ng-if="!isAgentLogin" class="tooltipped" href="item.html#/edit/{{itemData.itemId}}" data-tooltip="EDIT" data-delay="50" data-position="bottom"><img src="../img/icon-edit2.png"/></a>
+                            <a ng-hide="itemData.itemStatus == 3" ng-if="!isAgentLogin" class="tooltipped" href="javascript:;" data-tooltip="DELETE" ng-click="deleteItemBydetail(itemData.itemId,'')" data-delay="50" data-position="bottom"><img src="../img/ico-delete.png"/></a>
+                            <a ng-hide="itemData.itemStatus == 3" ng-if="isAgentLogin" class="tooltipped" href="javascript:;" data-tooltip="DELETE" ng-click="deleteItemBydetail(itemData.itemId,itemData.consumerPublicKey)" data-delay="50" data-position="bottom"><img src="../img/ico-delete.png"/></a>
+                            </span>
+
+                         </div>
+                       <p ng-bind-html="itemData.sdescription | newLine"></p>
+
+                       <div class="item-components" ng-if="!isAgentLogin">Item associated with<br>
+                           <div class="items"><a ng-click="itemListedCollection(itemData.itemId,itemData.collectionAssociatedWithItem)" href="javascript:void(0);">Collections (<span id="collection_item_{{itemData.itemId}}">{{itemData.collectionAssociatedWithItem}}</span>)</a>
+                              <a href="javascript:;" ng-click="itemListedAppraisal(itemData.itemId,itemData.appraisalAssociatedWithItem)">Appraisals (<span id="appraisal_item_{{itemData.itemId}}">{{itemData.appraisalAssociatedWithItem}}</span>)</a>
+                              </div>
+                          </div>
+                       <div class="row-grey-gradient row-grey-gradient-total" ng-if="isAgentLogin">
+                           <div class="total-box total-box1">Total Value of Item <b><span class="txt20" ng-if="itemInfo.priceProperty.totalFinalPrice">${{(itemInfo.priceProperty.totalFinalPrice * store.quantity)|number:2}}</span> 
+                                    <a class="modal-trigger" href="#modal-item-price">Edit</a></b>
+                            </div>
+
+                      </div>
+                      <div class="request-links" ng-if="!isAgentLogin">
+                            <a href="mailto:request-insurance@valoux.com?subject=[INS] Request for {{itemData.consumerDetails.userName}}, ID # {{itemData.itemId}}&amp;body={{requestInsurance()}}%0D%0A%0D%0A%0D%0A Email : {{itemData.consumerDetails.emailId}}%0D%0A%0D%0ACallback number: {{itemData.consumerDetails.mobileNo}}"><i class="fa fa-caret-right" aria-hidden="true"></i> Request Insurance</a> <br>
+<a href="mailto:request-financing@valoux.com?subject= [FIN] Request for {{itemData.consumerDetails.userName}}, ID # {{itemData.itemId}}&amp;body={{requestInsurance()}}%0D%0A%0D%0A%0D%0A Email : {{itemData.consumerDetails.emailId}}%0D%0A%0D%0ACallback number: {{itemData.consumerDetails.mobileNo}}"><i class="fa fa-caret-right" aria-hidden="true"></i> Quote Request Financing</a></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row item-footer">
+                  <div class="col s12 col1">
+                  <div class="card-panel3" ng-if="itemData.itemStatus == 3 || isAgentLogin">
+                  <ul>
+                      <li ng-if="itemData.itemStatus!=3">
+                        <label>Final Price</label>
+                        ${{(itemInfo.priceProperty.totalFinalPrice * store.quantity)|number:2}}
+                      </li>  
+                      <li ng-if="itemData.itemStatus==3">
+                          <label>Appraised Value</label>
+                          ${{itemData.appraisedValue | number:2}}</li>
+                        <li>
+                          <label>Market Value</label>
+                          ${{itemData.marketValue | number:2}}
+                          <small>{{itemData.marketValueDate | marketDateFormat}} <i ng-if="itemData.marketValueDate">at</i> {{itemData.marketValueDate | marketTimeFormat}}</small>
+                          </li>
+                        <li ng-if="itemData.itemStatus==3"><label> Change</label>
+                          <span class="green-text" ng-if="itemData.priceChange == 1">{{itemData.changePercentage | number:2}}% <i class="fa fa-sort-asc"></i></span> 
+                          <span class="red-text" ng-if="itemData.priceChange == 2">{{itemData.changePercentage | number:2}}% <i class="fa fa-sort-desc"></i></span> 
+                          <span ng-if="itemData.priceChange == 3">{{itemData.changePercentage | number:2}}%</span> 
+                          </li>
+                        <li ng-if="itemData.itemStatus==3">
+                          <label>Last Appraised</label>
+                          <span ng-if="itemData.lastAppraisedDate">{{itemData.lastAppraisedDate | myDateFormat}}</span>
+
+                          <span ng-if="!itemData.lastAppraisedDate">--</span>
+                            <img class="img2" alt="" src="../img/ribbon.png"></li>
+                       <li></li> 
+                      </ul>
+                  </div>
+<!--                  <div class="card-panel3">
+                  <ul>
+                        <li>
+                          <label>Appraised Value</label>
+                          $1,000</li>
+                        <li>
+                          <label>Market Value</label>
+                          $1,500
+                          <small>Mar 20, 2016 <i>at</i> 2:15pm</small>
+                          </li>
+                        <li><label> Change</label>
+                          <span class="green-text">50% <i class="fa fa-sort-asc"></i></span> </li>
+                        <li>
+                          <label>Last Appraised</label>
+                          Dec 15, 2015  <img src="../img/ribbon.png" alt="" class="img2"></li>
+                        <li><span class="green-label">+50%</span></li>
+                      </ul>
+                  </div>-->
+                  
+                    <div class="item-other-detail">
+                      <div class="row row-2">
+                        <div class="col s12 l8">
+                          <div class="item-detail-inner"><span class="head3">OTHER DETAILS <img src="../img/icon-other-details.png"/></span>
+                            <div class="row">
+                              <div class="col s4"><span class="sml-head1">Design type</span>{{designTypetext}}</div>
+                              <div class="col s4"><span class="sml-head1">Quantity</span>{{itemData.quantity}}</div>
+                              <div ng-if="itemData.itemReceiptPath" class="col s4"><span class="sml-head1">Item receipt</span>
+                                  <a href="../valoximage/imageuploaded/{{itemData.itemReceiptPath}}" target="_blank" class="a3"><img class="v-mid" src="../img/icon-receipt.png"/>&nbsp; View</a>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col s4"><span class="sml-head1">Jewelry gender</span>
+                                  <span ng-if="itemData.jewelryGender==1">Male</span>  
+                                  <span ng-if="itemData.jewelryGender==2">Female</span> 
+                              </div>
+                              <div class="col s4"><span class="sml-head1">Type</span>{{itemData.itemTypeName}}</div>
+                              <div ng-if="itemData.itemCertificatePath" class="col s4"><span class="sml-head1">Item certificate</span>
+                                  <a href="../valoximage/imageuploaded/{{itemData.itemCertificatePath}}" target="_blank" class="a3"><img class="v-mid" src="../img/icon-certificate.png"/>&nbsp; View</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                          <div ng-if="itemData.storeData" class="col s12 l4 store-details">
+                          <div class="store-details-in"> <span class="head3">STORE DETAILS <img src="../img/icon-store-details.png"/></span>
+                            <div class="row">
+                              <div class="col s12"><span class="sml-head1">Store name</span><a class="a3">{{itemData.storeData.storeName}}</a></div>
+                            </div>
+                            <div class="row">
+                              <div class="col s12"><span class="sml-head1">Location</span>
+                               <span class="txt13">{{concateAddress(itemData.storeData.storeAddress)}}
+                               </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--left product section ends--> 
+              <!--right panel starts-->
+              <div class="col s12 m4 l4" ng-init="getItemComponents()">
+                  <div class="row resp-row">
+                  <div class="col s12">
+                    <div name="step2" class="compo-box right-panel" name="step2" id="step2">
+                      <!--components added starts-->
+                      <div id="components-added" ng-if="itemAllComponents.length>0">
+                        <div class="row">
+                          <div class="col s12"> <span class="head2"><span class="pull-left">JEWELRY<br/> COMPONENTS</span> <!-- Switch -->
+                        <div class="switch-con">
+                        <h6>Expand all</h6>
+                        <div class="switch">
+                          <label>
+                          <span class="on-btn">On</span>
+                          <input name="expandAll" id="expandAll" type="checkbox">
+                            <span class="lever"></span>
+                            <span class="off-btn">Off</span>
+                          </label>
+                        </div>
+                        </div>
+                        </span> </div>
+                        </div>
+                        <div class="row">
+                          <div class="col s12 select-component">
+                            
+                            <div class="mCustomScrollbar add-component-scroll1 add-component-scroll-details">
+                              
+                              <ul class="collapsible item-detail-accordian" data-collapsible="expandable">
+                                <li ng-repeat="itemscomponent in itemAllComponents">
+                                  <div class="collapsible-header">
+                                  <div class="row">
+                                                            <div class="col s12 m12 l5 col-1">
+                                                              {{itemscomponent.componentName}}
+                                                            </div>
+                                                            <div class="col s6 m6 l4">{{itemscomponent.componentTypeName}}</div>
+                                                            <div class="col s6 m6 l3">{{itemscomponent.componentQuantity}}</div>
+                                                          </div>
+
+                                                          </div>
+                                  <div class="collapsible-body">
+                                  <div class="mCustomScrollbar property-scroll1" ng-if="itemscomponent.componentType == 1">
+                                  <div class="row" ng-if="itemscomponent.componentProperty.shapeName">
+                                  <div class="col s6"><label>Shape</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.shapeName"></span></div>
+                                  </div>
+                                    
+                                  <div class="row" ng-if="itemscomponent.componentProperty.singleWeight">
+                                  <div class="col s6"><label>Weight (ct)</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.singleWeight"></span></div>
+                                  </div>
+                                      
+                                  <div class="row" ng-if="itemscomponent.componentProperty.cut">
+                                  <div class="col s6"><label>Cut</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.cut | qualityType"></span></div>
+                                  </div>   
+                                      
+                                  <div class="row" ng-if="itemscomponent.componentProperty.color">
+                                  <div class="col s6"><label>Color</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.color | diamondColor"></span></div>
+                                  </div>
+                                      
+                                  <div class="row" ng-if="itemscomponent.componentProperty.clarityId">
+                                  <div class="col s6"><label>Clarity</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.clarityId | clarityType"></span></div>
+                                  </div>
+ 
+                                  <div class="row" ng-if="itemscomponent.componentProperty.componentCertificate.labName">
+                                  <div class="col s6"><label>Certificate</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.componentCertificate.labName"></span></div>
+                                  </div>
+
+                                  <div class="row" ng-if="itemscomponent.componentProperty.componentCertificate.certificateNumber">
+                                  <div class="col s6"><label>Certificate No.</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.componentCertificate.certificateNumber"></span></div>
+                                  </div>
+                                      
+                                  <div class="row" ng-if="itemscomponent.componentProperty.placement">
+                                  <div class="col s6"><label>Placement</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.placement | placement"></span></div>
+                                  </div>
+                                      
+                                  <div class="row" ng-if="itemscomponent.componentProperty.shape!=1 && itemscomponent.componentProperty.diamondLength">
+                                  <div class="col s6"><label>Length (mm)</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.diamondLength"></span></div>
+                                  </div>
+                                  <div class="row" ng-if="itemscomponent.componentProperty.shape!=1 && itemscomponent.componentProperty.diamondWidth">
+                                  <div class="col s6"><label>Width (mm)</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.diamondWidth"></span></div>
+                                  </div>
+                                      
+                                  <div class="row" ng-if="itemscomponent.componentProperty.depth">
+                                  <div class="col s6"><label>Depth (mm)</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.depth"></span></div>
+                                  </div>
+                                      
+                                  <div class="row" ng-if="itemscomponent.componentProperty.shape!=1 && itemscomponent.componentProperty.lengthWidthRatio">
+                                  <div class="col s6"><label>Length/Width Ratio (mm)</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.lengthWidthRatio"></span></div>
+                                  </div>
+                                      
+                                  <div class="row" ng-if="itemscomponent.componentProperty.shape==1 && itemscomponent.componentProperty.maxDiameter">
+                                  <div class="col s6"><label>Max Diameter</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.maxDiameter"></span></div>
+                                  </div>
+                                  
+                                  <div class="row" ng-if="itemscomponent.componentProperty.shape==1 && itemscomponent.componentProperty.minDiameter">
+                                  <div class="col s6"><label>Min Diameter</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.minDiameter"></span></div>
+                                  </div>
+                                      
+                                  <div class="row" ng-if="itemscomponent.componentProperty.depthPercentage">
+                                  <div class="col s6"><label>Depth %</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.depthPercentage"></span></div>
+                                  </div>
+                                      
+                                  <div class="row" ng-if="itemscomponent.componentProperty.tablePercentage">
+                                  <div class="col s6"><label>Table %</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.tablePercentage"></span></div>
+                                  </div>
+
+                                  <div class="row" ng-if="itemscomponent.componentProperty.polish">
+                                  <div class="col s6"><label>Polish</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.polish | qualityType"></span></div>
+                                  </div>
+                                      
+                                  <div class="row" ng-if="itemscomponent.componentProperty.symmetry">
+                                  <div class="col s6"><label>Symmetry</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.symmetry | qualityType"></span></div>
+                                  </div>
+                                      
+                                  <div class="row" ng-if="itemscomponent.componentProperty.thickness">
+                                  <div class="col s6"><label>Girdle Thickness</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.thickness | thickness"></span></div>
+                                  </div>
+                                      
+                                  <div class="row" ng-if="itemscomponent.componentProperty.girdleThicknessDescription">
+                                  <div class="col s6"><label>Girdle Thickness Description</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.girdleThicknessDescription | girdleThickness"></span></div>
+                                  </div>
+                                      
+                                  <div class="row" ng-if="itemscomponent.componentProperty.cutlet">
+                                  <div class="col s6"><label>Cutlet</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.cutlet | diamondCutlet"></span></div>
+                                  </div>
+                                      
+                                  <div class="row" ng-if="itemscomponent.componentProperty.fluorescence">
+                                  <div class="col s6"><label>Fluorescence</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.fluorescence | fluorescence"></span></div>
+                                  </div>
+                                      
+                                  <div class="row" ng-if="itemscomponent.componentProperty.fancyColor">
+                                  <div class="col s6"><label>Fancy Color</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.fancyColor | fancyColor"></span></div>
+                                  </div>
+                                  
+                                  <div class="row" ng-if="itemscomponent.componentProperty.secondaryHue">
+                                  <div class="col s6"><label>Secondary Hue</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.secondaryHue | secondaryHue"></span></div>
+                                  </div>
+                                      
+                                  <div class="row" ng-if="itemscomponent.componentProperty.weightMeasureName">
+                                  <div class="col s6"><label>Weight Measure</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.weightMeasureName"></span></div>
+                                  </div>
+                                  
+                                  <div class="row" ng-if="itemscomponent.componentProperty.internalInclusionsName">
+                                  <div class="col s6"><label>Internal Inclusions</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.internalInclusionsName"></span></div>
+                                  </div>
+                                  
+                                  <div class="row" ng-if="itemscomponent.componentProperty.externalInclusionsName">
+                                  <div class="col s6"><label>External Inclusions</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.externalInclusionsName"></span></div>
+                                  </div>
+
+
+                                   </div>
+                                  
+                                 <div class="mCustomScrollbar property-scroll1" ng-if="itemscomponent.componentType == 2">
+                                  <div class="row" ng-if="itemscomponent.componentProperty.shape">
+                                  <div class="col s6"><label>Shape</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.shape | componentShape"></span></div>
+                                  </div>
+                                     
+                                  <div class="row" ng-if="itemscomponent.componentProperty.gemstonesType">
+                                  <div class="col s6"><label>Type</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.gemstonesType | gemstoneType"></span></div>
+                                  </div>
+
+                                  <div class="row" ng-if="itemscomponent.componentProperty.placement">
+                                  <div class="col s6"><label>Placement</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.placement | placement"></span></div>
+                                  </div>
+
+                                  <div class="row" ng-if="itemscomponent.componentProperty.cut">
+                                  <div class="col s6"><label>Cut</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.cut | gemstoneCuts"></span></div>
+                                  </div>
+
+                                  <div class="row" ng-if="itemscomponent.componentProperty.enhancement">
+                                  <div class="col s6"><label>Enhancement</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.enhancement | enhancement"></span></div>
+                                  </div>
+
+                                  <div class="row" ng-if="itemscomponent.componentProperty.originName">
+                                  <div class="col s6"><label>Origin</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.originName"></span></div>
+                                  </div>
+                                     
+                                  <div class="row" ng-if="itemscomponent.componentProperty.weight">
+                                  <div class="col s6"><label>Weight (ct)</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.weight"></span></div>
+                                  </div>
+
+                                  <div class="row" ng-if="itemscomponent.componentProperty.measurements">
+                                  <div class="col s6"><label>Measurements (l x w x d (mm))</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.measurements"></span></div>
+                                  </div>
+
+                                  <div class="row" ng-if="itemscomponent.componentProperty.externalInclusionsName">
+                                  <div class="col s6"><label>External Inclusions</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.externalInclusionsName"></span></div>
+                                  </div>
+
+                                  <div class="row" ng-if="itemscomponent.componentProperty.internalInclusionsName">
+                                  <div class="col s6"><label>Internal Inclusions</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.internalInclusionsName"></span></div>
+                                  </div>
+
+                                   </div>
+                                      
+                                  <div class="mCustomScrollbar property-scroll1" ng-if="itemscomponent.componentType == 3">
+                                  <div class="row" ng-if="itemscomponent.componentProperty.shape">
+                                  <div class="col s6"><label>Shape</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.shape | componentShape"></span></div>
+                                  </div>
+                                      
+                                  <div class="row" ng-if="itemscomponent.componentProperty.pearlType">
+                                  <div class="col s6"><label>Type</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.pearlType | pearlType"></span></div>
+                                  </div>
+
+                                  <div class="row" ng-if="itemscomponent.componentProperty.weight">
+                                  <div class="col s6"><label>Weight (ct)</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.weight"></span></div>
+                                  </div>
+
+                                  <div class="row" ng-if="itemscomponent.componentProperty.measurements">
+                                  <div class="col s6"><label>Measurements (l x w x d (mm))</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.measurements"></span></div>
+                                  </div>
+
+                                  <div class="row" ng-if="itemscomponent.componentProperty.pearlsMin">
+                                  <div class="col s6"><label>Min (mm)</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.pearlsMin"></span></div>
+                                  </div>
+
+                                  <div class="row" ng-if="itemscomponent.componentProperty.pearlsMax">
+                                  <div class="col s6"><label>Max (mm)</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.pearlsMax"></span></div>
+                                  </div>
+
+                                  <div class="row" ng-if="itemscomponent.componentProperty.originName">
+                                  <div class="col s6"><label>Origin</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.originName"></span></div>
+                                  </div>
+
+                                  <div class="row" ng-if="itemscomponent.componentProperty.composition">
+                                  <div class="col s6"><label>Composition</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.composition | composition"></span></div>
+                                  </div>
+
+                                  <div class="row" ng-if="itemscomponent.componentProperty.pearlsStyle">
+                                  <div class="col s6"><label>Style</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.pearlsStyle | pearlsStyle"></span></div>
+                                  </div>
+
+                                  <div class="row" ng-if="itemscomponent.componentProperty.pearlsLength">
+                                  <div class="col s6"><label>Length (mm)</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.pearlsLength"></span></div>
+                                  </div>
+                                      
+                                  <div class="row" ng-if="itemscomponent.componentProperty.colorName">
+                                  <div class="col s6"><label>Color</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.colorName"></span></div>
+                                  </div>
+                                      
+                                  <div class="row" ng-if="itemscomponent.componentProperty.luster">
+                                  <div class="col s6"><label>Luster</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.luster | qualityType"></span></div>
+                                  </div>
+                                      
+                                  <div class="row" ng-if="itemscomponent.componentProperty.blemish">
+                                  <div class="col s6"><label>Blemish</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.blemish | blemish"></span></div>
+                                  </div>
+                                      
+                                  <div class="row" ng-if="itemscomponent.componentProperty.matching">
+                                  <div class="col s6"><label>Matching</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.matching | qualityType"></span></div>
+                                  </div>
+                                   
+                                  <div class="row" ng-if="itemscomponent.componentProperty.enhancements">
+                                  <div class="col s6"><label>Enhancements</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.enhancements | enhancements"></span></div>
+                                  </div>
+                                      
+                                   <div class="row" ng-if="itemscomponent.componentProperty.drilled">
+                                  <div class="col s6"><label>Drilled</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.drilled | drilled"></span></div>
+                                  </div>
+                                  
+                                   </div>
+                                  
+                                  <div class="mCustomScrollbar property-scroll1" ng-if="itemscomponent.componentType == 4">
+                                  
+                                  <div class="row" ng-if="itemscomponent.componentProperty.metalsType">
+                                  <div class="col s6"><label>Type</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.metalsType | metalType"></span></div>
+                                  </div>
+                                      
+                                  <div class="row" ng-if="itemscomponent.componentProperty.typeSpecified">
+                                  <div class="col s6"><label>Type – Specified</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.typeSpecified"></span></div>
+                                  </div>
+                                        
+                                  <div class="row" ng-if="(itemscomponent.componentProperty.metalsType==1 || itemscomponent.componentProperty.metalsType==2 || itemscomponent.componentProperty.metalsType==3) && itemscomponent.componentProperty.purity">
+                                  <div class="col s6"><label>Purity</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.purity | purityType"></span></div>
+                                  </div>
+                                  
+                                  <div class="row" ng-if="itemscomponent.componentProperty.metalsType==1 && itemscomponent.componentProperty.color" >
+                                  <div class="col s6"><label>Color</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.color | metalColor"></span></div>
+                                  </div>
+                                  
+                                  <div class="row" ng-if="itemscomponent.componentProperty.weight">
+                                  <div class="col s6"><label>Weight (g)</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.weight"></span></div>
+                                  </div>
+                                      
+                                  <div class="row" ng-if="itemscomponent.componentProperty.measurements">
+                                  <div class="col s6"><label>Measurements (l x w x d (mm))</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.measurements"></span></div>
+                                  </div>
+                                      
+                                  <div class="row" ng-if="itemscomponent.componentProperty.typeDetermined">
+                                  <div class="col s6"><label>Type Determined</label></div>
+                                  <div class="col s6">: <span ng-bind="itemscomponent.componentProperty.typeDetermined | typeDetermined"></span></div>
+                                  </div>
+                               
+                                   </div>
+                                  <div class="row item-detail-foot row2" ng-if="isAgentLogin">
+                                      <div class="col s12 center-align"><span class="txt-orange">Component Price <b ng-if="itemscomponent.componentProperty.priceProperty.finalPrice">${{(itemscomponent.componentProperty.priceProperty.finalPrice * itemscomponent.componentProperty.priceProperty.quantity) | number:2}}</b></span>&nbsp; 
+                                          <a ng-click="componentPricePopup(itemscomponent.componentProperty.priceProperty,itemData.itemId,itemscomponent.itemComponentId,itemscomponent.componentType)" href="javascript:void(0);">Edit</a>
+                                      </div>
+                                  </div>
+                                  <div class="row item-detail-foot">
+                                  <div class="col s4"><h6>Photo ({{itemscomponent.componentProperty.componentPhotosImages.length}})</h6>
+                                      <a ng-if="itemscomponent.componentProperty.componentPhotosImages.length>0" class="fancybox-thumbs" data-fancybox-group="thumb_{{$index}}" href="../valoximage/imageuploaded/{{itemscomponent.componentProperty.componentPhotosImages[0].imgUrl}}">
+                                        <i class="fa fa-camera"></i> View
+                                    </a>
+                                  </div>
+                                  <div class="col s4"><h6>Receipt</h6>
+                                      <a ng-if="itemscomponent.componentProperty.componentReceiptsImages.length>0" target="_blank" href="{{'../valoximage/imageuploaded/'+itemscomponent.componentProperty.componentReceiptsImages[0].imgUrl}}"><img src="../img/icon-receipt.png"/> View</a>
+                                  </div>
+                                  <div class="col s4"><h6>Certificate</h6>
+                                  <a ng-if="itemscomponent.componentProperty.componentCertificatesImages.length>0" target="_blank" href="{{'../valoximage/imageuploaded/'+itemscomponent.componentProperty.componentCertificatesImages[0].imgUrl}}"><img src="../img/icon-certificate.png"/> View</a>
+                                  </div>
+                                  </div>
+                                      
+                                      <p class="fancy-thumb" >
+                                            <a ng-repeat="propertyImg in itemscomponent.componentProperty.componentPhotosImages.slice(1,itemscomponent.componentProperty.componentPhotosImages.length)" class="fancybox-thumbs" data-fancybox-group="thumb_{{$parent.$index}}" href="../valoximage/imageuploaded/{{propertyImg.imgUrl}}"><img src="../valoximage/imageuploaded/{{propertyImg.imgUrl}}" alt="" /></a>
+                                     </p>
+
+                                  </div>
+                                </li>
+
+                              </ul>
+                              
+                              
+                            </div>
+                          </div>
+                        </div>
+                        
+                      </div>
+                      
+                      <div ng-if="itemAllComponents.length<=0">
+                        <div class="row">
+                          <div class="col s12"> <span class="head2">JEWELRY COMPONENTS</span> </div>
+                        </div>
+                        <div class="row component-bg">
+                          <div class="col s12">
+                            <div class="hover-con"></div>
+                            <div class="add-component"><img alt="" src="../img/ideabox.png" class="idea-img">
+                            <br>
+                            <br>
+                            
+
+                              <p>NO JEWELRY COMPONENTS AVAILABLE</p>
+                              <!-- <a ng-show="itemData.consumerPublicKey == userKey && !isAgentLogin" href="item.html#/edit/{{itemData.itemId}}">ADD NOW</a> 
+                              <a ng-show="isAgentLogin" href="item-agent.html#/edit/{{itemData.itemId}}">ADD NOW</a> -->
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                      <!--components added ends--> 
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--right panel ends--> 
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="clearfix"></div>
+<script type="text/javascript">
+$(document).ready(function() {
+      setTimeout(function(){
+  $('#gallery').simplegallery({
+    galltime : 1000,
+    gallcontent: '.content',
+    gallthumbnail: '.thumbnail',
+    gallthumb: '.thumb'
+});
+},2000);
+    
+  setInterval(function() {
+        $("#step2").animate({
+           right: "0"
+         }, 
+
+         {
+           duration: 1000
+         });
+         $('.dropdown-button').dropdown();
+         $('.collapsible').collapsible({
+         accordion : false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+       });
+       //$(".add-component").hide(0).delay(1800).fadeIn(2500)
+    }, 500);
+
+ $(document).on("change","#expandAll",function() {
+        if ( $( this ).is( ":checked" ) ){
+            $(".collapsible-header").addClass("active");
+        }else{
+            $(".collapsible-header").removeClass("active");
+            $(".collapsible-body").hide();
+        }
+    });
+    
+    setTimeout(function(){  
+        $('.fancybox-thumbs').fancybox({
+                prevEffect : 'none',
+                nextEffect : 'none',
+
+                closeBtn  : true,
+                arrows    : true,
+                nextClick : true,
+
+                helpers : {
+                        thumbs : {
+                                width  : 50,
+                                height : 50
+                        }
+                }
+        });
+        }, 2000);
+
+  });
+ </script>
+
+  <share></share>
+<thankyoushare></thankyoushare>
+<itemprice-adjustment></itemprice-adjustment> 
+<componentprice-adjustment></componentprice-adjustment> 
+

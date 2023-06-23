@@ -1,0 +1,288 @@
+
+<div class="clearfix"></div>
+<div  ng-controller="storeManagement" ng-cloak>
+
+<div  ng-init="initSharedWithMeData()">
+    <!--Middle container here-->
+<div class="graybox">
+  <div class="container">
+    <div class="row">
+      <div class="col s12">
+        <div class="page-header item-page-header">
+          <h1 class="pull-left">Shared With Me</h1>
+		  
+		 
+          <div class="rightbox rightbox4">
+		  
+		   <div class="view-list"><i class="txt13">View by:</i><br>
+		   <a href="sharedwithme.html#/" ng-click="removeTooltip()" class="list-view active tooltipped" data-tooltip="List View" data-delay="50" data-position="bottom">&nbsp;</a> <a href="sharedwithme.html#/grid" class="grid-view tooltipped " data-tooltip="Grid View" data-delay="50" data-position="bottom" >&nbsp;</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+
+       </div>
+       <div class="searchbox-left searchbox-left1">
+       <i class="txt13">View items by:</i><br>
+            <select id="viewItemsBy"   ng-model="viewItemsBy">
+				<option value="" >All</option>
+              <option ng-repeat="itm in uniqueNames" value="{{itm.cKey}}" >{{itm.name}}</option>
+              </select>
+            </div>
+			
+			
+            <div class="searchbox-left"><i class="txt13">Sort by:</i><br>
+             <select id="sortBy" ng-model="globl.sortorder">
+                <option value="-id">Latest</option>
+                <option value="name">Alphabetical</option>
+              </select>
+            </div>
+            <div class="search-items">
+              <nav>
+                <div class="nav-wrapper"><span class="hide-xs"> &nbsp;<br>
+                  </span>
+                 <form>
+                    <div class="input-field">
+                      <input type="search" ng-model="globl.searchKeyword.name"  placeholder="Search" required="" id="search2">
+                      <label for="search2" class="active"><i class="material-icons">search</i></label>
+                      <i data-position="bottom" ng-click="clearSearchData(this)" data-delay="50" data-tooltip="Clear search" class="material-icons tooltipped">close</i> </div>
+                  </form>
+                </div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Favorite  section start here-->
+    <div class="row" ng-controller="collectionManagement">
+      <div class="col s12">
+        <div class="whitebox1 whitebox1-nopad">
+          <div class="row">
+            <div class="col s12 m12 ">
+              <div class="card-panel card-panel2 card-panel-favorite shared-panel"> <span class="white-text">
+               
+                <small class="small-tabs" >
+				<div class="searchbox-left"><i>View by </i>:
+               <a href="sharedwithme.html#/"  class="active"   >Shared with me</a>  <a href="shared.html"  >Shared by me</a>
+            </div>
+			
+				 <span ><i>Sort by </i>: </span>  <a href="javascript:;" ng-class="{'active':!sortby}"   ng-click="itemFilterToggle('sharedwithme')" >All</a> <a ng-click="itemFilterToggle(1)" ng-class="{'active':sortby == '1'}" href="javascript:;">Items</a> <a href="javascript:;"  ng-click="itemFilterToggle(2)" ng-class="{'active':sortby == '2'}"  >Collections</a> <a href="javascript:;"  ng-class="{'active':sortby == '3'}"  ng-click="itemFilterToggle(3)" >Appraisals</a> </small> </span></div>
+			  
+            </div>
+          </div>
+        
+		
+	<div class=""  >
+<div class="col m12 s12">
+  <div class="error-msg" ng-if="errorMessage">
+    <div class="disp-cell">
+      <i class="fa fa-exclamation-triangle"></i>
+    </div> 
+    <div class="disp-cell" ng-model="errorMessage">
+      <span>{{errorMessage}}
+      </span>
+    </div>
+  </div>
+</div>
+         
+		 <div  ng-repeat="sharedList in sharedList | orderBy:globl.sortorder |  filter:{sharedItemType : sortby} |  filter:{sharedBy : {consumerPublicKey:viewItemsBy} }  |  filter:globl.searchKeyword  ">
+		 
+		
+		  
+          <div class="row">
+		
+            <div class="col m12 l12 s12">
+              <div class="card-panel card-panel3"> 
+                <div class="row">
+                  <div class="col m2 s12">
+                    <div class="img-box2" ng-if="sharedList.sharedItemType == 1 || sharedList.sharedItemType == 2" >
+					 <img alt="" ng-if="sharedList.sharedItemType == 1" class="responsive-img" fallback-src="../img/not-found-item.jpg"  ng-src="../valoximage/imageuploaded/{{sharedList.images[0].imagePath}}" />
+					<img alt="" ng-if="sharedList.sharedItemType == 2" class="responsive-img" fallback-src="../img/not-found-collection.jpg"  ng-src="../valoximage/imageuploaded/{{sharedList.images[0].imagePath}}" />
+					
+					</div>
+					
+					<div  class="img-box2" ng-if="sharedList.collectionImages.length > 0" ng-repeat="collectionImg in sharedList.collectionImages | limitTo : 1">
+                          <img fallback-src="../valoximage/imageuploaded/{{itemImg.itemImages[0].itemImagePath}}" ng-src="../valoximage/imageuploaded/{{collectionImg.cImages[0].imageUrl}}" alt="" class="responsive-img">
+                          </div>
+                          <div ng-if="sharedList.collectionImages.length == 0 || sharedList.noOfCollection == 0" class="img-box2" ng-repeat="itemImg in sharedList.itemImages | limitTo : 1">
+                          <img fallback-src="../img/not-found-appraisal.jpg" ng-src="../valoximage/imageuploaded/{{itemImg.itemImages[0].itemImagePath}}" alt="" class="responsive-img">
+                          </div>
+						  
+                          <div ng-if="(sharedList.collectionImages.length == 0 && sharedList.itemImages.length == 0)" class="img-box2" ><img src="../img/not-found-appraisal.jpg" alt="" class="responsive-img">
+                          </div>
+						  
+                  </div>
+                  <div class="col m10 s12">
+                    <div class="card-content">
+                      <div class="list3-wrap list4-wrap">
+                        <div class="row">
+                          <div class="col m12 s12 item-folder-right">
+						  <span class="card-title">
+						   
+						   <span ng-if="sharedList.sharedItemType == 1"><a href="item.html#/detail/{{sharedList.id}}">{{sharedList.name | limitTo: 50}} {{sharedList.name.length < 50 ? '' : '...'}}</a> </span>
+						  <span ng-if="sharedList.sharedItemType == 2"><a href="collection.html#/detail/{{sharedList.id}}">{{sharedList.name | limitTo: 50}} {{sharedList.name.length < 50 ? '' : '...'}}</a> </span>
+						  <span ng-if="sharedList.sharedItemType == 3"><a href="appraisal.html#/detail/{{sharedList.id}}">{{sharedList.name | limitTo: 50}} {{sharedList.name.length < 50 ? '' : '...'}}</a> </span>
+						  
+						   <small>ID#  {{sharedList.id}}</small></span>
+						  
+						    <span class="card-sub-title"> <i>Shared by</i>: <span style="color:#ff6100 !important"><strong>{{sharedList.sharedBy.firstName}} {{sharedList.sharedBy.lastName}}</strong></span></span>
+						 
+                         <p class="para6" ng-bind-html="sharedList.description | strLimit : 200 | newLine"></p>
+                            
+						
+							<div class="item-components">
+									<span ng-if="sharedList.sharedItemType != 1">
+									<span ng-if="sharedList.sharedItemType == 1">Item</span><span ng-if="sharedList.sharedItemType == 2">Collection</span><span ng-if="sharedList.sharedItemType == 3">Appraisal</span> associated with<br>
+									</span>
+								  <div class="items"> 
+								  	
+									<!-- show collection -->	
+									  <span ng-if="sharedList.noOfCollection >= 1 && (sharedList.sharedItemType != 2 && sharedList.sharedItemType != 1)"><a  href="javascript:void(0);" ng-click="modelCollectionListing(sharedList.id)"  ><strong>Collection  ({{sharedList.noOfCollection}})</strong></a></span>
+									  
+									   <span ng-if="!sharedList.noOfCollection && (sharedList.sharedItemType != 2 && sharedList.sharedItemType != 1)"><a  href="javascript:void(0);"   ><strong>Collection  (0) </strong></a></span>
+						  			 <!-- enf of show collection -->	
+									 
+									 
+									 <!-- show item -->	
+						 
+						 <span ng-if="sharedList.sharedItemType==2">
+						  <span ng-if="sharedList.noOfItem >= 1 && sharedList.sharedItemType != 1" ><a href="javascript:void(0);" ng-click="collectionListedItemNew(sharedList.id, sharedList.noOfItem,sharedList.items)" ><strong>Items ({{sharedList.noOfItem}})&nbsp;</strong></a></span>
+						 </span> 
+						  <span ng-if="sharedList.sharedItemType==3">
+						   <span ng-if="sharedList.noOfItem >= 1 && sharedList.sharedItemType != 1" ><a href="javascript:void(0);" ng-click="modelItemListing(sharedList.id)" ><strong>Items ({{sharedList.noOfItem}})&nbsp;</strong></a></span>
+						  </span>
+						  
+						   <span ng-if="!sharedList.noOfItem  && sharedList.sharedItemType != 1" ><a href="javascript:void(0);"   ><strong>Items (0) &nbsp;</strong></a></span>
+						   
+						   
+						   			<!-- end of show item -->
+						  
+						  
+						  
+						  </div></div>
+						  
+							<div class="clearfix"></div>
+							
+							 <div ng-if="sharedList.componentList.length>0" class="item-components"> Item Components<br>
+                                 <div class="items">
+                                  <small ng-repeat="componentList in sharedList.componentList | limitTo:5"><a     href="javascript:void(0);">{{componentList.componentName}} ({{componentList.componentQuantity}})</a></small> 
+                                  <strong ng-if="sharedList.componentList.length>5" class="txt-blue1"><a  ng-click="agentListingItem('',sharedList.id, sharedList.sharedItemType)"  href="javascript:void(0);"><small href="javascript:void(0);">.. +{{items.componentList.length-5}}</small></a></strong>
+                                 </div>
+                            </div>
+							  
+							  
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+		  
+		  </div>
+		  
+		 <div  ng-show="(sharedList | filter:{sharedItemType : sortby} |  filter:{sharedBy : {consumerPublicKey:viewItemsBy} } | filter:globl.searchKeyword  ).length == 0">
+		  <div class="row">
+                  <div class="col m12 l12 s12">
+                    <div class="card-panel card-panel3 card-panel3-box-shadow">
+                      <div class="dashboard-nodata-wrap no-data">
+           <label>No record found.</label>
+                <p> No record found in listing/search criteria. </p>
+
+
+</div>
+                      
+                    </div>
+                  </div>
+                </div>
+         </div> 
+		 
+
+          <div class="clearfix"></div>
+		  
+		  <!-- Modal for Popup - Item list start here -->
+<div id="modal-items" class="modal modal-add-new-item">
+  <div class="modal-header">
+  
+    <h4>ITEM(S) LIST <span class="small-sub-head">- You have added <b>({{collectionItemTotal || 0}})</b> item(s) to this collection.</span> <a href="javascript:;" class="modal-action modal-close close-btn2 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Close">&nbsp;</a></h4>
+       
+     </div>
+  <div class="modal-content mCustomScrollbar itembox1-scroll2"><br>
+    <div class="row your-items-list" ng-repeat="collectionPopupItem in collectionPopupItems">
+      <div class="col m2 l2 s12">
+        <div class="img-con1"><img fallback-src="../img/not-found-item.jpg" ng-src="../valoximage/imageuploaded/{{collectionPopupItem.itemImages[0].itemImagePath}}" alt=""/></div>
+      </div>
+      <div class="col m8 l9 s12"><span class="title1">{{collectionPopupItem.name | limitTo: 40 }} {{collectionPopupItem.name.length < 40 ? '' : '...'}} <small>ID#  {{collectionPopupItem.itemId}}</small></span>
+        <p>{{collectionPopupItem.sdescription | limitTo: 200 }} {{collectionPopupItem.sdescription.length < 200 ? '' : '...'}}</p>
+      </div>
+      
+    </div>
+    
+  </div>
+  <!-- <div class="modal-footer">  </div>--> 
+</div>
+<!-- Modal for Popup - Item list end here --> 
+
+<!-- Modal for Popup - Item list end here --> 
+<div id="modal-items-appraisal" class="modal modal-add-new-item">
+  <div class="modal-header">
+    <h4>ITEM(S) LIST <span class="small-sub-head">- You have added <b>({{itemLists.length}})</b> item(s) to this appraisal.</span> <a href="javascript:;" class="modal-action modal-close close-btn2 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Close">&nbsp;</a></h4>
+     </div>
+ <div class="modal-container">  <div class="modal-content mCustomScrollbar itembox1-scroll2"><br>
+    <div class="row your-items-list" ng-repeat="itemList in itemLists">
+      <div class="col m2 l2 s12">
+        <div class="img-con1"><img fallback-src="../img/not-found-item.jpg" ng-src="../valoximage/imageuploaded/{{itemList.itemImages[0].itemImagePath}}" alt=""/></div>
+      
+      </div>
+      <div class="col m8 l9 s12"><span class="title1">{{itemList.name | limitTo: 40 }} {{itemList.name.length < 40 ? '' : '...'}}<small>ID#  {{itemList.itemId}}</small></span>
+        <p>{{itemList.sDescription | limitTo: 200 }} {{itemList.sDescription.length < 200 ? '' : '...'}}<!-- <a href="item-details.html">Read more</a> --></p>
+      </div>
+     
+    </div>
+    
+  </div></div>
+  <!-- <div class="modal-footer">  </div>--> 
+</div>
+<!-- Modal for Popup - Item list end here --> 
+
+<!-- Modal for Popup - collection list start here -->
+<div id="modal-collection-list" class="modal modal-add-new-item">
+  <div class="modal-header">
+    <h4>COLLECTION(S) LIST <span class="small-sub-head">- You have added <b>({{collectionLists.length}})</b> collection(s) to this appraisal.</span> <a href="javascript:;" class="modal-action modal-close close-btn2 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Close">&nbsp;</a></h4>
+    </div>
+  <div class="modal-container"> <div class="modal-content mCustomScrollbar itembox1-scroll2"><br>
+    <div class="row your-items-list" ng-repeat="collectionList in collectionLists">
+
+      <div class="col m2 l2 s12">
+        <div class="img-con1" ><img fallback-src="../img/not-found-collection.jpg" ng-src="../valoximage/imageuploaded/{{collectionList.cImages[0].imageUrl}}"   alt=""/></div>
+        
+      </div>
+      <div class="col m8 l8 s12"><span class="title1">{{collectionList.cname | limitTo: 40 }} {{collectionList.cname.length < 40 ? '' : '...'}} <!--<a data-tooltip="Favorite" data-delay="50" data-position="bottom" class="heart tooltipped" href="javascript:;">&nbsp;</a>--> <small>ID#  {{collectionList.vcid}}</small></span>
+        <p>{{collectionList.shortDescription | limitTo: 200 }} {{collectionList.shortDescription.length < 200 ? '' : '...'}}</p>
+      </div>
+      <div class="col m2 l2 s12">
+       
+     <span class="item-folder"><span class="" ><img src="../img/icon-folder.png" alt=""> <strong>{{collectionList.noOfItem}} Items</strong></span></span>
+      </div>
+    </div>
+    
+  </div></div>
+  <!-- <div class="modal-footer">  </div>--> 
+</div>
+
+
+         <!-- <div class="paging3"><a href="javascript:;" onClick="toggle3();" >Load more..</a></div>-->
+        </div>
+      </div>
+    </div>
+    
+    <!-- Favorite  section end here--> 
+  </div>
+</div>
+
+<!--Middle container end here-->
+<div class="clearfix"></div>
+
+
+<thankyouunshare></thankyouunshare>

@@ -1,0 +1,101 @@
+<!--Navigation end here-->
+<div class="graybox">
+  <div class="container" ng-controller="adminManagement">
+    <div class="row">
+      <div class="col s12">
+        <div class="page-header">
+          <h1>STORE ADVERTISEMENT</h1>
+        </div>
+      </div>
+    </div>
+      <div ng-show="success" class="success-msg" ng-cloak>
+            <div class="disp-cell">
+            <i class="fa fa-thumbs-o-up "></i>
+            </div> 
+            <div class="disp-cell">
+            <span>Status successfully changed</span>
+        </div>
+        </div>
+	<div class="header-bg-1" >
+         <a data-tooltip="Add New Advertisement" data-delay="50" data-position="bottom" class="icon-big-plus waves-effect waves-light tooltipped" href="ads.html#/add"><img alt="" src="../../img/icon-plus-big.png"></a> 
+           
+        
+       <!-- <a class="back-btn2" ng-click="cancelAgent()" href="javascript:;"><img src="../img/arrow-previous.png" alt="">BACK</a>-->
+      </div>
+      	
+    <div class="row">
+      <form class="col s12">
+          <div class="whitebox1 whitebox1-padb whitebox1-admin" ng-init="storelistingImages()">
+          <div class="box1 admin-box"> 
+            <!--left form section starts-->
+            <div class="col m12 s12">
+			<div class="error-msg ng-clock" ng-if="formError">
+							<div class="disp-cell">
+							<i class="fa fa-exclamation-triangle"></i>
+							</div> 
+							<div class="disp-cell">
+							<span>{{errorMessage}}</span>
+							</div>
+						</div>
+	
+					   <div class="success-msg mt-10 mb-10 ng-clock" ng-if="formSuccess">
+							<div class="disp-cell">
+							<i class="fa fa-thumbs-o-up"></i>
+							</div> 
+							<div class="disp-cell">
+							<span>{{successMessage}}</span>
+							</div>
+							<div class="clear"></div>
+					  </div> 
+					  
+                         <div class="row">
+                <div class="col s12 full-width-sm">
+              <table datatable="ng" dt-options="dtOptionsStoreListImages" dt-column-defs="dtColumnDefsStoreListImages" border="0" class="bordered dataTable responsive-table table1">
+              <thead>
+                <tr>
+					<th width="5%">Ads #Id</th>
+                    <th width="20%">Store Name</th>
+                    <th width="50%">Store Ads Image </th>
+               		<th width="10%">Advertisement Title </th>
+                    <th width="10%">Status</th>
+                    <th width="10%">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="store in allStores">
+					<td width="5%">{{store.advertisementImageDetail[0].storeAdvertisementId}}</td>
+                    <td width="20%">{{ store.storeName }}</td>
+                   <td width="20%">
+				   		<span ng-if="store.advertisementImageDetail[0].imageUrl">
+				   		<img width="100" class="responsive-img" alt="{{store.advertisementImageDetail[0].tittle}}" title="{{store.advertisementImageDetail[0].tittle}}" fallback-src="../../img/not-found-item.jpg" ng-src="../../valoximage/advimageuploaded/{{ store.advertisementImageDetail[0].imageUrl }}">
+						</span>
+					</td>
+					 <td width="10%">{{store.advertisementImageDetail[0].tittle}}</td>
+                    <td width="10%"><span ng-if="store.advertisementImageDetail[0].status==1">Active</span><span ng-if="store.advertisementImageDetail[0].status==2">Inactive</span></td>
+                    <td width="10%">
+						<span ng-if="store.advertisementImageDetail[0].imageUrl">
+                        <a href="javascript:;" class="tooltipped" ng-click="editStoreImage(store.storeId,store.advertisementImageDetail[0].storeAdvertisementId);" data-tooltip="Edit" data-delay="50" data-position="bottom"><img src="../../img/icon-edit.png" alt=""></a> 
+                        <a href="javascript:;" ng-click="deleteStoreImage(store.storeId,store.advertisementImageDetail[0].storeAdvertisementId,$index)" class="tooltipped" data-tooltip="Delete" data-delay="50" data-position="bottom"><img alt="" src="../../img/icon-trash.jpg"></a>
+                        <!-- <a ng-if="store.advertisementImageDetail[0].status==2" href="javascript:;" ng-click="storeActivateOrDeactivateImages(store.storeId,store.advertisementImageDetail[0].storeAdvertisementId,1,$index)" class="tooltipped" data-tooltip="Click to active" data-delay="50" data-position="bottom"><i class="tiny material-icons">thumb_down</i></a>
+                        <a ng-if="store.advertisementImageDetail[0].status==1" href="javascript:;" ng-click="storeActivateOrDeactivateImages(store.storeId,store.advertisementImageDetail[0].storeAdvertisementId,2,$index)" class="tooltipped" data-tooltip="Click to inactive" data-delay="50" data-position="bottom"><i class="tiny material-icons">thumb_up</i></a> -->
+						</span>
+                    
+                    </td>
+                </tr>
+                </tbody>
+              
+          </table>
+                </div>
+              </div>
+ 
+            </div>
+            <!--left form section ends--> 
+   
+            <div class="clearfix"></div>
+          </div>
+         <!-- <div class="center whitebox1-footer btn-con"> <a href="javascript:;" class="btn-large btn-default waves-effect waves-light">CANCEL</a> <a href="item-added.html" class="btn-large btn-large1 waves-effect waves-light">CREATE ITEM</a> </div>-->
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

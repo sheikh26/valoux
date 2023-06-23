@@ -1,0 +1,49 @@
+<div ng-init="getComponentType()" ng-cloak>
+<div id="modal3" class="modal modal-select">
+  <div class="modal-content">
+    <h6>Select Type <a href="javascript:;" class="modal-action modal-close close-btn tooltipped" data-position="bottom" data-delay="50" data-tooltip="Close">&nbsp;</a></h6>
+    <div class="row radio-box" ng-repeat="compTypechk in componenttypes">
+      <div class="col s12">
+        <p>
+          <input ng-model="store.modelChkboxCompType" value="{{compTypechk.componentId}}" name="modelChkbox" type="radio" id="{{'compTypeRdo'+compTypechk.componentId}}" />
+          <label for="{{'compTypeRdo'+compTypechk.componentId}}">{{compTypechk.componentName}}</label>
+        </p>
+      </div>
+    </div>
+    <a href="javascript:void(0);" ng-click="setRowComponentType();" class="ok-btn modal-action modal-close tooltipped" data-tooltip="SUBMIT" data-delay="50" data-position="top"><img src="../img/icon-ok1.png"/></a> </div>
+</div>
+
+<!-- Modal for Edit Component start here -->
+<div id="modal4" class="modal modal-edit-component">
+    <form autofocus-form name="componentEditForm" ng-submit="componentEditForm.$valid && updateItemComponent()" novalidate>
+  <div class="modal-content">
+    <h6>Edit Component <a href="javascript:;" class="modal-action modal-close close-btn tooltipped" data-position="bottom" data-delay="50" data-tooltip="Close">&nbsp;</a></h6>
+    <div class="row head-row">
+      <div class="col s5">
+        <label class="label-6">Name</label>
+      </div>
+      <div class="col s3 padr0 padl0">
+        <label class="label-6">Type</label>
+      </div>
+      <div class="col s4">
+        <label class="label-6">Quantity</label>
+      </div>
+    </div>
+    <div class="row list-item">
+      <div class="col s5 prod-name">
+          <input ng-model="component.componentName" class="input-sml1" type="text" maxlength="50" placeholder="Enter name" required/>
+      </div>
+      <div class="col s3 padr0 padl0 col-half">
+          <select id="componentdrop" ng-model="component.componentType" ng-options="compTypeSel.componentId as compTypeSel.componentName for compTypeSel in componenttypes" ng-disabled="propertyFlag">
+        </select>
+      </div>
+      <div class="col s4 col-half"> 
+          <a href="javascript:void(0);" ng-click="QuatityPlusMinusEdit(0);" type="button" class="btn  btn-number minus1" disabled="disabled" data-type="minus" data-field="quant[1]"> - </a>
+          <input ng-model="component.componentQuantity" readonly="" type="text" name="quant[1]" class="form-control input-number" value="1" min="1" max="999">
+        <a href="javascript:void(0);" ng-click="QuatityPlusMinusEdit(1);" type="button" class="btn btn-number plus1" data-type="plus" data-field="quant[1]"> + </a> </div>
+    </div>
+    <button type="submit" class="ok-btn tooltipped" data-tooltip="SUBMIT" data-delay="50" data-position="top"><img src="../img/icon-ok1.png"/></button> </div>
+   </form>
+</div>
+<!-- Modal for Edit Component end here --> 
+</div>

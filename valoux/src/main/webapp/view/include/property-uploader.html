@@ -1,0 +1,130 @@
+<!--upload-photo-tab starts-->
+<div ng-show="propertyTab.showImages">
+  <div class="row">
+    <div class="col s12 label-head">Photo</div>
+  </div>
+  <div class="row marb0">
+    <div class="col s12 m9"> <span class="label5">Upload Item Images in <span class="txt12">(<i>File type</i>: jpg, png, Size: 2 MB max)</span><img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam." data-delay="50" data-position="top" src="../img/icon-info.jpg"/></span> </div>
+  </div>
+  <div class="row" ng-repeat="imgCnt in propertyItem.imgCounter track by $index">
+    <div class="file-field  col s12 m9">
+      <div class="btn"> <span>BROWSE</span>
+          <input title="" type="file" custom-on-change="uploadTampPropertyImages" class="daimondImageuploder{{propertyItem.itemComponentId}}_{{$index}}" element-Id ="{{$index}}" accept="image/jpg,image/png,image/jpeg,image/gif">
+      </div>
+      <div class="file-path-wrapper">
+        <input class="file-path" type="text" placeholder="" disabled> 
+      </div>
+        <div class="close-clear">
+        <a ng-click="removeComponentImageuploader($index,1)" href="javascript:void(0);" data-tooltip="DELETE" data-delay="50" data-position="bottom" class="tooltipped trash" ><img width="10" height="12" src="../img/icon-trash.jpg" alt=""> </a>
+        </div>
+        <label ng-show="inValidimgProperty[$index]" class="error" >
+            <label class="error-msg-form">{{ inValidimgPropertyText[$index] }}</label>
+        </label>
+    </div>
+      <div class="col s12 m3" ng-if="$first"> <a href="javascript:void(0);" ng-click="addmorePropertyUploader(1);" class="addmore-btn"> <img src="../img/icon-plus.jpg" alt=""/> Add more </a></div>
+  </div>
+    <div class="row input-field" ng-if="propertyAttribute.componentPhotosImages.length>0">
+    <div class="col s12">
+      <ul class="uploaded-thumb">
+        <li ng-repeat="img in propertyAttribute.componentPhotosImages">
+            <span class="upload-thumb"><img src="../valoximage/imageuploaded/{{img.imgUrl}}"/></span>
+          <div class="clearfix"></div>
+          <a href="javascript:void(0);" ng-click="removePropertyImages(img.cid,$event)" class="tooltipped" data-tooltip="DELETE" data-delay="50" data-position="bottom"><img src="../img/ico-delete.png"/></a> 
+        </li>
+      </ul>
+    </div>
+</div>
+
+
+    <div class="center"><a href="javascript:void(0)" ng-click="addPropertyImages();"  target="_parent" class="ok-btn2 waves-effect waves-light tooltipped" data-tooltip="SUBMIT" data-delay="50" data-position="top"><img src="../img/icon-ok1.png"/></a></div>
+
+</div>
+<!--upload-photo-tab ends--> 
+<!--receipt-tab starts-->
+<div ng-show="propertyTab.showReceipt">
+  <div class="row">
+    <div class="col s12 label-head"> Receipt </div>
+  </div>
+  <div class="row marb0">
+    <div class="col s12 m9"> <span class="label5">Upload Receipt</span><img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam." data-delay="50" data-position="top" src="../img/icon-info.jpg"/> </div>
+  </div>
+  <div class="row" ng-repeat="imgCnt in propertyItem.receiptCounter track by $index">
+    <div class="file-field  col s12 m9">
+      <div class="btn"> <span>BROWSE</span>
+        <input title="" type="file" custom-on-change="uploadTampPropertyImagesReceipt" class="receiptUploder{{propertyItem.itemComponentId}}_{{$index}}" element-Id ="{{$index}}" element-Type = "1" accept="image/jpg,image/png,image/jpeg,image/gif">
+      </div>
+      <div class="file-path-wrapper">
+        <input class="file-path" type="text" placeholder="" disabled>
+      </div>
+      <div class="close-clear">
+        <a ng-click="removeComponentImageuploader($index,2)" href="javascript:void(0);" data-tooltip="DELETE" data-delay="50" data-position="bottom" class="tooltipped trash" ><img width="10" height="12" src="../img/icon-trash.jpg" alt=""> </a>
+        </div>
+        <label ng-show="inValidimgReceipt[$index]" class="error" >
+            <label class="error-msg-form">{{ inValidimgReceiptText[$index] }}</label>
+        </label>
+    </div>
+    <div class="col s12 m3" ng-if="0"> <a href="javascript:void(0);" ng-click="addmorePropertyUploader(2);" class="addmore-btn"> <img src="../img/icon-plus.jpg" alt=""/> Add more </a></div>
+  </div>
+  <div class="row input-field" ng-if="propertyAttribute.componentReceiptsImages.length>0">
+    <div class="col s12">
+      <ul class="uploaded-thumb">
+        <li ng-repeat="img in propertyAttribute.componentReceiptsImages">
+            <span class="upload-thumb">
+                <img fallback-src="../img/thumb-receipt.jpg" src="../valoximage/imageuploaded/{{img.imgUrl}}"/>
+            </span>
+            <div class="clearfix"></div>
+           {{img.imgName}}
+           <div class="clearfix"></div>
+          <div class="clearfix"></div>
+          <a href="javascript:void(0);" ng-click="removePropertyImages(img.cid,$event)" class="tooltipped" data-tooltip="DELETE" data-delay="50" data-position="bottom"><img src="../img/ico-delete.png"/></a> 
+        </li>
+      </ul>
+    </div>
+</div>
+  <div class="center"><a href="javascript:void(0)" ng-click="addPropertyImages();" target="_parent" class="ok-btn2 waves-effect waves-light tooltipped" data-tooltip="SUBMIT" data-delay="50" data-position="top"><img src="../img/icon-ok1.png"/></a></div>
+</div>
+<!--receipt-tab ends--> 
+<!--certificate-tab starts-->
+<div ng-show="propertyTab.showCertificate">
+  <div class="row">
+    <div class="col s12 label-head">Certificate</div>
+  </div>
+  <div class="row marb0">
+    <div class="col s12 m9"> <span class="label5">Upload Certificate</span><img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam." data-delay="50" data-position="top" src="../img/icon-info.jpg"/> </div>
+  </div>
+  <div class="row" ng-repeat="imgCnt in propertyItem.certificateCounter track by $index">
+    <div class="file-field  col s12 m9">
+      <div class="btn"> <span>BROWSE</span>
+        <input title="" type="file" custom-on-change="uploadTampPropertyImagesReceipt" class="certificateUploder{{propertyItem.itemComponentId}}_{{$index}}" element-Id ="{{$index}}" element-Type = "2" accept="image/jpg,image/png,image/jpeg,image/gif">
+      </div>
+      <div class="file-path-wrapper">
+        <input class="file-path" type="text" placeholder="" disabled>
+      </div>
+      <div class="close-clear">
+        <a ng-click="removeComponentImageuploader($index,3)" href="javascript:void(0);" data-tooltip="DELETE" data-delay="50" data-position="bottom" class="tooltipped trash" ><img width="10" height="12" src="../img/icon-trash.jpg" alt=""> </a>
+        </div>
+      <label ng-show="inValidimgCertificate[$index]" class="error" >
+            <label class="error-msg-form">{{ inValidimgCertificateText[$index] }}</label>
+      </label>
+    </div>
+    <div class="col s12 m3" ng-if="0"> <a href="javascript:void(0);" class="addmore-btn" ng-click="addmorePropertyUploader(3);" > <img src="../img/icon-plus.jpg" alt=""/> Add more </a></div>
+  </div>
+  <div class="row input-field" ng-if="propertyAttribute.componentCertificatesImages.length>0">
+    <div class="col s12">
+      <ul class="uploaded-thumb">
+        <li ng-repeat="img in propertyAttribute.componentCertificatesImages">
+            <span  class="upload-thumb">
+                <img fallback-src="../img/thumb-certificate.jpg" src="../valoximage/imageuploaded/{{img.imgUrl}}"/>
+
+            </span>
+          <div class="clearfix"></div>
+           {{img.imgName}}
+           <div class="clearfix"></div>
+          <a href="javascript:void(0);" ng-click="removePropertyImages(img.cid,$event)" class="tooltipped" data-tooltip="DELETE" data-delay="50" data-position="bottom"><img src="../img/ico-delete.png"/></a> 
+        </li>
+      </ul>
+    </div>
+</div>
+  <div class="center"><a href="javascript:void(0)" ng-click="addPropertyImages();" target="_parent" class="ok-btn2 waves-effect waves-light tooltipped" data-tooltip="SUBMIT" data-delay="50" data-position="top"><img src="../img/icon-ok1.png"/></a></div>
+</div>
+<!--certificate-tab ends--> 

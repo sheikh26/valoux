@@ -1,0 +1,242 @@
+  <div class="container" ng-init="initItemlistAgent()" ng-cloak> 
+    <!-- My Items section start here-->
+    <item-popup></item-popup>
+    <div class="row">
+      <div class="col s12">
+        <div class="page-header item-page-header">
+        <div>
+          <h1 class="pull-left">Jewelry <span class="hide-xs1">-</span> </h1>
+          <div ng-class="itemData.length>0?'itembox':'itembox itembox-mart itembox-head1'"><b class="badge1">{{itemData.length?itemData.length:0}} </b> items shared with you.
+          </div>
+
+<!--              <span ng-if="itemData.length>0">  Totaling <b>$21,500.75</b> with a market value of <b>$34,401.20</b></span>-->
+          </div>
+          
+          <div class="rightbox rightbox4">
+           <div class="searchbox-left searchbox-left1"><i class="txt13">View items by:</i><br>
+              <select  id="viewedItemsBy" name="viewItemsBy" ng-model="viewItemBy" ng-change="storeConsumerInfo(viewItemBy, this)" ng-options="viewItemsBy.consumerPublicKey as (viewItemsBy.firstName + ' ' + viewItemsBy.middleName + ' ' + viewItemsBy.lastName) for viewItemsBy in viewByConsumer">
+                <option value="">Consumer name</option>
+                </select>
+            <a data-position="bottom" data-delay="50" data-tooltip="Invite new consumer &amp; add an item." class="user tooltipped" href="javascript:;" ng-click="inviteNewConsumerAgent()" data-tooltip-id="15eadc9e-637d-0dde-bcc6-563b27ddd274"><i aria-hidden="true" class="fa fa-user-plus"></i></a>
+            </div>
+<div class="view-list"><i class="txt13">View by:</i><br>
+              <a href="item-agent.html#/" target="_self" class="list-view active tooltipped" data-tooltip="List View" data-delay="50" data-position="bottom">&nbsp;</a> 
+              <a target="_self" href="item-agent.html#/grid" class="grid-view tooltipped" data-tooltip="Grid View" data-delay="50" data-position="bottom" >&nbsp;</a> </div>
+              <div class="searchbox-left" ><i class="txt13">Sort by:</i><br>
+                <select id="sortBy" ng-model="globl.sortorder">
+                <option value="-itemId">Latest</option>
+                <option value="name">Alphabetical</option>
+              </select>
+            </div>
+            <div class="search-items">
+              <nav>
+                <div class="nav-wrapper"><span class="hide-xs"> &nbsp;<br>
+                  </span>
+                  <form>
+                    <div class="input-field">
+                      <input type="search" ng-model="globl.searchKeyword"  placeholder="Search items" required="" id="search2" >
+                      <label for="search2" class="active"><i class="material-icons">search</i></label>
+                      <i data-position="bottom" data-delay="50" data-tooltip="Clear search" class="material-icons tooltipped" ng-click="clearSearchData(this)">close</i> </div>
+                  </form>
+                </div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="col m12 s12" id="success" ng-if="successMessage">
+                 <div class="success-msg mt-10 mb-10">
+                  <div class="disp-cell"><i class="fa fa-thumbs-o-up"></i></div>
+                  <div class="disp-cell"><span>{{successMessage}}</span></div>
+                  <div class="clear"></div>
+                </div>
+              </div>
+              <div class="row" ng-if="!itemData">
+      <div class="col s12">
+        <div class="whitebox1 whitebox1-nopad whitebg-none"> <a href="item.html#/add" class="icon-big-plus waves-effect waves-light tooltipped" data-position="bottom" data-delay="50" data-tooltip="Add New Item"><img src="../img/icon-plus-big.png"  alt=""/></a>
+      <div id="demo">
+    
+            <ul class="u-fancy-load">
+              <li >
+                <div class="row">
+                  <div class="col m12 l12 s12">
+                    <div class="card-panel card-panel3 card-panel3-box-shadow">
+                      <div class="dashboard-nodata-wrap no-data">
+           <label>(0) RESULT FOUND.</label>
+                <p>  
+             No Jewelry found.
+
+</div>
+                      
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+    </div>
+
+    </div>
+    </div>
+    <div class="row" ng-if="itemData">
+      <div class="col s12">
+        <div class="whitebox1 whitebox1-nopad whitebg-none inner-header">
+        <a  ng-if="!viewItemBy" data-tooltip="Add New Item" data-delay="50" data-position="bottom" class="icon-big-plus waves-effect waves-light tooltipped" href="item-agent.html#/add"><img alt="" src="../img/icon-plus-big.png"></a> 
+          <div class="header-bg-1" ng-if="viewItemBy">
+        <a data-tooltip="Add New Item" data-delay="50" data-position="bottom" class="icon-big-plus waves-effect waves-light tooltipped" href="item-agent.html#/add"><img alt="" src="../img/icon-plus-big.png"></a>
+            <div class="agent-left-con">
+        <div class="pic-con2"><img fallback-src="../img/profile-pic-default.jpg" ng-src="../valoximage/consumerimageuploaded/{{consumerList.imageUrl}}" alt=""></div>
+        <span>{{consumerList.firstName}}  {{consumerList.middleName}} {{consumerList.lastName}}</span> <div class="itembox itembox-mart">Shared   <b class="badge1" ng-model="filtered.length">{{filtered.length}}</b> items with you</div>
+        </div>
+        {{}}
+        <a class="back-btn2" ng-click="viewAllData()" href="javascript:;"><img src="../img/arrow-previous.png" alt=""> VIEW ALL</a>
+      </div>
+
+       <!--  <a ng-if="itemData.length == 0" href="item-agent.html#/add" class="icon-big-plus waves-effect waves-light tooltipped" data-position="bottom" data-delay="50" data-tooltip="Add New Item"><img src="../img/icon-plus-big.png"  alt=""/></a> -->
+         <div id="demo" ng-show="!filtered.length">
+            <ul>
+              <li>
+                <div class="row">
+                  <div class="col m12 l12 s12">
+                    <div class="card-panel card-panel3 card-panel3-box-shadow">
+                      <div class="dashboard-nodata-wrap no-data">
+           <label>(0) RESULT FOUND.</label>
+                <p>  
+             No Jewelry found.
+
+              </p>
+
+</div>
+                      
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+            </ul>
+          </div> 
+          <div id="demo">
+            <ul class="u-fancy-load">
+                <li ng-repeat="items in filtered = (itemData | orderBy:globl.sortorder | filter: globl.searchKeyword | filter:viewItemBy)">
+                <div class="row">
+                  <div class="col m12 l12">
+                    <div class="card-panel card-panel3 card-panel3-box-shadow">
+                      <div class="row">
+                        <div class="col s12 m3 l2">
+                          <div class="img-box2"><img class="responsive-img" alt="" fallback-src="../img/not-found-item.jpg" ng-src="../valoximage/imageuploaded/{{items.images[0].imagePath}}"></div>
+                        </div>
+                        <div class="col m6 l7 s12">
+                          <div class="card-content"> <span class="card-title"><a ng-click="detailItemAgent(items.userPublickKey, items.itemId)" href="javascript:;">{{items.name | limitTo: 30}}{{items.name.length < 30 ? '' : '...'}}</a> <!--<a data-tooltip="Favorite" data-delay="50" data-position="bottom" class="heart tooltipped" href="javascript:;">&nbsp;</a>--> <small>ID#  {{items.itemId}}</small></span>
+                          <span class="card-sub-title"> <i>Shared by</i>: <b>{{items.sharedBy.firstName}} {{items.sharedBy.middleName}} {{items.sharedBy.lastName}}</b></span>
+                            <p ng-bind-html="items.description | strLimit : 200 | newLine"></p>
+                             <!-- <div class="disp-cell"><img src="../img/icon-associate.jpg" alt=""/></div>
+                          <div class="disp-cell txt13">Item associated with<br>
+                              <a ng-click="itemListedCollection(items.itemId,items.collectionAssociatedWithItem.length)" href="javascript:void(0);" class="txt13">Collections (<span id="collection_item_{{items.itemId}}">{{items.collectionAssociatedWithItem.length?items.collectionAssociatedWithItem.length:0}}</span>)</a>, 
+                              <a href="javascript:;" ng-click="itemListedAppraisal(items.itemId,items.appraisalAssociatedWithItem.length?items.appraisalAssociatedWithItem.length:0)" class="txt13">Appraisals (<span id="appraisal_item_{{items.itemId}}">{{items.appraisalAssociatedWithItem.length?items.appraisalAssociatedWithItem.length:0}}</span>)</a>
+                          </div> -->
+
+                             <div ng-if="items.componentList.length>0" class="item-components"> Item Components<br>
+                                 <div class="items hover-none" >
+                                  <small ng-repeat="componentList in items.componentList | limitTo:5">{{componentList.componentName | limitTo: 8}}{{componentList.componentName.length < 8 ? '' : '...'}}({{componentList.componentQuantity}})</small> 
+                                  <strong ng-if="items.componentList.length>5" class="txt-blue1"><small href="javascript:void(0);">.. +{{items.componentList.length-5}}</small></strong>
+                                 </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        <div class="row-grey-gradient">   <div class="item-gradient grey-gradient hide-md">
+                                <ul>
+                                   <li ng-if="items.itemStatus!=3">
+                                    <label>Final Price</label>
+                                    ${{items.finalPrice | number:2}}
+                                  </li>
+                                  <li ng-if="items.itemStatus==3">
+                                    <label>Appraised Value</label>
+                                    ${{items.appraisedValue | number:2}}
+                                  </li>
+                                  <li>
+                                    <label>Market Value</label>
+                                    ${{items.marketValue | number:2}}
+                                    
+                                   <small>{{items.marketValueDate | marketDateFormat}} <i ng-if="items.marketValueDate">at</i> {{items.marketValueDate | marketTimeFormat}}</small> </li>
+                                  <li ng-if="items.itemStatus==3">
+                                    <label>Change</label>
+                                    <span ng-if="items.priceChange == 2" class="red-text">{{items.changePercentage |number:2}}% <i class="fa fa-sort-desc"></i></span>
+                                    <span ng-if="items.priceChange == 1" class="green-text">{{items.changePercentage |number:2}}% <i class="fa fa-sort-asc"></i></span>
+                                    <span ng-if="items.priceChange == 3" >{{items.changePercentage |number:2}}%</span>
+                                     </li>
+                                  <li ng-if="items.itemStatus==3">
+                                    <label>Last Appraised</label>
+                                    <span ng-if="items.lastAppraisedDate">{{items.lastAppraisedDate | myDateFormat}}</span>
+                                    <span ng-if="!items.lastAppraisedDate">--</span>
+                                     <img src="../img/ribbon.png" alt="" class="img2"></li>
+                                  <!-- <li><span class="green-label">+50%</span></li>-->
+                                </ul>
+                              </div></div>
+                          </div>
+                        </div>
+                        <div class="col s12 m3 l3">
+                          <div class="card-panel3-box-shadow-right">
+                            <ul class="collection hide-xs ">
+<ul class="collection border-left">
+                                <li class="collection-item" ng-if="items.appraisalFlag"><span class="disp-cell"><img alt="" src="../img/icon-appraisal.png"></span> <span class="disp-cell"><a href="javascript:void(0);" class="" ng-click="addAppraisalInItem(items.itemId, items.sharedBy.consumerPublicKey)">ADD TO APPRAISAL</a></span></li>
+                                <li class="collection-item" ng-if="items.collectionFlag"><span class="disp-cell"><img alt="" src="../img/icon-collection1.png"></span> <span class="disp-cell"><a href="javascript:void(0);" class="" ng-click="ItemAddcollection(items.itemId, items.sharedBy.consumerPublicKey)">ADD TO COLLECTION</a></span></li>
+                                <li ng-hide="items.itemStatus == 3" class="collection-item"><span class="disp-cell"><img alt="" src="../img/icon-edit.png" ></span> <span class="disp-cell"><a ng-click="editItemAgent(items.userPublickKey, items.itemId)" href="javascript:;">EDIT ITEM</a></span></li>
+                                <li ng-hide="items.itemStatus == 3" class="collection-item"><span class="disp-cell"><img alt="" src="../img/ico-delete.png" ></span> <span class="disp-cell"><a ng-click="deleteItemByListing(items.itemId, items.userPublickKey)" href="javascript:;">DELETE ITEM</a></span></li>
+                                <!-- <li class="collection-item"><span class="disp-cell"><img src="../img/icon-share.png" alt=""></span> <span class="disp-cell"><a class=""  href="javascript:;" ng-click="setShareId(items.itemId,1)" >SHARE </a></span></li> -->
+<!--                                <li class="collection-item"><span class="disp-cell"><img src="../img/icon-appraised1.png" alt=""></span> <span class="disp-cell"><a href="javascript:;">ITEM APPRAISED </a></span></li>-->
+
+                              </ul>
+                            </ul>
+                             <ul class="collection show-xs">
+                             <li ng-if="items.appraisalFlag" class="collection-item"><a href="javascript:;" ng-click="addAppraisalInItem(items.itemId, items.sharedBy.consumerPublicKey)" data-tooltip="ADD TO APPRAISAL" data-delay="50" data-position="bottom" class="tooltipped"><span class="disp-cell"><img src="../img/icon-appraisal.png"  alt=""/></span></a></li>
+
+
+                             <li class="collection-item" ng-if="items.collectionFlag"><a  ng-click="ItemAddcollection(items.itemId, items.sharedBy.consumerPublicKey)"  href="javascript:void(0);" data-tooltip="ADD TO COLLECTION" data-delay="50" data-position="bottom" class="tooltipped"><span class="disp-cell"><img src="../img/icon-collection1.png"  alt=""/></span></a></li>
+
+                             <li ng-hide="items.itemStatus == 3" class="collection-item"><a ng-click="editItemAgent(items.userPublickKey, items.itemId)"  href="javascript:;"  data-tooltip="EDIT" data-delay="50" data-position="bottom" class="tooltipped"><span class="disp-cell"><img alt="" src="../img/icon-edit.png"></span></a></li>
+                             <li ng-hide="items.itemStatus == 3" class="collection-item"><a ng-click="deleteItemByListing(items.itemId, items.userPublickKey)"  href="javascript:;"  data-tooltip="DELETE ITEM" data-delay="50" data-position="bottom" class="tooltipped"><span class="disp-cell"><img alt="" src="../img/ico-delete.png"></span></a></li>
+                                
+                                
+                                <!-- <li class="collection-item"><span class="disp-cell"><img src="../img/icon-share.png" alt=""></span> <span class="disp-cell"><a class=""  href="javascript:;" ng-click="setShareId(items.itemId,1)" >SHARE </a></span></li> -->
+<!--                                <li class="collection-item"><span class="disp-cell"><img src="../img/icon-appraised1.png" alt=""></span> <span class="disp-cell"><a href="javascript:;">ITEM APPRAISED </a></span></li>-->
+                            </ul> 
+                            <!--  <div class="last-appraised"> Last appraised <br>
+                              2 month ago</div>--> 
+                          </div>
+                        </div>
+                      </div>
+<!--                  <div class="row-grey-gradient">     <div class="grey-gradient show-md">
+                        <ul>
+                          <li>
+                            <label>Value</label>
+                            $1,000</li>
+                          <li>
+                            <label>Market Value</label>
+                            $1,500</li>
+                          <li>
+                            <label>% Change</label>
+                            <span class="green-text">50% <i class="fa fa-sort-asc"></i></span> </li>
+                          <li>
+                            <label>Last Appraised</label>
+                            Dec 15, 2015</li>
+                            <li><span class="green-label">+50%</span></li>
+                        </ul>
+                      </div></div>-->
+                    </div>
+                  </div>
+                </div>
+              </li>
+              
+              
+            </ul>
+          </div>
+          <!--<div class="paging2"><a onclick="toggle2();" href="javascript:;">Load more..</a></div>--> 
+          
+        </div>
+      </div>
+    </div>
+    
+    <!-- My Items section end here--> 
+  </div>
+

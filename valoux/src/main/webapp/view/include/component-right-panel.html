@@ -1,0 +1,172 @@
+<div ng-init="initcomponentPanel()" ng-cloak>
+<div ng-if="addNowcomponents" style="display:block;">
+    <div class="row">
+      <div class="col s12"> <span class="head2">JEWELRY COMPONENTS</span> </div>
+    </div>
+    <div class="row component-bg">
+      <div class="col s12">
+        <div class="hover-con"></div>
+        <div class="add-component"><img alt="" src="../img/ideabox.png" class="idea-img">
+          <p>Use this area to add Components to your JEWELRY like Gems, Diamonds etc..</p>
+          <a href="javascript:void(0);" ng-click="showSelectComponentList();">ADD NOW</a> </div>
+      </div>
+    </div>
+</div>
+
+<div ng-if="showSelectComponent">
+<div class="row">
+  <div class="col s12"> <span class="head2">SELECT COMPONENTS</span> </div>
+</div>
+<div class="white-box">
+  <ul class="list-2">
+      <li ng-repeat="compType in componenttypes">
+      <input ng-model="compType.selected" type="checkbox" value="{{compType.componentId}}" class="filled-in larg-chk" id="{{'compType'+compType.componentId}}"/>
+      <label for="{{'compType'+compType.componentId}}">{{compType.componentName}}</label>
+      <img class="icon-info2 tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." data-delay="50" data-position="top" src="../img/icon-info.jpg"/>
+    </li>
+  </ul>
+    <div class="center"><a class="btn-m1 waves-effect waves-light" ng-click="addComponentType()" href="javascript:void(0);">ADD NOW</a> </div>
+</div>
+</div>
+
+<div ng-show="showAddComponent">
+    <form autofocus-form name="addcomponentForm" ng-submit="addcomponentForm.$valid && saveItemComponent()" novalidate> 
+    <div class="row">
+      <div class="col s12"> <span class="head2">JEWELRY COMPONENTS</span> </div>
+    </div>
+    <div class="row">
+      <div class="col s12 select-component">
+        <div class="row head-row">
+          <div class="col s5">
+            <label class="label-6">Name</label>
+          </div>
+          <div class="col s3 padr0 padl0">
+            <label class="label-6">Type</label>
+          </div>
+          <div class="col s4">
+            <label class="label-6">Quantity</label>
+          </div>
+        </div>
+        <div class="mCustomScrollbar add-component-scroll1">
+           <div class="row list-item" ng-repeat="comptypeRow in addCompType track by $index">
+            <div class="col s5 prod-name">
+                <input class="input-sml1" ng-model="itemComponents[$index].componentName" type="text" placeholder="Enter name" value="" maxlength="50" required=""/>
+            </div>
+               <div class="col s3 padr0 padl0 col-half"> <a href="#modal3" ng-click="selectCurrentRow($index, $event);" ng-bind="itemComponents[$index].componentTypeName" class="modal-trigger select-label2 clscomponentType{{$index}}">Diamonds</a> </div>
+            <input type="hidden" ng-model="itemComponents[$index].componentType" value="" >
+            <div class="col s4 col-half">
+                <a href="javascript:void(0);" ng-click="QuatityPlusMinus($index,0);" type="button" class="btn  btn-number minus1" disabled="disabled" data-type="minus" data-field="quant[2]">-</a>
+                <input type="text" readonly="" name="quant[2]" ng-model="itemComponents[$index].componentQuantity" class="form-control input-number" value="1" min="1" max="999">
+              <a href="javascript:void(0);" ng-click="QuatityPlusMinus($index,1);" type="button" class="btn btn-number plus1" data-type="plus" data-field="quant[2]">+</a>
+            </div>
+            <div ng-if="$index" class="detial-btn-con">
+                <a ng-click="hideAddmoreComponents($index);" href="javascript:void(0);" class="btn-sml1 add-prod-properties-btn waves-effect waves-light btn-sml1-gray">Remove</a>
+            </div>
+          </div>       
+        </div>
+      </div>
+    </div>
+    <div class="row">
+        <div class="col s12"><a href="javascript:void(0);" class="pull-right slide-right a4"  ng-click="addmoreComponents();" > <img src="../img/icon-plus.png" alt=""/><b>Add more</b> </a></div>
+    </div>
+        <div ng-if="addCompType.length>0" class="left-align"><button type="submit" class="btn-m1 waves-effect waves-light" href="javascript:void(0);">SAVE</button> </div>
+   </form> 
+  </div>
+
+
+<div ng-show="showComponentsAdded">
+    <form autofocus-form name="componentAddForm" ng-submit="componentAddForm.$valid && saveItemComponent()" novalidate>
+    <div class="row">
+      <div class="col s12"> <span class="head2">JEWELRY COMPONENTS</span> </div>
+    </div>
+    <div class="row">
+        <div class="col s12 select-component">
+          <div class="row head-row">
+            <div class="col s5">
+              <label class="label-6">Name</label>
+            </div>
+            <div class="col s3 padr0 padl0">
+              <label class="label-6">Type</label>
+            </div>
+            <div class="col s4">
+              <label class="label-6">Quantity</label>
+            </div>
+          </div>
+          <div class="mCustomScrollbar add-component-scroll1 add-component-scroll3">
+              <div class="row list-item" ng-class="compAdded.propertyFlag?'added':''" ng-repeat="compAdded in componentsAdded">
+                <span class="quick-edits">
+                    <a ng-if="compAdded.propertyFlag" href="#modal4" ng-click="showComponentsEditPopup(compAdded);"  class="tooltipped modal-trigger" data-tooltip="EDIT" data-delay="50" data-position="bottom">
+                        <img src="../img/icon-edit1.png"/>
+                    </a> 
+                    <a ng-if="!compAdded.propertyFlag" href="#modal4" ng-click="showComponentsEditPopup(compAdded);"  class="tooltipped modal-trigger" data-tooltip="EDIT" data-delay="50" data-position="bottom">
+                        <img src="../img/ico-edit.png"/>
+                    </a>
+                    <a ng-if="compAdded.propertyFlag" ng-click="deleteItemComponent(compAdded.itemComponentId,$event)" href="javascript:void(0);" class="tooltipped" data-tooltip="DELETE" data-delay="50" data-position="bottom">
+                        <img src="../img/ico-delete2.png"/>
+                    </a>
+                    <a ng-if="!compAdded.propertyFlag" ng-click="deleteItemComponent(compAdded.itemComponentId,$event)" href="javascript:void(0);" class="tooltipped" data-tooltip="DELETE" data-delay="50" data-position="bottom">
+                        <img src="../img/ico-delete.png"/>
+                    </a>
+                </span>
+              <div class="col s5 prod-name padr0"> <span class="label-3">{{compAdded.componentName}}</span></div>
+              <div class="col s3 padr0 padl0 col-half"> <span class="label-3">{{compAdded.componentTypeName}}</span> </div>
+              <div class="col s4 col-half"> <span class="label-3">{{compAdded.componentQuantity}}</span> </div>
+              <div class="detial-btn-con">
+                <div class="row">
+                  <div class="col s12 m12 l6">
+                      <a href="javascript:void(0)" class="btn-sml1 add-prod-properties-btn waves-effect waves-light" ng-click="openPropertyPopup(store.itemId,store.name,compAdded);">
+                      <span ng-if="!compAdded.propertyFlag">Add Properties</span>
+                      <span ng-if="compAdded.propertyFlag">Edit Properties</span>
+                  </a>
+                  </div>
+                    <div ng-if="isAgentLogin && compAdded.componentProperty.priceProperty.finalPrice" class="col s12 m12 l6 price-con">${{ parseFloat(compAdded.componentProperty.priceProperty.finalPrice) | number:2 }}</div>
+                </div>
+                <div class="row" ng-if="isAgentLogin && compAdded.componentProperty.priceProperty.finalPrice && compAdded.componentProperty.priceProperty.quantity>1">
+                    <div class="col s12">Total Price: <span>${{ parseFloat(compAdded.componentProperty.priceProperty.finalPrice) | number:2 }} x {{ compAdded.componentProperty.priceProperty.quantity}}  = ${{ (parseFloat(compAdded.componentProperty.priceProperty.finalPrice) * (compAdded.componentProperty.priceProperty.quantity)) | number:2 }}</span></div>
+                </div>
+              </div>
+
+            </div>
+            
+            <div class="row list-item" ng-repeat="comptypeRow in addCompType track by $index">
+            <div class="col s5 prod-name">
+                <input class="input-sml1" ng-model="itemComponents[$index].componentName" type="text" placeholder="Enter name" maxlength="50" value="" required/>
+            </div>
+               <div class="col s3 padr0 padl0 col-half"> <a href="#modal3" ng-click="selectCurrentRow($index, $event); blur='true'" ng-bind="itemComponents[$index].componentTypeName" class="modal-trigger select-label2 clscomponentType{{$index}}" >Diamonds</a> </div>
+            <input type="hidden" ng-model="itemComponents[$index].componentType" value="" >
+            <div class="col s4 col-half">
+                <a href="javascript:void(0);" ng-click="QuatityPlusMinus($index,0);" type="button" class="btn  btn-number minus1" disabled="disabled" data-type="minus" data-field="quant[2]">-</a>
+                <input type="text" name="quant[2]" readonly="" ng-model="itemComponents[$index].componentQuantity" class="form-control input-number" value="1" min="1" max="999">
+              <a href="javascript:void(0);" ng-click="QuatityPlusMinus($index,1);" type="button" class="btn btn-number plus1" data-type="plus" data-field="quant[2]">+</a>
+            </div>
+            <div class="detial-btn-con">
+                <a ng-click="hideAddmoreComponents($index);" href="javascript:void(0);" class="btn-sml1 add-prod-properties-btn waves-effect waves-light btn-sml1-gray">Remove</a>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    <div class="row">
+      <div class="col s12"><a href="javascript:void(0);" class="pull-right slide-right a4"  ng-click="addmoreComponents();"> <img src="../img/icon-plus.png" alt=""/><b>Add more</b> </a></div>
+    </div>
+    <div ng-if="itemComponents.length>0" class="left-align">
+        <button type="submit" class="btn-m1 waves-effect waves-light">SAVE</button> 
+    </div>
+    
+</form>   
+</div>
+<div class="row" ng-if="isAgentLogin">
+        <div class="col s12">
+          <div class="total-price-con">
+            <h6>Total Item Price <span class="price">${{(itemInfo.priceProperty.totalFinalPrice * store.quantity)|number:2}}</span> <a class="modal-trigger" href="#modal-item-price">Edit</a></h6>
+          </div>
+        </div>
+      </div>
+
+
+</div>
+<div class="step3-box" ng-show="showSelectComponent || showAddComponent || showComponentsAdded">
+<div class="step-1">STEP - <b>3</b></div>
+<p>Come back any time to Edit Components, or Share with an Agent to complete the appraisal.</p></div>
+
+

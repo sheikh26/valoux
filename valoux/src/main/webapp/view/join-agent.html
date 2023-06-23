@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<title>Valoux - Valoux is an online data management system, an appraisal and appraiser network, and an insurance delivery platform</title>
+
+<!-- CSS  -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<link href="../css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/footer.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/animate.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/font-awesome.min.css" rel="stylesheet">
+<link href="../css/custom.css" rel="stylesheet">
+<link href="../css/tooltipster.css" type="text/css" rel="stylesheet"/>
+<!-- custom scrollbar stylesheet -->
+<link rel="stylesheet" href="../css/jquery.mCustomScrollbar.css">
+
+<script src="../js/extLib/jquery-1.12.0.min.js"></script>
+<script src="../js/extLib/jquery.tooltipster.min.js"></script>
+<script src="../js/extLib/angular.min.js"></script>
+ <script src="../js/extLib/angular-touch.min.js"></script>
+<script src="../js/app/app.js" type="text/javascript"></script>
+<script src="../js/app/controller/baseController.js"></script>
+<script src="../js/app/service/service.js"></script>  
+<script src="../js/app/service/masterDataService.js"></script>  
+
+<script src="../js/app/directives/BaseDirective.js"></script> 
+<script src="../js/app/userManagement/controller/userManagement.js"></script>
+<script src="../js/app/directives/validatorDirective.js"></script>
+<!-- angucomplete files -->
+<link href="../css/angucomplete.css" rel="stylesheet">
+<script src="../js/extLib/angucomplete-alt.js"></script>
+<!-- custom scrollbar plugin --> 
+ <script src="../js/extLib/jquery.mCustomScrollbar.concat.min.js"></script> 
+  <!--error handling-->
+<script src="../js/extLib/stacktrace-0.5.0.min.js"></script>
+<script src="../js/app/error-handling.js"></script>
+</head>
+<body ng-app="valouxApp" ng-controller="BaseController">
+<header-section></header-section>
+<div class="graybox" ng-controller="userManagement">
+<thankyou ng-if="registerFormSuccess"></thankyou>
+  <div class="container" ng-show="registerForm">
+    <div class="row">
+      <div class="col s12">
+        <div class="page-header">
+          <h1 class="wow fadeInLeft animated">Welcome!</h1>
+          <p class="wow fadeInRight animated">Let’s get to know you a little better! As always, protection of your information is our top most priority!</p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+    <form autofocus-form name="registrationFormAgent" ng-submit="registrationFormAgent.$valid && ((required==0 && storeData.storeId!=0) || (required==1 && storeData.storeId==0)) &&  checkValidFormAgent()" novalidate>
+    
+      <div class="col s12">
+        <div class="whitebox1 whitebox1-padb">
+       
+          <div class="box1">
+            <div class="row">
+            <div class="col m12 s12">
+            
+            <div class="error-msg" ng-if="registerFormAgentError">
+            <div class="disp-cell">
+            <i class="fa fa-thumbs-o-up"></i>
+            </div> 
+            <div class="disp-cell">
+            <span>{{errorMessage}}</span>
+        </div>
+        </div>
+      
+   <!--    <div class="success-msg mt-10 mb-10" ng-if="registerFormAgentSuccess">
+      <div class="disp-cell">
+      <i class="fa fa-exclamation-triangle"></i>
+      </div> 
+      <div class="disp-cell">
+      <span>{{successMessage}}</span>
+      </div>
+      <div class="clear"></div>
+      </div> -->
+      
+      </div>
+              <div class="col col m12 l4">
+              
+              <div class="input-field">  <h4>YOUR INFORMATION</h4>
+                
+                <p>Your email address will be your login. <br>
+                  <br>
+                  A verification code will be sent each time you login to ensure the highest level of security. You may select if it goes to your email or mobile device. Carrier fees may apply for text message verification.</p>
+             </div> </div>
+              <div class="col col m12 l8">
+                <div class="row">
+                  
+                    
+                      <div class="input-field col s4 full-width-sm">
+                        <input  maxlength="50"  id="first_name" type="text" name="firstName" ng-model="user.firstName" required>
+                        <label for="first_name" class="active">First name <sup>*</sup></label>
+                        <label class="error" ng-show="registrationFormAgent.$submitted || (registrationFormAgent.firstName.$dirty && registrationFormAgent.firstName.$invalid)">
+			            <label class="error-msg-form" ng-show="registrationFormAgent.firstName.$error.required">First name is required.</label>
+			            </label>
+                      </div>
+                      <div class="input-field col s4 full-width-sm">
+                        <input maxlength="50" id="middle_name" type="text" ng-model="user.middleName" name="middleName">
+                        <label for="middle_name">Middle name</label>
+                      </div>
+                      <div class="input-field col s4 full-width-sm">
+                        <input maxlength="50" id="last_name" name="lastName" type="text" ng-model="user.lastName" required>
+                        <label for="last_name">Last name <sup>*</sup></label>
+                        <label class="error" ng-show="registrationFormAgent.$submitted || (registrationFormAgent.lastName.$dirty && registrationFormAgent.lastName.$invalid)">
+			            <label class="error-msg-form" ng-show="registrationFormAgent.lastName.$error.required">Last name is required.</label>
+			            </label>
+                      </div>
+
+                    </div>
+              
+                    <div class="row">
+                       <div class="input-field col s12 full-width-sm">
+                        <input id="email" ng-model-options="{ updateOn: 'blur' }"  type="email" isemail-Exists name="emailId" ng-model="user.emailId" ng-pattern="/^[\w-]+(\.[\w-]+)*@([a-z0-9-]+(\.[a-z0-9-]+)*?\.[a-z]{2,6}|(\d{1,3}\.){3}\d{1,3})(:\d{4})?$/i" maxlength="100" required>
+                        <label for="email">Email address <sup>*</sup></label>
+                        <label class="error" ng-show="registrationFormAgent.$submitted || registrationFormAgent.emailId.$touched || (registrationFormAgent.emailId.$dirty && registrationFormAgent.emailId.$invalid)">
+                  <label  class="error-msg-form" ng-show="registrationFormAgent.emailId.$error.required">Email is required.</label>
+                  <label class="error-msg-form" ng-show="registrationFormAgent.emailId.$error.pattern">Invalid email.</label>
+                  <label class="error-msg-form" ng-show="registrationFormAgent.emailId.$pending.emailId">Checking if this email is available...</label>
+                  <label class="error-msg-form" ng-show="registrationFormAgent.emailId.$error.emailId">Email already exists.</label>
+                  </label>
+                      </div>
+                      </div>
+                    <div class="row">
+                      <div class="input-field col s12 full-width-sm">
+                    <label class="label-7" for="State">Mobile phone <sup>*</sup></label>
+                    <div class="row" ng-init="initCountryCode()">
+                    <div class="col s6 numb-place">
+                      <!-- <input id="countryCode" type="text" name="countryCode" ng-pattern="/^\+?(\d{1,4})$/" ng-model="countryCode" required maxlength="4" placeholder="Country code"> -->
+                      <select name="countryCode" ng-options="countryCode.value as countryCode.name for countryCode in
+                          countryCodes" ng-model="countryCode" required>
+                            <option value="">Select</option>
+                            
+                          </select>
+                        <label class="error" ng-show="registrationFormAgent.$submitted || (registrationFormAgent.countryCode.$dirty && registrationFormAgent.countryCode.$invalid)">
+                  <label class="error-msg-form" ng-show="registrationFormAgent.countryCode.$error.required">Country code is required.</label>
+                  <label class="error-msg-form" ng-show="registrationFormAgent.countryCode.$error.pattern">Invalid code.</label>
+                  </label>
+                      </div>
+                      <div class="col s6 numb-place" style="position:relative;">
+                      
+                      <input id="mobile" type="text" name="mobilePhone" ng-pattern="/^\(?(\d{3})\)?[ .-]?(\d{3})[ .-]?(\d{4})$/" numbers-only placeholder="Enter mobile phone number" ng-model="mobilePhone" required maxlength="10">
+                      <label style="left: 0rem !important; bottom:2rem;" class="error" ng-show="registrationFormAgent.$submitted || (registrationFormAgent.mobilePhone.$dirty && registrationFormAgent.mobilePhone.$invalid)">
+                  <label class="error-msg-form" ng-show="registrationFormAgent.mobilePhone.$error.required">Mobile phone is required.</label>
+                  <label class="error-msg-form" ng-show="registrationFormAgent.mobilePhone.$error.pattern">Invalid mobile.</label>
+                  </label>
+                      </div>
+                      </div>
+                    </div>
+
+
+
+                    </div>
+                    <!-- <div class="row">
+                      <div class="input-field col s4">
+                        <input id="countryCode" type="text" name="countryCode" ng-pattern="/^\+?(\d{1,4})$/" ng-model="countryCode" required maxlength="4">
+                        <label for="countryCode">Country code <sup>*</sup></label>
+                        <label class="error" ng-show="registrationFormAgent.$submitted || (registrationFormAgent.countryCode.$dirty && registrationFormAgent.countryCode.$invalid)">
+                  <label class="error-msg-form" ng-show="registrationFormAgent.countryCode.$error.required">Country code is required.</label>
+                  <label class="error-msg-form" ng-show="registrationFormAgent.countryCode.$error.pattern">Invalid country code.</label>
+                  </label>
+                      </div>
+                      <div class="input-field col s8">
+                        <input id="mobile" type="text" name="mobilePhone" ng-pattern="/^\(?(\d{3})\)?[ .-]?(\d{3})[ .-]?(\d{4})$/" numbers-only ng-model="mobilePhone" required maxlength="10">
+                        <label for="mobile">Mobile phone <sup>*</sup></label>
+                        <label class="error" ng-show="registrationFormAgent.$submitted || (registrationFormAgent.mobilePhone.$dirty && registrationFormAgent.mobilePhone.$invalid)">
+                  <label class="error-msg-form" ng-show="registrationFormAgent.mobilePhone.$error.required">Mobile phone is required.</label>
+                  <label class="error-msg-form" ng-show="registrationFormAgent.mobilePhone.$error.pattern">Invalid mobile.</label>
+                  </label>
+                      </div>
+                    </div>
+   -->
+             
+                </div>
+              </div>
+            </div>
+          
+          <div class="box2">
+            <div class="box1">
+              <div class="row">
+                <div class="col m12 l4 s12">
+             <div class="input-field">     <h6>SET PASSWORD</h6>
+                  <p>Must be atleast 8 characters long, 1 Capital letter, 1 punctuation, 1 number</p></div>
+                </div>
+                <div class="col m12 l8 s12">
+                  <div class="row">
+                 
+                     
+                        <div class="input-field col s6 full-width-sm">
+                          <input id="password" name="password" ng-model="user.password" type="password" ng-pattern="/(?=.*[A-Z])(?=.*[!#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~])(?=.*[0-9])/" ng-minlength="8" maxlength="20" required>
+                          <label for="password">Password <sup>*</sup></label>
+                          <label class="error" ng-show="registrationFormAgent.$submitted || (registrationFormAgent.password.$dirty && registrationFormAgent.password.$invalid)">
+			            <label class="error-msg-form" ng-show="registrationFormAgent.password.$error.required">Password is required.</label>
+			            <label class="error-msg-form" ng-show="registrationFormAgent.password.$error.minlength">Too short. Please enter password of alteast 8 character</label>
+
+			            <label class="error-msg-form" ng-show="!registrationFormAgent.password.$error.required && !registrationFormAgent.password.$error.minlength && registrationFormAgent.password.$error.pattern && registrationFormAgent.password.$dirty">Must contain 1 Capital letter, 1 punctuation, 1 number.</label>
+			            </label>
+                        </div>
+                        <div class="input-field col s6 full-width-sm">
+                          <input id="re-enter" match-fields="password" name="passwordConfirm" ng-model="passwordConfirm" type="password" maxlength="20" required>
+                          <label for="re-enter">Re-enter password <sup>*</sup></label>
+                          <label class="error" ng-show="registrationFormAgent.$submitted || (registrationFormAgent.passwordConfirm.$dirty && registrationFormAgent.passwordConfirm.$invalid)">
+				            
+				            <label class="error-msg-form" ng-show="registrationFormAgent.passwordConfirm.$error.matchFields">Passwords do not match.</label>
+				            </label>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="input-field col s12 password-reset1">
+                          
+                          
+                          <input class="password-reset1" value="" name="passwordResetQuetion" ng-model="user.passwordResetQuetion" id="password-reset" type="text" required>
+
+                          <label for="password-reset">Please enter your own password reset question <sup>*</sup></label>
+                          <label class="error" ng-show="registrationFormAgent.$submitted || (registrationFormAgent.passwordResetQuetion.$dirty && registrationFormAgent.passwordResetQuetion.$invalid)">
+			            <label class="error-msg-form error-reset1" ng-show="registrationFormAgent.passwordResetQuetion.$error.required">Password reset question is required.</label>
+			            </label>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="input-field col s6 full-width-sm password-reset1">
+                          <input id="reset-answer" name="passwordResetAnswer" type="password" ng-model="user.passwordResetAnswer" required>
+                          <label for="reset-answer">Reset answer <sup>*</sup></label>
+                          <label class="error" ng-show="registrationFormAgent.$submitted || (registrationFormAgent.passwordResetAnswer.$dirty && registrationFormAgent.passwordResetAnswer.$invalid)">
+				            <label class="error-msg-form" ng-show="registrationFormAgent.passwordResetAnswer.$error.required">Reset Answer is required.</label>
+				            </label>
+                        </div>
+                        <div class="input-field col s6 full-width-sm">
+                          <input id="re-enter1" match-fields="reset-answer" name="resetAnswerConfirm" type="password" ng-model="resetAnswerConfirm"  required>
+                          <label for="re-enter1">Re-enter reset answer <sup>*</sup></label>
+                          <label class="error" ng-show="registrationFormAgent.$submitted || (registrationFormAgent.resetAnswerConfirm.$dirty && registrationFormAgent.resetAnswerConfirm.$invalid)">
+				            
+				            <label class="error-msg-form" ng-show="registrationFormAgent.resetAnswerConfirm.$error.matchFields">Answer do not match.</label>
+				            </label>
+                        </div>
+                      </div>
+                 
+                   
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+          <div class="box1 box1-mart">
+            <div class="row">
+             
+              <div class="col m12 l4">
+                <h4>STORE INFORMATION</h4>
+                <p>Only can login at store which will check IP address to confirm.</p>
+                
+                <div class="map" id="map"></div>
+              </div>
+                <div class="col m12 l8 s12" ng-init="getStore()">
+                    
+                <!-- <div class="row"> -->
+                    <div class="row">
+                      <div class="input-field col s12 full-width-sm">
+                        <div class="clearfix"></div>
+                        <div class="row radio-box">
+                          <div class="col s12">
+
+                            <label for="Store"  class="">Store name <sup>*</sup></label> <br> 
+<!--                            <a href="javascript:void(0);" slide-toggle="#gray-address1" slide-toggle-duration="500" ng-click="showNewStore()" class="not-found">Not found?</a> -->
+                                <div class="padded-row">
+                                    <div angucomplete-alt
+                                      id="ex7"
+                                      placeholder="Search store"
+                                      pause="100"
+                                      selected-object="storeSelected"
+                                      local-data="stores"
+                                      local-search="setAddnewOption"
+                                      search-fields="storeName"
+                                      title-field="storeName"
+                                      description-field="gaddress"
+                                      minlength="1"
+                                      input-class="form-control form-control-small"
+                                      match-class="highlight">
+                                    </div>
+                                    <a class="close-btn close-btn-small close-clear close-clear3 tooltipped" data-tooltip="DELETE" data-delay="50" data-position="bottom" ng-click="clearStore()" href="javascript:void(0);">&nbsp;</a>
+                                </div>
+                            
+                          </div> 
+<!--                            <div class="col s6">
+
+                                <input class="filled-in" id="newStore" ng-model="isNewStore" ng-click="storeId=0;$broadcast('angucomplete-alt:clearInput');" ng-true-value="1" ng-false-value="0" type="checkbox"><label for="newStore">New store?</label>
+                            
+                          </div>-->
+                        </div>
+                      </div>
+                        <div ng-show="registrationFormAgent.$submitted && !required && !storeData.storeId" class="col s12 full-width-sm" style="margin-top: -20px;">
+                            <label class="error">
+                                <label class="error-msg-form error-msg-form2" >Please select store.</label>
+                            </label>
+                            </div>
+                    </div>
+                    <div class="gray-accord" id="gray-address1">
+                        <div class="row">
+                            <div class="input-field col s12 full-width-sm">
+                            <label id="location-input" for="Location" class="label-7">Location</label>
+                            <div class="clearfix"></div>
+                              <div class="row">
+                    <div class="col s12 numb-place">  
+                       <input placeholder="Enter a location" id="location" name="store_location" ng-disabled="!required" ng-model="storeData.store_location"  type="text" maxlength="250">
+                        <!-- <label for="location" ng-class="store_location ? 'active' : ''">Location</label> -->
+<!--                        <a href="javascript:;" slide-toggle="#gray-address" slide-toggle-duration="500" class="not-found">Not found?</a> --><!-- 
+                        <label class="error" ng-show="registrationFormAgent.$submitted || (registrationFormAgent.store_location.$dirty && registrationFormAgent.store_location.$invalid)">
+		            <label class="error-msg-form" ng-show="registrationFormAgent.store_location.$error.required">Location is required.</label>
+		            </label> -->
+                  </div>
+                      </div>
+                        </div>
+                            
+                        </div>
+                        
+                        <div class="row">
+                  <div class="col s12">   <div class="row">
+                      <div class="input-field col s6 full-width-sm">
+                          <input id="Store" name="store_name" ng-disabled="!required"  ng-model="storeData.store_name" type="text" ng-required='required' maxlength="200">
+                        <label for="Store" class="">Your store name <sup>*</sup></label>
+                        <label class="error" ng-show="registrationFormAgent.$submitted || (registrationFormAgent.store_name.$dirty && registrationFormAgent.store_name.$invalid)">
+		            <label class="error-msg-form" ng-show="registrationFormAgent.store_name.$error.required">Store name is required.</label>
+		        </label>
+                        </div>
+                       <div class="input-field col s6 full-width-sm">
+                          
+                                    <input id="store_phone" name="storePhoneNumber" ng-disabled="!required" ng-model="storeData.storePhoneNumber" ng-minlength="10" maxlength="20"  type="text">
+                        <label for="store_phone">Store phone</label>              
+                       <label class="error" ng-show="(registrationFormAgent.storePhoneNumber.$dirty && registrationFormAgent.storePhoneNumber.$invalid)">
+                  <!-- <label class="error-msg-form" ng-show="registrationFormAgent.storePhoneNumber.$error.pattern">Invalid phone number.</label> ng-pattern="/^\d+$/"-->
+                  <label class="error-msg-form" ng-show="registrationFormAgent.storePhoneNumber.$error.minlength || registrationFormAgent.storePhoneNumber.$error.pattern">Invalid phone number.</label>
+                  </label>
+                        
+                          
+                        
+                        </div>         
+                                      
+                    </div></div> 
+                    
+                      </div>
+                    <div><div class="row">
+                        <div class="col s12">   
+                            <div class="row">
+                        <div class="input-field col s6 full-width-sm">
+                        <input type="text"  id="addressLine1" ng-disabled="!required" ng-model="storeData.addressLine1" ng-keyup="isGoogleAddress()" name="addressLine1" ng-required='required' maxlength="145">
+                        <label class="" for="addressLine1">Address 1 <sup>*</sup></label>
+                        <label class="error" ng-show="registrationFormAgent.$submitted || (registrationFormAgent.addressLine1.$dirty && registrationFormAgent.addressLine1.$invalid)">
+		            <label class="error-msg-form" ng-show="registrationFormAgent.addressLine1.$error.required">Address 1 is required.</label>
+		            </label>
+                        </div>
+                          
+                        <div class="input-field col s6 full-width-sm">
+                       <input type="text" id="addressLine2" ng-disabled="!required" ng-model="storeData.addressLine2" name="addressLine2" maxlength="145">
+                        <label class="" for="addressLine2">Apartment/Floor/Business</label>
+                        
+                        </div>
+                                      
+                    </div>
+                  </div>   
+                      </div>
+                      <div class="row">
+                      <div class="col s12">
+                          <div class="row">
+                        <div class="input-field col s6 full-width-sm">
+                         <input type="text" id="city" ng-model="storeData.city" ng-disabled="!required" ng-keyup="isGoogleAddress()" name="city" ng-required='required' maxlength="30">
+                        <label class="" for="city">City <sup>*</sup></label>
+                        <label class="error" ng-show="registrationFormAgent.$submitted || (registrationFormAgent.city.$dirty && registrationFormAgent.city.$invalid)">
+		            <label class="error-msg-form" ng-show="registrationFormAgent.city.$error.required">City is required.</label>
+		            </label>
+                        </div>
+                         <div class="input-field col s6 full-width-sm">
+                         <input type="text" id="state" ng-model="storeData.state" ng-disabled="!required" ng-keyup="isGoogleAddress()" name="state" ng-required='required' maxlength="30">
+                        <label class="" for="state">State <sup>*</sup></label>
+                        <label class="error" ng-show="registrationFormAgent.$submitted || (registrationFormAgent.state.$dirty && registrationFormAgent.state.$invalid)">
+		            <label class="error-msg-form" ng-show="registrationFormAgent.state.$error.required">State is required.</label>
+		            </label>
+                        </div>
+                      </div>
+                      </div>
+                          </div>
+                      <div class="row">
+                          <div class="col s12">
+                      <div class="row">
+                       
+                        <div class="input-field col s6 full-width-sm">
+                         <input type="text" id="zipCode" ng-model="storeData.zipCode" ng-disabled="!required" ng-keyup="isGoogleAddress()" name="zipCode" ng-required='required' maxlength="12">
+                        <label class="" for="zipCode">Zip <sup>*</sup></label>
+                        <label class="error" ng-show="registrationFormAgent.$submitted || (registrationFormAgent.zipCode.$dirty && registrationFormAgent.zipCode.$invalid)">
+		            <label class="error-msg-form" ng-show="registrationFormAgent.zipCode.$error.required">Zip is required.</label>
+		            </label>
+                        </div>
+                           
+                        <div class="input-field col s6 full-width-sm">
+                        <input type="text" id="country" ng-model="storeData.country" ng-disabled="!required" ng-keyup="isGoogleAddress()" name="country" ng-required='required' maxlength="30">
+                        <label class="" for="country">Country <sup>*</sup></label>
+                        <label class="error" ng-show="registrationFormAgent.$submitted || (registrationFormAgent.country.$dirty && registrationFormAgent.country.$invalid)">
+		            <label class="error-msg-form" ng-show="registrationFormAgent.country.$error.required">Country is required.</label>
+		            </label>
+                        </div>
+                      </div></div>
+                          </div>
+                    
+                      </div>
+                    </div>
+                    
+                    
+                    <div class="row" ng-init="user.agentRole = 1">
+                    <div class="input-field col s12 full-width-sm"> <span for="first_name">Select role <sup>*</sup></span>
+                      <div class="clearfix"></div>
+                           <div class="row radio-box">
+                             <div class="col s6 m3">
+                        
+                              <input ng-model="user.agentRole" value="1" name="group1" type="radio" id="owner"/>
+                              <label for="owner">Owner</label>
+                          
+                          </div>
+                          <div class="col s6 m3">
+                       
+                              <input ng-model="user.agentRole" value="3" name="group1" type="radio" id="manager" />
+                              <label for="manager">Manager </label>
+                          
+                          </div>
+                          
+                             <div class="col s6 m3">
+                    
+                              <input ng-model="user.agentRole" value="4" name="group1" type="radio" id="salesperson" />
+                              <label for="salesperson">Salesperson</label>
+                         
+                          </div>
+                          <div class="col s6 m3">
+                           
+                              <input ng-model="user.agentRole" value="5" name="group1" type="radio" id="appraiser" />
+                              <label for="appraiser">Appraiser </label>
+                           
+                        </div></div>
+                          
+                          
+                        
+                    </div></div>
+                            <div class="row store-inpt">
+                      <div class="input-field col s12 full-width-sm">
+                        <div class="clearfix"></div>
+                        <div class="row radio-box">
+                          
+                      </div>
+                
+                    </div>
+                  
+                </div>
+              </div> 
+            </div>
+          </div>
+            <!--Upload signature section  start here-->
+            <div class="box2 bg-upload">
+              <div class="box1"> 
+                <!--Set Password section  start here-->
+                <div class="row">
+                  <div class="col m12 l4 s12">
+                    <div class="input-field" ng-init="signatureSelect = 1">
+                      <h6>UPLOAD SIGNATURE</h6>
+                      <img src="../img/img-upload-signature.jpg"  class="upload-signature" alt=""/>
+<p>Lorem ipsum dolar sit is a dummy text used in print</p>
+                    </div>
+                  </div>
+                  <div class="col m12 l8 input-field">
+                    <div class="row radio-box">
+                      <div class="input-field col s1 radio-upload">
+                          <input ng-model="signatureSelect" name="group" type="radio" id="upload" value="1" ng-click="signatureSelected('sign')"/>
+                          <label for="upload">&nbsp; </label>
+                      </div>
+                      <div class="input-field col s11">
+                  <span class="label1 label5">Upload your signature optional  <span class="txt12">(<i>File type</i>: jpg, png, Size: 2 MB max)</span> <img alt="" class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam." data-delay="50" data-position="top" src="../img/icon-info.jpg"/></span>
+                     <div class="row">
+                           <div class="file-field col  s12 m12">
+                  <div class="btn"> <span>BROWSE</span>
+                    <input type="file" title="" custom-on-change="uploadSignatureImage" accept="image/jpg,image/png,image/jpeg,image/gif" ng-disabled="signatureSelect == 2">
+                  </div>
+                  <a  href="javascript:;" ng-if="uploadedSignature" ng-click="removeSignatureImage()" data-tooltip="DELETE" data-delay="50" data-position="bottom" class="close-btn close-btn-small close-clear close-clear1 tooltipped"></a>
+                  <div class="file-path-wrapper">
+                    <input id="fileSignature" disabled type="text" value="" placeholder="" class="file-path">
+                  </div>
+                  <label ng-show="inValidimg" class="error">
+                        <label class="error-msg-form">{{ inValidimgText }}</label>
+                  </div>
+                </div>
+                      </div>
+                    </div>
+                    
+                    <div class="row radio-box">
+                      <div class="input-field col s12 center-align">
+                     <span class="or2"> OR</span>
+                      </div>
+          
+                    </div>
+                    
+                    <div class="row radio-box">
+                      <div class="input-field col s1  radio-upload2">
+                          <input ng-click="signatureSelected('')" name="group" ng-model="signatureSelect" value="2" type="radio" id="upload2" />
+                          <label for="upload2" >&nbsp; </label>
+                      </div>
+                      <div class="input-field col s11">
+                      
+                                       <input type="text" name="" id="upload3" ng-model="user.signName" maxlength="50" class="password-reset1" ng-disabled="signatureSelect == 1">
+                                <label id="agentActive" for="upload3" class="">Add name / text you want to show on final appraisals <img alt="" class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam." data-delay="50" data-position="top" src="../img/icon-info.jpg"/></label>
+                
+                 
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+            <!--Upload signature section  start end-->
+          <div class="clearfix"></div>  
+
+<!-- <div class="col m12 s12">
+            
+            <div class="error-msg" ng-if="registrationFormAgent.$submitted && registrationFormAgent.$invalid">
+            <div class="disp-cell">
+            <i class="fa fa-exclamation-triangle"></i>
+            </div> 
+            <div class="disp-cell">
+            <span>Oops, something wasn't right. Please check fields marked below in red. </span>
+        </div>
+        </div>
+        </div> -->
+
+       <br> <br>
+<div class="center">
+    <button type="submit" class="btn-large btn-large1 btn-large2 waves-effect waves-light">JOIN NOW</button>
+        </div>
+        
+        
+        </div>
+      
+         
+
+</div>
+          </div>
+        
+      </div>
+      <!-- Modal for DETAIL CONFIRMATION start here -->
+        <div id="modal-detail" class="modal modal-login">
+          <div class="modal-content">
+            <h4>DETAIL CONFIRMATION <a href="javascript:;" class="modal-action modal-close close-btn tooltipped" data-position="bottom" data-delay="50" data-tooltip="Close">&nbsp;</a></h4>
+            <p class="center-align para4">Please re-check your <span class="txt-orange">Email address and Mobile phone number</span> to make sure
+              they are correct as these are not editable fields and account activation code will be send on that.</p>
+            <div class="row">
+                <div class="row col s12 form1 form-padlr">
+                  <div class="input-field col s12"> <i class="material-icons prefix"><img src="../img/icon-mail.png"  alt=""/></i>
+                    <input id="icon_prefix" type="email" class="validate" ng-value="user.emailId"  disabled>
+                  </div>
+                  <div class="input-field col s12"> <i class="material-icons prefix"><img src="../img/icon-phone.png" alt=""/></i>
+                    <input id="icon_telephone" type="text" class="validate" ng-value="(countryCode | makephoneNo) + mobilePhone" disabled>
+                  </div>
+                </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+              <button class="modal-action modal-close waves-effect btn1 btn2" ng-click="submitRegistrationAgent();" type="button">YES IT IS RIGHT</button>
+              <a href="javascript:;" class="modal-action modal-close waves-effect btn1 btn3">EDIT</a> </div>
+        </div>
+        <!-- Modal for DETAIL CONFIRMATION end here -->
+      </form>
+
+    
+  </div>
+</div>
+<div class="clearfix"></div>
+<footer-element></footer-element>
+<login></login>
+<div class="loader-overlay" ng-show="fullPageBlockLoading" loading><span class="loader-inner">Processing<div class="clearfix"></div><img src="../img/loader-1.gif"></span></div>
+<!--  Scripts--> 
+<script src="../js/extLib/materialize.min.js"></script>  
+<script  type="text/javascript" src="../js/extLib/wow.js"></script> 
+<script  type="text/javascript" src="../js/extLib/smoothscroll.js"></script>
+<script src="../js/extLib/custom.js"></script>
+
+<!--  Scripts--> 
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyChSJaAZLMucDhIM_vJD4zSE474kwBPGHA&signed_in=false&libraries=places&callback=initAutocomplete"
+        async defer></script>
+<script src="../js/app/customJs/common.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('select').material_select();
+     $('.tooltip').tooltipster();
+  });
+
+
+</script>
+
+</body>
+</html>

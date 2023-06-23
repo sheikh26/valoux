@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<title>Valoux - Valoux is an online data management system, an appraisal and appraiser network, and an insurance delivery platform</title>
+<!-- CSS  -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<link href="../css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/footer.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/animate.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/font-awesome.min.css" rel="stylesheet">
+<link href="../css/custom.css" rel="stylesheet">
+<!-- custom scrollbar stylesheet -->
+<link rel="stylesheet" href="../css/jquery.mCustomScrollbar.css">
+<!-- JS -->
+<script src="../js/extLib/jquery-1.12.0.min.js"></script>
+<script src="../js/extLib/materialize.min.js"></script>  
+<script  type="text/javascript" src="../js/extLib/wow.js"></script> 
+<script  type="text/javascript" src="../js/extLib/smoothscroll.js"></script>
+<script src="../js/extLib/custom.js"></script>
+<script src="../js/extLib/angular.min.js"></script>
+<script src="../js/app/app.js"></script>
+<script src="../js/app/controller/baseController.js"></script>
+<script src="../js/app/service/service.js"></script> 
+<script src="../js/app/service/masterDataService.js"></script>  
+ 
+<script src="../js/app/directives/BaseDirective.js"></script> 
+<script src="../js/app/userManagement/controller/userManagement.js"></script>
+<script src="../js/app/directives/validatorDirective.js"></script>
+<!-- custom scrollbar plugin --> 
+ <script src="../js/extLib/jquery.mCustomScrollbar.concat.min.js"></script> 
+<!--error handling-->
+<script src="../js/extLib/stacktrace-0.5.0.min.js"></script>
+<script src="../js/app/error-handling.js"></script>
+</head>
+<body ng-app="valouxApp" ng-controller="BaseController">
+<header-section></header-section>
+<div class="clearfix"></div>
+
+<div class="graybox">
+    <form name="codeVerification" ng-submit="codeVerification.$valid && emailVparamication()" novalidate>
+  <div class="container">
+    <div class="row">
+      <div class="col s12">
+        <div class="page-header">
+          <h1 class="wow fadeInLeft animated">Email Verified Successfully!</h1>
+                 </div>
+      </div>
+    </div>
+    <div class="row" ng-show="isSuccess">
+      <div class="col s12">
+        <div class="whitebox1" style="padding:2rem 0rem 2rem !important;">
+        <div class="card-thankyou">
+          <img src="../img/icon-thankyou-big.jpg"  alt=""/>
+          <h4>Email address and Mobile number verified successfully!</h4>
+
+             <div class="center">
+              <a href="javascript:;" class="waves-effect waves-light btn-large btn-large1" ng-click="loginPopup()">CLICK TO LOGIN</a>
+             </div> 
+          
+          </div>
+        </div>
+    
+      </div>
+    </div>
+    <div class="row" ng-if="!isSuccess">
+      <div class="col s12">
+        <div class="whitebox1">
+
+         <div class="col m12 s12" ng-if="isResendOtp">
+
+            <div class="success-msg mt-10 mb-10">
+            <div class="disp-cell">
+            <i class="fa fa-exclamation-triangle"></i>
+            </div> 
+            <div class="disp-cell">
+            <span>{{ emailVparamicationText }}</span>
+            </div>
+            <div class="clear"></div>
+            </div>
+            </div> 
+            <div class="col m12 s12" ng-if="isError">
+
+            <div class="error-msg mt-10 mb-10">
+            <div class="disp-cell">
+            <i class="fa fa-exclamation-triangle"></i>
+            </div> 
+            <div class="disp-cell">
+            <span>{{ emailVparamicationText }}</span>
+            </div>
+            <div class="clear"></div>
+            </div>
+            </div>
+        <div class="row phone-img-overflow">
+        <div class="col m7 l6">
+        <div class="phone-verify-con">
+        <h4>PHONE VERIFICATION</h4>
+        <div class="info-txt">We have sent a 6 digit verification code to your mobile:
+Please enter the code you have received below.</div>
+<div class="mobile-vs-img"><img class="phone-img" src="../img/phone-img.jpg"/></div>
+
+<div class="row input-con">
+          <div class="input-field col s12"> <i class="material-icons prefix"><img src="../img/icon-password.jpg" alt=""/></i>
+            <input type="text" id="otpCode" numbers-only ng-pattern="/^[0-9]{6}$/" name="otpCode" ng-model="user.otpCode" required maxlength="6">
+                <label class="error" ng-show="codeVerification.$submitted || (codeVerification.otpCode.$dirty && codeVerification.otpCode.$invalid)">
+                  <label class="error-msg-form" ng-show="codeVerification.otpCode.$error.required">OTP is required.</label>
+                  <label class="error-msg-form" ng-show="codeVerification.otpCode.$error.pattern">Please enter 6 digit otp code.</label>
+                  </label>
+            <label for="otpCode">Enter here</label> 
+
+            
+          </div>
+        </div>
+      <button type="submit" class="btn-large btn-large1 waves-effect waves-light" value="">SUBMIT</button>
+      <p>If you have not received a code, please <a href="javascript:void(0);" ng-click="resendOtp()" class="a5">click here</a> to resend to your mobile number.</p>
+        
+        </div>
+        </div>
+        <div class="col m5 l6 phone-img-con"><img class="indicator-arrow" src="../img/arrow-img.png"/>
+        <img class="phone-img" src="../img/phone-img.jpg"/></div>
+        </div>
+        
+        
+        </div>
+    
+      </div>
+    </div>
+  </div>
+        </form>
+</div>
+
+<div class="clearfix"></div>
+<div class="loader-overlay" ng-show="fullPageBlockLoading" loading><span class="loader-inner">Processing<div class="clearfix"></div><img src="../img/loader-1.gif"></span></div>
+<footer-element></footer-element>
+<login></login>
+
+</body>
+
+</html>

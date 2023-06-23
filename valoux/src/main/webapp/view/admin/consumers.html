@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<title>Valoux - Valoux is an online data management system, an appraisal and appraiser network, and an insurance delivery platform</title>
+
+<!-- CSS  -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="../../css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../../css/admin.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../../css/font-awesome.min.css" rel="stylesheet">
+
+<!-- Data table CSS-->
+<link href="../../css/jquery.dataTables.css" rel="stylesheet">
+
+
+<!--  Scripts--> 
+<script src="../../js/extLib/jquery-1.12.0.min.js"></script>
+<script src="../../js/extLib/materialize.min.js"></script>  
+<script src="../../js/extLib/wow.js" type="text/javascript" ></script> 
+<script src="../../js/extLib/custom.js"></script>
+<script src="../../js/extLib/angular.min.js"></script>
+<script src="../../js/extLib/angular-route.js"></script>
+<script src="../../js/app/adminapp.js"></script>
+<script src="../../js/app/controller/baseController.js"></script>
+<script src="../../js/app/service/service.js"></script>  
+<script src="../../js/app/directives/BaseDirective.js"></script>
+<script src="../../js/app/admin/controller/adminManagement.js"></script>
+<script src="../../js/extLib/jquery.dataTables.min.js" type="text/javascript"></script>
+<script src="../../js/app/service/masterDataService.js"></script>
+<script src="../../js/extLib/datatable/angular-datatables.js"></script>
+ <script src="../../js/extLib/datatable/angular-datatables.util.js"></script>
+    <script src="../../js/extLib/datatable/angular-datatables.options.js"></script>
+    <script src="../../js/extLib/datatable/angular-datatables.instances.js"></script>
+    <script src="../../js/extLib/datatable/angular-datatables.factory.js"></script>
+    <script src="../../js/extLib/datatable/angular-datatables.renderer.js"></script>
+    <script src="../../js/extLib/datatable/angular-datatables.directive.js"></script>
+
+  <!--error handling-->
+<script src="../../js/extLib/stacktrace-0.5.0.min.js"></script>
+<script src="../../js/app/error-handling.js"></script>
+
+</head>
+<script>
+    app.requires.push('valouxApp', 'ngRoute')
+</script>
+<body ng-app="valouxApp" ng-controller="BaseController">
+<!--Navigation start here-->
+<header-admin></header-admin>
+<!--Navigation end here-->
+<div class="graybox">
+  <div class="container" ng-controller="adminManagement">
+    <div class="row">
+      <div class="col s12">
+        <div class="page-header">
+          <h1>MANAGE CONSUMERS</h1>
+        </div>
+      </div>
+    </div>
+      <div ng-show="success" class="success-msg" ng-cloak>
+            <div class="disp-cell">
+            <i class="fa fa-thumbs-o-up "></i>
+            </div> 
+            <div class="disp-cell">
+            <span>Status successfully changed</span>
+        </div>
+        </div>
+    <div class="row">
+      <form class="col s12">
+          <div class="whitebox1 whitebox1-padb whitebox1-admin" ng-init="consumerslisting()">
+          <div class="box1 admin-box"> 
+            <!--left form section starts-->
+            <div class="col m12 s12">
+                         <div class="row">
+                <div class="col s12 full-width-sm">
+              <table datatable="ng" dt-options="dtOptionsConsumerList" dt-column-defs="dtColumnDefsConsumerList" border="0" class="bordered dataTable responsive-table table1">
+              <thead>
+                <tr>
+                    <th width="0%" style="display:none"></th>
+                    <th width="20%">Consumer Name</th>
+                    <th width="25%">Email</th>
+                    <th width="15%">Phone</th>
+                    <th width="30%">Address</th>
+                   
+            
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="user in allConsumer">
+                    <td width="0%" style="display:none"></td>
+
+                    <td width="20%">{{ user.firstName }} {{ user.lastName }}</td>
+                    <td width="25%">{{ user.emailId }}</td>
+					<td width="15%">{{ user.mobilePhone }}</td>
+                    <td width="30%">{{ concateAddress(user.userAddress) }}</td>
+                
+                </tr>
+                </tbody>
+              
+          </table>
+                </div>
+              </div>
+ 
+            </div>
+            <!--left form section ends--> 
+   
+            <div class="clearfix"></div>
+          </div>
+         <!-- <div class="center whitebox1-footer btn-con"> <a href="javascript:;" class="btn-large btn-default waves-effect waves-light">CANCEL</a> <a href="item-added.html" class="btn-large btn-large1 waves-effect waves-light">CREATE ITEM</a> </div>-->
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="clearfix"></div>
+<!--footer starts-->
+<footer-admin></footer-admin>
+<!--footer ends--> 
+<div class="loader-overlay" ng-show="fullPageBlockLoading" loading><span class="loader-inner">Processing<div class="clearfix"></div><img src="../../img/loader-1.gif"></span></div>
+</body>
+</html>

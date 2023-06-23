@@ -1,0 +1,30 @@
+<header>
+  <nav class="tnb lighten-1 navbar-fixed header1" role="navigation">
+    <div class="nav-wrapper container"><a id="logo-container" href="index.html" class="brand-logo wow fadeInLeft animated"><img src="../img/logo.png"  alt=""/></a>
+      <ul class="right hide-on-med-and-down wow fadeInRight animated" >
+           <li><a href="index.html#offerings" class="anchorLink">OFFERINGS</a> </li>
+      <li><a href="index.html#howitworks" class="anchorLink">HOW IT WORKS</a></li>    
+      <li><a href="index.html#ourstory" class="anchorLink">OUR STORY</a></li>
+      <li><a href="javascript:;" target="_self">CONTACT</a></li>
+      <li ng-show="!checkIsloggedIn()"><a target="_self" href="javascript:;" class="waves-effect waves-light btn btn-orange" ng-click="loginPopup()">LOGIN</a></li>
+      <li ng-show="checkIsloggedIn()"><a href="dashboard.html" target="_self">MY VALOUX</a></li>
+      </ul>
+      <ul id="nav-mobile" class="side-nav" style="left: 0px;">
+        <li class="close-top"><a class="pull-right close-btn" onclick="slide()" id="close-nav" href="javascript:;">&nbsp;</a></li>
+        <li><a href="index.html#offerings" class="anchorLink">OFFERINGS</a> </li>
+        <li><a href="index.html#howitworks" class="anchorLink">HOW IT WORKS</a></li>
+        <li><a href="index.html#ourstory" class="anchorLink">OUR STORY</a></li>
+        <li><a href="javascript:;" target="_self">CONTACT</a></li>
+      <li ng-show="!checkIsloggedIn()"><a target="_self" href="javascript:;" class="waves-effect waves-light btn btn-orange" ng-click="loginPopup()">LOGIN</a></li>
+      <li ng-show="checkIsloggedIn()"><a target="_self" href="dashboard.html">MY VALOUX</a></li>
+      </ul>
+      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a> </div>
+  </nav>
+</header>
+
+<div class="clearfix"></div>
+
+<script>
+    $('.loginModal').leanModal();
+    $('.button-collapse').sideNav();
+</script>

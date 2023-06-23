@@ -1,0 +1,295 @@
+<!-- Modal for popup modal-unshare start here --> 
+ <!-- Modal for popup modal-unshare start here --> 
+ <div class="modal modal-add-new-item modal-share modal-xs2" id="modal-unshare">
+  <div class="modal-header">
+    <h4>UNSHARE <a data-tooltip="Close" data-delay="50" data-position="bottom" class="modal-action modal-close close-btn2 tooltipped" href="javascript:;" data-tooltip-id="f708800c-8fea-806c-8e78-9b05c5bc1367">&nbsp;</a></h4>
+     </div>
+
+   <div class="modal-content">
+    <p>Are you sure you want to unshare with all contacts?</p>
+    
+    <div class="modal-xs2-footer"><a class="btn-large btn-large1 modal-action modal-close" ng-click="UnshareItem();" href="javascript:;">YES</a> <a class="btn-large btn-large1 modal-action modal-close" ng-click="unshare='false'" href="javascript:;">NO</a></div>
+  </div>
+
+</div>
+
+
+<!-- Modal for Popup - modal-unshare end here --> 
+<!-- Modal for Popup - modal-unshare end here --> 
+		  
+       
+ <!-- Modal for Popup - Shared with not registered start here -->
+<div id="modal-items-nonregisterd" class="modal modal-add-new-item modal-share modal-xs2">
+  <div class="modal-header">
+    <h4>SHARED WITH <span class="txt14">  - <b>({{unRegisteredTotal}})</b> not registered user(s).</span> <a href="javascript:;" class="modal-action modal-close close-btn2 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Close">&nbsp;</a></h4>
+     </div>
+
+   <div class="modal-content">
+  <b class="txt-gray1">Email Address</b><br>
+<div class="mCustomScrollbar itembox1-scroll6">
+    <ul>
+    <li ng-repeat="unRegisterList in unRegisteredItems" ><a class="mail" href="mailto:{{unRegisterList.emailId}}">{{unRegisterList.emailId}}</a></li>
+      
+    </ul></div>
+    
+    
+    
+  </div>
+
+</div>
+<!-- Modal for Popup - modal-items-nonregisterd with end here -->
+	   
+	   <!-- Modal for Popup - Item list end here --> 
+<div id="modal-items-appraisal" class="modal modal-add-new-item">
+  <div class="modal-header">
+    <h4>ITEM(S) LIST <span class="small-sub-head">- You have added <b>({{itemLists.length}})</b> item(s) to this appraisal.</span> <a href="javascript:;" class="modal-action modal-close close-btn2 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Close">&nbsp;</a></h4>
+     </div>
+ <div class="modal-container">  <div class="modal-content  mCustomScrollbar itembox1-scroll2"><br>
+    <div class="row your-items-list"  ng-repeat="itemList in itemLists">
+      <div class="col m2 l2 s12">
+        <div class="img-con1"><img fallback-src="../img/not-found-item.jpg" ng-src="../valoximage/imageuploaded/{{itemList.itemImages[0].itemImagePath}}" alt=""/></div>
+      
+      </div>
+      <div class="col m8 l9 s12"><span class="title1">{{itemList.name | limitTo: 40 }} {{itemList.name.length < 40 ? '' : '...'}} <small>ID#  {{itemList.itemId}}</small></span>
+        <p>{{itemList.sDescription | limitTo: 200 }} {{itemList.sDescription.length < 200 ? '' : '...'}}<!-- <a href="item-details.html">Read more</a> --></p>
+      </div>
+     
+    </div>
+    
+  </div></div>
+  <!-- <div class="modal-footer">  </div>--> 
+</div>
+<!-- Modal for Popup - Item list end here --> 
+
+<!-- Modal for Popup - collection list start here -->
+<div id="modal-collection-list" class="modal modal-add-new-item">
+  <div class="modal-header">
+    <h4>COLLECTION(S) LIST <span class="small-sub-head">- You have added <b>({{collectionLists.length}})</b> collection(s) to this appraisal.</span> <a href="javascript:;" class="modal-action modal-close close-btn2 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Close">&nbsp;</a></h4>
+    </div>
+  <div class="modal-container"> <div class="modal-content mCustomScrollbar itembox1-scroll2"><br>
+    <div class="row your-items-list" ng-repeat="collectionList in collectionLists">
+
+      <div class="col m2 l2 s12">
+        <div class="img-con1" ><img fallback-src="../img/not-found-collection.jpg" ng-src="../valoximage/imageuploaded/{{collectionList.cImages[0].imageUrl}}"   alt=""/></div>
+        
+      </div>
+      <div class="col m8 l8 s12"><span class="title1">{{collectionList.cname | limitTo: 40 }} {{collectionList.cname.length < 40 ? '' : '...'}} <!--<a data-tooltip="Favorite" data-delay="50" data-position="bottom" class="heart tooltipped" href="javascript:;">&nbsp;</a>--> <small>ID#  {{collectionList.vcid}}</small></span>
+        <p>{{collectionList.shortDescription | limitTo: 200 }} {{collectionList.shortDescription.length < 200 ? '' : '...'}}</p>
+      </div>
+      <div class="col m2 l2 s12">
+       
+     <span class="item-folder"><span class="" ><img src="../img/icon-folder.png" alt=""> <strong>Items {{collectionList.noOfItem}}</strong></span></span>
+      </div>
+    </div>
+    
+  </div></div>
+  <!-- <div class="modal-footer">  </div>--> 
+</div>
+
+		 <!-- Modal for Popup - Item list start here -->
+<div id="modal-items" class="modal modal-add-new-item">
+  <div class="modal-header">
+    <h4>ITEM(S) LIST  <span class="small-sub-head">- You have added <b>({{collectionItemTotal || 0}})</b> item(s) to this collection.</span> <a href="javascript:;" class="modal-action modal-close close-btn2 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Close">&nbsp;</a></h4>
+       
+     </div>
+  <div class="modal-content mCustomScrollbar itembox1-scroll2"><br>
+    <div class="row your-items-list" ng-repeat="collectionPopupItem in collectionPopupItems">
+      <div class="col m2 l2 s12">
+        <div class="img-con1"><img fallback-src="../img/not-found-item.jpg" ng-src="../valoximage/imageuploaded/{{collectionPopupItem.itemImages[0].itemImagePath}}" alt=""/></div>
+      </div>
+      <div class="col m8 l9 s12"><span class="title1">{{collectionPopupItem.name | limitTo: 40 }} {{collectionPopupItem.name.length < 40 ? '' : '...'}} <small>ID#  {{collectionPopupItem.itemId}}</small></span>
+        <p>{{collectionPopupItem.sdescription | limitTo: 200 }} {{collectionPopupItem.sdescription.length < 200 ? '' : '...'}}</p>
+      </div>
+      
+    </div>
+    
+  </div>
+  <!-- <div class="modal-footer">  </div>--> 
+</div>
+<!-- Modal for Popup - Item list end here --> 
+
+ <!-- Modal for Popup - Consumers list start here -->
+<div id="modal-items-consumers" class="modal modal-add-new-item">
+  <div class="modal-header">
+    <h4>SHARED WITH <span class="small-sub-head">- You have shared this {{sharedItemType}} with <b>({{collectionItemTotal || 0}})</b> Consumer(s).</span> <a href="javascript:;" class="modal-action modal-close close-btn2 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Close">&nbsp;</a></h4>
+       
+     </div>
+  <div class="modal-content mCustomScrollbar itembox1-scroll2"><br>
+    <div class="row your-items-list" ng-repeat="consumerPopupItem in consumerPopupItems">
+	
+	<div class=" your-items-list">
+      <div class="col m2 l2 s12">
+        <div class="img-con2"><img fallback-src="../img/profile-pic-default.jpg" ng-src="../valoximage/consumerimageuploaded/{{consumerPopupItem.imageUrl}}" alt=""/></div>
+      </div>
+      <div class="col m8 l9 s12"><span class="title1">{{consumerPopupItem.firstName}} {{consumerPopupItem.lastName}} <!--<a data-tooltip="Favorite" data-delay="50" data-position="bottom" class="heart tooltipped" href="javascript:;" data-tooltip-id="1c1fc987-b90d-d7bc-3fd5-292f04128c90">&nbsp;</a>--> </span>
+    <div class="row row-list">
+                              <div class="col s6 m5"><span class="lable-phone">Phone:</span> {{consumerPopupItem.mobilePhone || 'NA'}}</div>
+                              <div class="col s6 m7">Email: <a class="mail" href="mailto:{{consumerPopupItem.emailId}}">{{consumerPopupItem.emailId }}</a></div>
+                            </div>
+    
+    
+       <p class="para3"><span class="disp-cell"><i ng-show="consumerPopupItem.userAddress.addressLine2 || consumerPopupItem.userAddress.addressLine1 || consumerPopupItem.userAddress.city || consumerPopupItem.userAddress.state || consumerPopupItem.userAddress.zipCode" class="fa fa-map-marker txt20"></i></span> <span  class="disp-cell"><span ng-show="consumerPopupItem.userAddress.addressLine1">{{consumerPopupItem.userAddress.addressLine1}}, </span><span ng-show="consumerPopupItem.userAddress.addressLine2">{{consumerPopupItem.userAddress.addressLine2}}, </span> <span ng-show="consumerPopupItem.userAddress.city">{{consumerPopupItem.userAddress.city }},</span> <span ng-show="consumerPopupItem.userAddress.state || consumerPopupItem.userAddress.zipCode">{{consumerPopupItem.userAddress.state}} {{consumerPopupItem.userAddress.zipCode}}, </span>  {{consumerPopupItem.userAddress.country}}</span></p>
+	   
+      </div>
+      <div class="col m2 l1 s12">
+        <div class="action"><a href="javascript:;" class="a2 tooltipped" data-tooltip="Remove Sharing"   ng-click="UnshareItemWithoutConform(sharedItemId,sharedTypeItemId,consumerPopupItem.publicKey);" data-delay="50" data-position="bottom" data-tooltip-id="6aa16879-6662-8e04-8261-1549df8ed9b1"><span class="disp-cell"><img alt="" src="../img/icon-unshare.png"></span> <span class="disp-cell">Unshare</span></a></div>
+      </div>
+    </div>
+	
+	
+	
+     
+      
+      
+    </div>
+    
+  </div>
+  <!-- <div class="modal-footer">  </div>--> 
+</div>
+<!-- Modal for Popup - Consumers list end here --> 
+
+<!-- Modal for Popup - Agent list start here -->
+<div id="modal-items-agents" class="modal modal-add-new-item">
+  <div class="modal-header">
+    <h4>SHARED WITH <span class="small-sub-head">- You have shared this {{sharedItemType}} with <b>({{collectionItemTotal || 0}})</b> Agent(s).</span> <a href="javascript:;" class="modal-action modal-close close-btn2 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Close">&nbsp;</a></h4>
+       
+     </div>
+  <div class="modal-content mCustomScrollbar itembox1-scroll2"><br>
+    <div class="row your-items-list" ng-repeat="agentPopupItem in agentPopupItems">
+	
+	<div class=" your-items-list">
+      <div class="col m2 l2 s12">
+        <div class="img-con2"><img fallback-src="../img/profile-pic-default.jpg" ng-src="../valoximage/consumerimageuploaded/{{agentPopupItem.imageUrl}}" alt=""/></div>
+      </div>
+      <div class="col m8 l9 s12"><span class="title1">{{agentPopupItem.firstName}} {{agentPopupItem.lastName}} <!--<a data-tooltip="Favorite" data-delay="50" data-position="bottom" class="heart tooltipped" href="javascript:;" data-tooltip-id="1c1fc987-b90d-d7bc-3fd5-292f04128c90">&nbsp;</a>--> </span>
+    <div class="row row-list" ng-if="agentPopupItem.storeName">
+                              <div class="col s6 m5"><span class="lable-phone">Store Name:</span> {{agentPopupItem.storeName}}</div>
+                             
+                            </div>
+
+    <div class="row row-list">
+                              <div class="col s6 m5"><span class="lable-phone">Phone:</span> {{agentPopupItem.mobilePhone || 'NA'}}</div>
+                              <div class="col s6 m7">Email: <a class="mail" href="mailto:{{agentPopupItem.emailId }}">{{agentPopupItem.emailId }}</a></div>
+                            </div>
+    
+    
+      <p class="para3"><span class="disp-cell"><i ng-show="agentPopupItem.agentAddress.addressLine1 || agentPopupItem.agentAddress.addressLine2 || agentPopupItem.agentAddress.city || agentPopupItem.agentAddress.state || agentPopupItem.agentAddress.zipCode" class="fa fa-map-marker txt20"></i></span> <span  class="disp-cell"><span ng-show="agentPopupItem.agentAddress.addressLine1">{{agentPopupItem.agentAddress.addressLine1}}, </span><span ng-show="agentPopupItem.agentAddress.addressLine2">{{agentPopupItem.agentAddress.addressLine2}}, </span> <span ng-show="agentPopupItem.agentAddress.city">{{agentPopupItem.agentAddress.city }}, </span> <span ng-show="agentPopupItem.agentAddress.state || agentPopupItem.agentAddress.zipCode">{{agentPopupItem.agentAddress.state}} {{agentPopupItem.agentAddress.zipCode}}, </span>  {{agentPopupItem.agentAddress.country}}</span></p>
+      </div>
+      <div class="col m2 l1 s12">
+        <div class="action">
+		
+		<a href="javascript:;" class="a2 tooltipped" data-tooltip="Remove Sharing" ng-click="UnshareItemWithoutConform(sharedItemId,sharedTypeItemId,agentPopupItem.publickKey);" data-delay="50" data-position="bottom" data-tooltip-id="6aa16879-6662-8e04-8261-1549df8ed9b1"><span class="disp-cell"><img alt="" src="../img/icon-unshare.png"></span> <span class="disp-cell">Unshare</span></a></div>
+      </div>
+    </div>
+	
+	
+	
+     
+      
+      
+    </div>
+    
+  </div>
+  <!-- <div class="modal-footer">  </div>--> 
+</div>
+<!-- Modal for Popup - Agent list end here --> 
+
+<!-- Modal for Popup - Item list start here -->
+<div id="modal-collection-item" class="modal modal-add-new-item">
+  <div class="modal-header">
+    <h4>COLLECTION(S) LIST <span class="small-sub-head">- You have associated this item with <b>({{itemCollectionTotal || 0}})</b> collection(s).</span> <a href="javascript:;" class="modal-action modal-close close-btn2 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Close">&nbsp;</a></h4>
+	
+     <a  ng-show="itemPopupCollection[0].consumerPublicKey == userKey" class="icon-big-plus waves-effect waves-light tooltipped" data-tooltip="Add New Collection" data-delay="50" href="javascript:void(0);"  ng-click="addNewCollectionInExistingItem()"><img alt="" src="../img/icon-plus-big.png"></a> 
+     </div>
+  <div class="modal-content mCustomScrollbar itembox1-scroll2"><br>
+    <div class="row your-items-list" ng-repeat="itemPopupItem in itemPopupCollection">
+      <div class="col m2 l2 s12">
+        <div class="img-con1"><img fallback-src="../img/not-found-collection.jpg" ng-src="../valoximage/imageuploaded/{{itemPopupItem.cImages[0].imageUrl}}" alt=""/></div>
+      </div>
+      <div class="col m8 l9 s12"><span class="title1">{{itemPopupItem.cName | limitTo: 50}}{{itemPopupItem.cName.length < 50 ? '' : '...'}} <small>ID#  {{itemPopupItem.cId}}</small></span>
+        <p>{{itemPopupItem.cDescription | limitTo: 200}} {{itemPopupItem.cDescription.length < 200 ? '' : '...'}}</p>
+      </div>
+      <div class="col m2 l1 s12">
+        <div class="action">
+        <!-- <a class="a2 tooltipped" href="item.html#/edit/{{collectionPopupItem.itemId}}" data-position="bottom" data-delay="50" data-tooltip="Edit">
+        <img width="17" height="20" alt="" src="../img/icon-edit.jpg"></a>&nbsp;&nbsp; -->
+        <a  ng-show="itemPopupItem.consumerPublicKey == userKey" data-position="bottom" data-delay="50" data-tooltip="Delete" class="a2 tooltipped" href="javascript:;" ng-click="DeleteCollectionAssoicatewithietms(itemPopupItem.cId, $index)"><img src="../img/icon-trash.jpg" alt=""/></a></div>
+      </div>
+    </div>
+    
+  </div>
+  <!-- <div class="modal-footer">  </div>--> 
+</div>
+<!-- Modal for Popup - Item list end here --> 
+
+<!-- Modal for Popup - Item list start here -->
+<div id="modal-appraisal" class="modal modal-add-new-item">
+  <div class="modal-header">
+    <h4>APPRAISAL(S) LIST <span class="small-sub-head">- You have associated this item with <b>({{appraisalTotal || 0}})</b> appraisal(s).</span> <a href="javascript:;" class="modal-action modal-close close-btn2 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Close">&nbsp;</a></h4>
+        
+     </div>
+  <div class="modal-content mCustomScrollbar itembox1-scroll2"><br>
+    <div class="row your-items-list" ng-repeat="appraisalPopup in appraisalPopups">
+      <div class="col m2 l2 s12">
+      
+        <div class="img-con1">
+        <img fallback-src="../img/not-found-appraisal.jpg" ng-src="../valoximage/imageuploaded/{{appraisalPopup.collectionList[0].cImages[0].imageUrl}}" alt=""/>
+        
+        </div>
+        
+      </div>
+      <div class="col m8 l8 s12"><span class="title1">{{appraisalPopup.name | limitTo: 40 }} {{appraisalPopup.name.length < 40 ? '' : '...'}}
+      <!--<a data-tooltip="Favorite" data-delay="50" data-position="bottom" class="heart tooltipped" href="javascript:;">&nbsp;</a>-->
+      <small>ID#  {{appraisalPopup.appraisalId}}</small></span>
+        <p >{{appraisalPopup.shortDescription | limitTo: 100 }} {{appraisalPopup.shortDescription.length < 200 ? '' : '...'}}</p>
+      </div>
+      <div class="col m2 l2 s12">
+        <div class="action action-mart">
+        <!-- <a class="a2 tooltipped" href="item.html#/edit/{{collectionPopupItem.itemId}}" data-position="bottom" data-delay="50" data-tooltip="Edit">
+        <img width="17" height="20" alt="" src="../img/icon-edit.jpg"></a>&nbsp;&nbsp; -->
+        <!--<a data-position="bottom" ng-show="appraisalPopup.publicKey == userKey"  data-delay="50" data-tooltip="Delete" class="a2 tooltipped" href="javascript:void(0);" ng-click="deleteAppraisal(appraisalPopup.appraisalId, $index)"><img src="../img/icon-trash.jpg"  alt=""/></a>--></div>
+      
+      <span class="item-folder"><img src="../img/icon-folder.png" alt=""> <strong>{{appraisalPopup.appraisalCollectionCount + appraisalPopup.appraisalItemsCount}} Items</strong></span>
+      </div>
+    </div>
+    
+  </div>
+  <!-- <div class="modal-footer">  </div>--> 
+</div>
+<!-- Modal for Popup - Item list end here --> 
+
+<!-- Modal for Popup - Item list start here -->
+<div id="modal-appraisal-item" class="modal modal-add-new-item">
+  <div class="modal-header">
+    <h4>APPRAISAL(S) LIST <span class="small-sub-head">- You have associated this item with <b>({{appraisalTotal || 0}})</b> appraisal(s).</span> <a href="javascript:;" class="modal-action modal-close close-btn2 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Close">&nbsp;</a></h4>
+      <a  ng-show="appraisalPopups[0].publicKey == userKey" class="icon-big-plus waves-effect waves-light tooltipped " data-tooltip="Add New Appraisal" data-delay="50" data-position="bottom" href="javascript:void(0);" ng-click="addNewAppraisalExistingItem()"><img alt="" src="../img/icon-plus-big.png"></a>   
+     </div>
+  <div class="modal-content mCustomScrollbar itembox1-scroll2"><br>
+    <div class="row your-items-list" ng-repeat="appraisalPopup in appraisalPopups">
+      <div class="col m2 l2 s12">
+      
+        <div class="img-con1">
+       <img ng-show="appraisalPopup.collectionImages.length>0" fallback-src="../img/not-found-appraisal.jpg" ng-src="../valoximage/imageuploaded/{{appraisalPopup.collectionImages[0].cImages[0].imageUrl}}" alt=""/>
+        <img   ng-show="!appraisalPopup.collectionImages.length" fallback-src="../img/not-found-appraisal.jpg" ng-src="../valoximage/imageuploaded/{{appraisalPopup.itemImages[0].itemImages[0].itemImagePath}}" alt=""/>
+        
+        </div>
+        
+      </div>
+      <div class="col m8 l8 s12"><span class="title1">{{appraisalPopup.name | limitTo: 40 }} {{appraisalPopup.name.length < 40 ? '' : '...'}}
+      <!--<a data-tooltip="Favorite" data-delay="50" data-position="bottom" class="heart tooltipped" href="javascript:;">&nbsp;</a>-->
+      <small>ID#  {{appraisalPopup.appraisalId}}</small></span>
+        <p >{{appraisalPopup.shortDescription | limitTo: 100 }} {{appraisalPopup.shortDescription.length < 200 ? '' : '...'}}</p>
+      </div>
+      <div class="col m2 l2 s12">
+        <div class="action action-mart">
+        <!-- <a class="a2 tooltipped" href="item.html#/edit/{{collectionPopupItem.itemId}}" data-position="bottom" data-delay="50" data-tooltip="Edit">
+        <img width="17" height="20" alt="" src="../img/icon-edit.jpg"></a>&nbsp;&nbsp; -->
+        <a data-position="bottom" ng-show="appraisalPopup.publicKey == userKey"  data-delay="50" data-tooltip="Delete" class="a2 tooltipped" href="javascript:void(0);" ng-click="deleteAppraisal(appraisalPopup.appraisalId, $index)"><img src="../img/icon-trash.jpg"  alt=""/></a></div>
+      
+      <span class="item-folder"><img src="../img/icon-folder.png" alt=""> <strong>{{appraisalPopup.itemsCount}} Items</strong></span>
+      </div>
+    </div>
+    
+  </div>
+  <!-- <div class="modal-footer">  </div>--> 
+</div>

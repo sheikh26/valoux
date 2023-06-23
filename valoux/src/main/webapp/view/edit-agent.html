@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<title>Valoux - Valoux is an online data management system, an appraisal and appraiser network, and an insurance delivery platform</title>
+
+<!-- CSS  -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<link href="../css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/footer.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/animate.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/font-awesome.min.css" rel="stylesheet">
+<link href="../css/custom.css" rel="stylesheet">
+<link href="../css/tooltipster.css" type="text/css" rel="stylesheet"/>
+<!-- JS -->
+<script src="../js/extLib/jquery-1.12.0.min.js"></script>
+<script src="../js/extLib/jquery.tooltipster.min.js"></script>
+<script src="../js/extLib/angular.min.js"></script>
+ <script src="../js/extLib/angular-touch.min.js"></script>
+<script src="../js/app/app.js" type="text/javascript"></script>
+<script src="../js/app/controller/baseController.js"></script>
+<script src="../js/app/service/service.js"></script>  
+<script src="../js/app/service/masterDataService.js"></script>  
+
+<script src="../js/app/directives/BaseDirective.js"></script> 
+<script src="../js/app/userManagement/controller/userManagement.js"></script>
+<!-- custom scrollbar plugin --> 
+ <script src="../js/extLib/jquery.mCustomScrollbar.concat.min.js"></script>
+<!-- angucomplete files -->
+<link href="../css/angucomplete.css" rel="stylesheet">
+<script src="../js/extLib/angucomplete-alt.js"></script>
+  <!--error handling-->
+<script src="../js/extLib/stacktrace-0.5.0.min.js"></script>
+<script src="../js/app/error-handling.js"></script>
+</head>
+<body ng-app="valouxApp" ng-controller="BaseController">
+<header-loggedin></header-loggedin>
+<div class="clearfix"></div>
+<div class="graybox" ng-controller="userManagement" ng-cloak>
+  <div class="container" ng-init="editAgentForm()">
+    <div class="row">
+      <div class="col s12">
+        <div class="page-header">
+          <h1 class="wow fadeInLeft animated">Edit Profile</h1>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+    <form autofocus-form name="registrationFormAgent" ng-submit="registrationFormAgent.$valid &&  editSubmitAgentRegistration()" novalidate>
+    
+      <div class="col s12">
+        <div class="whitebox1 whitebox1-padb">
+       
+          <div class="box1">
+<!--Your information section  start here-->
+            <div class="row">
+            <div class="col m12 s12">
+            
+            <div class="error-msg" ng-if="registerFormAgentError">
+            <div class="disp-cell">
+            <i class="fa fa-thumbs-o-up"></i>
+            </div> 
+            <div class="disp-cell">
+            <span>{{errorMessage}}</span>
+        </div>
+        </div>
+      
+       <div class="success-msg mt-10 mb-10" ng-if="registerFormAgentSuccess">
+      <div class="disp-cell">
+      <i class="fa fa-exclamation-triangle"></i>
+      </div> 
+      <div class="disp-cell">
+      <span>{{successMessage}}</span>
+      </div>
+      <div class="clear"></div>
+      </div> 
+      
+      </div>
+              <div class="col col m12 l4">
+              
+              <div class="input-field">  <h4>YOUR INFORMATION</h4>
+                
+                <p>Your email address will be your login. <br>
+                  <br>
+                  A verification code will be sent each time you login to ensure the highest level of security. You may select if it goes to your email or mobile device. Carrier fees may apply for text message verification.</p>
+             </div> </div>
+              <div class="col col m12 l8">
+                <div class="row">
+                  
+                    
+                      <div class="input-field col s4 full-width-sm">
+                        <input maxlength="50" id="first_name" type="text" name="firstName" ng-model="user.firstName" required>
+                        <label ng-class="class" for="first_name" class="active">First name <sup>*</sup></label>
+                        <label class="error" ng-show="registrationFormAgent.$submitted || (registrationFormAgent.firstName.$dirty && registrationFormAgent.firstName.$invalid)">
+                  <label class="error-msg-form" ng-show="registrationFormAgent.firstName.$error.required">First name is required.</label>
+                  </label>
+                      </div>
+                      <div class="input-field col s4 full-width-sm">
+                        <input maxlength="50" id="middle_name" type="text" ng-model="user.middleName" name="middleName">
+                        <label ng-class="user.middleName?'active':''" for="middle_name">Middle name</label>
+                      </div>
+                      <div class="input-field col s4 full-width-sm">
+                        <input maxlength="50" id="last_name" name="lastName" type="text" ng-model="user.lastName" required>
+                        <label ng-class="class" for="last_name">Last name <sup>*</sup></label>
+                        <label class="error" ng-show="registrationFormAgent.$submitted || (registrationFormAgent.lastName.$dirty && registrationFormAgent.lastName.$invalid)">
+                  <label class="error-msg-form" ng-show="registrationFormAgent.lastName.$error.required">Last name is required.</label>
+                  </label>
+                      </div>
+
+                    </div>
+              
+                    <div class="row">
+                      <div class="input-field col s12">
+                        <input maxlength="100" id="email" name="emailId" type="email" ng-model="emailId" readonly="readonly">
+                        <label ng-class="class" for="email">Email address <sup>*</sup></label>
+                        
+                      </div>
+                    </div>
+                    <div class="row">
+                      
+                      <div class="input-field col s12">
+                        <input id="mobile" type="text" name="mobilePhone" ng-model="mobilePhone" readonly="readonly">
+                        <label ng-class="class" ng-class="class" for="mobile">Mobile phone <sup>*</sup></label>
+                        
+                  
+                      </div>
+                    </div>
+  
+             
+                </div>
+              </div>
+            </div>
+           <!--Upload signature section  start here-->
+            <div class="box2 bg-upload">
+              <div class="box1"> 
+                <!--Set Password section  start here-->
+                <div class="row">
+                  <div class="col m12 l4 s12">
+                    <div class="input-field" ng-init="signatureSelect = 1">
+                      <h6>UPLOAD SIGNATURE</h6>
+                      <img src="../img/img-upload-signature.jpg"  class="upload-signature" alt=""/>
+            <p>Lorem ipsum dolar sit is a dummy text used in print</p>
+                    </div>
+                  </div>
+                  <div class="col m12 l8 input-field">
+                    <div class="row radio-box">
+                      <div class="input-field col s1 radio-upload">
+                          <input ng-model="signatureSelect" name="group" type="radio" id="upload" value="1" ng-click="signatureSelected('sign')"/>
+                          <label for="upload">&nbsp; </label>
+                      </div>
+                      <div class="input-field col s11">
+                  <span class="label1 label5">Upload your signature optional  <span class="txt12">(<i>File type</i>: jpg, png, Size: 2 MB max)</span> <img alt="" class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam." data-delay="50" data-position="top" src="../img/icon-info.jpg"/></span>
+                     <div class="row">
+                           <div class="file-field col  s12 m12">
+                  <div class="btn"> <span>BROWSE</span>
+                    <input type="file" title="" custom-on-change="uploadSignatureImage" accept="image/jpg,image/png,image/jpeg,image/gif" ng-disabled="signatureSelect == 2 || signUrl">
+                  </div>
+                  <a  href="javascript:;" ng-if="uploadedSignature" ng-click="removeSignatureImage()" data-tooltip="DELETE" data-delay="50" data-position="bottom" class="close-btn close-btn-small close-clear close-clear1 tooltipped"></a>
+                  <div class="file-path-wrapper">
+                    <input id="fileSignature" disabled type="text" value="" placeholder="" class="file-path">
+                  </div>
+                  <label ng-show="inValidimg" class="error">
+                        <label class="error-msg-form">{{ inValidimgText }}</label>
+                  </div>
+                  <div class="file-field col s12 m2" ng-if="signUrl"> <span class="thumb2"><img alt="" fallback-src="../img/profile-pic-default.jpg" ng-src="../valoximage/agentsign/{{signUrl}}" class=""> </span><a  href="javascript:;" ng-click="removeSignatureImage()" data-tooltip="DELETE" data-delay="50" data-position="bottom" class="tooltipped"><img src="../img/icon-trash.jpg" width="10" height="12" alt=""/> </a> </div>
+                </div>
+                      </div>
+                    </div>
+                    
+                    <div class="row radio-box">
+                      <div class="input-field col s12 center-align">
+                     <span class="or2"> OR</span>
+                      </div>
+          
+                    </div>
+                    
+                    <div class="row radio-box">
+                      <div class="input-field col s1  radio-upload2">
+                          <input ng-click="signatureSelected('')" name="group" ng-model="signatureSelect" value="2" type="radio" id="upload2" />
+                          <label for="upload2" >&nbsp; </label>
+                      </div>
+                      <div class="input-field col s11">
+                      
+                                       <input type="text" name="" id="upload3" ng-model="user.signName" maxlength="50" class="password-reset1" ng-disabled="signatureSelect == 1">
+                                <label id="agentActive" ng-class="user.signName?'active': ''" for="upload3" class="">Add name / text you want to show on final appraisals <img alt="" class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam." data-delay="50" data-position="top" src="../img/icon-info.jpg"/></label>
+                
+                 
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+            <!--Upload signature section  start end-->
+          
+          
+           <div class="clearfix"></div>
+            <br>
+            <br>
+            
+          
+<div class="center footer-buttons">
+<a class="btn-large btn-default waves-effect waves-light" href="dashboard-agent.html">CANCEL</a> 
+    <button type="submit" class="btn-large btn-large1 btn-large2 waves-effect waves-light">UPDATE DETAILS</button>
+    
+        </div>
+        
+        
+        </div>
+      
+         
+
+</div>
+          </div>
+        
+      </div>
+      
+      </form>
+
+    
+  </div>
+</div>
+<div class="clearfix"></div>
+<footer-element></footer-element>
+<login></login>
+<div class="loader-overlay" ng-show="fullPageBlockLoading" loading><span class="loader-inner">Processing<div class="clearfix"></div><img src="../img/loader-1.gif"></span></div>
+<!--  Scripts--> 
+<script src="../js/extLib/materialize.min.js"></script>  
+<script  type="text/javascript" src="../js/extLib/wow.js"></script> 
+<script  type="text/javascript" src="../js/extLib/smoothscroll.js"></script>
+<script src="../js/extLib/custom.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('.tooltip').tooltipster();
+  });
+
+
+</script>
+</body>
+</html>

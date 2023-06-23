@@ -1,0 +1,317 @@
+<div class="graybox">
+  <div class="container" ng-controller="adminManagement">
+		<div class="row">
+		  <div class="col s12">
+			<div class="page-header">
+			  <h1>EDIT STORE</h1>
+			</div>
+		  </div>
+		</div>
+		  <div ng-show="success" class="success-msg" ng-cloak>
+					<div class="disp-cell">
+						<i class="fa fa-thumbs-o-up "></i>
+					</div> 
+					<div class="disp-cell">
+						<span>Status successfully changed</span>
+					</div>
+			</div>
+			
+			<div class="row" style="margin-bottom:0px;">
+			<div class="header-bg-1" >
+							<a class="back-btn2"   href="store.html#/"><img src="../../img/arrow-previous.png" alt="">BACK</a>
+					  </div>
+			</div>		  
+					  
+		<div class="row">
+			
+			 <div class="whitebox1 whitebox1-padb whitebox1-admin" ng-init="initstorelistingedit()">
+			  <div class="box1 box1-margin">
+				 <form class="col s12" name="formAddItem" id="formAddItem" ng-submit="formAddItem.$valid && storeUpdate()" autofocus-form  novalidate> 
+				 
+				   <div class="row">
+					  <div class="col m12 s12">
+					  
+				
+						<div class="error-msg ng-clock" ng-if="formError">
+							<div class="disp-cell">
+							<i class="fa fa-exclamation-triangle"></i>
+							</div> 
+							<div class="disp-cell">
+							<span>{{errorMessage}}</span>
+							</div>
+						</div>
+	
+					   <div class="success-msg mt-10 mb-10 ng-clock" ng-if="formSuccess">
+							<div class="disp-cell">
+							<i class="fa fa-exclamation-triangle"></i>
+							</div> 
+							<div class="disp-cell">
+							<span>{{successMessage}}</span>
+							</div>
+							<div class="clear"></div>
+					  </div> 
+					  
+					  
+					
+					<div class="clear"></div>
+					
+                <div>
+                        <div class="row">
+                            <div class="input-field col s12 full-width-sm">
+                                <input id="location" name="store_location"  ng-model="storeData.store_location"  onFocus="geolocate()" type="text" maxlength="250">
+                                <label for="location" ng-class="storeData.store_location ? 'active' : ''">Store</label>
+
+                        </div>
+                            
+                        </div>
+                        
+                        <div class="row">
+                  <div class="col s12">   <div class="row">
+                      <div class="input-field col s6 full-width-sm">
+                          <input id="Store" name="store_name" ng-model="storeData.store_name" type="text" required maxlength="200">
+                        <label for="Store"  ng-class="storeData.store_name? 'active':''">Enter store name <sup>*</sup></label>
+                        <label class="error" ng-show="formAddItem.$submitted || formAddItem.store_name.$touched || (formAddItem.store_name.$dirty && formAddItem.store_name.$invalid)">
+		            <label class="error-msg-form" ng-show="formAddItem.store_name.$error.required">Store name is required.</label>
+		        </label>
+                        </div>
+                       <div class="input-field col s6 full-width-sm">
+                          
+                                    <input id="store_phone" name="storePhoneNumber" ng-model="storeData.storePhoneNumber"  ng-minlength="10"  maxlength="20"  type="text">
+                        <label for="store_phone" ng-class="storeData.storePhoneNumber ? 'active' : ''">Store phone</label>              
+                       <label class="error" ng-show="formAddItem.storePhoneNumber.$touched || (formAddItem.storePhoneNumber.$dirty && formAddItem.storePhoneNumber.$invalid)">
+                  <!-- <label class="error-msg-form" ng-show="formAddItem.storePhoneNumber.$error.pattern">Invalid phone number.</label> ng-pattern="/^\d+$/" -->
+                  <label class="error-msg-form" ng-show="formAddItem.storePhoneNumber.$error.minlength || formAddItem.storePhoneNumber.$error.pattern">Invalid phone number.</label>
+                  </label>
+                        
+                          
+                        
+                        </div>         
+                                      
+                    </div></div> 
+                    
+                      </div>
+                    <div><div class="row">
+                  <div class="col m12">   <div class="row">
+                      
+                      <div class="input-field col s6 full-width-sm">
+                       <input type="text"  id="route" ng-model="storeData.addressLine1" name="addressLine1" required maxlength="145">
+                        <label class="" for="route" ng-class="storeData.addressLine1 ? 'active' : ''">Address 1 <sup>*</sup></label>
+                        <label class="error" ng-show="formAddItem.$submitted || formAddItem.addressLine1.$touched || (formAddItem.addressLine1.$dirty && formAddItem.addressLine1.$invalid)">
+		            <label class="error-msg-form" ng-show="formAddItem.addressLine1.$error.required">Address 1 is required.</label>
+		            </label>
+                        </div>
+                                <div class="input-field col s6 full-width-sm">
+                       <input type="text" id="sublocality_level_1" ng-model="storeData.addressLine2" name="addressLine2" maxlength="145">
+                        <label class="" for="sublocality_level_1" ng-class="storeData.addressLine2 ? 'active' : ''">Apartment/Floor/Business</label>
+                        
+                        </div>
+                                      
+                    </div></div>   <div class="col m12"><div class="row">
+                        <div class="input-field col s6 full-width-sm">
+                         <input type="text" id="locality" ng-model="storeData.city"  name="city" required maxlength="30">
+                        <label class="" for="locality" ng-class="storeData.city ? 'active' : ''">City <sup>*</sup></label>
+                        <label class="error" ng-show="formAddItem.$submitted || formAddItem.city.$touched || (formAddItem.city.$dirty && formAddItem.city.$invalid)">
+		            <label class="error-msg-form" ng-show="formAddItem.city.$error.required">City is required.</label>
+		            </label>
+                        </div>
+                        <div class="input-field col s6 full-width-sm">
+                         <input type="text" id="administrative_area_level_1" ng-model="storeData.state" name="state" required maxlength="30">
+                        <label class="" for="administrative_area_level_1" ng-class="storeData.state ? 'active' : ''">State <sup>*</sup></label>
+                        <label class="error" ng-show="formAddItem.$submitted || formAddItem.state.$touched || (formAddItem.state.$dirty && formAddItem.state.$invalid)">
+		            <label class="error-msg-form" ng-show="formAddItem.state.$error.required">State is required.</label>
+		            </label>
+                        </div>
+                      </div>
+                      
+                      <div class="row">
+                       
+                        <div class="input-field col s6 full-width-sm">
+                         <input type="text" id="postal_code" ng-model="storeData.zipCode" name="zipCode" required maxlength="12">
+                        <label class="" for="postal_code" ng-class="storeData.zipCode ? 'active' : ''">Zip <sup>*</sup></label>
+                        <label class="error" ng-show="formAddItem.$submitted || formAddItem.zipCode.$touched || (formAddItem.zipCode.$dirty && formAddItem.zipCode.$invalid)">
+		            <label class="error-msg-form" ng-show="formAddItem.zipCode.$error.required">Zip is required.</label>
+		            </label>
+                        </div>
+                           
+                        <div class="input-field col s6 full-width-sm">
+                        <input type="text" id="country" ng-model="storeData.country" name="country" required maxlength="30">
+                        <label class="" for="country" ng-class="storeData.country ? 'active' : ''">Country <sup>*</sup></label>
+                        <label class="error" ng-show="formAddItem.$submitted || formAddItem.country.$touched || (formAddItem.country.$dirty && formAddItem.country.$invalid)">
+		            <label class="error-msg-form" ng-show="formAddItem.country.$error.required">Country is required.</label>
+		            </label>
+                        </div>
+                      </div></div>
+                    
+                      </div></div>
+                    </div>
+			
+           
+	 </div>
+					  
+ </div> 
+	
+					  
+				<br>
+				<br>
+				 
+					<div class="center  btn-con"> 
+						  <a  href="store.html#/" class="btn-large btn-default waves-effect waves-light">CANCEL</a> 
+						
+						<button  type="submit" class="btn-large btn-large1">UPDATE STORE</button>
+						
+					  
+					  </div> 
+				  
+				 </form>
+				</div> 
+			 </div>
+		</div>
+  </div>
+</div>
+<script>
+      // This example displays an address form, using the autocomplete feature
+      // of the Google Places API to help users fill in the information.
+
+      // This example requires the Places library. Include the libraries=places
+      // paparameter when you first load the API. For example:
+      // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+
+      var placeSearch, autocomplete;
+      var componentForm = {
+        street_number: 'short_name',
+        route: 'long_name',
+        sublocality_level_1:'long_name',
+        locality: 'long_name',
+        administrative_area_level_1: 'long_name',
+        country: 'long_name',
+        postal_code: 'long_name'
+      };
+
+      function initAutocomplete() {
+        // Create the autocomplete object, restricting the search to geographical
+        // location types.
+        autocomplete = new google.maps.places.Autocomplete(
+            /** @type {!HTMLInputElement} */(document.getElementById('location')));
+
+        // When the user selects an address from the dropdown, populate the address
+        // fields in the form.
+        autocomplete.addListener('place_changed', fillInAddress);
+      }
+
+      function fillInAddress() {
+        // Get the place details from the autocomplete object.
+        var place = autocomplete.getPlace();
+       //console.log(place);
+        for (var component in componentForm) {
+            if(document.getElementById(component)){
+                document.getElementById(component).value = '';
+            }
+          if(component=='Store'){
+            angular.element(document.getElementById('location')).value = '';
+        
+          }
+          if(place.international_phone_number){
+              angular.element(document.getElementById('location')).scope().storeData.storePhoneNumber = '';
+            }
+          if(component=='postal_code'){
+            angular.element(document.getElementById('location')).scope().storeData.zipCode = '';
+
+          }
+          if(component=='country')
+          {
+              angular.element(document.getElementById('location')).scope().storeData.country = '';
+          }
+          if(component=='administrative_area_level_1'){
+                  angular.element(document.getElementById('location')).scope().storeData.state = '';
+          }
+      if(component=='locality'){
+            angular.element(document.getElementById('location')).scope().storeData.city = '';
+           }
+           if(component=='sublocality_level_1'){
+                angular.element(document.getElementById('location')).scope().storeData.addressLine2 = '';
+          }
+          if(component=='route'){
+        angular.element(document.getElementById('location')).scope().storeData.addressLine1 = '';
+          }
+         $('#'+component).next('label').removeClass('active');
+      angular.element(document.getElementById('location')).scope().$apply();
+
+        }
+        var scopObj={};
+		//$('#Store').next('label').addClass('active');
+		
+		  //$('#store_phone').next('label').addClass('active');
+        // Get each component of the address from the place details
+        // and fill the corresponding field on the form.
+        for (var i = 0; i < place.address_components.length; i++) {
+          var addressType = place.address_components[i].types[0];
+          if (componentForm[addressType]) {
+            var val = place.address_components[i][componentForm[addressType]];
+            if(document.getElementById(addressType)){
+                document.getElementById(addressType).value = val;
+            }
+            if(addressType=='Store'){
+            angular.element(document.getElementById('location')).value = place.name;
+  			scopObj.store_name = place.name;
+
+        	}
+        	if(place.international_phone_number){
+            	angular.element(document.getElementById('location')).scope().storeData.storePhoneNumber = place.international_phone_number;
+            }
+          if(addressType=='postal_code'){
+            angular.element(document.getElementById('location')).scope().storeData.zipCode = val;
+          
+       		}
+          if(addressType=='street_number')
+          {
+             var streetNo = val;
+          }
+          if(addressType=='route'){
+                if(typeof streetNo!='undefined' &&  streetNo!=''){
+                    angular.element(document.getElementById('location')).scope().storeData.addressLine1 = streetNo+', '+val;
+                }else{
+                    angular.element(document.getElementById('location')).scope().storeData.addressLine1 = val;
+                }
+          }
+          if(addressType=='country')
+           {
+                angular.element(document.getElementById('location')).scope().storeData.country = val;
+           }
+           if(addressType=='administrative_area_level_1'){
+                    angular.element(document.getElementById('location')).scope().storeData.state = val;
+           }
+	   if(addressType=='locality'){
+        		angular.element(document.getElementById('location')).scope().storeData.city = val;
+           }
+           if(addressType=='sublocality_level_1'){
+              	angular.element(document.getElementById('location')).scope().storeData.addressLine2 = val;
+          }
+          
+          $('#'+addressType).next('label').addClass('active');
+        }
+        //angular.element(document.getElementById('location')).scope().storeData.store_location = scopObj;
+        angular.element(document.getElementById('location')).scope().$apply();
+      }
+}
+      // Bias the autocomplete object to the user's geographical location,
+      // as supplied by the browser's 'navigator.geolocation' object.
+      function geolocate() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var geolocation = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+            var circle = new google.maps.Circle({
+              center: geolocation,
+              radius: position.coords.accuracy
+            });
+            autocomplete.setBounds(circle.getBounds());
+          });
+        }
+      }
+    </script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyChSJaAZLMucDhIM_vJD4zSE474kwBPGHA&libraries=places&callback=initAutocomplete"
+        async defer></script>
+

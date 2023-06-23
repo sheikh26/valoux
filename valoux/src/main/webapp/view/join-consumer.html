@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<title>Valoux - Valoux is an online data management system, an appraisal and appraiser network, and an insurance delivery platform</title>
+<!-- CSS  -->
+<!-- <link href="../css/material-icons.css" rel="stylesheet"> -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="../css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/footer.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/animate.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/font-awesome.min.css" rel="stylesheet">
+<link href="../css/custom.css" rel="stylesheet">
+<!-- custom scrollbar stylesheet -->
+<link rel="stylesheet" href="../css/jquery.mCustomScrollbar.css">
+<!-- JS -->
+<script src="../js/extLib/jquery-1.12.0.min.js"></script>
+<script src="../js/extLib/materialize.min.js"></script>  
+<script  type="text/javascript" src="../js/extLib/wow.js"></script> 
+<script  type="text/javascript" src="../js/extLib/smoothscroll.js"></script>
+<script src="../js/extLib/custom.js"></script>
+<script src="../js/extLib/angular.min.js"></script>
+<script src="../js/app/app.js"></script>
+<script src="../js/app/controller/baseController.js"></script>
+<script src="../js/app/service/service.js"></script>  
+<script src="../js/app/service/masterDataService.js"></script>
+<script src="../js/app/directives/BaseDirective.js"></script> 
+<script src="../js/app/userManagement/controller/userManagement.js"></script>
+<script src="../js/app/directives/validatorDirective.js"></script>
+<!-- custom scrollbar plugin --> 
+ <script src="../js/extLib/jquery.mCustomScrollbar.concat.min.js"></script> 
+<!--error handling-->
+<script src="../js/extLib/stacktrace-0.5.0.min.js"></script>
+<script src="../js/app/error-handling.js"></script>
+
+</head>
+<body ng-app="valouxApp" ng-controller="BaseController">
+<header-section></header-section>
+<div class="graybox" ng-controller="userManagement">
+<thankyou  ng-if="registerFormSuccess"></thankyou>
+  <div class="container" ng-show="registerForm">
+    <div class="row">
+      <div class="col s12">
+        <div class="page-header">    
+          <h1 class="wow fadeInLeft animated">Welcome!</h1>
+          <p class="wow fadeInRight animated">Let’s get to know you a little better! As always, protection of your information is our top most priority!</p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s12">
+      <form autofocus-form name="registrationForm" ng-submit="registrationForm.$valid && checkValidForm()" novalidate>
+        <div class="whitebox1 whitebox1-padb">
+        
+        
+          <div class="box1">
+            <div class="row">
+            <div class="col m12 s12" ng-if="inviteuser">
+                 <div class="success-msg mt-10 mb-10">
+                  <div class="disp-cell"><i class="fa fa-thumbs-o-up"></i></div>
+                  <div class="disp-cell"><span>{{successMessage}}</span></div>
+                  <div class="clear"></div>
+                </div>
+              </div>
+            <div class="col m12 s12">
+            
+            <div class="error-msg" ng-if="registerFormError">
+            <div class="disp-cell">
+            <i class="fa fa-exclamation-triangle"></i>
+            </div> 
+            <div class="disp-cell" ng-cloak>
+            <span>{{errorMessage}}</span>
+        </div>
+        </div>
+      
+      
+      
+      </div>
+              <div class="col m12 l4">
+
+              <div class="input-field">  <h6>YOUR INFORMATION</h6>
+                
+                <p>Your email address will be your login. <br>
+                  <br>
+                  A verification code will be sent each time you login to ensure the highest level of security. You may select if it goes to your email or mobile device. Carrier fees may apply for text message verification.</p>
+             </div> </div>
+              <div class="col m12 l8">
+                <div class="row">
+                  <div class="col s12">
+                    <div class="row">
+                      <div class="input-field col s4 full-width-sm">
+                        <input id="first_name" maxlength="50" type="text" name="firstName" ng-model="user.firstName" required>
+
+                        <label ng-class="class" for="first_name">First name <sup>*</sup></label>
+                        <label class="error" ng-show="registrationForm.$submitted|| (registrationForm.firstName.$dirty && registrationForm.firstName.$invalid)">
+                  <label class="error-msg-form" ng-show="registrationForm.firstName.$error.required">First name is required.</label>
+                  </label>
+                      </div>
+                      <div class="input-field col s4 full-width-sm">
+                        <input id="middle_name" maxlength="50" type="text" name="middleName" ng-model="user.middleName">
+                        <label ng-class="class" for="middle_name">Middle name</label>
+                        
+                      </div>
+                      <div class="input-field col s4 full-width-sm">
+                        <input id="last_name" maxlength="50" type="text" name="lastName" ng-model="user.lastName" required>
+                        <label ng-class="class" for="last_name" >Last name <sup>*</sup></label>
+                         <label class="error" ng-show="registrationForm.$submitted || (registrationForm.lastName.$dirty && registrationForm.lastName.$invalid)">
+                  <label class="error-msg-form" ng-show="registrationForm.lastName.$error.required">Last name is required.</label>
+                  </label>
+
+                      </div>
+                    </div>
+
+                 
+                    <div class="row">
+                    <div class="input-field col s12 full-width-sm">
+
+                      <input id="email"  ng-if="!inviteuser" ng-model-options="{ updateOn: 'blur' }"  type="email" isemail-Exists name="emailId"  ng-model="user.emailId" ng-pattern="/^[\w-]+(\.[\w-]+)*@([a-z0-9-]+(\.[a-z0-9-]+)*?\.[a-z]{2,6}|(\d{1,3}\.){3}\d{1,3})(:\d{4})?$/i" required maxlength="100">
+                      
+                      <input id="email" ng-show="inviteuser"  ng-readonly="inviteuser" ng-model-options="{ updateOn: 'blur' }"  type="email"  name="emailId"  ng-model="user.emailId" ng-pattern="/^[\w-]+(\.[\w-]+)*@([a-z0-9-]+(\.[a-z0-9-]+)*?\.[a-z]{2,6}|(\d{1,3}\.){3}\d{1,3})(:\d{4})?$/i" required maxlength="100">
+
+                      <label ng-class="class" for="email">Email address <sup>*</sup></label>
+                      <label class="error" ng-show="registrationForm.$submitted ||  registrationForm.emailId.$touched || (registrationForm.emailId.$dirty && registrationForm.emailId.$invalid)">
+                  <label  class="error-msg-form" ng-show="registrationForm.emailId.$error.required">Email is required.</label>
+                  <label class="error-msg-form" ng-show="registrationForm.emailId.$error.pattern">Invalid email.</label>
+                  <label class="error-msg-form" ng-show="registrationForm.emailId.$pending.emailId">Checking if this email is available...</label>
+                  <label class="error-msg-form" ng-show="registrationForm.emailId.$error.emailId">Email already exists.</label>
+
+                  </label>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="input-field col s12 full-width-sm">
+                      <label class="label-7" for="mobile">Mobile phone <sup>*</sup></label>
+                      <div class="row" ng-init="initCountryCode()">
+                        <div class="col s6 numb-place">
+                         <!--  <input placeholder="Country code" id="countryCode" type="text" name="countryCode" ng-pattern="/^\+?(\d{1,4})$/" ng-model="countryCode" required maxlength="4"> -->
+                          <select ng-options="countryCode.value as countryCode.name for countryCode in
+                          countryCodes" name="countryCode" ng-model="countryCode" required>
+                            <option value="">Select</option>
+                            
+
+                          </select>
+                          <label class="error" ng-show="registrationForm.$submitted || (registrationForm.countryCode.$dirty && registrationForm.countryCode.$invalid)">
+                  <label class="error-msg-form" ng-show="registrationForm.countryCode.$error.required">Country is required.</label>
+                  <label class="error-msg-form" ng-show="registrationForm.countryCode.$error.pattern">Invalid code.</label>
+                  </label>
+                        </div>
+                        <div class="col s6 numb-place" style="position:relative;">
+                          <input id="mobile" type="text" placeholder="Enter mobile phone number" name="mobilePhone" ng-pattern="/^\(?(\d{3})\)?[ .-]?(\d{3})[ .-]?(\d{4})$/" numbers-only ng-model="mobilePhone" required maxlength="10">
+                          <label style="left: 0rem !important; bottom:2rem;" class="error" ng-show="registrationForm.$submitted || (registrationForm.mobilePhone.$dirty && registrationForm.mobilePhone.$invalid)">
+                  <label class="error-msg-form" ng-show="registrationForm.mobilePhone.$error.required">Mobile phone is required.</label>
+                  <label class="error-msg-form" ng-show="registrationForm.mobilePhone.$error.pattern">Invalid mobile.</label>
+                  </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                <div class="row">
+                  <div class="input-field col s12 full-width-sm">  
+                  <label id="location-input" class="label-7" for="Location">Location</label>
+                  <div class="clearfix"></div>
+                    
+                    <div class="row">
+                    <div class="col s12 numb-place">    
+                    <input name="userAddress" ng-model="userAddress" onFocus="geolocate()" placeholder="Enter a location" id="location" type="text" maxlength="250">
+
+                    </div></div>
+                      </div>
+                        </div>
+                    
+                      <div class="gray-accord" id="gray-address"><div class="row">
+                  <div class="col m12">   <div class="row">
+
+                      <div class="input-field col s6 full-width-sm">
+                       <input id="addressLine1" name="addressLine1" ng-model="storeData.addressLine1" ng-keyup="isGoogleAddress()" type="text" required maxlength="145">
+                        <label for="addressLine1" class="">Address 1 <sup>*</sup></label>
+                        <label class="error" ng-show="registrationForm.$submitted || (registrationForm.addressLine1.$dirty && registrationForm.addressLine1.$invalid)">
+                		<label class="error-msg-form" ng-show="registrationForm.addressLine1.$error.required">Address 1 is required.</label>
+                		</label>
+                        </div>
+
+                        <div class="input-field col s6 full-width-sm">
+                            <input id="addressLine2" ng-model="storeData.addressLine2" name="addressLine2"  type="text" maxlength="145">
+                        <label for="addressLine2" class="">Apartment/Floor/Business </label>
+                        </div>
+                                      
+                    </div>
+                    </div>   <div class="col m12">
+                        <div class="row">
+                        <div class="input-field col s6 full-width-sm">
+                         <input id="city" ng-model="storeData.city" name="city" type="text" ng-keyup="isGoogleAddress()" required maxlength="30">
+                        <label for="city" class="">City <sup>*</sup></label>
+                        <label class="error" ng-show="registrationForm.$submitted || (registrationForm.city.$dirty && registrationForm.city.$invalid)">
+                		<label class="error-msg-form" ng-show="registrationForm.city.$error.required">City is required.</label>
+                		</label>
+                        </div>
+                         <div class="input-field col s6 full-width-sm">
+                         <input id="state" ng-model="storeData.state" name="state" type="text" ng-keyup="isGoogleAddress()" required maxlength="30">
+                        <label for="state" class="">State <sup>*</sup></label>
+                        <label class="error" ng-show="registrationForm.$submitted || (registrationForm.state.$dirty && registrationForm.state.$invalid)">
+                    <label class="error-msg-form" ng-show="registrationForm.state.$error.required">State is required.</label>
+                    </label>
+                        </div>   
+                      </div>
+                      
+                      <div class="row">
+                      
+                        <div class="input-field col s6 full-width-sm">
+                         <input id="zipCode" ng-model="storeData.zipCode" name="zipCode" ng-keyup="isGoogleAddress()" type="text" required maxlength="12">
+                        <label for="zipCode" class="">Zip <sup>*</sup></label>
+                        <label class="error" ng-show="registrationForm.$submitted || (registrationForm.zipCode.$dirty && registrationForm.zipCode.$invalid)">
+                		<label class="error-msg-form" ng-show="registrationForm.zipCode.$error.required">Zip is required.</label>
+                		</label>
+                        </div>
+                            
+                        <div class="input-field col s6 full-width-sm">
+                        <input id="country" ng-model="storeData.country" name="country" ng-keyup="isGoogleAddress()" type="text" required maxlength="30">
+                        <label for="country" class="">Country <sup>*</sup></label>
+                        <label class="error" ng-show="registrationForm.$submitted || (registrationForm.country.$dirty && registrationForm.country.$invalid)">
+                		<label class="error-msg-form" ng-show="registrationForm.country.$error.required">Country is required.</label>
+                		</label>
+                        </div>
+                      </div></div>
+                    
+                      </div></div>
+                   
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="box2">
+            <div class="box1">
+              <div class="row">
+                <div class="col m12 l4 s12">
+             <div class="input-field">     <h6>SET PASSWORD</h6>
+                  <p>Must be at least 8 characters long, 1 Capital letter, 1 punctuation, 1 number</p></div>
+                </div>
+                <div class="col m12 l8 s12">
+                  <div class="row">
+                    <div class="col s12">
+                      <div class="row">
+                        <div class="input-field col s6 full-width-sm">
+                          <input id="password" type="password" name="password" ng-model="user.password" ng-pattern="/(?=.*[A-Z])(?=.*[!#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~])(?=.*[0-9])/" ng-minlength="8" maxlength="20" required>
+                          <label for="password">Password <sup>*</sup></label>
+                          <label class="error" ng-show="registrationForm.$submitted || (registrationForm.password.$dirty && registrationForm.password.$invalid)">
+                  <label class="error-msg-form" ng-show="registrationForm.password.$error.required">Password is required.</label>
+                  <label class="error-msg-form" ng-show="registrationForm.password.$error.minlength">Too short. Please enter password of alteast 8 character</label>
+
+                  <label class="error-msg-form" ng-show="!registrationForm.password.$error.required && !registrationForm.password.$error.minlength && registrationForm.password.$error.pattern && registrationForm.password.$dirty">Must contain 1 Capital letter, 1 punctuation, 1 number.</label>
+                  </label>
+                        </div>
+                        <div class="input-field col s6 full-width-sm">
+                          <input maxlength="20" id="conf_password" match-fields="password" type="password" name="passwordConfirm" ng-model="passwordConfirm" ng-required>
+                          <label for="conf_password">Re-enter password <sup>*</sup></label>
+                          <label class="error" ng-show="registrationForm.$submitted ||(registrationForm.passwordConfirm.$dirty && registrationForm.passwordConfirm.$invalid)">
+                    
+                    <label class="error-msg-form" ng-show="registrationForm.passwordConfirm.$error.matchFields">Passwords do not match.</label>
+                    </label>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="input-field col s12 password-reset1">
+                          
+                          <input class="password-reset1" value="" name="passwordResetQuetion" ng-model="user.passwordResetQuetion" id="resetQuestion" type="text" required  maxlength="250" >
+                          
+                          <label for="resetQuestion">Please enter your own password reset question <sup>*</sup></label>
+                          <label class="error" ng-show="registrationForm.$submitted || (registrationForm.passwordResetQuetion.$dirty && registrationForm.passwordResetQuetion.$invalid)">
+                  <label class="error-msg-form error-reset1" ng-show="registrationForm.passwordResetQuetion.$error.required">Password Reset Question is required.</label>
+                  </label>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="input-field col s6 full-width-sm">
+                          <input  maxlength="250"  id="reset-answer" type="password" name="passwordResetAnswer" ng-model="user.passwordResetAnswer" required>
+                          <label for="reset-answer">Reset answer <sup>*</sup></label>
+                          <label class="error" ng-show="registrationForm.$submitted || (registrationForm.passwordResetAnswer.$dirty && registrationForm.passwordResetAnswer.$invalid)">
+                    <label class="error-msg-form" ng-show="registrationForm.passwordResetAnswer.$error.required">Reset Answer is required.</label>
+                    </label>
+                        </div>
+                        <div class="input-field col s6 full-width-sm">
+                          <input maxlength="250" id="confirm-reset-answer" type="password" match-fields="reset-answer" name="resetAnswerConfirm" ng-model="resetAnswerConfirm" required>
+                          <label for="confirm-reset-answer">Re-enter reset answer <sup>*</sup></label>
+                          <label class="error" ng-show="registrationForm.$submitted || (registrationForm.resetAnswerConfirm.$dirty && registrationForm.resetAnswerConfirm.$invalid)">
+                   
+                    <label class="error-msg-form" ng-show="registrationForm.resetAnswerConfirm.$error.matchFields">Answer do not match.</splabelan>
+                    </label>
+                        </div>
+                      </div>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="box1 box1-mart">
+            <div class="row">
+              <div class="col s12 m12"><span class="head1">OPTIONAL INFORMATION</span>
+                <p class="para5">Help us identify deals and services that match your personal preferences.</p>
+              </div>
+              <div class="col  m12 l4">
+                <h4>ABOUT YOU</h4>
+                <p class="para1">As we start to expand, we will begin to offer you more and more services as part of our offering. <br>
+                  <br>
+                  Feel free to provide any information you feel comfortable with and receive promotions, discounts, special events, and exclusives from Valoux and our partners!</p>
+              </div>
+              <div class="col m12 l8 s12">
+                <div class="row">
+                  <div class="col s12">
+                    <div class="row">
+                      <div class="input-field col s6 full-width-sm"> <span for="first_name">Gender</span>
+                        <div class="clearfix"></div>
+                        <div class="row radio-box">
+                          <div class="col s4">
+                            <p>
+                              <input ng-model="user.gender" value="1" name="group1" type="radio" id="male" />
+                              <label for="male">Male</label>
+                            </p>
+                          </div>
+                          <div class="col s8">
+                            <p>
+                              <input value="2" ng-model="user.gender" name="group1" type="radio" id="female" />
+                              <label for="female">Female </label>
+                            </p>
+                          </div>
+                          
+                        </div>
+                      </div>
+                      <div class="input-field col s6 full-width-sm"> <span for="first_name" class="head-birthday">Birthday</span> <div class="clearfix"></div>
+                        
+                        <input name="birthday" id="datepicker" type="text" ng-model="birthday" class="inp-cal datepicker">
+                        <a id="datepickfocus" href="">&nbsp;</a>
+                        </div>
+                    </div>
+                      <div class="row" ng-init="initRegistrationConsumer()">
+                      <div class="input-field col s6 full-width-sm">
+                        <div class="input-field">
+                          <select name="maritalStatus" ng-model="user.maritalStatus" ng-options="maritalStatus.value as maritalStatus.name for maritalStatus in
+                          status_categories">
+                          <option value="">Select</option>
+                            
+                            
+                          </select>
+                          <label class="label1">Marital Status</label>
+                        </div>
+                      </div>
+                      <div class="input-field col s6 full-width-sm">
+                        <div class="input-field">
+                          <select name="incomeRange" ng-model="user.incomeRange" ng-options="incomeRange.value as incomeRange.name for incomeRange in
+                          incomeRange_categories">
+                            <option value="">Select</option>
+                            
+                          </select>
+                          <label class="label1">Income Range ($)</label>
+                        </div>
+                      </div>
+                    </div>
+
+                      <div class="row">
+                    <div class="input-field col s6 full-width-sm">
+                      <div class="input-field">
+
+                        <select name="jewelryPurchase" ng-model="jewelryPurchase" ng-options="jewelryPurchase.value as jewelryPurchase.name for jewelryPurchase in
+                          jewelryPurchases">
+                          <option value="">Select</option>
+                        </select>
+                        <label class="label1">Jewelry Purchases</label>
+                      </div>
+                    </div>
+                    <div class="input-field col s6 full-width-sm">
+                      <div class="input-field">
+                        <select name="jewelryInsuranceType" ng-model="jewelryInsuranceType" ng-options="jewelryInsuranceType.value as jewelryInsuranceType.name for jewelryInsuranceType in
+                          jewelryInsurance">
+                          <option value="">Select</option>
+                        </select>
+                        <label class="label1">Jewelry Insurance</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="input-field col s6 full-width-sm">
+                      <div class="input-field">
+                        <select name="jewelryServices" ng-model="jewelryServices" ng-options="jewelryServices.value as jewelryServices.name for jewelryServices in
+                          jewelryService">
+                          <option value="">Select</option>
+                        </select>
+                        <label class="label1">Jewelry Service</label>
+                      </div>
+                    </div>
+                    <div class="input-field col s6 full-width-sm">
+                      <div class="input-field">
+                        <select name="jewelryDocumentations" ng-model="jewelryDocumentations" ng-options="jewelryDocumentations.value as jewelryDocumentations.name for jewelryDocumentations in
+                          jewelryDocumentation">
+                          <option value="">Select</option>
+                        </select>
+                        <label class="label1">Jewelry Documentation</label>
+                      </div>
+                    </div>
+                  </div>
+                
+              
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="box3">
+            <div class="box1">
+              <div class="row">
+                <div class="col m12 l4">
+                      <div class="input-field">    <h6>INTERESTED IN</h6>
+                  <p class="para2">Services you interested in? Check all that apply!</p></div>
+
+
+                </div>
+                <div class="col m12 l8 s12">
+                  <div class="row" ng-init="initInterestedIn()">
+                    <div class="col s12">
+                      <div class="row">
+                        <div class="input-field col s4 full-width-sm" ng-repeat="interestIn in interestedIn" ng-cloak>
+                        <input type="checkbox" value="{{interestIn.interestId}}" class="filled-in" name="interestIn" id="{{'interest'+interestIn.interestId}}" ng-model="interestIn.selected"/>
+                        <label for="{{'interest'+interestIn.interestId}}">{{interestIn.interest}}</label> 
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+<br>
+<br>
+              <div class="row" ng-init="initPersonalPrefrence()">
+                <div class="col m12 l4">
+                 <div class="input-field">   <h6>PERSONAL PREFERENCES</h6>
+
+                  <p class="para2">Please check one or more of the following:</p></div></div>
+                   <div class="col m12 l8 s12">     
+                    
+                    <div class="row" ng-cloak>
+                      <div class="input-field col s6 full-width-sm">
+                        <div class="input-field" >
+                        
+                          <select class="select-dropdown2" id="jewelryTypes" name="jewelryTypes" ng-model="jewelryTypes" ng-options="jewelryTypes.personalId as jewelryTypes.personalPreferences for jewelryTypes in
+                          personalPreferencesJewelryTypes | filter:{ppType: 1}" multiple>
+                            <option value="" disabled>Select</option>
+                          </select>
+                          <label class="label1">Jewelry Types</label>
+                        </div>
+                      </div>
+                      <div class="input-field col s6 full-width-sm">
+                        <div class="input-field">
+                          <select class="select-dropdown2" id="jewelryDesign" name="jewelryDesign" ng-model="jewelryDesign" ng-options="jewelryDesign.personalId as jewelryDesign.personalPreferences for jewelryDesign in
+                          personalPreferencesJewelryDesign | filter:{ppType: 2}" multiple>
+                            <option value="" disabled>Select</option>
+                          </select>
+                          <label class="label1">Jewelry Design</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row" ng-cloak>
+                      <div class="input-field col s6 full-width-sm">
+                        <div class="input-field">
+                          <select class="select-dropdown2" id="jewelryStyle" name="jewelryStyle" ng-model="jewelryStyle" ng-options="jewelryStyle.personalId as jewelryStyle.personalPreferences for jewelryStyle in
+                          personalPreferencesJewelryStyle | filter:{ppType: 3}" multiple>
+                            <option value="" disabled>Select</option>
+                          </select>
+                          <label class="label1">Jewelry Style</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <br>
+                <div class="row">
+                  <div class="col m12 l4">
+                    <div class="input-field">
+                      <h6>JEWELRY COMPONENTS</h6>
+                      <p class="para2">Please check one or more of the following:</p>
+                    </div>
+                  </div>
+                  <div class="col m12 l8 s12">
+                    <div class="row" >
+                      <div class="input-field col s6 full-width-sm">
+                        <div class="input-field">
+                          <select class="select-dropdown2" name="metal" ng-model="metal" ng-options="metal.value as metal.name for metal in metals" multiple>
+                            <option value="" disabled>Select</option>
+                          </select>
+                          <label class="label1">Metals</label>
+                        </div>
+                      </div>
+                      <div class="input-field col s6 full-width-sm">
+                        <div class="input-field">
+                          <select class="select-dropdown2" name="gemstone" ng-model="gemstone" ng-options="gemstone.value as gemstone.name for gemstone in gemstones" multiple>
+                            <option value="" disabled>Select</option>
+                          </select>
+                          <label class="label1">Gemstones</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="input-field col s6 full-width-sm">
+                        <div class="input-field">
+                          <select class="select-dropdown2" name="diamond" ng-model="diamond" ng-options="diamond.value as diamond.name for diamond in diamonds" multiple>
+                            <option value="" disabled>Select</option>
+                          </select>
+                          <label class="label1">Diamonds</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+
+                <div class="clearfix"></div>
+              </div>
+
+
+
+
+
+            <div class="clearfix"></div>         
+          </div><div class="clearfix"></div>
+<br>
+<br>
+
+<div class="center">
+          <button class="btn-large btn-large1 btn-large2 waves-effect waves-light" type="submit">JOIN NOW</button>
+
+       
+
+</div>
+       
+        <!-- Modal for DETAIL CONFIRMATION start here -->
+        <div id="modal-detail" class="modal modal-login">
+          <div class="modal-content">
+            <h4>DETAIL CONFIRMATION <a href="javascript:;" class="modal-action modal-close close-btn tooltipped" data-position="bottom" data-delay="50" data-tooltip="Close">&nbsp;</a></h4>
+            <p class="center-align para4">Please re-check your <span class="txt-orange">Email address and Mobile phone number</span> to make sure
+              they are correct as these are not editable fields and account activation code will be send on that.</p>
+            <div class="row">
+                <div class="row col s12 form1 form-padlr">
+                  <div class="input-field col s12"> <i class="material-icons prefix"><img src="../img/icon-mail.png"  alt=""/></i>
+                    <input id="icon_prefix" type="email" class="validate" ng-value="user.emailId"  disabled>
+                  </div>
+                  <div class="input-field col s12"> <i class="material-icons prefix"><img src="../img/icon-phone.png" alt=""/></i>
+                    <input id="icon_telephone" type="text" class="validate" ng-value="(countryCode | makephoneNo) + mobilePhone" disabled>
+                  </div>
+                </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+              <button class="modal-action modal-close waves-effect btn1 btn2" ng-click="submitRegistrationConsumer();" type="button">YES IT IS RIGHT</button>
+              <a href="javascript:;" class="modal-action modal-close waves-effect btn1 btn3">EDIT</a> </div>
+        </div>
+        <!-- Modal for DETAIL CONFIRMATION end here -->     
+
+        
+
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="clearfix"></div>
+<footer-element></footer-element>
+<login></login>
+<div class="loader-overlay" ng-show="fullPageBlockLoading" loading><span class="loader-inner">Processing<div class="clearfix"></div><img src="../img/loader-1.gif"></span></div>
+
+<!--  Scripts--> 
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyChSJaAZLMucDhIM_vJD4zSE474kwBPGHA&signed_in=false&libraries=places&callback=initAutocomplete" async defer></script> 
+<script src="../js/app/customJs/common.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+  $('select').material_select();
+  
+  //datepicker for date of birth
+  $('.datepicker').pickadate({
+      max: new Date(),
+      selectMonths: true, // Creates a dropdown to control months
+      selectYears: 100,
+      format: 'mmmm d, yyyy',
+      onClose: function() {
+            $('#datepickfocus').focus();
+        }
+    });
+  
+});
+</script>
+
+</body>
+<div ng-cloak></div>
+</html>

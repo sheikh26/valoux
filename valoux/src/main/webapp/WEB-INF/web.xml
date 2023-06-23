@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	<context-paparam>
+		<paparam-name>contextConfigLocation</paparam-name>
+		<paparam-value>classpath:applicationContext.xml</paparam-value>
+	</context-paparam>
+	<listener>
+		<listener-class>org.springfparamework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.springfparamework.web.context.request.RequestContextListener</listener-class>
+	</listener>
+	<servlet>
+
+		<servlet-name>Jersey Spring Web Application</servlet-name>
+		<servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</servlet-class>
+		<init-paparam>
+			<paparam-name>com.sun.jersey.api.json.POJOMappingFeature</paparam-name>
+			<paparam-value>true</paparam-value>
+		</init-paparam>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+	<servlet-mapping>
+
+		<servlet-name>Jersey Spring Web Application</servlet-name>
+		<url-pattern>/rest/*</url-pattern>
+	</servlet-mapping>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/view/pages-404.html</location>
+	</error-page>
+
+</web-app>
+

@@ -1,0 +1,304 @@
+<div class="clearfix"></div>
+<div class="graybox" ng-cloak>
+  <div class="container" ng-init="initAppraisalUpdate()">
+    <div class="row">
+      <div class="col s12">
+        <div class="page-header">
+          <h1 ng-hide="inviteNewConsumer" ng-if="!edit" class="pull-left" >Create New Appraisal</h1>
+          <h1 ng-if="edit" class="pull-left" >Edit Appraisal</h1>
+		  <h1 ng-if="inviteNewConsumer" ng-hide="edit"  class="pull-left">Add New Appraisal & Invite New Consumer</h1>
+		    <div class="rightbox2">
+			<div class="view-list"   ng-if="agentHeaderEnable && isAgentLogin" ng-init="initConsumerInformation()">
+              <div class="searchbox-left searchbox-left1"><i class="txt13">View items by:</i><br>
+              <select id="viewedItemsBy" ng-change="storeAgentInfoDropdown(viewItemBy)" name="viewItemsBy" ng-model="viewItemBy" ng-options="viewItemsBy.consumerPublicKey as (viewItemsBy.firstName + ' ' + viewItemsBy.middleName + ' ' + viewItemsBy.lastName) for viewItemsBy in viewByConsumer">
+              <option selected="selected" disabled>Consumer name</option>
+              </select>
+           
+            </div>
+            </div>
+            <a ng-hide="inviteNewConsumer || edit" href="javascript:;" ng-click="inviteNewConsumerAgent()" ng-if="agentHeaderEnable && isAgentLogin" target="_self" class="add-new"><img src="../img/icon-plus.png" alt="" > Invite consumer</a>
+       		 </div>
+        	</div>
+        </div>
+      </div>
+    
+    
+     <div class="header-bg-1" ng-if="agentHeaderEnable">
+        <!-- <a data-tooltip="Add New Item" data-delay="50" data-position="bottom" class="icon-big-plus waves-effect waves-light tooltipped" href="collection-agent.html#/add"><img alt="" src="../img/icon-plus-big.png"></a> -->
+            <div class="agent-left-con">
+        <div class="pic-con2"><img fallback-src="../img/profile-pic-default.jpg" ng-src="../valoximage/consumerimageuploaded/{{sharedBy.imageUrl}}" alt=""></div>
+        
+        <span>{{sharedBy.firstName}} {{sharedBy.middleName}} {{sharedBy.lastName}}</span> 
+        </div>
+        
+        <a class="back-btn2" ng-click="cancelAgent()" href="javascript:;"><img src="../img/arrow-previous.png" alt="">BACK</a>
+      </div>
+      <div class="header-bg-1 margbtn0" ng-if="inviteNewConsumer">
+        
+        <a class="back-btn2" ng-click="cancelAgent()" href="javascript:;"><img src="../img/arrow-previous.png" alt="">BACK</a>
+      </div>
+      
+    <div class="row">
+      <form class="col s12" autofocus-form class="col s12" name="createAppraisalForm" ng-submit="createAppraisalForm.$valid && createAppraisalStep1()" novalidate>
+      
+        <div class="whitebox1">
+        <div class="col m12 s12">
+            
+            <div class="error-msg" ng-if="appraisalFormError">
+            <div class="disp-cell">
+            <i class="fa fa-exclamation-triangle"></i>
+            </div> 
+            <div class="disp-cell">
+            <span>{{errorMessage}}</span>
+        </div>
+        </div>
+        </div>
+          <div class="box1 box1-margin">
+            <div class="col m12 s12 l8">
+              <div class="row">
+                <div class="col s12">
+                  <div class="step-1">STEP - <b>1</b></div>
+                  <span class="step-1-subhead">APPRAISAL DETAILS</span>
+                </div>
+              </div>
+              <div class="row" ng-if="inviteNewConsumer">
+                <div class="input-field col s6 full-width-sm">       <input id="fname" name="fname" ng-model="newConsumerData.firstName" type="text" required>
+                  <label for="fname" class="">First name <sup>*</sup></label>
+                  <label class="error" ng-show="createAppraisalForm.$submitted || (createAppraisalForm.fname.$dirty && createAppraisalForm.fname.$invalid)">
+                  <label class="error-msg-form" ng-show="createAppraisalForm.fname.$error.required">First name is required.</label>
+                  </label>
+
+                  </div> <div class="input-field col s6 full-width-sm"><input id="lname" name="lname" ng-model="newConsumerData.lastName" type="text" required>
+                  <label for="lname" class="">Last name <sup>*</sup></label>
+                  <label class="error" ng-show="createAppraisalForm.$submitted || (createAppraisalForm.lname.$dirty && createAppraisalForm.lname.$invalid)">
+                  <label class="error-msg-form" ng-show="createAppraisalForm.lname.$error.required">Last name is required.</label>
+                  </label>
+
+                  </div></div>
+                  <div class="row" ng-if="inviteNewConsumer">
+                <div class="input-field col s12 full-width-sm">
+                  <input id="emailId" isemail-Exists name="emailId" ng-model="newConsumerData.emailId" type="email" ng-pattern="/^[\w-]+(\.[\w-]+)*@([a-z0-9-]+(\.[a-z0-9-]+)*?\.[a-z]{2,6}|(\d{1,3}\.){3}\d{1,3})(:\d{4})?$/i" required maxlength="100">
+                  <label for="emailId" class="">Email address <sup>*</sup></label>
+                  <label class="error" ng-show="createAppraisalForm.$submitted ||  createAppraisalForm.emailId.$touched || (createAppraisalForm.emailId.$dirty && createAppraisalForm.emailId.$invalid)">
+                  <label  class="error-msg-form" ng-show="createAppraisalForm.emailId.$error.required">Email is required.</label>
+                  <label class="error-msg-form" ng-show="createAppraisalForm.emailId.$error.pattern">Invalid email.</label>
+                  <label class="error-msg-form" ng-show="createAppraisalForm.emailId.$pending.emailId">Checking if this email is available...</label>
+                  <label class="error-msg-form" ng-show="createAppraisalForm.emailId.$error.emailId">Email already exists.</label>
+
+                  </label>
+                </div>
+              </div>
+              
+              <div class="row">
+                <div class="input-field col s12 full-width-sm">
+                  <!-- <input id="itemname" type="text" class="validate"> -->
+                   <input ng-if="!inviteNewConsumer" isappraisalname-Exists="storeAppraisal.appraisalId" ng-model-options="{ updateOn: 'blur'}" id="appraisalname" maxlength="100" type="text" name="name" ng-model="storeAppraisal.name" required>
+				    <input ng-if="inviteNewConsumer" ng-model-options="{ updateOn: 'blur'}" id="appraisalname" maxlength="100" type="text" name="name" ng-model="storeAppraisal.name" required>
+                  <label ng-class="class" for="appraisalname">Appraisal name  <sup>*</sup></label>
+                  <label class="error" ng-show="createAppraisalForm.$submitted || createAppraisalForm.name.$touched || (createAppraisalForm.name.$dirty && createAppraisalForm.name.$invalid)">
+                  <label class="error-msg-form" ng-show="createAppraisalForm.name.$error.required">Appraisal name is required.</label>
+                  <label class="error-msg-form" ng-show="createAppraisalForm.name.$pending.name">Checking Appraisal name is available...</label>
+                  <label class="error-msg-form" ng-show="createAppraisalForm.name.$error.name">Appraisal name already exists.</label>
+                  </label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12"> <span for="first_name">Description <sup>*</sup></span> <span class="character">Up to {{0 + storeAppraisal.shortDescription.length}}/1000 characters</span>
+                  <div class="clearfix"></div>
+                  <textarea ng-model="storeAppraisal.shortDescription" name="shortDescription" id="textarea1" maxlength="1000" class="materialize-textarea textarea1" placeholder="Enter description here" required></textarea>
+                </div>
+                <label class="error col s12 txtarea-error" ng-show="createAppraisalForm.$submitted || (createAppraisalForm.shortDescription.$dirty && createAppraisalForm.shortDescription.$invalid)">
+                  <label class="error-msg-form" ng-show="createAppraisalForm.shortDescription.$error.required">Description is required.</label>
+                  
+                  </label>
+              </div>
+
+              <br>
+            </div>
+            
+            <div class="col s12 m12 l4 card-panel-gray1-padl vis-l">
+              <div class="row">
+                <div class="col s12">
+                  <div class="card-panel-gray1 compo-box right-panel-white">
+                    <div class="ideabox-2">
+                      <div class="center"><img alt="" src="../img/ideabox.jpg" class="idea-img"></div>
+                      <p>Lorem Ipsum is simply dummy text industry. Lorem Ipsum has dummy text of the printing and typesetting industry.</p>
+                   
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="clearfix"></div>
+          </div>
+          
+          
+      <div id="box_show7" ng-if="stepButton">
+          <div class="center whitebox1-footer whitebox1-footer3 btn-con"> 
+          <a ng-if="!isAgentLogin" href="javascript:;" ng-click="cancelConsumer()" class="btn-large btn-default waves-effect waves-light">CANCEL</a> 
+		   <a ng-if="isAgentLogin" ng-click="cancelAgent()" href="javascript:;" class="btn-large btn-default waves-effect waves-light">CANCEL</a> 
+            <button class="btn-large btn-large1 waves-effect waves-light" type="submit">CONTINUE</button>
+           </div>
+          </div>
+          <div class="" id="box_show8" ng-if="noItem">
+          <div class="row">
+            <div class="col s12">
+              <div class="collectionbox collectionbox3">
+                <div class="col m12 l12 s12 collectionbox-left">
+                  <div class="row">
+                    <div class="col s12">
+                      <div class="step-1">STEP - <b>2</b></div>
+                      <span class="step-1-subhead">ADD COLLECTIONS / ITEMS TO APPRAISAL</span> </div>
+                  </div>
+                 
+                    <div class="col s12 collectionbox-wrap"> 
+            
+                      
+                   <label>NO COLLECTION / ITEMS AVAILABLE</label>
+                    
+				   <span ng-if="!isAgentLogin">
+                   <p>Please go to Items from top menu and Add new items &amp; than create collection to add to the appraisal.</p>
+                   
+                   <a class="btn3" href="item.html#/add">Add Item</a>
+            		</span>
+            
+                    </div>
+            
+                </div>
+              </div>
+            </div>
+          </div><div class="clearfix"></div>
+          <div class="center whitebox1-footer whitebox1-footer3 btn-con"> 
+         
+          <a  ng-if="!isAgentLogin" ng-click="cancelConsumer()" href="javascript:;" class="btn-large btn-default waves-effect waves-light">CANCEL</a>  
+		  <a  ng-if="isAgentLogin" ng-click="cancelAgent()" href="javascript:;" class="btn-large btn-default waves-effect waves-light">CANCEL</a> 
+          <a ng-if="!edit" href="javascript:;" ng-click="(createAppraisalForm.$valid && createAppraisalStep2()) || focus()" class="btn-large btn-large1 btn-large4 waves-effect waves-light"> 
+          
+          <span>OR - SKIP THIS AND</span>
+         COMPLETE APPRAISAL</a>
+
+         <a ng-if="edit" href="javascript:;" ng-click="(createAppraisalForm.$valid && editAppraisalSubmit()) || focus()" class="btn-large btn-large1 btn-large4 waves-effect waves-light"> 
+          
+          <span>OR - SKIP THIS AND</span>
+         UPDATE APPRAISAL</a>
+          </div>
+          </div>
+          
+
+          <div class="" id="box_show8" ng-show="itemCollection && !noItem">
+                    <div class="row">
+            <div class="col s12">
+              <div class="collectionbox">
+                <div class="col m12 l6 s12 collectionbox-left"> <a class="icon-big-plus waves-effect waves-light tooltipped" data-tooltip="Add Now" ng-click="collectionsItemsAddInAppraisal()" data-delay="50" data-position="bottom" href="javascript:;" data-tooltip-id="5f85b908-838f-70d1-1d0d-bbdd1c6834ca"><img alt="" src="../img/icon-arrow1.png"></a>
+                  <div class="row">
+                    <div class="col s12">
+                      <div class="step-1">STEP - <b>2</b></div>
+                      <span class="step-1-subhead">ADD COLLECTIONS / ITEMS TO APPRAISAL</span> </div>
+                  </div>
+                  <div class="mCustomScrollbar collection-scroll2">
+                    <div class="col s12 collectionbox-wrap"> 
+                      <!-- Add item row start here-->
+
+    <div class="row list-item" ng-repeat="collectionDataList in collectionDataLists" ng-if="collectionDataLists">
+                        <div class="col m1 s1 col-xs-2">
+                          <div class="input-field input-field2">
+                            <input ng-model="collectionDataList.selected" type="checkbox" id="filled-in-box{{collectionDataList.vcid}}" class="filled-in">
+                            <label for="filled-in-box{{collectionDataList.vcid}}"></label>
+                          </div>
+                        </div>
+                        <div class="col m3 s3 col-xs-9">
+                          <div class="img-con1"><img alt="" fallback-src="../img/not-found-collection-small.jpg" ng-src="../valoximage/imageuploaded/{{collectionDataList.cImages[0].imageUrl}}"></div>
+                        </div>
+                        <div class="col m8 s8 col-xs-12"><span class="title1 title2">{{collectionDataList.cname | limitTo: 20 }} {{collectionDataList.cname.length < 20 ? '' : '...'}} <small>ID#  {{collectionDataList.vcid}}</small>                       
+                        </span>
+                        <span class="item-folder"><a href="javascript:;" ng-click="collectionInApprasial(collectionDataList.vcid, collectionDataList.noOfItem)" class=""><img src="../img/icon-folder.png"  alt=""/> <strong id="collection_item_appraisal_{{collectionDataList.cId}}">{{collectionDataList.noOfItem}}</strong></a></span>
+                         </div>
+                          
+                      </div>
+                      <!-- Add item row end here--> 
+                      
+                      <!-- Add item row start here-->
+                      <div class="row list-item" ng-repeat="itemDataList in itemDataLists" ng-if="itemDataLists">
+                        <div class="col m1 s1 col-xs-2">
+                          <div class="input-field input-field2">
+                            <input ng-model="itemDataList.selected" type="checkbox" id="filled-item-box_{{itemDataList.itemId}}" class="filled-in">
+                            <label for="filled-item-box_{{itemDataList.itemId}}"></label>
+                          </div>
+                        </div>
+                        <div class="col m3 s3 col-xs-9">
+                          <div class="img-con1"><img alt="" fallback-src="../img/not-found-item-small.jpg" ng-src="../valoximage/imageuploaded/{{itemDataList.itemImages[0].itemImagePath}}"></div>
+                        </div>
+                        <div class="col m8 s8 col-xs-12"><span class="title1 title2">{{itemDataList.name | limitTo: 20 }} {{itemDataList.name.length < 20 ? '' : '...'}} <small>ID#  {{itemDataList.itemId}}</small></span> </div>
+                     
+                      </div>
+                      <!-- Add item row end here--> 
+                      
+                     
+                    </div>
+                  </div>
+                </div>
+                <div class="col m12 l6 s12 collectionbox-right">
+                  <div class="row">
+                    <div class="col s12"> <span class="step-1-subhead">COLLECTIONS / ITEMS IN APPRAISAL <span class="badge">{{total || 0}}</span></span> </div>
+                  </div>
+                  <div class="collectionbox1 collectionbox2"> 
+                    <div class="mCustomScrollbar collection-scroll3"> 
+                    <div class="col s12 collectionbox-wrap collectionbox-wrap2"> 
+                    <div ng-if="blankCollection">
+                 
+                  
+                    <p>  <img src="../img/item-graphics.jpg" alt=""/><br> SELECT COLLECTION / ITEMS FROM LEFT <br>
+                    AND ADD TO YOUR APPRAISAL</p>
+                    
+                      </div>
+                      <!-- Add collection row start here-->
+
+                      <div class="row list-item" ng-repeat="addedCollection in addedCollections">
+                          <div class="col m3 s3 col-xs-12">
+                            <div class="img-con1"><img alt="" fallback-src="../img/not-found-collection-small.jpg" ng-src="../valoximage/imageuploaded/{{addedCollection.cImages[0].imageUrl}}"></div>
+                          </div>
+                          <div class="col  m8 s8 col-xs-10"><span class="title1 title2">{{addedCollection.cname | limitTo: 20 }} {{addedCollection.cname.length < 20 ? '' : '...'}} <small>ID#  {{addedCollection.vcid}}</small></span> <span class="item-folder"><a ng-click="collectionInApprasial(addedCollection.vcid, addedCollection.noOfItem)" href="javascript:;" class=""><img src="../img/icon-folder.png" alt=""> <strong id="collection_item_appraisal_step_{{addedCollection.vcid}}">{{addedCollection.noOfItem}}</strong></a></span> </div>
+                          <div class="col m1 s1 col-xs-2"> <a href="javascript:;" data-position="bottom" data-delay="50" ng-click="removeCollectionAppraisal($index)" data-tooltip="Remove" class="tooltipped" data-tooltip-id="e43b8a11-2cba-8a60-abf3-087bac54d8fb"> <img src="../img/icon-trash.jpg" alt=""> </a> </div>
+                        </div>
+
+                      <!-- Add collection row end here-->
+
+                      <!-- Add item row start here-->
+                      <div class="row list-item" ng-repeat="addedItem in addedItems">
+                          <div class="col m3 s3 col-xs-12">
+                            <div class="img-con1"><img alt="" fallback-src="../img/not-found-item-small.jpg" ng-src="../valoximage/imageuploaded/{{addedItem.itemImages[0].itemImagePath}}"></div>
+                          </div>
+                          <div class="col  m8 s8 col-xs-10"><span class="title1 title2">{{addedItem.name | limitTo: 20 }} {{addedItem.name.length < 20 ? '' : '...'}} <small>ID#  {{addedItem.itemId}}</small></span> </div>
+                          <div class="col m1 s1 col-xs-2"> <a href="javascript:;" data-position="bottom" data-delay="50" ng-click="removeItemsAppraisal($index)" data-tooltip="Remove" class="tooltipped" data-tooltip-id="e43b8a11-2cba-8a60-abf3-087bac54d8fb"> <img src="../img/icon-trash.jpg" alt=""> </a> </div>
+                        </div>
+                        <!-- Add item row end here-->
+                      </div>
+                  </div>
+                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="center whitebox1-footer whitebox1-footer3 btn-con"> 
+		  <a href="javascript:;" ng-click="cancelConsumer()" ng-if="!isAgentLogin" class="btn-large btn-default waves-effect waves-light">CANCEL</a> 
+		  <a ng-if="isAgentLogin" ng-click="cancelAgent()" href="javascript:;" class="btn-large btn-default waves-effect waves-light">CANCEL</a> 
+		  <a ng-if="!edit" ng-click="(createAppraisalForm.$valid && createAppraisalStep2()) || focus() " href="javascript:;" class="btn-large btn-large1 waves-effect waves-light">COMPLETE APPRAISAL</a> 			
+		  <a ng-if="edit" ng-click="(createAppraisalForm.$valid && editAppraisalSubmit()) || focus()" href="javascript:;" class="btn-large btn-large1 waves-effect waves-light">UPDATE APPRAISAL</a>
+          </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="clearfix"></div>
+<appraisal-popup></appraisal-popup>
+<script type="text/javascript">
+$(document).ready(function() {
+// Tooltip
+
+$('.tooltipped').tooltip({delay: 50});
+$('.mCustomScrollbar').mCustomScrollbar();
+});
+</script>

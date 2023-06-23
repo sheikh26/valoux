@@ -1,0 +1,82 @@
+<!-- Modal for Popup - Item list start here -->
+<!--Footer end here--><!-- Modal for Popup - Item list start here -->
+<div id="modal-add-new-items" class="modal modal-add-new-item">
+  <div class="modal-header">
+    <h4>ITEM(S) LIST  <span class="small-sub-head"><b>({{collectionItemTotal || 0}})</b> item(s) to this collection.</span><!--<span class="small-sub-head">- You have added <b>(20)</b> items to this collection.</span>--> <a href="javascript:;" class="modal-action modal-close close-btn2 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Close">&nbsp;</a></h4>
+ </div>
+ <div class="modal-container">  <div class="modal-content mCustomScrollbar itembox1-scroll2"><br>
+     <div class="row your-items-list" ng-repeat="collectionPopupItem in collectionPopupItems">
+      <div class="col m2 l2 s12">
+        <div class="img-con1"><img fallback-src="../img/not-found-item.jpg" ng-src="../valoximage/imageuploaded/{{collectionPopupItem.itemImages[0].itemImagePath}}" alt=""/></div>
+      </div>
+      <div class="col m8 l9 s12"><span class="title1"><span>{{collectionPopupItem.name | limitTo: 40 }} {{collectionPopupItem.name.length < 40 ? '' : '...'}}</span> <small>ID#  {{collectionPopupItem.itemId}}</small></span>
+        <p>{{collectionPopupItem.sdescription | limitTo: 200 }} {{collectionPopupItem.sdescription.length < 200 ? '' : '...'}}</p>
+      </div>
+      <div class="col m2 l1 s12">
+        <div class="action">
+        <!-- <a class="a2 tooltipped" href="item.html#/edit/{{collectionPopupItem.itemId}}" data-position="bottom" data-delay="50" data-tooltip="Edit">
+        <img width="17" height="20" alt="" src="../img/icon-edit.jpg"></a>&nbsp;&nbsp; -->
+        </div>
+      </div>
+    </div>
+  </div></div>
+  <!-- <div class="modal-footer">  </div>--> 
+</div>
+  <!-- <div class="modal-footer">  </div>--> 
+<div id="modal-add-new-appraisel-items" class="modal modal-add-new-item">
+  <div class="modal-header">
+    <h4>ITEM(S) LIST  <span class="small-sub-head"><b>({{appraiselItemTotal || 0}})</b> item(s) to this appraisal.</span><!--<span class="small-sub-head">- You have added <b>(20)</b> items to this collection.</span>--> <a href="javascript:;" class="modal-action modal-close close-btn2 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Close">&nbsp;</a></h4>
+ </div>
+ <div class="modal-container">  <div class="modal-content mCustomScrollbar itembox1-scroll2"><br>
+     <div class="row your-items-list" ng-repeat="appraiselPopupItem in appraiselPopupItems">
+      <div class="col m2 l2 s12">
+        <div class="img-con1"><img fallback-src="../img/not-found-item.jpg" ng-src="../valoximage/imageuploaded/{{appraiselPopupItem.itemImages[0].itemImagePath}}" alt=""/></div>
+      </div>
+      <div class="col m8 l9 s12"><span class="title1"><span>{{appraiselPopupItem.name | limitTo: 40 }} {{appraiselPopupItem.name.length < 40 ? '' : '...'}}</span> <small>ID#  {{appraiselPopupItem.itemId}}</small></span>
+        <p>{{appraiselPopupItem.sDescription | limitTo: 200 }} {{appraiselPopupItem.sDescription.length < 200 ? '' : '...'}}</p>
+      </div>
+      <div class="col m2 l1 s12">
+        <div class="action">
+        <!-- <a class="a2 tooltipped" href="item.html#/edit/{{collectionPopupItem.itemId}}" data-position="bottom" data-delay="50" data-tooltip="Edit">
+        <img width="17" height="20" alt="" src="../img/icon-edit.jpg"></a>&nbsp;&nbsp; -->
+        </div>
+      </div>
+    </div>
+  </div></div>
+  <!-- <div class="modal-footer">  </div>--> 
+</div>
+
+<div id="modal-add-new-appraisel-collection" class="modal modal-add-new-item">
+  <div class="modal-header">
+    <h4>COLLECTION(S) LIST  <span class="small-sub-head"><b>({{collectionAppraisalTotal || 0}})</b> collection(s) to this appraisal.</span><!--<span class="small-sub-head">- You have added <b>(20)</b> items to this collection.</span>--> <a href="javascript:;" class="modal-action modal-close close-btn2 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Close">&nbsp;</a></h4>
+ </div>
+ <div class="modal-container">  <div class="modal-content mCustomScrollbar itembox1-scroll2"><br>
+     <div class="row your-items-list" ng-repeat="appraisalPopupCollection in appraisalPopupCollections">
+      <div class="col m2 l2 s12">
+        <div class="img-con1"><img fallback-src="../img/not-found-collection.jpg" ng-src="../valoximage/imageuploaded/{{appraisalPopupCollection.cImages[0].imageUrl}}" alt=""/></div>
+      </div>
+      <div class="col m8 l9 s12"><span class="title1"><span>{{appraisalPopupCollection.cname | limitTo: 40 }} {{appraisalPopupCollection.cname.length < 40 ? '' : '...'}}</span> <small>ID#  {{appraisalPopupCollection.vcid}}</small></span>
+        <p>{{appraisalPopupCollection.shortDescription | limitTo: 200 }} {{appraisalPopupCollection.shortDescription.length < 200 ? '' : '...'}}</p>
+      </div>
+      <div class="col m2 l1 s12">
+        <div class="action">
+        <!-- <a class="a2 tooltipped" href="item.html#/edit/{{collectionPopupItem.itemId}}" data-position="bottom" data-delay="50" data-tooltip="Edit">
+        <img width="17" height="20" alt="" src="../img/icon-edit.jpg"></a>&nbsp;&nbsp; -->
+        </div>
+      </div>
+    </div>
+  </div></div>
+  <!-- <div class="modal-footer">  </div>--> 
+</div>
+<script>
+$(document).ready(function(){
+  setTimeout(function(){ 
+    $('.modal-trigger').leanModal();
+    $('.tooltipped').tooltip({delay: 50});
+  }, 500);
+  $('.mCustomScrollbar').mCustomScrollbar();  
+
+});
+</script>
+<!-- custom scrollbar plugin --> 
+<!-- <script src="../js/extLib/jquery.mCustomScrollbar.concat.min.js"></script> -->

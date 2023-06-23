@@ -1,0 +1,54 @@
+<header>
+  <nav class="tnb lighten-1 navbar-fixed header1 header-inner" role="navigation">
+    <div class="nav-wrapper container" auto-active><a id="logo-container" href="javascript:;" class="brand-logo"><img src="../../img/logo.png"  alt=""/></a>
+      <div class="welcomebox" ng-init="loggedUsername()" >
+        <ul id="dropdown2" class="dropdown-content dropdown-content1">
+          <!-- <li><a href="javascript:;"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+          <li><a href="javascript:;"><i class="fa fa-user"></i> Profile</a></li>
+          <li><a href="javascript:;"><i class="fa fa-pencil-square-o"></i> Edit Profile</a></li>
+          <li><a href="javascript:;"><i class="fa fa-key"></i> Change Password</a></li> -->
+          <li><a href="javascript:;" ng-click="logout()" target="_self"><i class="fa fa-power-off"></i> Logout</a></li>
+        </ul>
+        <span class="wel-txt">Welcome, </span>
+        <div class="clearfix"></div>
+        <a class="drop-down dropdown-button dropdown-button1 right"  href="javascript:;" data-activates="dropdown2" style="display:inline-block;"> <span class="disp-cell right-align">
+        <div class="clearfix"></div>
+        {{firstName.charAt(0).toUpperCase() + firstName.slice(1)}}</span> <span class="disp-cell"><i class="mdi-navigation-arrow-drop-down right"></i></span></a> </div>
+      <!--   Super admin links-->
+     <ul class="right hide-on-med-and-down" style="visibility: visible;">
+        <li><a href="store.html" target="_self">STORES</a> </li>
+
+        <li><a href="consumers.html" target="_self">CONSUMERS</a></li>
+        <li><a href="agents.html" target="_self">AGENTS</a></li>
+
+        <li><a href="appraisal.html" target="_self">APPRAISALS</a></li>
+        <li><a href="ads.html" target="_self">ADS</a></li>
+       
+      </ul>
+      <ul class="side-nav" id="nav-mobile" style="left: 0px;">
+       <li class="close-top"><a class="pull-right close-btn" onclick="slide()" id="close-nav" href="javascript:;">&nbsp;</a></li>
+         <li><a href="store.html" target="_self">STORES</a> </li>
+        <li><a href="consumers.html" target="_self">CONSUMERS</a></li>
+        <li><a href="agents.html" target="_self">AGENTS</a></li>
+        <li><a href="appraisal.html" target="_self">APPRAISALS</a></li>
+        <li><a href="ads.html" target="_self">ADS</a></li>
+
+      </ul>
+      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a> </div>
+  </nav>
+</header>
+
+<div class="clearfix"></div>
+<script>
+    $('.button-collapse').sideNav();
+    $('.dropdown-button').dropdown({
+      inDuration: 300,
+      outDuration: 225,
+      constrain_width: false, // Does not change width of dropdown to that of the activator
+      hover: false, // Activate on hover
+      gutter: 0, // Spacing from edge
+      belowOrigin: false, // Displays dropdown below the button
+      alignment: 'left' // Displays dropdown with edge aligned to the left of button
+    }
+  );
+</script>

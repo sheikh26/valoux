@@ -1,0 +1,79 @@
+<!-- Modal for Popup -  Share start here -->
+<div id="modal-share" class="modal modal-add-to-collection">
+<form class="col s12" name="shareForm" novalidate ng-submit="shareForm.$valid && submitShare()">
+
+  <div class="modal-header">
+    <h4 class="head4">SHARE <a  onclick="javascript:$('#modal-share').closeModal();"   href="javascript:;" class="modal-action  close-btn2 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Close">&nbsp;</a></h4>
+  </div>
+  <div class="modal-content">
+  <div class="col m12 s12">
+  <div class="error-msg" ng-if="shareFormError">
+    <div class="disp-cell">
+      <i class="fa fa-exclamation-triangle"></i>
+    </div> 
+    <div class="disp-cell" ng-model="errorMessage">
+      <span>{{errorMessage}}
+      </span>
+    </div>
+  </div>
+</div>
+  
+<div>
+    <!-- code to render the select box -->
+		<div class="row">
+      <div class="input-field col s12 full-width-sm">
+        <div class="input-field" id="shareids">
+
+		
+<select ng-model="shareExistingContacts" class="select-dropdown2"  ng-selected="shareExistingContacts" ng-change="selectionsChanged(shareExistingContacts)"  id="shareExistingContactsSelect" multiple>
+<option value="" disabled>Select</option>
+<option ng-repeat="itemShareContacts in itemContactData" value="{{itemShareContacts.publickKey}}">{{itemShareContacts.firstName}} {{itemShareContacts.lastName}}</option>
+</select>
+
+          
+          <label class="label1" for="shareExistingContacts">Share with an existing contact </label>
+        </div>
+      </div>
+    </div>
+	
+</div>
+    
+
+     
+
+   <div class="row">  <div class="col s12"> 
+ <span class="label1 message1"><span class="disp-cell"><img src="../img/ideabox-small.png"  alt=""/></span> 
+ 		<div>
+			<!-- code to render msg for if select exists -->
+			 You can also add or invite new member using below field.
+		</div>
+		<div ng-if="noContact == true">
+			<!-- code to render msg for if select exists -->
+			Please invite new member using below field.
+		</div>
+ 
+ </span> <div class="clearfix"
+></div>  </div>
+                <div class="input-field col s12 full-width-sm">                  <input type="text"  multiple-emails name="recipientEmail" ng-model="recipientEmail"  id="multipleemails">
+					<p ng-show="shareForm.recipientEmail.$invalid && !messageDuplicate " class="error-msg-form">Enter a valid email.</p>
+					<p  class="error-msg-form">{{messageDuplicate}}</p>
+                  <label class="" for="multipleemails">Share with email address <span ng-show="noContact == true"> <sup>*</sup></span></label>
+                	 
+                </div>
+				
+              <div class="col s12">  <span class="txt12">You can add multiple emails including commas. </span></div>
+              </div>
+              
+               <div class="row">
+                
+              <button type="submit" class="ok-btn" style="background-color:#ff6100 !important" data-tooltip="SUBMIT" data-delay="50" data-position="top"><img alt="" src="../img/icon-ok1.png"></a> </button>
+	     
+
+  <!-- <div class="modal-footer">  </div>--> 
+</div>
+</form>
+</div>
+<!-- Modal for Popup -  Share end here --> 
+
+
+

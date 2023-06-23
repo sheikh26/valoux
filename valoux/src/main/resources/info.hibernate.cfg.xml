@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<!-- All Models class must be define here -->
+<hibernate-configuration>
+	<session-factory>
+		<mapping class="com.valoux.bean.UserBean" />
+		<mapping class="com.valoux.bean.UserInterestIn" />
+		<mapping class="com.valoux.bean.ValouxInterestInBean" />
+		<mapping class="com.valoux.bean.ValouxPersonalPreferencesBean" />
+		<mapping class="com.valoux.bean.UserPersonalPreferences" />
+		<mapping class="com.valoux.bean.AgentBean" />
+		<mapping class="com.valoux.bean.StateBean" />
+		<mapping class="com.valoux.bean.CountryBean" />
+		<mapping class="com.valoux.bean.ValouxStoreBean" />
+		<mapping class="com.valoux.bean.ValouxAgentStoreBean" />
+		<mapping class="com.valoux.bean.UserAboutBean" />
+		<mapping class="com.valoux.bean.UserJewelryComponentsBean" />
+		<mapping class="com.valoux.bean.ValouxStoreAdvertisementBean" />
+		<mapping class="com.valoux.bean.ValouxOriginBean" />
+	</session-factory>
+</hibernate-configuration>

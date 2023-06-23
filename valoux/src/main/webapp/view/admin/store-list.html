@@ -1,0 +1,98 @@
+<!--Navigation end here-->
+<div class="graybox">
+  <div class="container" ng-controller="adminManagement">
+    <div class="row">
+      <div class="col s12">
+        <div class="page-header">
+          <h1>MANAGE STORES</h1>
+        </div>
+      </div>
+    </div>
+      <div ng-show="success" class="success-msg" ng-cloak>
+            <div class="disp-cell">
+            <i class="fa fa-thumbs-o-up "></i>
+            </div> 
+            <div class="disp-cell">
+            <span>Status successfully changed</span>
+        </div>
+        </div>
+		
+			<div class="header-bg-1" >
+         <a data-tooltip="Merge Store" data-delay="50" data-position="bottom" class="icon-big-plus waves-effect waves-light tooltipped" href="store.html#/merge"><img alt="" src="../../img/icon-plus-big.png"></a> 
+     
+      </div>
+	  
+    <div class="row">
+      <form class="col s12">
+          <div class="whitebox1 whitebox1-padb whitebox1-admin" ng-init="storelisting()">
+          <div class="box1 admin-box"> 
+            <!--left form section starts-->
+            <div class="col m12 s12">
+			<div class="error-msg ng-clock" ng-if="formError">
+							<div class="disp-cell">
+							<i class="fa fa-exclamation-triangle"></i>
+							</div> 
+							<div class="disp-cell">
+							<span>{{errorMessage}}</span>
+							</div>
+						</div>
+	
+					   <div class="success-msg mt-10 mb-10 ng-clock" id='showMessage' ng-if="formSuccess">
+							<div class="disp-cell">
+							<i class="fa fa-thumbs-o-up"></i>
+							</div> 
+							<div class="disp-cell">
+							<span>{{successMessage}}</span>
+							</div>
+							<div class="clear"></div>
+					  </div> 
+					  
+                         <div class="row">
+                <div class="col s12 full-width-sm">
+              <table datatable="ng" dt-options="dtOptionsStoreList" dt-column-defs="dtColumnDefsStoreList" border="0" class="bordered dataTable responsive-table table1">
+              <thead>
+                <tr>
+					<th width="0%"></th>
+                    <th width="20%">Store Name</th>
+                    <th width="15%">Phone</th>
+                    <th width="25%">Store Location </th>
+                    <th width="10%">No. of associated agent</th>
+                    <th width="10%">No. of associated item</th>
+                    <th width="10%">Status</th>
+                    <th width="10%">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="store in allStores">
+					<td width="0%"></td>
+                    <td width="20%">{{ store.storeName }}</td>
+                    <td width="15%">{{ store.phone }}</td>
+                    <td width="25%">{{ concateAddress(store.storeAddress) }}</td>
+                    <td width="10%">{{ store.noOfUserAssociated }}</td>
+                    <td width="10%">{{ store.noOfItemAssociated }}</td>
+                    <td width="10%">{{ store.status }}</td>
+                    <td width="10%">
+                        <a href="store.html#/edit/{{store.storeId}}" class="tooltipped" data-tooltip="Edit" data-delay="50" data-position="bottom"><img src="../../img/icon-edit.png" alt=""></a> 
+                        <!-- <a href="javascript:;" class="tooltipped" data-tooltip="Delete" data-delay="50" data-position="bottom"><img alt="" src="../../img/icon-trash.jpg"></a> -->
+                        <a ng-if="store.status=='Inactive'" href="javascript:;" ng-click="storeActivateOrDeactivate(store.storeId,1,$index)" class="tooltipped" data-tooltip="Click to active" data-delay="50" data-position="bottom"><i class="tiny material-icons">thumb_down</i></a>
+                        <a ng-if="store.status=='Active'" href="javascript:;" ng-click="storeActivateOrDeactivate(store.storeId,0,$index)" class="tooltipped" data-tooltip="Click to inactive" data-delay="50" data-position="bottom"><i class="tiny material-icons">thumb_up</i></a>
+                    
+                    </td>
+                </tr>
+                </tbody>
+              
+          </table>
+                </div>
+              </div>
+ 
+            </div>
+            <!--left form section ends--> 
+   
+            <div class="clearfix"></div>
+          </div>
+         <!-- <div class="center whitebox1-footer btn-con"> <a href="javascript:;" class="btn-large btn-default waves-effect waves-light">CANCEL</a> <a href="item-added.html" class="btn-large btn-large1 waves-effect waves-light">CREATE ITEM</a> </div>-->
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

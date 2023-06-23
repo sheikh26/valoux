@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<script src="js/jplugin.js" type="text/javascript"></script>
+<script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
+<script src="js/jquery.validate.1.9_for_hightlight.js"
+	type="text/javascript"></script>
+<script src="js/jquery.custome-methods.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/jstorage.js"></script>
+
+<!-- Custom jquery scripts -->
+<script src="js/jquery/custom_jquery.js" type="text/javascript"></script>
+
+
+<!-- MUST BE THE LAST SCRIPT IN <HEAD></HEAD></HEAD> png fix -->
+<script src="js/jquery/jquery.pngFix.pack.js" type="text/javascript"></script>
+<script type="text/javascript">
+	window.location= document.location.protocol+"//"+document.location.host+"/vx/view/index.html";
+	/*function get(){
+	
+	 var uname=$("#uname").val();
+	 var password= $("#pass").val();
+	 //alert(uname+"   "+password);
+	 var postData = {"paparam": {"adminLoginData":{"uname":uname,"password":password}}};
+	 var requestedUrl="rest/ta_admin/login";
+	 $.ajax({
+	 url: requestedUrl,
+	 type: 'POST',
+	 contentType: 'application/json',
+	 data: JSON.stringify( postData ),
+	 // processData: false, // this is optional
+	 dataType: 'json',
+	 success: function(result)
+	 {
+	 //alert("hi");
+	 //  alert(result.toSource());
+	 //alert(result.token);  
+	 if(result.status=="success")
+	 {
+	 var tr="your username is :"+result.userName;
+	
+	 $("#tbody").html(tr)
+	
+	
+	
+	 }
+	 else
+	 {
+	 alert(result.errorMessage);	
+	 } 
+	 }
+	 });
+	 }*/
+</script>
+</head>
+<body>
+	<h1>Valoux World</h1>
+	<br>
+	<div id="tbody"></div>
+</body>
+</html>

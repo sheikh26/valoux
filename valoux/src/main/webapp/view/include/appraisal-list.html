@@ -1,0 +1,249 @@
+<div class="clearfix"></div>
+<div class="graybox" ng-cloak>
+  <div class="container" ng-init="initAppraisalData()">
+   <appraisal-popup></appraisal-popup>
+   <share-popup></share-popup>
+	<thankyouunshare></thankyouunshare>
+  <div ng-if="noItem">
+    <div class="row">
+      <div class="col s12">
+        <div class="page-header">
+          <h1 class="pull-left">My Appraisals <span class="hide-xs1">-</span> </h1>
+          <div class="itembox itembox-mart itembox-head1">You have <b>0</b> appraisals.  </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s12">
+        <div class="whitebox1 whitebox1-nopad whitebg-none"> <a href="appraisal.html#/add" data-position="bottom" data-delay="50" data-tooltip="Add New Appraisal" class="icon-big-plus waves-effect waves-light tooltipped"><img src="../img/icon-plus-big.png"  alt=""/></a>
+          <div id="demo">
+            <ul class="u-fancy-load">
+              <li>
+                <div class="row">
+                  <div class="col m12 l12 s12">
+                    <div class="card-panel card-panel3 card-panel3-box-shadow">
+                      <div class="dashboard-nodata-wrap no-data">
+           <label>NO APPRAISAL AVAILABLE</label>
+                <p>  
+             You have not created any Appraisal yet  <br>
+
+please click below to add new Appraisal.</p>
+<a href="appraisal.html#/add" class="btn3">Add Appraisal</a>
+
+</div>
+                      
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+            </ul>
+          </div>
+          <!-- <div class="paging2"><a onclick="toggle2();" href="javascript:;">Load more..</a></div>--> 
+        </div>
+      </div>
+    </div>
+</div>
+<div ng-if="appraisalListed">
+    <div class="row" >
+      <div class="col s12">
+        <div class="page-header">
+          <h1 class="pull-left">My Appraisals <span class="hide-xs1">-</span> </h1>
+          <div class="itembox itembox-mart">You have added <b class="badge1">{{appraisalListedTotal}}</b> appraisals so far.</div>
+          <div class="rightbox">
+            <div class="view-list"><i class="txt13">View by:</i><br>
+              <a href="appraisal.html#/" class="list-view active tooltipped" data-tooltip="List View" data-delay="50" data-position="bottom">&nbsp;</a> <a href="appraisal.html#/grid" ng-click="removeTooltip()" class="grid-view tooltipped" data-tooltip="Grid View" data-delay="50" data-position="bottom" >&nbsp;</a> </div>
+            <div class="searchbox-left"><i class="txt13">Sort by:</i><br>
+              <select id="sortBy" ng-model="sortorder">
+                <option value="-appraisalId">Latest</option>
+                <option value="name">Alphabetical</option>
+              </select>
+            </div>
+            <div class="search-items">
+              <nav>
+                <div class="nav-wrapper"><span class="hide-xs"> &nbsp;<br>
+                  </span>
+                  <form>
+                    <div class="input-field">
+                      <input type="search" placeholder="Search appraisals" ng-model="searchKeyword" required="" id="search2">
+                      <label for="search2" class="active"><i class="material-icons">search</i></label>
+                      <i ng-click="clearSearchData(this)" data-position="bottom" data-delay="50" data-tooltip="Clear search" class="material-icons tooltipped">close</i> </div>
+                  </form>
+                </div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col m12 s12" id="success" ng-if="successMessage">
+                 <div class="success-msg mt-10 mb-10">
+                  <div class="disp-cell"><i class="fa fa-thumbs-o-up"></i></div>
+                  <div class="disp-cell"><span>{{successMessage}}</span></div>
+                  <div class="clear"></div>
+                </div>
+              </div>
+    <div class="row">
+      <div class="col s12">
+        <div class="whitebox1 whitebox1-nopad whitebg-none"> <a href="appraisal.html#/add" data-position="bottom" data-delay="50" data-tooltip="Add New Appraisal" class="icon-big-plus waves-effect waves-light tooltipped"><img src="../img/icon-plus-big.png"  alt=""/></a>
+        <div id="demo" ng-show="!filtered.length">
+            <ul>
+              <li>
+                <div class="row">
+                  <div class="col m12 l12 s12">
+                    <div class="card-panel card-panel3 card-panel3-box-shadow">
+                      <div class="dashboard-nodata-wrap no-data">
+           <label>(0) RESULT FOUND.</label>
+                <p>  
+             No appraisal available matching with your keyword <b>"{{searchKeyword}}"</b>. <br>
+             Try another keyword.
+
+
+
+              </p>
+
+
+</div>
+                      
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+            </ul>
+          </div>
+
+          <div id="demo">
+            <ul class="u-fancy-load">
+              <!-- Appraisal list row start here-->
+              <li ng-repeat="appraisalList in filtered =( appraisalListed | orderBy:sortorder | filter: searchKeyword)">
+                <div class="row">
+                  <div class="col m12 l12">
+                    <div class="card-panel card-panel3 card-panel3-box-shadow">
+                      <div class="row">
+                        <div class="col s12 m3 l2">
+                        
+                          <div  class="img-box2" ng-if="appraisalList.collectionImages.length > 0" ng-repeat="collectionImg in appraisalList.collectionImages | limitTo : 1">
+                          <img fallback-src="../img/not-found-appraisal.jpg" ng-src="../valoximage/imageuploaded/{{collectionImg.cImages[0].imageUrl}}" alt="" class="responsive-img">
+                          </div>
+                          <div ng-if="appraisalList.collectionImages.length == 0 || appraisalList.noOfCollection == 0" class="img-box2" ng-repeat="itemImg in appraisalList.itemImages | limitTo : 1">
+                          <img fallback-src="../img/not-found-appraisal.jpg" ng-src="../valoximage/imageuploaded/{{itemImg.itemImages[0].itemImagePath}}" alt="" class="responsive-img">
+                          </div>
+                          
+                          <!-- <div ng-if="(appraisalList.noOfCollection == 0 && appraisalList.noOfItem == 0) || appraisalList.itemImages.length == 0" class="img-box2" ><img src="../img/not-found.jpg" alt="" class="responsive-img">
+                          </div> -->
+                          <div ng-if="(appraisalList.collectionImages.length == 0 && appraisalList.itemImages.length == 0)" class="img-box2" ><img src="../img/not-found-appraisal.jpg" alt="" class="responsive-img">
+                          </div>
+
+                        </div>
+                        <div class="col m6 l7 s12">
+                          <div class="card-content"> <span class="card-title"><a href="appraisal.html#/detail/{{appraisalList.appraisalId}}">{{appraisalList.name | limitTo: 30 }} {{appraisalList.name.length < 30 ? '' : '...'}}</a> <!--<a href="javascript:;" class="heart tooltipped" data-position="bottom" data-delay="50" data-tooltip="Favorite" data-tooltip-id="a692dac5-310a-2e68-7547-8d453dc46794">&nbsp;</a>--> <small>ID#  {{appraisalList.appraisalId}}</small></span>
+                            <p ng-bind-html="appraisalList.shortDescription | strLimit : 200 | newLine"></p>
+                            <div class="item-components"> Appraisal associated with<br>
+                              <div class="items"><a ng-click="modelCollectionListing(appraisalList.appraisalId,'',appraisalList.aStatus)" class="" href="javascript:;">Collections (<span id="collection_appraisal_app{{appraisalList.appraisalId}}">{{appraisalList.noOfCollection}}</span>)</a> <a href="javascript:;" ng-click="modelItemListing(appraisalList.appraisalId,'',appraisalList.aStatus)" class="">Items (<span id="items_appraisal_app{{appraisalList.appraisalId}}">{{appraisalList.noOfItem}}</span>)</a></div>
+                            </div>
+                  <div class="clearfix"></div>
+                            <div class="row-grey-gradient" ng-if="appraisalList.aStatus == 3">   <div class="item-gradient grey-gradient hide-md">
+                                <ul>
+                                   <li ng-if="appraisalList.aStatus!=3">
+                                    <label>Final Price</label>
+                                    ${{appraisalList.finalPrice | number:2}}
+                                  </li>
+                                  <li ng-if="appraisalList.aStatus==3">
+                                    <label>Appraised Value</label>
+                                    ${{appraisalList.appraisedValue | number:2}}
+                                  </li>
+                                  <li>
+                                    <label>Market Value</label>
+                                    ${{appraisalList.marketValue | number:2}}
+                                    
+                                   <small>{{appraisalList.marketValueDate | marketDateFormat}} <i ng-if="appraisalList.marketValueDate">at</i> {{appraisalList.marketValueDate | marketTimeFormat}}</small> </li>
+                                  <li ng-if="appraisalList.aStatus==3">
+                                    <label>Change</label>
+                                    <span ng-if="appraisalList.priceChange == 2" class="red-text">{{appraisalList.changePercentage |number:2}}% <i class="fa fa-sort-desc"></i></span>
+                                    <span ng-if="appraisalList.priceChange == 1" class="green-text">{{appraisalList.changePercentage |number:2}}% <i class="fa fa-sort-asc"></i></span>
+                                    <span ng-if="appraisalList.priceChange == 3" >{{appraisalList.changePercentage |number:2}}%</span>
+                                     </li>
+                                  <li ng-if="appraisalList.aStatus==3">
+                                    <label>Last Appraised</label>
+                                    <span ng-if="appraisalList.lastAppraisedDate">{{appraisalList.lastAppraisedDate | myDateFormat}}</span>
+                                    <span ng-if="!appraisalList.lastAppraisedDate">--</span>
+                                     <img src="../img/ribbon.png" alt="" class="img2"></li>
+                                  <!-- <li><span class="green-label">+50%</span></li>-->
+                                </ul>
+                              </div></div>
+
+<!-- 
+                           <div  class="row-grey-gradient">
+                              <div class="total-box">Last Appraised <b>{{appraisalList.lastAppraisedDate | myDateFormat}}</b></div>
+                            </div>  -->
+
+
+
+
+                          </div>
+                        </div>
+                        <div class="col s12 m3 l3">
+                          <div class="card-panel3-box-shadow-right">
+                            <div class="collection-icons">
+                              <ul class="collection border-left">
+                              <li ng-hide="appraisalList.aStatus == 3" class="collection-item"><span class="disp-cell"><img src="../img/icon-edit.png" alt=""></span> <span class="disp-cell"><a href="appraisal.html#/edit/{{appraisalList.appraisalId}}" >EDIT APPRAISAL</a></span></li>
+                              <li ng-hide="appraisalList.aStatus == 3" class="collection-item"><span class="disp-cell"><img src="../img/ico-delete.png" alt=""></span> <span class="disp-cell"><a ng-click="deleteAppraisalByListing(appraisalList.appraisalId,'')" href="javascript:;" >DELETE APPRAISAL</a></span></li>
+                                <!-- <li  class="collection-item"><span class="disp-cell"><img src="../img/icon-appraised1.png" alt=""></span> <span class="disp-cell"><a href="javascript:;">APPRAISAL APPROVED</a></span></li> -->
+                                <!-- code added to show shared status -->
+								<li class="collection-item"  ><span class="disp-cell"><img src="../img/icon-agent.png" alt=""></span> <span class="disp-cell"><a class="modal-trigger1" ng-click="appraisalList.sharedWithNumberOfAgent>0 && agentListingItem('',appraisalList.appraisalId, 3)"  href="javascript:void(0);" >SHARED WITH AGENTS <big>{{appraisalList.sharedWithNumberOfAgent||0}}</big></a></span></li>
+                                <li class="collection-item"  ><span class="disp-cell"><img src="../img/icon-addressbook.png" alt=""></span> <span class="disp-cell"><a class="modal-trigger1" ng-click="appraisalList.sharedWithNumberOfConsumer>0 && consumerListingItem('',appraisalList.appraisalId, 3)"   href="javascript:void(0);" >SHARED WITH CONTACTS <big>{{appraisalList.sharedWithNumberOfConsumer||0}}</big></a></span></li>
+                                <li class="collection-item"  ><span class="disp-cell"><img alt="" src="../img/icon-user-no.png"></span> <span class="disp-cell"><a class="modal-trigger1" ng-click="appraisalList.sharedWithNumberOfUnregisteredUser>0 && sharedWithNumberOfUnregisteredUsersListing('',appraisalList.appraisalId, 3)"   href="javascript:void(0);" >NOT REGISTERED <big>{{appraisalList.sharedWithNumberOfUnregisteredUser||0}}</big></a></span></li>
+                                <!--<li class="collection-item"><span class="disp-cell"><img alt="" src="../img/icon-unshare.png"></span> <span class="disp-cell"><a ng-click="UnshareItemConform(items.itemId,1);" class="tooltipped modal-trigger" data-position="bottom" data-delay="50" data-tooltip="Unshare" href="javascript:;" >UNSHARE </a></span></li>-->
+								<!-- end of code to show shared status -->
+                                
+                                <li class="collection-item"><span class="disp-cell"><img alt="" src="../img/icon-share.png"></span> <span class="disp-cell"><a class=""  href="javascript:void(0);" ng-click="setShareId(appraisalList.appraisalId,3)">SHARE </a></span></li>
+                                <li ng-if="appraisalList.aStatus==3" class="collection-item"><span class="disp-cell"><img alt="" src="../img/icon-pdf.png"></span> <span class="disp-cell"><a href="javascript:;" ng-click="downloadpdf(appraisalList.appraisalId)">DOWNLOAD PDF </a></span></li>
+                                <!--<li class="collection-item"><span class="disp-cell"><img alt="" src="../img/icon-print.png"></span> <span class="disp-cell"><a href="javascript:;">PRINT </a></span></li> -->
+                              </ul>
+                            </div>
+                            <div class="collection-icons-xs">
+                              <ul class="collection border-left">
+                              <li ng-hide="appraisalList.aStatus == 3" class="collection-item"><a href="appraisal.html#/edit/{{appraisalList.appraisalId}}" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="EDIT APPRAISAL"><span class="disp-cell"><img src="../img/icon-edit.png" alt=""></span></a></li>
+
+                              <li ng-hide="appraisalList.aStatus == 3" class="collection-item"><a ng-click="deleteAppraisalByListing(appraisalList.appraisalId,'')" href="javascript:;" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="DELETE APPRAISAL"><span class="disp-cell"><img src="../img/ico-delete.png" alt=""></span></a></li>
+
+                              <li class="collection-item"> <a href="javascript:void(0);" class="tooltipped" data-position="bottom" data-delay="50" ng-click="appraisalList.sharedWithNumberOfAgent>0 && agentListingItem('',appraisalList.appraisalId, 3)" data-tooltip="SHARED WITH AGENTS"><span class="disp-cell"><img alt="" src="../img/icon-agent.png"></span></a><a href="javascript:;"> <span class="disp-cell"></span> </a></li>
+
+                                <li class="collection-item"> <a href="javascript:void(0);" class="tooltipped" data-position="bottom" data-delay="50" ng-click="appraisalList.sharedWithNumberOfConsumer>0 && consumerListingItem('',appraisalList.appraisalId, 3)" data-tooltip="SHARED WITH CONTACTS"><span class="disp-cell"><img alt="" src="../img/icon-addressbook.png"></span></a><a href="javascript:;"> <span class="disp-cell"></span> </a></li>
+
+                                <li class="collection-item"> <a href="javascript:void(0);" class="tooltipped" data-position="bottom" data-delay="50" ng-click="appraisalList.sharedWithNumberOfUnregisteredUser>0 && sharedWithNumberOfUnregisteredUsersListing('',appraisalList.appraisalId, 3)" data-tooltip="NOT REGISTERED"><span class="disp-cell"><img alt="" src="../img/icon-user-no.png"></span></a><a href="javascript:;"> <span class="disp-cell"></span> </a></li>
+
+
+                                <!-- <li class="collection-item"><a href="javascript:;" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="APPRAISAL APPROVED"><span class="disp-cell"><img src="../img/icon-appraised1.png" alt=""></span></a></li> -->
+                                <li class="collection-item"> <a href="javascript:;" ng-click="setShareId(appraisalList.appraisalId,3)" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="SHARE"><span class="disp-cell"><img alt="" src="../img/icon-share.png"></span></a><a href="javascript:;"> <span class="disp-cell"></span> </a></li>
+                                 <li ng-if="appraisalList.aStatus==3"class="collection-item"><a href="javascript:;" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="DOWNLOAD PDF"><span class="disp-cell"><img alt="" src="../img/icon-pdf.png"></span></a></li>
+                                <!--<li class="collection-item"> <a href="javascript:;" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="PRINT"><span class="disp-cell"><img alt="" src="../img/icon-print.png"></span></a> </li> -->
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <!-- Appraisal list row end here--> 
+              
+              
+            </ul>
+          </div>
+          <!-- <div class="paging2"><a onclick="toggle2();" href="javascript:;">Load more..</a></div>--> 
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <share></share>
+<thankyoushare></thankyoushare>
+</div>
+<div class="clearfix"></div>
+
+
+
+

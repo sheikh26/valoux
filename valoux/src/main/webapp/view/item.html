@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<title>Valoux - Valoux is an online data management system, an appraisal and appraiser network, and an insurance delivery platform</title>
+
+<!-- CSS  -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<link href="../css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/footer.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/animate.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/font-awesome.min.css" rel="stylesheet">
+<!--css for item section-->
+<link href="../css/item.css" type="text/css" rel="stylesheet"/>
+<!--css for tooltip-->
+<link href="../css/tooltipster.css" type="text/css" rel="stylesheet"/>
+<link href="../css/custom.css" rel="stylesheet">
+<link rel="stylesheet" href="../css/jquery.mCustomScrollbar.css">
+
+<link rel="stylesheet" type="text/css" href="../css/jquery.fancybox.css?v=2.1.5" media="screen" />
+<link rel="stylesheet" type="text/css" href="../css/jquery.fancybox-thumbs.css?v=1.0.7" />
+<!--  Scripts--> 
+<script src="../js/extLib/jquery-1.12.0.min.js"></script>
+<script src="../js/extLib/materialize.min.js"></script>  
+<script  type="text/javascript" src="../js/extLib/wow.js"></script> 
+<script  type="text/javascript" src="../js/extLib/smoothscroll.js"></script>
+<script src="../js/extLib/jquery.tooltipster.min.js"></script>
+<script src="../js/extLib/custom.js"></script>
+<script src="../js/extLib/angular.min.js"></script>
+<script src="../js/extLib/angular-route.js"></script>
+<script src="../js/app/itemapp.js"></script>
+<script src="../js/app/controller/baseController.js"></script>
+<script src="../js/app/service/service.js"></script>  
+<script src="../js/app/service/masterDataService.js"></script> 
+<script src="../js/app/directives/BaseDirective.js"></script>
+<script src="../js/app/storeManagement/controller/storeManagement.js"></script>
+<script src="../js/app/storeManagement/directives/storeManagementDirective.js"></script>
+<script src="../js/app/directives/validatorDirective.js"></script>
+<!-- angucomplete files -->
+<link href="../css/angucomplete.css" rel="stylesheet">
+<script src="../js/extLib/angucomplete-alt.js"></script>
+
+<script src="../js/extLib/simplegallery.min.js"></script>
+<script type="text/javascript" src="../js/extLib/jquery.fancybox.js?v=2.1.5"></script>	
+<script type="text/javascript" src="../js/extLib/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+  <!--error handling-->
+<script src="../js/extLib/stacktrace-0.5.0.min.js"></script>
+<script src="../js/app/error-handling.js"></script>
+
+</head>
+<body ng-app="valouxApp" ng-controller="BaseController" ng-init="checkIsConsumer()">
+
+<header-loggedin></header-loggedin>
+<div class="clearfix"></div>
+<div class="graybox">
+
+      <div ng-view></div>
+</div>
+<div class="clearfix"></div>
+<div class="loader-overlay" ng-show="fullPageBlockLoading" loading><span class="loader-inner">Processing<div class="clearfix"></div><img src="../img/loader-1.gif"></span></div>
+
+<property-diamond></property-diamond>
+<property-gemstone></property-gemstone>
+<property-pearl></property-pearl>
+<property-metal></property-metal>
+
+<!--footer starts-->
+<footer-element></footer-element>
+<!--footer ends-->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyChSJaAZLMucDhIM_vJD4zSE474kwBPGHA&signed_in=false&libraries=places" async defer></script>
+<script src="../js/extLib/jquery.mCustomScrollbar.concat.min.js"></script> 
+<script src="../js/app/customJs/common.js"></script>
+</body>
+</html>

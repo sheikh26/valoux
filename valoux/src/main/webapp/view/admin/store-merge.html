@@ -1,0 +1,133 @@
+
+<div class="graybox">
+  <div class="container" ng-controller="adminManagement">
+		<div class="row">
+		  <div class="col s12">
+			<div class="page-header">
+			  <h1>MERGE STORES</h1>
+			</div>
+		  </div>
+		</div>
+		  <div ng-show="success" class="success-msg" ng-cloak>
+					<div class="disp-cell">
+						<i class="fa fa-thumbs-o-up "></i>
+					</div> 
+					<div class="disp-cell">
+						<span>Status successfully changed</span>
+					</div>
+			</div>
+			
+			<div class="row" style="margin-bottom:0px;">
+			<div class="header-bg-1" >
+							<a class="back-btn2"   href="store.html#/"><img src="../../img/arrow-previous.png" alt="">BACK</a>
+					  </div>
+			</div>		  
+					  
+		<div class="row">
+			
+			 <div class="whitebox1 whitebox1-padb whitebox1-admin" ng-init="storelistingMerge()">
+			  <div class="box1 box1-margin">
+				 <form class="col s12" name="formMergeStore" id="formMergeStore" ng-submit="formMergeStore.$valid && submitMergeStore()" autofocus-form  novalidate> 
+				 
+				   <div class="row">
+					  <div class="col m12 s12">
+					  
+				
+						<div class="error-msg ng-clock" ng-if="formError">
+							<div class="disp-cell">
+							<i class="fa fa-exclamation-triangle"></i>
+							</div> 
+							<div class="disp-cell">
+							<span>{{errorMessage}}</span>
+							</div>
+						</div>
+	
+					   <div class="success-msg mt-10 mb-10 ng-clock" ng-if="formSuccess">
+							<div class="disp-cell">
+							<i class="fa fa-exclamation-triangle"></i>
+							</div> 
+							<div class="disp-cell">
+							<span>{{successMessage}}</span>
+							</div>
+							<div class="clear"></div>
+					  </div> 
+					  
+					  
+					
+					<div class="clear"></div>
+					<div class="row" >
+							  
+						 <div class="input-field col s6 full-width-sm">
+							<div class="input-field">
+							
+								 <select name="primaryStoreId" id="primaryStoreId" ng-model="primaryStoreId"  required>	
+								  <option value="" >Select Store</option>					  
+								  <option ng-repeat="store in allStores" value="{{store.storeId}}">{{store.storeName}}</option>	
+							 
+								</select>
+								<label class="label1">Select Parent Store<sup>*</sup></label>
+								<label class="error select-error" ng-show="formMergeStore.$submitted || formMergeStore.primaryStoreId.$touched || (formMergeStore.primaryStoreId.$dirty && formMergeStore.primaryStoreId.$invalid)">
+								<label class="error-msg-form" ng-show="formMergeStore.primaryStoreId.$error.required">Parent store is required.</label>
+								</label>
+							</div>
+						 </div>
+						</div>
+					<!--left form section starts-->
+            <div class="col m12 s12" ng-show="primaryStoreId && allStores.length>1">
+                         <div class="row">
+                <div class="col s12 full-width-sm">
+              <table   dt-options="dtOptionsStoreList" dt-column-defs="dtColumnDefsStoreList" border="0" class="bordered dataTable responsive-table table1">
+              <thead>
+                <tr>
+					<th width="10%"></th>
+                    <th width="20%">Store Name</th>
+                    <th width="15%">Phone</th>
+                    <th width="25%">Store Location </th>
+                    <th width="10%">No. of associated agent</th>
+                    <th width="10%">No. of associated item</th>
+                    <th width="10%">Status</th>
+                   
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="store in allStores | filter: storeFilter" >
+					<td width="10%"><input type="checkbox" value="{{store.storeId}}" ng-change="addRemoveItem(storeIdsToBeMerged,store.storeId);" ng-model="storeIdsToBeMerged" name="storeIdsToBeMerged" id="myCheckbox{{store.storeId}}"  class="filled-in" />
+					
+<label for="myCheckbox{{store.storeId}}"></label></td>
+                    <td width="20%">{{ store.storeName }}</td>
+                    <td width="15%">{{ store.phone }}</td>
+                    <td width="25%">{{ concateAddress(store.storeAddress) }}</td>
+                    <td width="10%">{{ store.noOfUserAssociated }}</td>
+                    <td width="10%">{{ store.noOfItemAssociated }}</td>
+                    <td width="10%">{{ store.status }}</td>
+                   
+                </tr>
+                </tbody>
+              
+          </table>
+                </div>
+              </div>
+ 
+            </div>
+           
+	 </div>
+					  
+ </div> 
+	
+					  
+				
+				 
+					<div class="center  btn-con"> 
+						  <a  href="store.html#/"  ng-show="primaryStoreId && allStores.length>1"  class="btn-large btn-default waves-effect waves-light">CANCEL</a> 
+						
+						<button  type="submit" ng-show="primaryStoreId && allStores.length>1"  class="btn-large btn-large1">MERGE STORES</button>
+						
+					  
+					  </div> 
+				  
+				 </form>
+				</div> 
+			 </div>
+		</div>
+  </div>
+</div>

@@ -1,0 +1,86 @@
+<!-- Modal for component Price start here -->
+<div id="modal-compnent-price-adj" class="modal modal-component-price">
+  <div class="modal-header"> <a href="javascript:;" class="modal-action modal-close close-btn tooltipped" data-position="bottom" data-delay="50" data-tooltip="Close">&nbsp;</a> </div>
+  <div class="modal-content">
+      <form autofocus-form name="componentPriceForm" ng-submit="componentPriceForm.$valid && addedUpdateComponentPriceAdjustment()" class="form2" novalidate>
+          <div class="component-price-main">
+      <div class="component-price"> 
+          <span class="head-8" ng-show="componentAdj.componentType==1 || componentAdj.componentType==4">Market Suggested Price: - ${{componentAdj.priceProperty.marketValue |number:2}} * {{componentAdj.priceProperty.quantity}}qty = ${{(componentAdj.priceProperty.marketValue * componentAdj.priceProperty.quantity)|number:2}}</span>
+            <div class="clearfix"></div>
+            <div class="row" ng-show="componentAdj.componentType==1 || componentAdj.componentType==4">
+                <div class="col s12 divider-row">&nbsp;</div>
+
+            </div>
+        
+        <div class="row" ng-show="componentAdj.componentType==1 || componentAdj.componentType==4">
+          <div class="col s12 m6 l6">
+              <span class="head7">PRICE ADJUSTMENT</span>
+            <div class="row">
+              <div class="col s6 select-dropdown3">
+                <input ng-model="componentAdj.priceProperty.generalPriceOperatorValue" ng-keyup="calculateComponentFinalPrice()" name="compGeneralPriceOperatorValue" ng-pattern="/^[-+]?[0-9]*\.?[0-9]?(\d{1,8})$/" type="text" placeholder="Amount" maxlength="10">
+                <label class="error" ng-show="componentPriceForm.$submitted ||  componentPriceForm.compGeneralPriceOperatorValue.$touched || (componentPriceForm.compGeneralPriceOperatorValue.$dirty && componentPriceForm.compGeneralPriceOperatorValue.$invalid)">
+                    <label class="error-msg-form" ng-show="componentPriceForm.compGeneralPriceOperatorValue.$error.pattern">Invalid Amount.</label>
+                </label>
+              </div>
+              <div class="col s6 pert-col">
+                <select ng-model="componentAdj.priceProperty.generalPriceAdjustmentType" ng-change="calculateComponentFinalPrice();" ng-options="masterAdjustmentTypeObj.value as masterAdjustmentTypeObj.name for masterAdjustmentTypeObj in masterAdjustmentType">
+                </select>
+              </div>
+            </div>
+            <label class="label1 head6">Notes <span class="note-txt">(optional)</span></label>
+            <div class="row">
+              <div class="col s12 col-pdnone">
+                <textarea ng-model="componentAdj.priceProperty.generalPriceAdjustmentNotes" class="materialize-textarea textarea-2" placeholder="Enter here"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="col s12 m6 l6 brand-adj"> <span class="head7">BRAND ADJUSTMENT</span>
+            <div class="row">
+              <div class="col s6 select-dropdown3">
+                <input ng-model="componentAdj.priceProperty.brandPriceOperatorValue" ng-keyup="calculateComponentFinalPrice()" name="compBrandPriceOperatorValue" ng-pattern="/^[-+]?[0-9]*\.?[0-9]?(\d{1,8})$/" type="text" placeholder="Amount" maxlength="10">
+                <label class="error" ng-show="componentPriceForm.$submitted ||  componentPriceForm.compBrandPriceOperatorValue.$touched || (componentPriceForm.compBrandPriceOperatorValue.$dirty && componentPriceForm.compBrandPriceOperatorValue.$invalid)">
+                    <label class="error-msg-form" ng-show="componentPriceForm.compBrandPriceOperatorValue.$error.pattern">Invalid Amount.</label>
+                </label>
+              </div>
+              <div class="col s6 pert-col">
+                <select ng-model="componentAdj.priceProperty.brandPriceAdjustmentType" ng-change="calculateComponentFinalPrice();" ng-options="masterAdjustmentTypeObj.value as masterAdjustmentTypeObj.name for masterAdjustmentTypeObj in masterAdjustmentType">
+                </select>
+              </div>
+            </div>
+            <label class="label1 head6">Notes <span class="note-txt">(optional)</span></label>
+            <div class="row">
+              <div class="col s12 col-pdnone">
+                <textarea ng-model="componentAdj.priceProperty.brandPriceAdjustmentNotes" class="materialize-textarea textarea-2" placeholder="Enter here"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row purchased-price">
+            <div class="col s12 m6 l6">
+              <div class="col-l1">
+                  <strong>Purchased price <img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></strong>
+                  <input ng-model="componentAdj.priceProperty.purchasePrice" ng-keyup="calculateComponentFinalPrice()" name="compPurchasedPrice" id="compPurchasedPrice" type="text" class="active" ng-pattern="/^(([0-9]*)|(([0-9]*)\.([0-9]*)))$/" maxlength="15">
+                  <label class="error" ng-show="componentPriceForm.$submitted ||  componentPriceForm.compPurchasedPrice.$touched || (componentPriceForm.compPurchasedPrice.$dirty && componentPriceForm.compPurchasedPrice.$invalid)">
+                      <label class="error-msg-form" ng-show="componentPriceForm.compPurchasedPrice.$error.pattern">Invalid Number.</label>
+                      
+                  </label>
+              </div>
+            </div>
+        </div>
+
+      </div>
+      <div class="component-price-foot">
+        <div class="row">
+          <div class="col s12 final-price">
+              <button type="submit" class="ok-btn2 waves-effect waves-light tooltipped pull-right" data-tooltip="SUBMIT" data-delay="50" data-position="top"><img src="../img/icon-ok1.png"/></button>
+<!--                                        <a href="item-added-successfully.html" target="_parent" class="ok-btn2 waves-effect waves-light tooltipped pull-right" data-tooltip="SUBMIT" data-delay="50" data-position="top">
+                    <img src="../img/icon-ok2.png"/></a> -->
+                Final Price <span class="price-txt">${{componentAdj.priceProperty.finalPrice|number:2}} * {{componentAdj.priceProperty.quantity}}qty = ${{(componentAdj.priceProperty.finalPrice * componentAdj.priceProperty.quantity)|number:2}}</span> 
+          </div>
+        </div>
+      </div>
+    </div>
+   </form>
+  </div>
+</div>
+<!-- Modal for  Component Price end here --> 

@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<title>Valoux - Valoux is an online data management system, an appraisal and appraiser network, and an insurance delivery platform</title>
+
+<!-- CSS  -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<link href="../css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/footer.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/animate.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/font-awesome.min.css" rel="stylesheet">
+<link href="../css/custom.css" rel="stylesheet">
+<!--css for item section-->
+<link href="../css/item.css" type="text/css" rel="stylesheet"/>
+<!--css for tooltip-->
+<link href="../css/tooltipster.css" type="text/css" rel="stylesheet"/>
+
+<!-- custom scrollbar stylesheet -->
+<link rel="stylesheet" href="../css/jquery.mCustomScrollbar.css">
+<!-- Google fonts  -->
+<!-- JS -->
+<script src="../js/extLib/jquery-1.12.0.min.js"></script>
+<script src="../js/extLib/materialize.min.js"></script>  
+<script  type="text/javascript" src="../js/extLib/wow.js"></script> 
+<script  type="text/javascript" src="../js/extLib/smoothscroll.js"></script>
+<script src="../js/extLib/jquery.tooltipster.min.js"></script>
+<script src="../js/extLib/custom.js"></script>
+<script src="../js/extLib/angular.min.js"></script>
+<script src="../js/extLib/angular-route.js"></script>
+<script src="../js/app/app.js"></script>
+
+<script src="../js/app/controller/baseController.js"></script>
+<script src="../js/app/service/service.js"></script>
+<script src="../js/app/service/masterDataService.js"></script>  
+
+<script src="../js/app/directives/BaseDirective.js"></script>
+<script src="../js/app/storeManagement/controller/dashboardManagement.js"></script>
+<script>
+    app.requires.push('valouxApp', 'ngRoute')
+</script>
+<!-- custom scrollbar plugin --> 
+ <script src="../js/extLib/jquery.mCustomScrollbar.concat.min.js"></script>
+<!--error handling-->
+<script src="../js/extLib/stacktrace-0.5.0.min.js"></script>
+<script src="../js/app/error-handling.js"></script>
+</head>
+<body ng-app="valouxApp" ng-controller="BaseController" ng-init="checkIsConsumer()">
+<header-loggedin></header-loggedin>
+
+<!--Middle container here-->
+<div class="graybox" ng-controller="dashboardManagement">
+  <div class="container" ng-init="initDashboard()">
+    <div class="row">
+      <div class="col s12">
+        <div class="page-header page-header2 page-header-marl0">
+          <div class="row">
+            <div class="col m3 s12">
+              <h1>My Valoux</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Latest Activity section start here-->
+    
+    <div class="row">
+      <div class="col s12">
+        <div class="whitebox1 whitebox1-nopad" ng-class="noActivityFound?'dashboard-nodata':''">
+          <div class="row">
+            <div class="col s12 m12 ">
+              <div class="card-panel card-panel2"> <span class="white-text">
+                <h2><img src="../img/icon-activity.png"  alt="" style="display:inline-block;"/> Latest Activity</h2>
+                <!-- <br>
+                <small>Latest activities of your appraisal</small>  --></span></div>
+            </div>
+            <div class="col m12 l12" ng-if="noActivityFound">
+              <div class="card-panel card-panel3">
+                <div class="row">
+                
+                  
+                  
+                  <div class="col s12 m7 l7"><div class="dashboard-nodata-wrap">
+           <label>NO ACTIVITIES AVAILABLE</label>
+                <p>  
+                 You have not performed any activities yet.<br>
+
+                Please add Items / Collections to create your Appraisal.</p>
+                <a href="item.html#/add" class="btn3">Add Item</a>
+                <a href="collection.html#/add" class="btn3">Add Collection</a>  
+                <a href="appraisal.html#/add" class="btn3">Add Appraisal</a>
+
+                </div>
+                  </div>
+                        <div class="col  s12 m5 l5">
+                    <img src="../img/dashboard-nodata-pic1.jpg"  alt="" class="dashboard-nodata-pic"/>
+                   
+                      
+              
+                  </div>
+            
+                </div>
+              </div>
+            </div>
+          </div>
+
+         <div class="row" ng-if="!noActivityFound" ng-repeat="dashboardListedContent in dashboardListed">
+            <div class="col m12 l12">
+              <div class="card-panel card-panel3">
+                <div class="row">
+                  <div class="col s12 m2">
+                    <div class="img-box2" ng-if="dashboardListedContent.itemId">
+                    
+                    <img fallback-src="../img/not-found-item.jpg" ng-src="../valoximage/imageuploaded/{{dashboardListedContent.imageModels[0].imageurl}}" alt="" class="responsive-img"/>
+                    </div>
+
+                    <div class="img-box2" ng-if="dashboardListedContent.vcid">
+                    
+                    <img fallback-src="../img/not-found-collection.jpg" ng-src="../valoximage/imageuploaded/{{dashboardListedContent.imageModels[0].imgUrl}}" alt="" class="responsive-img"/>
+                    </div>
+
+                    <div class="img-box2" ng-if="dashboardListedContent.appraisalId">
+                    
+                    <img fallback-src="../img/not-found-appraisal.jpg" ng-src="../img/not-found-appraisal.jpg" alt="" class="responsive-img"/>
+                    </div>
+                    
+                  </div>
+
+
+
+                  <div class="col m10 s12">
+                    <div class="card-content"> <span class="card-title">
+
+                    <a href="item.html#/detail/{{dashboardListedContent.itemId}}" ng-if="dashboardListedContent.itemId">{{dashboardListedContent.name | limitTo: 50 }} {{dashboardListedContent.name.length < 50 ? '' : '...'}}</a> 
+                    <a href="appraisal.html#/detail/{{dashboardListedContent.appraisalId}}" ng-if="dashboardListedContent.appraisalId">{{dashboardListedContent.name | limitTo: 50 }} {{dashboardListedContent.name.length < 50 ? '' : '...'}}</a> 
+                    <a href="collection.html#/detail/{{dashboardListedContent.vcid}}" ng-if="dashboardListedContent.vcid">{{dashboardListedContent.name | limitTo: 50 }} {{dashboardListedContent.name.length < 50 ? '' : '...'}}</a> 
+
+
+                    <small>ID#  {{dashboardListedContent.id}}</small></span>
+                    <br>
+                    <span class="card-sub-title"> <i>By</i>: <b><span>{{dashboardListedContent.modifiedByName}}</span></b>
+                    <br>
+                    <i>Date</i>: <b><span>{{dashboardListedContent.modifiedOn | superAdminDateFormat}}</span></b>
+
+                    </span>
+
+                    <!-- By:
+                    <span class="txt12"><b>{{dashboardListedContent.modifiedByName}}</b></span> <span class="txt12">Date: {{dashboardListedContent.modifiedOn | superAdminDateFormat}}</span> -->
+                      <p ng-bind-html="dashboardListedContent.description | strLimit : 200 | newLine"></p>
+                      <!-- <ul ng-if="dashboardListedContent.aStatus == 3">
+                        <li>
+                          <label>Appraised Value</label>
+                          ${{dashboardListedContent.appraisedValue | number:2}}</li>
+                        <li>
+                          <label>Market Value</label>
+                          ${{dashboardListedContent.marketValue | number:2}}
+                          <small>{{dashboardListedContent.marketValueDate | marketDateFormat}} <i ng-if="dashboardListedContent.marketValueDate">at</i> {{dashboardListedContent.marketValueDate | marketTimeFormat}}</small>
+                          </li>
+                        <li> <label>Change</label>
+                          <span class="green-text" ng-if="dashboardListedContent.priceChange == 1">{{dashboardListedContent.changePercentage | number:2}}% <i class="fa fa-sort-asc"></i></span> 
+                          <span class="red-text" ng-if="dashboardListedContent.priceChange == 2">{{dashboardListedContent.changePercentage | number:2}}% <i class="fa fa-sort-desc"></i></span>
+                          <span ng-if="dashboardListedContent.priceChange == 3">{{dashboardListedContent.changePercentage | number:2}}%</span>
+                          </li>
+                        <li>
+                          <label>Last Appraised</label>
+                          {{dashboardListedContent.lastAppraisedDate | myDateFormat}}<img class="img2" alt="" src="../img/ribbon.jpg"></li>
+                       
+                        <li ng-if="dashboardListedContent.priceChange == 1"><span class="green-label" >+{{dashboardListedContent.changePercentage | number:2}}%</span></li>
+                        <li ng-if="dashboardListedContent.priceChange == 2"><span class="red-label" >{{dashboardListedContent.changePercentage | number:2}}%</span></li>
+                        <span class="green-label" ng-if="dashboardListedContent.priceChange == 1">{{dashboardListedContent.changePercentage}}%</span>
+                          <span class="red-label" ng-if="dashboardListedContent.priceChange == 2">{{dashboardListedContent.changePercentage}}%</span>
+                          <span class="" ng-if="dashboardListedContent.priceChange == 3">0%</span> 
+
+                                             </ul> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> 
+      
+
+      <!-- <div class="row row-marb15" ng-if="!noActivityFound" ng-repeat="dashboardListedContent in dashboardListed">
+            <div class="col m12 s12">
+              <div class="card-panel card-panel3 card-panel3-padl" style="border-bottom:1px solid #ECE7E5;">
+                <div class="row" >
+                      <div class="col m12 s12">
+                    <div class="card-content card-content2"> 
+
+                     <p class="para7 para-left"><span ng-if="dashboardListedContent.status == 3">Appraised</span><span ng-if="dashboardListedContent.status != 3">Added New</span></p> <p class="para7 para-right">
+                     <span class="card-title card-title2">
+                     <a href="item.html#/detail/{{dashboardListedContent.itemId}}" ng-if="dashboardListedContent.itemId">{{dashboardListedContent.name}}</a>
+                     <a href="appraisal.html#/detail/{{dashboardListedContent.appraisalId}}" ng-if="dashboardListedContent.appraisalId">{{dashboardListedContent.name}}</a>
+                     <a href="collection.html#/detail/{{dashboardListedContent.vcid}}" ng-if="dashboardListedContent.vcid">{{dashboardListedContent.name}}</a>
+                      <small>ID#  {{dashboardListedContent.id}}</small></span>
+
+                     
+                     <span class="txt12"><b>{{dashboardListedContent.modifiedByName}}</b></span> <span class="txt12">Date: {{dashboardListedContent.modifiedOn | superAdminDateFormat}}</span></p></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+ -->
+            
+          
+          <div class="clearfix"></div>
+          
+       
+        </div>
+      </div>
+    </div>
+    
+    <!-- Latest Activity section end here--> 
+    <br>
+    <br>
+    
+    <!-- Stores / Agents  section start here-->
+    <div class="row" ng-init="initStoreInDashboard()">
+      <div class="col s12">
+        <div class="whitebox1 whitebox1-nopad  dashboard-nodata">
+          <div class="row">
+            <div class="col s12 m12">
+              <div class="card-panel card-panel2 card-panel4"> <span class="white-text">
+                <h2><img src="../img/icon-favourite.png"  alt="" style="display:inline-block;"/>Stores / Agents</h2>
+                <br>
+                <small> Lorem Ipsum is simply dummy text of the printing and typesetting industry</small></span></div>
+            </div>
+          </div>
+          <nav class="search-bar2">
+            <div class="nav-wrapper">
+              <form>
+                <div class="input-field">
+                  <input id="search2" ng-model="searchKeyword" type="search" placeholder="Find a location..">
+                  <label for="search2"><i class="material-icons">search</i></label>
+                  <i class="material-icons tooltipped" ng-click="clearSearchData()" data-tooltip="Clear search" data-delay="50" data-position="bottom">close</i> </div>
+              </form>
+            </div>
+          </nav>
+          <br>
+          <div class="row" ng-if="noStoreFound">
+               <div class="col s12 m7 l7">
+                    <div class="dashboard-nodata-wrap dashboard-nodata-wrap1">
+                    <img src="../img/find-graph.jpg"  alt="" class="find-graph"/>
+                    <label>NO STORES / AGENTS AVAILABLE</label>
+                    <p>Please find new using above search field.</p>
+                     </div>
+                  </div>
+             <div class="col m5 s12 l5">
+                    <img src="../img/dashboard-nodata-pic2.jpg"  alt="" class="dashboard-nodata-pic dashboard-nodata-pic1"/>
+                     </div>
+                     </div>
+          <br>
+          <!-- store listing start-->
+          <div class="row" ng-repeat="storeList in filteredStore = (storeListed | filter: searchKeyword)" ng-if="!noStoreFound">
+            <div class="col m12 l12 s12">
+              <div class="card-panel card-panel3 store-panel"> <!-- <a href="javascript:;" class="heart active tooltipped" data-position="bottom" data-delay="50" data-tooltip="Unfavorite">&nbsp;</a> -->
+                <div class="row">
+                  <div class="col m2 s12">
+                    <div class="img-box2"><img src="../img/profile-pic-default.jpg" alt="" class="responsive-img"/></div>
+                  </div>
+                  <div class="col m10 s12">
+                    <div class="card-content">
+                      <div class="list3-wrap list4-wrap">
+                        <div class="row">
+                          <div class="col l6 m12 s12"> <span class="card-title">{{storeList.storeName}}</span>
+                          <div class="row row-list">
+                             <!--  <div class="col s6 m5 ng-binding"><span class="lable-phone">Phone:</span> {{storeList.phoneNo || 'NA'}}</div> -->
+                              
+                            </div>
+                            <p class="para3"><span class="disp-cell">
+                            <i class="fa fa-map-marker txt20"></i>
+                            </span> 
+                            <span class="disp-cell">
+                            <span ng-if="storeList.storeAddress.addressLine1">{{storeList.storeAddress.addressLine1}},</span>
+                            <span ng-if="storeList.storeAddress.addressLine2">{{storeList.storeAddress.addressLine2}},</span>
+                            <span ng-if="storeList.storeAddress.city">{{storeList.storeAddress.city}},</span>
+                            <span ng-if="storeList.storeAddress.state">{{storeList.storeAddress.state}},</span>
+                            <span ng-if="storeList.storeAddress.zipCode">{{storeList.storeAddress.zipCode}} - </span>
+                            <span ng-if="storeList.storeAddress.country">{{storeList.storeAddress.country}}</span>
+                            </span>
+                            </p>
+                            <div ng-if="storeList.itemPurchased">
+                             <label>Item’s purchased</label>
+                             <div class="row">
+                              <div class="col m8 s8 full-width-sm">
+                                <div class="row" ng-repeat="itemPurchase in storeList.itemPurchased | limitTo : 2">
+                                  <div class="col m7 s7"> <b><a href="item.html#/detail/{{itemPurchase.itemId}}">{{itemPurchase.name | limitTo: 20}}{{itemPurchase.name.length < 20 ? '' : '...'}}</a></b> </div>
+                                  <div class="col m5 s5 txt12"> ID#  {{itemPurchase.itemId}} </div>
+                                </div>
+                              </div>
+
+
+
+                              <div class="col m4 s4 full-width-sm" ng-if='storeList.itemPurchased.length > 2'> 
+                              <div class="item-purchased"><a ng-click="itemPurchased(storeList.storeId)" class="blue-label" href="javascript:;">+{{storeList.itemPurchased.length - 2}} <br>
+                                more</a>
+                                
+                                <div id="box_show{{storeList.storeId}}" class="row-hide itembox1">
+                               <a data-tooltip="Close" data-delay="50" data-position="bottom" href="javascript:;" ng-click="itemPurchased(storeList.storeId)" class="close-btn tooltipped" data-tooltip-id="daf19714-3576-ed7f-7d66-56a1eabbe6ca">&nbsp;</a>
+                               <strong> Items purchased</strong>  <div class="mCustomScrollbar itembox1-scroll1 ">
+                               <table width="100%" cellspacing="0" cellpadding="0" border="0">
+  <tbody>
+    <tr ng-repeat = "itemPurchaseList in storeList.itemPurchased.slice(2,storeList.itemPurchased.length)">
+      <td><a href="item.html#/detail/{{itemPurchaseList.itemId}}">{{itemPurchaseList.name | limitTo: 20}}{{itemPurchaseList.name.length < 20 ? '' : '...'}}</a></td>
+      <td>ID#  {{itemPurchaseList.itemId}}</td>
+    </tr>
+      
+  </tbody>
+</table></div>
+
+                                </div></div>
+                                
+                                </div>
+
+
+
+
+
+
+
+
+                            </div> 
+                            </div>
+                          </div>
+                          <div class="col l6 m12 s12" ng-if="storeList.advertisementImageDetail">
+                            <div class="sponsor-ad">
+                            <img src="../valoximage/advimageuploaded/{{storeList.advertisementImageDetail[0].imageUrl}}" alt="" class="">
+                              
+                              
+                            </div>
+                          </div>
+                         <!--  <div class="col l6 m12 s12">
+                            <div class="card-panel-gray"><strong>Last Activity</strong>
+                              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been industry.</p>
+                            </div> 
+                          </div>-->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- store listing end -->
+
+          <!-- agent listing start-->
+          <div class="row" ng-repeat="agentList in filteredAgent = (agentListed | filter: searchKeyword)" ng-if="!noStoreFound">
+            <div class="col m12 l12 s12">
+              <div class="card-panel card-panel3 store-panel"> <!-- <a href="javascript:;" class="heart active tooltipped" data-position="bottom" data-delay="50" data-tooltip="Unfavorite">&nbsp;</a> -->
+                <div class="row">
+                  <div class="col m2 s12">
+                    <div class="img-box2"><img src="../img/profile-pic-default.jpg" alt="" class="responsive-img"/></div>
+                  </div>
+                  <div class="col m10 s12">
+                    <div class="card-content">
+                      <div class="list3-wrap list4-wrap">
+                        <div class="row">
+                          <div class="col l8 m12 s12"> <span class="card-title">{{agentList.firstName}} {{agentList.lastName}} </span>
+                          <div class="row row-list">
+                              <div class="col s6 m5"><span class="lable-phone">Phone:</span> {{agentList.mobilePhone || 'NA'}}</div>
+                              <div class="col s6 m7">Email: 
+                              <a href="mailto:{{agentList.emailId}}" class="mail">{{agentList.emailId}}</a></div>
+                              
+                            </div>
+                            <span class="lable-phone" ng-if="agentList.storeData.storeName"><b>Store Name:</b></span> {{agentList.storeData.storeName}}
+                            <br>
+                            <p class="para3"><span class="disp-cell" ng-if="agentList.storeData.storeAddress">
+                            <i class="fa fa-map-marker txt20" ></i>
+                            </span> 
+                            <span class="disp-cell">
+                            <span ng-if="agentList.storeData.storeAddress.addressLine1">{{agentList.storeData.storeAddress.addressLine1}},</span>
+                            <span ng-if="agentList.storeData.storeAddress.addressLine2">{{agentList.storeData.storeAddress.addressLine2}},</span>
+                            <span ng-if="agentList.storeData.storeAddress.city">{{agentList.storeData.storeAddress.city}},</span>
+                            <span ng-if="agentList.storeData.storeAddress.state">{{agentList.storeData.storeAddress.state}},</span>
+                            <span ng-if="agentList.storeData.storeAddress.zipCode">{{agentList.storeData.storeAddress.zipCode}} - </span>
+                            <span ng-if="agentList.storeData.storeAddress.country">{{agentList.storeData.storeAddress.country}}</span>
+                            </span>
+                            </p>
+                            <!-- <label>Item’s purchased</label> -->
+                            <!-- <div class="row">
+                              <div class="col m8 s12">
+                                <div class="row">
+                                  <div class="col m7 s7"> <b><a href="javascript:;">Bracelet</a></b> </div>
+                                  <div class="col m5 s5 txt12"> ID#  456782 </div>
+                                </div>
+                              </div>
+                            </div> -->
+                          </div>
+                          <!-- <div class="col l6 m12 s12">
+                            <div class="card-panel-gray"><strong>Last Activity</strong>
+                              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been industry.</p>
+                            </div> 
+                          </div>-->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- agent listing end -->
+
+          <!-- no data found-->
+          <div class="row" ng-show="!filteredAgent.length && !filteredStore.length" ng-hide="noStoreFound">
+            <div class="col m12 l12 s12">
+              <div class="card-panel card-panel3 no-data-store"> 
+
+                <div class="dashboard-nodata-wrap no-data">
+                        <div class="row">
+                          <div class="col l12 m12 s12"> 
+
+                          <div class="row row-list">
+                              
+                              <label>(0) RESULT FOUND.</label>
+                <p>  
+             No Stores / Agents available matching with your keyword <b>"{{searchKeyword}}"</b>. <br>
+             Try another keyword.
+
+
+
+              </p>
+                            </div>
+                            
+                          </div>
+                          
+                        </div>
+                      </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="clearfix"></div>
+
+        </div>
+      </div>
+    </div>
+    
+    <!-- no data found--> 
+  </div>
+</div>
+
+<!--Middle container end here--> 
+
+<!--Footer start here-->
+<div class="clearfix"></div>
+<footer-element></footer-element>
+
+<!--Footer end here--> 
+
+<!--  Loader--> 
+
+<div class="loader-overlay" ng-show="fullPageBlockLoading" loading><span class="loader-inner">Processing<div class="clearfix"></div><img src="../img/loader-1.gif"></span></div>
+
+</body>
+</html>

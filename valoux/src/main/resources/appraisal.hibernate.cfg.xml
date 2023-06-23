@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<!-- All Models class must be define here -->
+<hibernate-configuration>
+	<session-factory>
+		<mapping class="com.valoux.bean.ValouxItemBean" />
+		<mapping class="com.valoux.bean.ValouxItemTypeBean" />
+		<mapping class="com.valoux.bean.ItemImageBean" />
+		<mapping class="com.valoux.bean.ValouxCollectionBean" />
+		<mapping class="com.valoux.bean.ValouxCollectionItemBean" />
+		<mapping class="com.valoux.bean.ValouxCollectionImageBean" />
+		<mapping class="com.valoux.bean.AppraisalBean" />
+		<mapping class="com.valoux.bean.AppraisalItemsBean" />
+		<mapping class="com.valoux.bean.AppraisalCollectionBean" />
+		<mapping class="com.valoux.bean.ValouxComponentsImageBean" />
+		<mapping class="com.valoux.bean.ValouxDiamondBean" />
+		<mapping class="com.valoux.bean.ValouxGemstoneBean" />
+		<mapping class="com.valoux.bean.ValouxItemComponentBean" />
+		<mapping class="com.valoux.bean.ValouxMetalBean" />
+		<mapping class="com.valoux.bean.ValouxPearlBean" />
+		<mapping class="com.valoux.bean.ItemComponentCertificateBean" />
+		<mapping class="com.valoux.bean.ValouxSharedRequestBean" />
+		<mapping class="com.valoux.bean.ValouxAccessPermissionBean" />
+		<mapping class="com.valoux.bean.ValouxMetalsMasterPriceBean" />
+		<mapping class="com.valoux.bean.ValouxDiamondMasterPriceBean" />
+		<mapping class="com.valoux.bean.ValouxAppraisalItemsPriceBean" />
+		<mapping class="com.valoux.bean.ValouxAppraisalItemsComponentPriceBean" />
+		<mapping class="com.valoux.bean.ValouxInclusionBean" />
+	</session-factory>
+</hibernate-configuration>

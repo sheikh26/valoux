@@ -1,0 +1,107 @@
+
+<!-- Modal for login start here -->
+<div id="loginModal" class="modal modal-login">
+<form class="col s12" name="loginForm" novalidate ng-submit="loginForm.$valid && submitLogin()">
+    <div class="modal-content">
+      <h4>LOGIN <a href="javascript:;" data-tooltip="Close" data-delay="50" data-position="bottom" class="modal-action modal-close close-btn tooltipped">&nbsp;</a></h4>
+      <h5>Welcome back!</h5>
+      
+<div class="row">
+<div class="col m12 s12">
+  <div class="error-msg" ng-if="loginFormError">
+    <div class="disp-cell">
+      <i class="fa fa-exclamation-triangle"></i>
+    </div> 
+    <div class="disp-cell" ng-model="errorMessage">
+      <span>{{errorMessage}}
+      </span>
+    </div>
+  </div>
+</div>
+<div class="clearfix"></div>
+<div class="mCustomScrollbar login-scroll">
+    <div class="col s12 form-padlr">
+      <div class="row">
+        <div class="input-field col s12">
+          <i class="material-icons prefix"><img src="../img/icon-user.jpg"  alt=""/></i>
+          <input id="login-emailId" type="email" name="emailId" ng-model="user.emailId" ng-pattern="/^[\w-]+(\.[\w-]+)*@([a-z0-9-]+(\.[a-z0-9-]+)*?\.[a-z]{2,6}|(\d{1,3}\.){3}\d{1,3})(:\d{4})?$/i" maxlength="100" required>
+          <label for="login-emailId" id="emailAddress">Email address</label>
+          <label class="error" ng-show="loginForm.$submitted || loginForm.emailId.$dirty ||  userForm.emailId.$invalid">
+            <label class="error-msg-form" ng-show="loginForm.emailId.$error.required">Email is required.</label>
+            <label class="error-msg-form" ng-show="loginForm.emailId.$error.pattern">Invalid email.</label>
+            </label>
+        </div>
+        <div class="input-field col s12">
+          <i class="material-icons prefix"><img src="../img/icon-password.jpg" alt=""/></i>
+          <input id="login-password" type="password" name="password" ng-model="user.password" required maxlength="32">
+          <label for="login-password" id="passwordField">Password</label>
+          <label class="error" ng-show="loginForm.$submitted || (loginForm.password.$dirty && loginForm.password.$invalid)">
+            <label class="error-msg-form" ng-show="loginForm.password.$error.required">Password is required.</label>
+            </label>
+        </div>
+      </div>
+    </div>
+</div>
+  </div>
+  </div>
+    <div class="modal-footer">
+      <button type="submit" class="modal-action waves-effect waves-light btn1">ENTER</button>
+      
+      <span class="forgot"><small>Forgot password?</small>
+            
+ <a href="forgot-password.html" target="_self" class="modal-action modal-close">CLICK HERE</a></span>      
+  <span class="signup"><small>New to Valoux?</small>
+ <a href="join-consumer.html" target="_self" class="modal-action modal-close">SIGN UP HERE</a></span> 
+    </div>
+    </form>
+  </div>
+
+
+
+
+<!-- Modal for login verification start here -->
+<div id="modal-verification" class="modal modal-login">
+  <div class="modal-content">
+    <h4>LOGIN VERIFICATION <a href="javascript:;" class="modal-action modal-close close-btn tooltipped" data-position="bottom" data-delay="50" data-tooltip="Close">&nbsp;</a></h4>
+     <div class="col m12 s12">
+  <div class="error-msg" ng-if="otpFormError">
+    <div class="disp-cell">
+      <i class="fa fa-exclamation-triangle"></i>
+    </div> 
+    <div class="disp-cell" ng-model="errorMessage">
+      <span>{{errorMessage}}
+      </span>
+    </div>
+  </div>
+</div>
+       <p class="center-align">We have sent a 6 digit code to your email address. Please enter the code below.</p>
+       <form name="otpForm" ng-submit="otpForm.$valid && submitLoginWithOtp()" novalidate>
+       <div class="form1">
+    <div class="row">
+      <div class="col s12">
+        <div class="row">
+          <div class="input-field col s12"> <i class="material-icons prefix"><img src="../img/icon-user.jpg"  alt=""/></i>
+            <input id="otp" numbers-only ng-pattern="/^\(?(\d{6})\)?$/" type="text" name="otpVerification" ng-model="user.otpVerification" required maxlength="6"> 
+            <label id="otplabel" for="otp">Please enter OTP *</label>
+            <label class="error" ng-show="otpForm.$submitted || (otpForm.otpVerification.$dirty && otpForm.otpVerification.$invalid)">
+          <label class="error-msg-form" ng-show="otpForm.otpVerification.$error.required">OTP is required.</label>
+          <label class="error-msg-form" ng-show="otpForm.otpVerification.$error.pattern">Invalid OTP.</label> 
+          </label>
+          </div>
+        
+        </div>
+      </div>
+    </div>
+ 
+  <div class="modal-footer">
+<button class="modal-action waves-effect btn1" type="submit">SUBMIT</button>
+  <!--  <a href="javascript:;" class="modal-action modal-close waves-effect btn1">SUBMIT</a>  -->  </div> 
+
+  </div>
+</form>
+  </div>
+</div>
+
+<script>
+$('.tooltipped').tooltip({delay: 50});
+</script>

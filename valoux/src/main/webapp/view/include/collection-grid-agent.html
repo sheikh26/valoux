@@ -1,0 +1,232 @@
+<div class="clearfix"></div>
+<div class="graybox" ng-cloak>
+<div class="container" ng-init="initAgentCollectionData()">
+<collection-popup></collection-popup>
+
+<div>
+    <div class="row margin-row">
+      <div class="col s12">
+        <div class="page-header item-page-header">
+        <div>
+          <h1 class="pull-left">Collections <span class="hide-xs1">-</span> </h1>
+          <div class="itembox itembox-mart"><b class="badge1">{{collectionListTotal || 0}}</b> collections shared with you.</div>
+          </div>
+          
+          <div class="rightbox rightbox4">
+            
+
+              <div class="searchbox-left searchbox-left1"><i class="txt13">View items by:</i><br>
+              <select  id="viewedItemsBy" name="viewItemsBy" ng-model="viewItemBy" ng-change="storeConsumerInfo(viewItemBy, this)" ng-options="viewItemsBy.consumerPublicKey as (viewItemsBy.firstName + ' ' + viewItemsBy.middleName + ' ' + viewItemsBy.lastName) for viewItemsBy in viewByConsumer">
+                <option value="">Consumer name</option>
+                </select>
+                <a data-position="bottom" data-delay="50" data-tooltip="Invite new consumer &amp; add a collection." class="user tooltipped" href="javascript:;" ng-click="inviteNewConsumerAgent()" data-tooltip-id="15eadc9e-637d-0dde-bcc6-563b27ddd274"><i aria-hidden="true" class="fa fa-user-plus"></i></a>
+            
+            </div>
+            <div class="view-list"><i class="txt13">View by:</i><br>
+              <a href="collection-agent.html#/" class="list-view tooltipped" data-tooltip="List View" data-delay="50" ng-click="removeTooltip()" data-position="bottom">&nbsp;</a> <a href="collection-agent.html#/grid" class="grid-view tooltipped active" data-tooltip="Grid View" data-delay="50" data-position="bottom" >&nbsp;</a> </div>
+            <div class="searchbox-left"><i class="txt13">Sort by:</i><br>
+              <select id="sortBy" ng-model="sortorder">
+                <option value="-id">Latest</option>
+                <option value="name">Alphabetical</option>
+              </select>
+            </div>
+            <div class="search-items">
+              <nav>
+                <div class="nav-wrapper"><span class="hide-xs"> &nbsp;<br>
+                  </span>
+                  <form>
+                    <div class="input-field">
+                      <input type="search" ng-model="searchKeyword" ng-keyup="keyPressSearch()" placeholder="Search collections" required="" id="search2">
+                      <label for="search2" class="active"><i class="material-icons">search</i></label>
+                      <i ng-click="clearSearchData(this)" data-position="bottom" data-delay="50" data-tooltip="Clear search" class="material-icons tooltipped">close</i> </div>
+                  </form>
+                </div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col m12 s12" id="success" ng-if="successMessage">
+                 <div class="success-msg mt-10 mb-10">
+                  <div class="disp-cell"><i class="fa fa-thumbs-o-up"></i></div>
+                  <div class="disp-cell"><span>{{successMessage}}</span></div>
+                  <div class="clear"></div>
+                </div>
+              </div>
+    <div class="row">
+      <div class="col s12">
+        <div class="whitebox1 whitebox1-nopad whitebg-none inner-header"> <!-- <a href="collection-agent.html#/add" data-position="bottom" data-delay="50" data-tooltip="Add New Collection" class="icon-big-plus waves-effect waves-light tooltipped"><img src="../img/icon-plus-big.png"  alt=""/></a> -->
+        <a ng-if="!viewItemBy" data-tooltip="Add New Collection" data-delay="50" data-position="bottom" class="plus-icon-grid icon-big-plus-with icon-big-plus waves-effect waves-light tooltipped" href="collection-agent.html#/add"><img alt="" src="../img/icon-plus-big.png"></a>
+        <div class="header-bg-1 grid-marbot" ng-if="viewItemBy">
+        <a data-tooltip="Add New Collection" data-delay="50" data-position="bottom" class="icon-big-plus waves-effect waves-light tooltipped" href="collection-agent.html#/add"><img alt="" src="../img/icon-plus-big.png"></a>
+            <div class="agent-left-con">
+        <div class="pic-con2"><img fallback-src="../img/profile-pic-default.jpg" ng-src="../valoximage/consumerimageuploaded/{{consumerList.imageUrl}}" alt=""></div>
+        <span>{{consumerList.firstName}}  {{consumerList.middleName}} {{consumerList.lastName}}</span> <div class="itembox itembox-mart">Shared   <b class="badge1" ng-model="filtered.length">{{filtered.length}}</b> collections with you</div>
+        </div>
+        
+        <a class="back-btn2" ng-click="viewAllData()" href="javascript:;"><img src="../img/arrow-previous.png" alt=""> VIEW ALL</a>
+      </div>
+      <div id="demo" ng-if="!collectionListed" >
+            <ul>
+              <li>
+                <div class="row">
+                  <div class="col m12 l12 s12">
+                    <div class="card-panel card-panel3 card-panel3-box-shadow">
+                      <div class="dashboard-nodata-wrap no-data">
+           <label>(0) RESULT FOUND.</label>
+                <p>  
+             No collection found. 
+
+
+
+              </p>
+
+
+</div>
+                      
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+            </ul>
+          </div>
+          <div ng-show="collectionListed" >
+        <div id="demo" ng-show="!filtered.length">
+            <ul>
+              <li>
+                <div class="row">
+                  <div class="col m12 l12 s12">
+                    <div class="card-panel card-panel3 card-panel3-box-shadow">
+                      <div class="dashboard-nodata-wrap no-data">
+           <label>(0) RESULT FOUND.</label>
+                <p>  
+             No collection found.
+
+
+              </p>
+
+
+</div>
+                      
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+            </ul>
+          </div>
+          <div class="row1 gridbox">
+            <div class="item" ng-repeat="collectionList in filtered =  (collectionListed | orderBy:sortorder | filter: searchKeyword | filter:viewItemBy)">
+              <ul>
+                <li>
+                <div class="welcomebox"> <a data-activates="dropdown_{{collectionList.id}}" href="javascript:;" class="drop-down dropdown-button dropdown-button1 right"> <i class="ellpsis-v right">&nbsp;</i></a>
+                        <ul class="dropdown-content dropdown-content1" id="dropdown_{{collectionList.id}}">
+                          <li ng-if="collectionList.appraisalFlag" class="collection-item"><span class="disp-cell"><img alt="" src="../img/icon-appraisal.png"></span> <span class="disp-cell"><a class="" ng-click="addAppraisalInCollection(collectionList.id,button, collectionList.userPublickKey)" href="javascript:void(0);">ADD TO APPRAISAL</a></span></li>
+
+
+                          <li ng-hide="collectionList.cStatus == 3" ng-if="collectionList.itemFlag" class="collection-item"><span class="disp-cell"><img alt="" src="../img/icon-add-component.png"></span> <span class="disp-cell"><a href='javascript:void(0);' ng-click="collectionAddItem(collectionList.id, collectionList.userPublickKey)" class="">ADD NEW ITEMS</a></span></li>
+                          <li ng-hide="collectionList.cStatus == 3" class="collection-item"><span class="disp-cell"><img alt="" src="../img/icon-edit.png"></span> <span class="disp-cell"><a ng-click='editCollectionAgent(collectionList.userPublickKey, collectionList.id)' href="collection-agent.html#/edit/{{collectionList.id}}">EDIT COLLECTION</a></span></li>
+                          <li ng-hide="collectionList.cStatus == 3" class="collection-item"><span class="disp-cell"><img alt="" src="../img/ico-delete.png"></span> <span class="disp-cell"><a ng-click="deleteCollectionByListing(collectionList.id,collectionList.userPublickKey)" href="javascript:;">DELETE COLLECTION</a></span></li>
+
+
+                          <!-- <li class="collection-item"><span class="disp-cell"><img src="../img/icon-share.png" alt=""></span> <span class="disp-cell"><a class=""  href="javascript:void(0);" ng-click="setShareId(collectionList.id,2)">SHARE </a></span></li> -->
+                          <!-- <li class="collection-item"><span class="disp-cell"><img src="../img/icon-pdf.png" alt=""></span> <span class="disp-cell"><a href="javascript:;">DOWNLOAD PDF </a></span></li>
+                          <li class="collection-item"><span class="disp-cell"><img src="../img/icon-print.png" alt=""></span> <span class="disp-cell"><a href="javascript:;">PRINT </a></span></li> -->
+                        </ul>
+                      </div>
+                  <div class="card">
+                    <div class="row">
+                      
+                      <div class="col m12 l12">
+                        <div class="card-panel card-panel3 card-panel3-box-shadow">
+                          <div class="row">
+                            <div class="col s12 m2 l2"> 
+                              <!--product gallery starts-->
+                              <div id="gallery" class="simplegallery center-align">
+                                <div ng-if="collectionList.images.length > 0" class="content item-con2"> <img fallback-src="../img/not-found-collection.jpg" ng-src="../valoximage/imageuploaded/{{collectionList.images[0].imagePath}}" class="responsive-img" alt="" /> 
+                                 </div>
+                                 <div ng-if="collectionList.images.length == 0 && collectionList.items.length == 0" class="content item-con2">
+                          <img fallback-src="../img/not-found-collection.jpg" ng-src="../img/not-found-collection.jpg" class="responsive-img" alt="" /> 
+                          </div> 
+                          <div ng-if="collectionList.items.length > 0 && collectionList.images.length == 0" class="content item-con2" ng-repeat="collectionItem in collectionList.items | limitTo : 1"><img fallback-src="../img/not-found-collection.jpg" ng-src="../valoximage/imageuploaded/{{collectionItem.itemImages[0].itemImagePath}}" class="responsive-img"  alt="" />
+                          </div> 
+                                <div class="clear"></div>
+                                
+                              </div>
+                              <!--product gallery ends--> 
+                            </div>
+                            <div class="col m6 s12 l7 border-right">
+                              <div class="card-content card-content2"> <span class="card-title"><a ng-click="detailCollectionAgent(collectionList.userPublickKey, collectionList.id)" href="javascript:;">{{collectionList.name | limitTo: 20 }} {{collectionList.name.length < 20 ? '' : '...'}}</a> <!--<a href="javascript:;" class="heart tooltipped" data-position="bottom" data-delay="50" data-tooltip="Favorite">&nbsp;</a>--> <small>ID#  {{collectionList.id}}</small>
+
+                              </span>
+                              <span class="card-sub-title"> <i>Shared by</i>: <b>{{collectionList.sharedBy.firstName}} {{collectionList.sharedBy.middleName}} {{collectionList.sharedBy.lastName}}</b></span>
+
+                                <p ng-bind-html="collectionList.description | strLimit : 100 | newLine"></p>
+                                <div class="item-components"> Collection associated with<br>
+                                  <div class="items">
+                                 <!--  <a class="" ng-click="appraisalListedItem(collectionList.cId, collectionList.appraisalCount)" href="javascript:void(0);">Appraisals (<span id="collection_appraisal_app{{collectionList.cId}}">{{collectionList.appraisalCount}}</span>)</a> --> <a href="javascript:void(0);" ng-click="collectionListedItem(collectionList.id, collectionList.noOfItem,collectionList.items, collectionList.userPublickKey,collectionList.cStatus)" class="">Items (<span id="collection_item_Col_{{collectionList.id}}">{{collectionList.noOfItem}}</span>)</a></div>
+                                </div>
+                              </div>
+
+                              <div class="row-grey-gradient">
+                                <div class="grey-gradient">
+                                  <ul>
+                                      <li ng-if="collectionList.cStatus!=3">
+                                    <label>Final Price</label>
+                                    ${{collectionList.finalPrice | number:2}}
+                                  </li>
+                                    <li ng-if="collectionList.cStatus==3">
+                                      <label >Collection Value</label>
+                                      ${{collectionList.appraisedValue | number:2}}</li>
+                                    <li>
+                                      <label>Market Value</label>
+                                      ${{collectionList.marketValue | number:2}}
+                                      <small>{{collectionList.marketValueDate | marketDateFormat}} <i ng-if="collectionList.marketValueDate">at</i> {{collectionList.marketValueDate | marketTimeFormat}}</small></li>
+                                    <li ng-if="collectionList.cStatus==3">
+                                    <label>Change</label>
+                                    <span ng-if="collectionList.priceChange == 2" class="red-text">{{collectionList.changePercentage |number:2}}% <i class="fa fa-sort-desc"></i></span>
+                                    <span ng-if="collectionList.priceChange == 1" class="green-text">{{collectionList.changePercentage |number:2}}% <i class="fa fa-sort-asc"></i></span>
+                                    <span ng-if="collectionList.priceChange == 3" >{{collectionList.changePercentage |number:2}}%</span>
+                                     </li>
+                                    <li ng-if="collectionList.cStatus==3">
+                                      <label>Last Appraised</label>
+                                      <span ng-if="collectionList.lastAppraisedDate">{{collectionList.lastAppraisedDate | myDateFormat}}</span>
+                                    <span ng-if="!collectionList.lastAppraisedDate">--</span> <img class="img2" alt="" src="../img/ribbon.png"></li>
+                                    <li><span class="green-label">+50%</span></li>
+                                  </ul>
+                                </div>
+                              </div>
+
+                              <!-- 
+                               <div class="row-grey-gradient">
+                                <div class="total-box">Total Value of Collection <b>${{ cStatus==3?collectionList.appraisedValue:collectionList.finalPrice | number:2}}</b></div>
+                              </div>  -->
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            </div>
+          </div>
+          
+          <!-- <div class="paging2"><a onclick="toggle2();" href="javascript:;">Load more..</a></div>--> 
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<share></share>
+<thankyoushare></thankyoushare>
+</div>
+
+<script>
+setTimeout(function(){ 
+    $('.dropdown-button').dropdown();
+    }, 500);
+</script>

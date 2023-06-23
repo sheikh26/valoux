@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<title>Valoux - Valoux is an online data management system, an appraisal and appraiser network, and an insurance delivery platform</title>
+
+<!-- CSS  -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<link href="../css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/footer.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/animate.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/font-awesome.min.css" rel="stylesheet">
+<link href="../css/custom.css" rel="stylesheet">
+<!-- custom scrollbar stylesheet -->
+<link rel="stylesheet" href="../css/jquery.mCustomScrollbar.css">
+<!-- JS -->
+<script src="../js/extLib/jquery-1.12.0.min.js"></script>
+<script src="../js/extLib/materialize.min.js"></script>  
+<script  type="text/javascript" src="../js/extLib/wow.js"></script> 
+<script  type="text/javascript" src="../js/extLib/smoothscroll.js"></script>
+<script src="../js/extLib/custom.js"></script>
+<script src="../js/extLib/angular.min.js"></script>
+<script src="../js/app/app.js"></script>
+<script src="../js/app/controller/baseController.js"></script>
+<script src="../js/app/service/service.js"></script> 
+<script src="../js/app/service/masterDataService.js"></script>  
+ 
+<script src="../js/app/directives/BaseDirective.js"></script> 
+<script src="../js/app/userManagement/controller/userManagement.js"></script>
+<!-- custom scrollbar plugin --> 
+ <script src="../js/extLib/jquery.mCustomScrollbar.concat.min.js"></script>
+<!--error handling-->
+<script src="../js/extLib/stacktrace-0.5.0.min.js"></script>
+<script src="../js/app/error-handling.js"></script>
+</head>
+<body  ng-app="valouxApp" ng-controller="BaseController">
+<!--Navigation start here-->
+<header-loggedin></header-loggedin>
+
+<!--Navigation end here-->
+
+<div class="clearfix"></div>
+<div class="graybox" ng-controller="userManagement">
+  <div class="container" ng-cloak>
+    <div class="row">
+      <div class="col s12">
+        <div class="page-header">
+          <h1 class="wow fadeInLeft animated">View Profile</h1>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <form>
+        <div class="col s12">
+          <div class="whitebox1 whitebox1-padb-profile" ng-init="getProfileDetailConsumer()"> 
+            
+            <!--Your information section  start here-->
+            <div class="row profile-row">
+              <div class="col m12 l4 s12">
+                <div class="bg-profile set-height">
+             <div class="col s12 m6 l12">     <div class="profile-pic"> <img fallback-src="../img/profile-pic-default.jpg" ng-src="../valoximage/consumerimageuploaded/{{profileImages}}"  alt="" /> </div>
+                  <!--<h3>Catherine Tresa</h3>-->
+                  
+                  
+                 <!--     <div class="row">
+                <div class="file-field col  s12 m12 browse-btn">
+                  <div class="btn"> <span>BROWSE</span>
+                    <input type="file" multiple>
+                  </div>
+            
+                </div>
+               
+              </div>-->
+                  
+                  <div class="file-field  col s12 edit-photo"> <span>
+
+                  <img src="../img/icon-image.png" alt="" class="img-absmiddle"/> &nbsp;&nbsp;Change Photo</span>
+                    <input type="file" title="" custom-on-change="uploadProfileImage" accept="image/jpg,image/png,image/jpeg,image/gif">
+                  </div>
+                  <label ng-show="inValidimg" class="error" >
+                        <label class="error-msg-form">{{ inValidimgText }}</label>
+                    </label>
+              
+                  
+                  </div>
+      
+                  <div class="consumer-content col s12 m6 l12">
+                  
+                
+                      <div class="row visible-xs">
+                      <div class="col s12">   <h4 class="heading4-profile">{{user.firstName .charAt(0).toUpperCase() + user.firstName.slice(1)}}
+                  {{user.middleName.charAt(0).toUpperCase() + user.middleName.slice(1)}} {{user.lastName.charAt(0).toUpperCase() + user.lastName.slice(1)}}</h4></div>
+            
+                    </div>
+                  
+                    <div class="row" ng-if="user.gender">
+                      <div class="col s6 right-align"><i class="para-profile">Gender</i></div>
+                      <div class="col s6 left-align">{{user.gender}}</div>
+                    </div>
+                    <div class="row" ng-if="birthday">
+                      <div class="col s6 right-align"><i class="para-profile">Birthday</i></div>
+                      <div class="col s6  left-align">{{birthday}}</div>
+                    </div>
+                    <div class="row" ng-if="user.maritalStatus">
+                      <div class="col s6 right-align"><i class="para-profile">Marital Status</i></div>
+                      <div class="col s6  left-align">{{user.maritalStatus}}</div>
+                    </div>
+                    <div class="row" ng-if="user.incomeRange">
+                      <div class="col s6 right-align"><i class="para-profile">Income Range ($)</i></div>
+                      <div class="col s6  left-align">{{user.incomeRange}}</div>
+                    </div>
+                  </div>  <div class="clearfix"></div>
+                </div>
+              </div>
+              <div class="col m12 l8 s12 box1-marl-padl">
+                <div class="profile-right-col get-height">
+                  <h4 class="heading4-profile hide-on-med-and-down">{{user.firstName .charAt(0).toUpperCase() + user.firstName.slice(1)}}
+                  {{user.middleName.charAt(0).toUpperCase() + user.middleName.slice(1)}} {{user.lastName.charAt(0).toUpperCase() + user.lastName.slice(1)}}</h4>
+                  <div class="row">
+                    <div class="input-field col s6 full-width-sm">
+                      <p class="para-profile">Email</p>
+                      {{emailId}}
+                      <p class="para-profile">Mobile phone</p>
+                      {{mobilePhone}} </div>
+                    <div class="input-field col s6 full-width-sm">
+                      <p class="para-profile">Location &nbsp;&nbsp;<img src="../img/icon-location.png" alt="" class="img-absmiddle"/></p>
+                      {{userAddress}} </div>
+                  </div>
+                  <div class="row divider2">
+                    <div class="col m6 s12">
+                      <div class="row">
+                        <div class="col  s6" ng-if="user.jewelryPurchases">
+                          <p class="para-profile">Jewelry<br>
+                            purchases</p>
+                          {{user.jewelryPurchases}}</div>
+                        <div class="col s6" ng-if="user.jewelryInsurances">
+                          <p class="para-profile">Jewelry<br>
+                            insurance</p>
+                          {{user.jewelryInsurances}}</div>
+                      </div>
+                    </div>
+                    <div class="col m6 s12">
+                      <div class="row">
+                        <div class="col s6" ng-if="user.jewelryService">
+                          <p class="para-profile">Jewelry<br>
+                            service</p>
+                          {{user.jewelryService}}</div>
+                        <div class="col s6" ng-if="user.jewelryDocumentation">
+                          <p class="para-profile">Jewelry<br>
+                            documentation</p>
+                          {{user.jewelryDocumentation}}</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row divider2" ng-if="user.interestedIn.length > 0">
+                    <div class="input-field col s12">
+                      <h4>INTERESTED IN</h4>
+                    </div>
+                    <div class="row">
+                      <div class="col m6 s12 ">
+                        <div class="col s6" ng-repeat="interestIn in user.interestedIn">
+                          <p>{{interestIn}}</p>
+                          </div>
+                        
+                    </div>
+                  </div>
+                  </div>
+                  <div class="row divider2" ng-if="hideDetailsPersonal">
+                    <div class="input-field col s12">
+                      <h4>PERSONAL PREFERENCES</h4>
+                    </div>
+                    <div class="row">
+                      <div class="col s12 m9">
+                        <div class="col m4 s6" ng-if="jewelryTypes.length > 0">
+                          <p  class="para-profile">Jewelry types</p>
+                          <div ng-repeat="jewelryType in jewelryTypes">{{jewelryType}}</div>
+                           </div>
+                        <div class="col m4 s6" ng-if="jewelryDesign.length > 0">
+                          <p  class="para-profile">Jewelry design</p>
+                          <div ng-repeat="jewelryDesigns in jewelryDesign">{{jewelryDesigns}}</div> </div>
+                        <div class="col m4 s6" ng-if="jewelryStyle.length > 0">
+                          <p  class="para-profile">Jewelry style</p>
+                         <div ng-repeat="jewelryStyles in jewelryStyle">{{jewelryStyles}}</div> </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row divider2" ng-if="metalArray.length>0 || gemstoneArray.length>0 || diamondArray.length>0">
+                    <div class="input-field col s12">
+                      <h4>JEWELRY COMPONENTS</h4>
+                    </div>
+                    <div class="row">
+                      <div class="col s12 m9">
+                        <div class="col m4 s6" ng-if="metalArray.length > 0">
+                          <p  class="para-profile">Metals</p>
+                          <div ng-repeat="metalArrays in metalArray">{{metalArrays}}</div></div>
+                        <div class="col m4 s6" ng-if="gemstoneArray.length > 0">
+                          <p  class="para-profile">Gemstones</p>
+                          <div ng-repeat="gemstoneArrays in gemstoneArray">{{gemstoneArrays}}</div> </div>
+                        <div class="col m4 s6" ng-if="diamondArray.length > 0">
+                          <p  class="para-profile">Diamonds</p>
+                          <div ng-repeat="diamondArrays in diamondArray">{{diamondArrays}}</div> </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row edit-footer-row">
+                    <div class="col s12"> <a href="edit-consumer.html" class="btn-large btn-large1 btn-large2 waves-effect waves-light">EDIT PROFILE</a> </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--Your information section  end here--> 
+            
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+<div class="clearfix"></div>
+
+
+
+
+
+
+
+
+<!--Footer start here-->
+<footer-element></footer-element>
+
+<div class="loader-overlay" ng-show="fullPageBlockLoading" loading><span class="loader-inner">Processing<div class="clearfix"></div><img src="../img/loader-1.gif"></span></div>
+<!--Footer end here--> 
+ 
+<script type="text/javascript">
+    $(document).ready(function () {
+        setHeight();
+    });
+
+    function setHeight() {
+        var windowH = $(window).height();
+        var getH = $('.get-height').outerHeight(true);    
+        $('.set-height').height(getH);   
+    }    
+    setInterval(function(){ setHeight(); }, 1000);
+</script>
+</body>
+</html>

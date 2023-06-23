@@ -1,0 +1,181 @@
+
+  <div class="container" ng-cloak> 
+  <div  ng-init="initSharedWithAgent()">
+    <!-- My Items section start here-->
+    <div class="row">
+      <div class="col s12">
+      <div class="error-msg" ng-if="errorMessage">
+    <div class="disp-cell">
+      <i class="fa fa-exclamation-triangle"></i>
+    </div> 
+    <div class="disp-cell" ng-model="errorMessage">
+      <span>{{errorMessage}}
+      </span>
+    </div>
+  </div> </div></div><agent-Popup></agent-Popup>
+        <div class="page-header page-header4">
+          <h1 class="pull-left"> Jewelry <span class="hide-xs1">-</span> </h1>
+          <div class="itembox itembox-mart itembox2"><b class="badge1">{{sharedList.length}}</b> items shared with you</div>
+          <div class="rightbox">
+               
+          
+            <div class="view-list"><i class="txt13">View by:</i><br>
+              <a href="javascript:;" class="list-view active tooltipped" data-tooltip="List View" data-delay="50" data-position="bottom">&nbsp;</a> <a href="shared-request-agent.html#/grid" class="grid-view tooltipped" data-tooltip="Grid View" data-delay="50" data-position="bottom" >&nbsp;</a> </div>
+
+            <div class="searchbox-left"><i class="txt13">Sort by:</i><br>
+             <select id="sortBy" ng-model="globl.sortorder">
+                <option value="-id">Latest</option>
+                <option value="name">Alphabetical</option>
+              </select>
+            </div>
+            <div class="search-items">
+              <nav>
+                <div class="nav-wrapper"><span class="hide-xs"> &nbsp;<br>
+                  </span>
+                  <form>
+                    <div class="input-field">
+                      <input type="search" ng-model="globl.searchKeyword.name" placeholder="Search items" required="" id="search2">
+                      <label for="search2" class="active"><i class="material-icons">search</i></label>
+                      <i data-position="bottom" data-delay="50" data-tooltip="Clear search" class="material-icons tooltipped"  ng-click="clearSearchData(this)">close</i> </div>
+                  </form>
+                </div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      
+    
+ 
+  
+       
+    <!--Middle container here-->
+    <!-- Favorite  section start here-->
+    <div class="row">
+      <div class="col s12">
+        <div class="whitebox1 whitebox1-nopad whitebg-none"> 
+        <div class="list-header2">
+        <small class="small-tabs"><i>View by </i>: <div class="searchbox-left">
+             <select id="viewedItemsBy" name="viewItemsBy" ng-model="viewItemBy" ng-change="storeConsumerInfo(viewItemBy)" ng-options=" viewedItemsBy as (viewedItemsBy.name) for viewedItemsBy in uniqueNames">
+                <option value="">Consumer name</option>
+                </select>
+                          <!--  <select  id="viewedItemsBy" name="viewItemsBy" ng-model="viewItemBy" ng-change="storeConsumerInfo(viewItemBy)" ng-options="viewItemsBy as (viewItemsBy.sharedItemList.sharedBy.firstName) for viewItemsBy in sharedItemList">
+                <option value="">Consumer name</option>
+                </select>-->
+            </div>
+            
+               
+                <!--<i>View by </i>:-->  <span class="hide-xs1"><i>Sort by </i>: </span>  <a href="javascript:;" ng-click="itemFilterToggle('sharedwithme')" ng-class="{'active':!sortby }">All</a> <a ng-click="itemFilterToggle(1)" ng-class="{'active':sortby == '1'}" href="javascript:;">Items</a> <a href="javascript:;"  ng-click="itemFilterToggle(2)" ng-class="{'active':sortby == '2'}"  >Collections</a> <a href="javascript:;"  ng-class="{'active':sortby == '3'}"  ng-click="itemFilterToggle(3)" >Appraisals</a> <!--<a href="shared.html" >Shared By me</a>--></small></div><div class="clearfix"></div>
+                <div class="msg-con-white">
+                <div class="success-msg mt-10 mb-10" ng-if="successMessage">
+                  <div class="disp-cell"><i class="fa fa-thumbs-o-up"></i></div>
+                  <div class="disp-cell"><span>{{successMessage}}</span></div>
+                  <div class="clear"></div>
+                </div>  
+                <div id="demo">
+            <ul class="u-fancy-load">
+              <!-- Appraisal list row start here-->
+
+               <div >
+              <li ng-repeat="sharedList in sharedList | orderBy:globl.sortorder|  filter:{sharedItemType : sortby} |  filter:globl.searchKeyword | filter:{userPublickKey:viewItemBy.cKey} ">
+          
+                <div class="row">
+                  <div class="col m12 l12">
+                    <div class="card-panel card-panel3 card-panel3-box-shadow card-panel3-box-shadow-none">
+                      <div class="row">
+                        <div class="col s12 m3 l2">
+                          <div class="img-box2"><img alt="" class="responsive-img" fallback-src="../img/not-found.jpg"  ng-src="../valoximage/imageuploaded/{{sharedList.images[0].imagePath}}" /></div>
+                        </div>
+                        <div class="col m6 l7 s12">
+                          <div class="card-content"> <span class="card-title"><span ng-if="sharedList.sharedItemType == 1">{{sharedList.name | limitTo: 30}} {{sharedList.name.length < 30 ? '' : '...'}} </span>
+              <span ng-if="sharedList.sharedItemType == 2">{{sharedList.name | limitTo: 30}} {{sharedList.name.length < 30 ? '' : '...'}} </span>
+              <span ng-if="sharedList.sharedItemType == 3">{{sharedList.name | limitTo: 30}} {{sharedList.name.length < 30 ? '' : '...'}} </span>
+              
+              <a data-tooltip="Unfavorite" data-delay="50" data-position="bottom" class="heart heart2 active tooltipped" href="javascript:;" >&nbsp;</a>  <small>ID#  {{sharedList.id}}</small></span>
+                          <span class="card-sub-title"> <i>Shared by</i>: <b>{{sharedList.sharedBy.firstName }} {{sharedList.sharedBy.lastName}}</b></span>
+                            <p ng-bind-html="sharedList.description | strLimit : 200 | newLine"></p>
+                            
+                            <div ng-if="sharedList.sharedItemType == 2">
+                            <div class="item-components">
+                              <div class="items"><span ng-if="sharedList.noOfItem >0"><a  ng-click="sharedItemlist(sharedList.id,sharedList.sharedItemType,sharedList.noOfItem)" href="javascript:void(0);"> Items ({{sharedList.noOfItem}})</a></span> <a style="visibility:hidden;" href="#modal-appraisal-items" class="modal-trigger">Appraisals (3)</a></div></div></div>
+                              
+                              <div ng-if="sharedList.sharedItemType == 1">
+                              <div class="items"><a style="visibility:hidden;" class="modal-trigger" href="javascript:void(0);">  Collection ({{sharedList.noOfCollection}})</a> <a style="visibility:hidden;" href="#modal-appraisal-items" class="modal-trigger">Appraisals (3)</a></div></div>
+                           <div ng-if="sharedList.sharedItemType == 3">
+                           <div class="item-components">Collection associated with<br>
+                              <div class="items"><span ng-if="sharedList.noOfItem >0"><a class="" href="javascript:void(0);" ng-click="sharedItemlist(sharedList.id,sharedList.sharedItemType,sharedList.noOfItem)"> Items ({{sharedList.noOfItem}})</a></span><span ng-if="sharedList.noOfCollection >0"> <a href="javascript:void(0);" ng-click="sharedCollectionlist(sharedList.id,sharedList.sharedItemType)" >Collection ({{sharedList.noOfCollection}})</a></span></div></div></div>
+                            
+                          </div>
+                        </div>
+                        <div class="col s12 m3 l3">
+                          <div class="card-panel3-box-shadow-right card-panel3-box-shadow-right2">
+                <a href="javascript:void(0);" ng-click="shareStatus(sharedList.sharedRequestId,2,$index)" class="btn-default2"><span> &nbsp;</span>Accept</a>
+                <div class="clearfix"></div>
+                 <a href="javascript:void(0);" ng-click="shareStatus(sharedList.sharedRequestId,3,$index)" class="btn-default2"> <span class="icon1"> &nbsp;</span> Reject</a>
+             
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+    </div>
+ </ul>
+ 
+</div>
+         
+        
+     <div  ng-show="(sharedList | filter:{sharedItemType : sortby} | filter:globl.searchKeyword  ).length == 0">
+      <div class="row">
+                  <div class="col m12 l12 s12">
+                    <div class="card-panel card-panel3 card-panel3-box-shadow">
+                      <div class="dashboard-nodata-wrap no-data">
+           <label>NO ITEM SHARED</label>
+              
+
+      No collection shared with you.</p>
+
+</div>
+                      
+                    </div>
+                  </div>
+                </div>
+         </div> 
+          <div class="clearfix"></div>
+         <!-- <div class="paging3"><a href="javascript:;" onClick="toggle3();" >Load more..</a></div>-->
+        </div>
+      </div>
+    </div>
+    
+    <!-- Favorite  section end here--> 
+  </div>
+</div>
+</div>
+<!--Middle container end here-->
+<div class="clearfix"></div>
+</div>
+
+     
+</div>
+<div class="clearfix"></div>
+<login></login>
+<div class="loader-overlay" ng-show="fullPageBlockLoading" loading><span class="loader-inner">Processing<div class="clearfix"></div><img src="../img/loader-1.gif"></span></div>
+<!--  Scripts--> 
+<script src="../js/extLib/materialize.min.js"></script>  
+<script  type="text/javascript" src="../js/extLib/wow.js"></script> 
+<script  type="text/javascript" src="../js/extLib/smoothscroll.js"></script>
+<script src="../js/extLib/custom.js"></script>
+
+</body>
+</html>
+<style type="text/css">
+/*.container .row {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+}*/
+</style>
+<thankyouunshare></thankyouunshare>
+<!-- Modal for Popup - Item list end here --> 
+<!--  Scripts--> 
+
+

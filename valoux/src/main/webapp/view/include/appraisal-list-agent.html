@@ -1,0 +1,245 @@
+<div class="clearfix"></div>
+<div class="graybox" ng-cloak>
+  <div class="container" ng-init="initAgentAppraisalData()">
+   <appraisal-popup></appraisal-popup>
+  
+<div >
+    <div class="row" >
+      <div class="col s12">
+        <div class="page-header item-page-header">
+          <h1 class="pull-left">Appraisals<span class="hide-xs1">-</span> </h1>
+          <div class="itembox itembox-mart"><b class="badge1">{{appraisalListTotal || 0}}</b> appraisals shared with you.</div>
+          <div class="rightbox rightbox4">
+		  
+		  <div class="searchbox-left searchbox-left1"><i class="txt13">View items by:</i> <br>
+               <select  id="viewedItemsBy" name="viewItemsBy" ng-model="viewItemBy" ng-change="storeConsumerInfo(viewItemBy, this)" ng-options="viewItemsBy.consumerPublicKey as (viewItemsBy.firstName + ' ' + viewItemsBy.middleName + ' ' + viewItemsBy.lastName) for viewItemsBy in viewByConsumer">
+                <option value="">Consumer name</option>
+				
+                </select>
+				 <a data-position="bottom" data-delay="50" data-tooltip="Invite new consumer &amp; add an appraisal." class="user tooltipped" href="javascript:;" ng-click="inviteNewConsumerAgent('home')" data-tooltip-id="15eadc9e-637d-0dde-bcc6-563b27ddd274"><i aria-hidden="true" class="fa fa-user-plus"></i></a>
+				
+            
+            </div> 
+			
+            <div class="view-list"><i class="txt13">View by:</i><br>
+              <a href="appraisal-agent.html#/" id="list" class="list-view active tooltipped" data-tooltip="List View" data-delay="50" data-position="bottom">&nbsp;</a> <a ng-click="removeTooltip()" href="appraisal-agent.html#/grid" id="grid" class="grid-view  tooltipped" data-tooltip="Grid View" data-delay="50" data-position="bottom" >&nbsp;</a> </div> 
+			 
+			 
+            <div class="searchbox-left"><i class="txt13">Sort by:</i><br>
+              <select id="sortBy" ng-model="sortorder">
+                <option value="-id">Latest</option>
+                <option value="name">Alphabetical</option>
+              </select>
+            </div>
+            <div class="search-items">
+              <nav>
+                <div class="nav-wrapper"><span class="hide-xs"> &nbsp;<br>
+                  </span>
+                  <form>
+                    <div class="input-field">
+                      <input type="search" placeholder="Search appraisals" ng-model="searchKeyword" required="" id="search2">
+                      <label for="search2" class="active"><i class="material-icons">search</i></label>
+                      <i ng-click="clearSearchData(this)" data-position="bottom" data-delay="50" data-tooltip="Clear search" class="material-icons tooltipped">close</i> </div>
+                  </form>
+                </div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col m12 s12" id="success" ng-if="successMessage">
+                 <div class="success-msg mt-10 mb-10">
+                  <div class="disp-cell"><i class="fa fa-thumbs-o-up"></i></div>
+                  <div class="disp-cell"><span>{{successMessage}}</span></div>
+                  <div class="clear"></div>
+                </div>
+              </div>
+    <div class="row">
+      <div class="col s12">
+        <div class="whitebox1 whitebox1-nopad whitebg-none inner-header"> 
+		
+        <a ng-if="!viewItemBy" data-tooltip="Add New Appraisal" data-delay="50" data-position="bottom" class="icon-big-plus waves-effect waves-light tooltipped" href="appraisal-agent.html#/add"><img alt="" src="../img/icon-plus-big.png"></a>
+        
+      
+		 <div class="header-bg-1" ng-if="viewItemBy">
+        <a data-tooltip="Add New Appraisal" data-delay="50" data-position="bottom" class="icon-big-plus waves-effect waves-light tooltipped" href="appraisal-agent.html#/add"><img alt="" src="../img/icon-plus-big.png"></a>
+            <div class="agent-left-con">
+        <div class="pic-con2"><img fallback-src="../img/profile-pic-default.jpg" ng-src="../valoximage/consumerimageuploaded/{{sharedBy.imageUrl}}" alt=""></div>
+        
+        <span>{{sharedBy.firstName}} {{sharedBy.middleName}} {{sharedBy.lastName}}</span> <div class="itembox itembox-mart">Shared   <b class="badge1" ng-model="filtered.length">{{filtered.length || 0}}</b> appraisals with you</div>
+        </div>
+       
+        <a class="back-btn2" ng-click="viewAllData()" href="javascript:;"><img src="../img/arrow-previous.png" alt=""> VIEW ALL</a>
+      </div>
+      <div id="demo" ng-if="!appraisalListed">
+            <ul>
+              <li>
+                <div class="row">
+                  <div class="col m12 l12 s12">
+                    <div class="card-panel card-panel3 card-panel3-box-shadow">
+                      <div class="dashboard-nodata-wrap no-data">
+           <label>(0) RESULT FOUND.</label>
+                <p>  
+             No appraisal found</b>. <br>
+           
+      
+
+
+              </p>
+
+
+</div>
+                      
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+            </ul>
+          </div>
+          <div ng-show="appraisalListed">
+        <div id="demo" ng-show="!filtered.length">
+            <ul>
+              <li>
+                <div class="row">
+                  <div class="col m12 l12 s12">
+                    <div class="card-panel card-panel3 card-panel3-box-shadow">
+                      <div class="dashboard-nodata-wrap no-data">
+           <label>(0) RESULT FOUND.</label>
+                <p>  
+             No appraisal found</b>. <br>
+           
+			
+
+
+              </p>
+
+
+</div>
+                      
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+            </ul>
+          </div>
+          <div id="demo">
+            <ul class="u-fancy-load">
+              <!-- Appraisal list row start here-->
+              <li ng-repeat="appraisalList in filtered =( appraisalListed | orderBy:sortorder | filter: searchKeyword | filter:{userPublickKey:viewItemBy})">
+                <div class="row">
+                  <div class="col m12 l12">
+                    <div class="card-panel card-panel3 card-panel3-box-shadow">
+                      <div class="row">
+                        <div class="col s12 m3 l2">
+                        
+                          <div  class="img-box2" ng-if="appraisalList.collectionImages.length > 0" ng-repeat="collectionImg in appraisalList.collectionImages | limitTo : 1">
+                          <img fallback-src="../img/not-found-appraisal.jpg" ng-src="../valoximage/imageuploaded/{{collectionImg.cImages[0].imageUrl}}" alt="" class="responsive-img">
+                          </div>
+                          <div ng-if="appraisalList.collectionImages.length == 0 || appraisalList.noOfCollection == 0" class="img-box2" ng-repeat="itemImg in appraisalList.itemImages | limitTo : 1">
+                          <img fallback-src="../img/not-found-appraisal.jpg" ng-src="../valoximage/imageuploaded/{{itemImg.itemImages[0].itemImagePath}}" alt="" class="responsive-img">
+                          </div>
+                          <div ng-if="(appraisalList.collectionImages.length == 0 && appraisalList.itemImages.length == 0)" class="img-box2" ><img src="../img/not-found-appraisal.jpg" alt="" class="responsive-img">
+                          </div>
+
+                        </div>
+                        <div class="col m6 l7 s12">
+                          <div class="card-content"> <span class="card-title"><a ng-click="agentAppraisalDetail(appraisalList.id, appraisalList.sharedBy.consumerPublicKey)" href="javascript:;">{{appraisalList.name | limitTo: 30 }} {{appraisalList.name.length < 30 ? '' : '...'}}</a> <!--<a href="javascript:;" class="heart tooltipped" data-position="bottom" data-delay="50" data-tooltip="Favorite" data-tooltip-id="a692dac5-310a-2e68-7547-8d453dc46794">&nbsp;</a>--> <small>ID#  {{appraisalList.id}}</small></span>
+						  <span class="card-sub-title"> <i>Shared by</i>: <b><span>{{appraisalList.sharedBy.firstName}} {{appraisalList.sharedBy.middleName}} {{appraisalList.sharedBy.lastName}}</span></b></span>
+                            <p ng-bind-html="appraisalList.description | strLimit : 200 | newLine"></p>
+                            <div class="item-components"> Appraisal associated with<br>
+                              <div class="items"><a ng-click="modelCollectionListing(appraisalList.id,appraisalList.sharedBy.consumerPublicKey,appraisalList.appraisalStatus)" class="" href="javascript:;">Collections (<span id="collection_appraisal_app{{appraisalList.id}}">{{appraisalList.noOfCollection}}</span>)</a> <a href="javascript:;" ng-click="modelItemListing(appraisalList.id,appraisalList.sharedBy.consumerPublicKey,appraisalList.appraisalStatus)" class="">Items (<span id="items_appraisal_app{{appraisalList.id}}">{{appraisalList.noOfItem}}</span>)</a></div>
+                            </div>
+                            <div class="clearfix"></div>
+
+                            <div class="row-grey-gradient">   <div class="item-gradient grey-gradient hide-md">
+                                <ul>
+                                   <li ng-if="appraisalList.aStatus!=3">
+                                    <label>Final Price</label>
+                                    ${{appraisalList.finalPrice | number:2}}
+                                  </li>
+                                  <li ng-if="appraisalList.aStatus==3">
+                                    <label>Appraised Value</label>
+                                    ${{appraisalList.appraisedValue | number:2}}
+                                  </li>
+                                  <li>
+                                    <label>Market Value</label>
+                                    ${{appraisalList.marketValue | number:2}}
+                                    
+                                   <small>{{appraisalList.marketValueDate | marketDateFormat}} <i ng-if="appraisalList.marketValueDate">at</i> {{appraisalList.marketValueDate | marketTimeFormat}}</small> </li>
+                                  <li ng-if="appraisalList.aStatus==3">
+                                    <label>Change</label>
+                                    <span ng-if="appraisalList.priceChange == 2" class="red-text">{{appraisalList.changePercentage |number:2}}% <i class="fa fa-sort-desc"></i></span>
+                                    <span ng-if="appraisalList.priceChange == 1" class="green-text">{{appraisalList.changePercentage |number:2}}% <i class="fa fa-sort-asc"></i></span>
+                                    <span ng-if="appraisalList.priceChange == 3" >{{appraisalList.changePercentage |number:2}}%</span>
+                                     </li>
+                                  <li ng-if="appraisalList.aStatus==3">
+                                    <label>Last Appraised</label>
+                                    <span ng-if="appraisalList.lastAppraisedDate">{{appraisalList.lastAppraisedDate | myDateFormat}}</span>
+                                    <span ng-if="!appraisalList.lastAppraisedDate">--</span>
+                                     <img src="../img/ribbon.png" alt="" class="img2"></li>
+                                  <!-- <li><span class="green-label">+50%</span></li>-->
+                                </ul>
+                              </div></div>
+
+
+                           <!-- <div class="row-grey-gradient" ng-if="appraisalList.lastAppraisedDate">
+                              <div class="total-box">Last Appraised <b>
+                              <span>{{appraisalList.lastAppraisedDate | myDateFormat}}</span>
+                              
+                              </b></div>
+                            </div> -->
+
+
+
+
+                          </div>
+                        </div>
+                        <div class="col s12 m3 l3">
+                          <div class="card-panel3-box-shadow-right">
+                            <div class="collection-icons">
+                              <ul class="collection border-left">
+                              <li ng-hide="appraisalList.appraisalStatus == 3" class="collection-item"><span class="disp-cell"><img src="../img/icon-edit.png" alt=""></span> <span class="disp-cell"><a href="javascript:;"  ng-click="editAppraisalAgent(appraisalList.sharedBy.consumerPublicKey,appraisalList.id)"  >EDIT APPRAISAL</a></span></li>
+                              <li ng-hide="appraisalList.aStatus == 3" class="collection-item"><span class="disp-cell"><img src="../img/ico-delete.png" alt=""></span> <span class="disp-cell"><a ng-click="deleteAppraisalByListing(appraisalList.id,appraisalList.sharedBy.consumerPublicKey)" href="javascript:;" >DELETE APPRAISAL</a></span></li>
+                                <!-- <li ng-if="isAppraiserLogin && appraisalList.appraisalStatus == 3" class="collection-item"><span class="disp-cell"><img src="../img/icon-appraised1.png" alt=""></span> <span class="disp-cell"><a href="javascript:;">APPRAISAL APPROVED</a></span></li>  -->
+                               <!-- <li class="collection-item"><span class="disp-cell"><img alt="" src="../img/icon-share.png"></span> <span class="disp-cell"><a class=""  href="javascript:void(0);" ng-click="setShareId(appraisalList.id,3)">SHARE </a></span></li>-->
+                              <li ng-show="appraisalList.appraisalStatus == 3" class="collection-item"><span class="disp-cell"><img alt="" src="../img/icon-pdf.png"></span><span class="disp-cell"><a href="javascript:;" class="tooltipped" data-position="bottom" ng-click="downloadpdf(appraisalList.id)" data-delay="50" data-tooltip="DOWNLOAD PDF">DOWNLOAD PDF</a></span></li>
+                              </ul>
+                            </div>
+                            <div class="collection-icons-xs">
+                              <ul class="collection border-left">
+                              <li class="collection-item"><a href="javascript:;" ng-click="editAppraisalAgent(appraisalList.sharedBy.consumerPublicKey,appraisalList.id)" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="EDIT APPRAISAL"><span class="disp-cell"><img src="../img/icon-edit.png" alt=""></span></a></li>
+
+                              <li ng-hide="appraisalList.aStatus == 3" class="collection-item"><a ng-click="deleteAppraisalByListing(appraisalList.id,appraisalList.sharedBy.consumerPublicKey)" href="javascript:;" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="DELETE APPRAISAL"><span class="disp-cell"><img src="../img/ico-delete.png" alt=""></span></a></li>
+                              
+                                <!-- <li class="collection-item"><a href="javascript:;" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="APPRAISAL APPROVED"><span class="disp-cell"><img src="../img/icon-appraised1.png" alt=""></span></a></li> -->
+                               <!-- <li class="collection-item"> <a href="javascript:;" ng-click="setShareId(appraisalList.id,3)" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="SHARE"><span class="disp-cell"><img alt="" src="../img/icon-share.png"></span></a><a href="javascript:;"> <span class="disp-cell">SHARE</span> </a></li>-->
+                               <li ng-show="appraisalList.appraisalStatus == 3" class="collection-item"><span class="disp-cell"><img alt="" src="../img/icon-pdf.png"></span><span class="disp-cell"><a href="javascript:;" class="tooltipped" data-position="bottom" ng-click="downloadpdf(appraisalList.id)" data-delay="50" data-tooltip="DOWNLOAD PDF">DOWNLOAD PDF</a></span></li>
+                               <!-- <li class="collection-item"> <a href="javascript:;" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="PRINT"><span class="disp-cell"><img alt="" src="../img/icon-print.png"></span></a> </li> -->
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <!-- Appraisal list row end here--> 
+              
+              
+            </ul>
+          </div>
+          </div>
+          <!-- <div class="paging2"><a onclick="toggle2();" href="javascript:;">Load more..</a></div>--> 
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</div>
+<div class="clearfix"></div>
+

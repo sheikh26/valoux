@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<title>Valoux - Valoux is an online data management system, an appraisal and appraiser network, and an insurance delivery platform</title>
+
+<!-- CSS  -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="../css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/footer.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/animate.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<link href="../css/font-awesome.min.css" rel="stylesheet">
+<link href="../css/custom.css" rel="stylesheet">
+
+<!-- JS -->
+<script src="../js/extLib/jquery-1.12.0.min.js"></script>
+<script src="../js/extLib/materialize-edit.js"></script>  
+<script  type="text/javascript" src="../js/extLib/wow.js"></script> 
+<script  type="text/javascript" src="../js/extLib/smoothscroll.js"></script>
+<script src="../js/extLib/custom.js"></script>
+<script src="../js/extLib/angular.min.js"></script>
+<script src="../js/app/app.js"></script>
+<script src="../js/app/controller/baseController.js"></script>
+<script src="../js/app/service/service.js"></script>  
+<script src="../js/app/service/masterDataService.js"></script>
+
+<script src="../js/app/directives/BaseDirective.js"></script> 
+<script src="../js/app/userManagement/controller/userManagement.js"></script>
+<script src="../js/app/directives/validatorDirective.js"></script>
+<!-- custom scrollbar plugin --> 
+ <script src="../js/extLib/jquery.mCustomScrollbar.concat.min.js"></script>
+<!--error handling-->
+<script src="../js/extLib/stacktrace-0.5.0.min.js"></script>
+<script src="../js/app/error-handling.js"></script>
+
+</head>
+<body ng-app="valouxApp" ng-controller="BaseController">
+<header-loggedin></header-loggedin>
+<div class="graybox" ng-controller="userManagement" ng-cloak>
+
+  <div class="container">
+    <div class="row">
+      <div class="col s12">
+        <div class="page-header">
+          <h1 class="wow fadeInLeft animated">Edit Profile</h1>
+        </div>
+      </div>
+    </div>
+    <div class="row" ng-init="editConsumerForm()">
+      <div class="col s12">
+      <form autofocus-form name="editConsumerForm" ng-submit="editConsumerForm.$valid && editSubmitRegistration()" novalidate>
+        
+        <div class="whitebox1 whitebox1-padb" >
+        
+          <div class="box1">
+            <div class="row">
+            <div class="col m12 s12">
+            
+            <div class="error-msg" ng-if="registerFormError">
+            <div class="disp-cell">
+            <i class="fa fa-exclamation-triangle"></i>
+            </div> 
+            <div class="disp-cell">
+            <span>{{errorMessage}}</span>
+        </div>
+        </div>
+      
+       <div class="success-msg mt-10 mb-10" ng-if="registerFormSuccess">
+      <div class="disp-cell">
+      <i class="fa fa-exclamation-triangle"></i>
+      </div> 
+      <div class="disp-cell">
+      <span>{{successMessage}}</span>
+      </div>
+      <div class="clear"></div>
+      </div> 
+      
+      </div>
+              <div class="col m12 l4">
+
+              <div class="input-field">  <h6>YOUR INFORMATION</h6>
+                
+              </div> </div>
+              <div class="col m12 l8">
+                <div class="row">
+                  <div class="col s12">
+                    <div class="row">
+                      <div class="input-field col s4 full-width-sm">
+                        <input id="first_name" type="text" name="firstName" maxlength="50" ng-model="user.firstName" required>
+                        <label ng-class="class" for="first_name">First name <sup>*</sup></label>
+                        <label class="error" ng-show="editConsumerForm.$submitted  || (editConsumerForm.firstName.$dirty && editConsumerForm.firstName.$invalid)">
+                  <label class="error-msg-form" ng-show="editConsumerForm.firstName.$error.required">First name is required.</label>
+                  </label>
+                      </div>
+                      <div class="input-field col s4 full-width-sm">
+                        <input  maxlength="50" id="middle_name" type="text" name="middleName" ng-model="user.middleName">
+                        <label  ng-class="user.middleName?'active':''" for="middle_name">Middle name</label>
+                      </div>
+                      <div class="input-field col s4 full-width-sm">
+                        <input id="last_name" type="text" name="lastName" maxlength="50" ng-model="user.lastName" required>
+                        <label ng-class="class" for="last_name" >Last name <sup>*</sup></label>
+                         <label class="error" ng-show="editConsumerForm.$submitted  || (editConsumerForm.lastName.$dirty && editConsumerForm.lastName.$invalid)">
+                  <label class="error-msg-form" ng-show="editConsumerForm.lastName.$error.required">Last name is required.</label>
+                  </label>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <!-- <div class="input-field col s12">
+                        <input id="email" type="email" name="emailId" ng-model="emailId" readonly="readonly">
+                        <label ng-class="class" for="email">Email address </label>
+                        
+                      </div> -->
+
+                      <div class="input-field col s6 full-width-sm">
+                      <input id="email" maxlength="100" type="email" name="emailId" ng-model="emailId" readonly="readonly">
+                      <label ng-class="class" for="email">Email address <sup>*</sup></label>
+                    </div>
+                    <div class="input-field col s6 full-width-sm">
+                      <input id="mobile" type="text" name="mobilePhone" ng-model="mobilePhone" readonly="readonly">
+                      <label ng-class="class" for="mobile">Mobile phone <sup>*</sup></label>
+                    </div>
+                    
+                    <!-- <div class="input-field col s6 full-width-sm">
+                      <label class="label-7" for="State">Mobile phone </label>
+                      <div class="row">
+                        <div class="col s4 numb-place">
+                          <input id="country-code" type="text" class="validate" value="012" placeholder="">
+                        </div>
+                        <div class="col s8 numb-place">
+                          <input id="mobile-number" type="text" class="validate" value="3456789" placeholder="Enter mobile phone number">
+                        </div>
+                      </div>
+                    </div> -->
+                    </div>
+                    <!-- <div class="row">
+                      <div class="input-field col s12">
+                        <input id="mobile" type="text" name="mobilePhone" ng-model="mobilePhone" readonly="readonly">
+                        <label ng-class="class" for="mobile">Mobile phone </label>
+                        
+                  
+                      </div>
+                    </div> -->
+                    
+                    <div class="input-field col s12 full-width-sm">  
+                  <label class="label-7" for="Location">Location</label>
+                  <div class="clearfix"></div>
+                    
+                    <div class="row">
+                    <div class="col s12 numb-place">    
+                    <input name="userAddress" ng-model="userAddress" onFocus="geolocate()" id="location" type="text" maxlength="250">
+
+                    </div></div>
+                      </div>
+                      <div class="gray-accord" id="gray-address"><div class="row">
+                  <div class="col m12">   <div class="row">
+                  
+
+                      <div class="input-field col s6 full-width-sm">
+                       <input id="addressLine1" name="addressLine1" ng-model="storeData.addressLine1" ng-keyup="isGoogleAddress()" type="text" required maxlength="145">
+                        <label ng-class="class" for="addressLine1" class="">Address 1 <sup>*</sup></label>
+                        <label class="error" ng-show="editConsumerForm.$submitted  || (editConsumerForm.addressLine1.$dirty && editConsumerForm.addressLine1.$invalid)">
+                    <label class="error-msg-form" ng-show="editConsumerForm.addressLine1.$error.required">Address 1 is required.</label>
+                    </label>
+                        </div>
+
+                        <div class="input-field col s6 full-width-sm">
+                            <input id="addressLine2" ng-model="storeData.addressLine2" name="addressLine2"  type="text" maxlength="145">
+                        <label ng-class="class" for="addressLine2" class="">Apartment/Floor/Business </label>
+                        </div>
+                                      
+                    </div>
+                    </div>   <div class="col m12"><div class="row">
+                        <div class="input-field col s6 full-width-sm">
+                         <input id="city" ng-model="storeData.city" name="city" type="text" ng-keyup="isGoogleAddress()" required maxlength="30">
+                        <label ng-class="class" for="city" class="">City <sup>*</sup></label>
+                        <label class="error" ng-show="editConsumerForm.$submitted  || (editConsumerForm.city.$dirty && editConsumerForm.city.$invalid)">
+                    <label class="error-msg-form" ng-show="editConsumerForm.city.$error.required">City is required.</label>
+                    </label>
+                        </div>
+                            <div class="input-field col s6 full-width-sm">
+                         <input id="state" ng-model="storeData.state" name="state" type="text" ng-keyup="isGoogleAddress()" required maxlength="30">
+                        <label ng-class="class" for="state" class="">State <sup>*</sup></label>
+                        <label class="error" ng-show="editConsumerForm.$submitted  || (editConsumerForm.state.$dirty && editConsumerForm.state.$invalid)">
+                    <label class="error-msg-form" ng-show="editConsumerForm.state.$error.required">State is required.</label>
+                    </label>
+                        </div>
+                      </div>
+                      
+                      <div class="row">
+                      
+                        <div class="input-field col s6 full-width-sm">
+                         <input id="zipCode" ng-model="storeData.zipCode" name="zipCode" ng-keyup="isGoogleAddress()" type="text" required maxlength="12">
+                        <label ng-class="class" for="zipCode" class="">Zip <sup>*</sup></label>
+                        <label class="error" ng-show="editConsumerForm.$submitted  || (editConsumerForm.zipCode.$dirty && editConsumerForm.zipCode.$invalid)">
+                    <label class="error-msg-form" ng-show="editConsumerForm.zipCode.$error.required">Zip is required.</label>
+                    </label>
+                        </div>
+                            
+                        <div class="input-field col s6 full-width-sm">
+                        <input id="country" ng-model="storeData.country" name="country" ng-keyup="isGoogleAddress()" type="text" required maxlength="30">
+                        <label ng-class="class" for="country" class="">Country <sup>*</sup></label>
+                        <label class="error" ng-show="editConsumerForm.$submitted  || (editConsumerForm.country.$dirty && editConsumerForm.country.$invalid)">
+                    <label class="error-msg-form" ng-show="editConsumerForm.country.$error.required">Country is required.</label>
+                    </label>
+                        </div>
+                      </div></div>
+                    
+                      </div></div>
+                   
+                  </div>
+                </div>
+              </div>
+              
+              <!--Your information section  end here--> 
+              
+            </div>
+          </div>
+          <div class="box3 join-img-none">
+          <div class="box1 box1-mart">
+            <div class="row">
+             
+              <div class="col  m12 l4">
+                <h4>ABOUT YOU</h4>
+                <p class="para1">As we start to expand, we will begin to offer you more and more services as part of our offering. <br>
+                  <br>
+                  Feel free to provide any information you feel comfortable with and receive promotions, discounts, special events, and exclusives from Valoux and our partners!</p>
+              </div>
+              <div class="col m12 l8 s12">
+                <div class="row">
+                  <div class="col s12">
+                    <div class="row">
+                      <div class="input-field col s6 full-width-sm"> <span for="first_name">Gender</span>
+                        <div class="clearfix"></div>
+                        <div class="row radio-box">
+                          <div class="col s4">
+                            <p>
+                              <input ng-model="user.gender" value="1" name="group1" type="radio" id="male" />
+                              <label for="male">Male</label>
+                            </p>
+                          </div>
+                          <div class="col s8">
+                            <p>
+                              <input value="2" ng-model="user.gender" name="group1" type="radio" id="female" />
+                              <label for="female">Female </label>
+                            </p>
+                          </div>
+                          
+                        </div>
+                      </div>
+                      <div class="input-field col s6 full-width-sm"> <span for="first_name" class="head-birthday">Birthday</span> <div class="clearfix"></div>
+                        <!-- <datepicker id="datepicker" ng-model="user.birthday" name="birthday" class="validate inp-cal datepicker"/> -->
+                        <input name="birthday" id="datepicker" type="text" ng-model="birthday" class="inp-cal datepicker">
+                        <a id="datepickfocus" href="">&nbsp;</a>
+                        </div>
+                    </div>
+                      <div class="row" ng-init="initRegistrationConsumer()">
+                      <div class="input-field col s6 full-width-sm">
+                        <div class="input-field">
+                          <select name="maritalStatus" ng-model="user.maritalStatus" ng-options="maritalStatus.value as maritalStatus.name for maritalStatus in
+                          status_categories" id="maritalStatus">
+                            <option value="">Select</option>
+                            
+                          </select>
+                          <label class="label1">Marital Status</label>
+                        </div>
+                      </div>
+                      <div class="input-field col s6 full-width-sm">
+                        <div class="input-field">
+                          <select name="incomeRange" id="incomeRange" ng-model="user.incomeRange" ng-options="incomeRange.value as incomeRange.name for incomeRange in
+                          incomeRange_categories">
+                            <option value="">Select</option>
+                            
+                          </select>
+                          <label class="label1">Income Range ($)</label>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+
+                    <div class="row">
+                      <div class="input-field col s6 full-width-sm">
+                        <div class="input-field">
+                          <select id="jewelryPurchase" name="jewelryPurchase" ng-model="jewelryPurchase" ng-options="jewelryPurchase.value as jewelryPurchase.name for jewelryPurchase in
+                          jewelryPurchases">
+                            <option value="">Select</option>
+                          </select>
+                          <label class="label1">Jewelry Purchases</label>
+                        </div>
+                      </div>
+                      <div class="input-field col s6 full-width-sm">
+                        <div class="input-field">
+                          <select id="jewelryInsuranceType" name="jewelryInsuranceType" ng-model="jewelryInsuranceType" ng-options="jewelryInsuranceType.value as jewelryInsuranceType.name for jewelryInsuranceType in
+                          jewelryInsurance">
+                            <option value="">Select</option>
+                          </select>
+                          <label class="label1">Jewelry Insurance</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="input-field col s6 full-width-sm">
+                        <div class="input-field">
+                          <select id="jewelryServices" name="jewelryServices" ng-model="jewelryServices" ng-options="jewelryServices.value as jewelryServices.name for jewelryServices in
+                          jewelryService">
+                            <option value="">Select</option>
+                          </select>
+                          <label class="label1">Jewelry Service</label>
+                        </div>
+                      </div>
+                      <div class="input-field col s6 full-width-sm">
+                        <div class="input-field">
+                          <select id="jewelryDocumentations" name="jewelryDocumentations" ng-model="jewelryDocumentations" ng-options="jewelryDocumentations.value as jewelryDocumentations.name for jewelryDocumentations in
+                          jewelryDocumentation">
+                            <option value="">Select</option>
+                          </select>
+                          <label class="label1">Jewelry Documentation</label>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+                <!--Optional information section  start here--> 
+                
+              </div>
+            </div>
+          </div>
+          </div>
+          <div class="join-img">
+            <div class="box1">
+              <div class="row">
+                <div class="col m12 l4">
+                      <div class="input-field">    <h6>INTERESTED IN</h6>
+                  <p class="para2">Services you interested in? Check all that apply!</p></div>
+
+
+                </div>
+                <div class="col m12 l8 s12">
+                  <div class="row" ng-init="initInterestedIn()">
+                    <div class="col s12">
+                      <div class="row">
+                        <div class="input-field col s4 full-width-sm" ng-repeat="interestedIn in interestedIn" ng-cloak>
+                        <input type="checkbox" value="{{interestedIn.interestId}}" class="filled-in" name="interestedIn" id="{{'interest'+interestedIn.interestId}}" ng-checked="(user.interestedIn.indexOf({{interestedIn.interestId}}) > -1)" ng-model="interestedIn.selected" ng-click="interestedInConsumer(interestedIn)"/>
+                        <label for="{{'interest'+interestedIn.interestId}}">{{interestedIn.interest}}</label> 
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+<br>
+<br>
+              <div class="row" ng-init="initPersonalPrefrence()">
+                <div class="col m12 l4">
+                 <div class="input-field">   <h6>PERSONAL PREFERENCES</h6>
+                  <p class="para2">Please check one or more of the following:</p></div></div>
+                   <div class="col m12 l8 s12">     
+                    <!-- <div class="row">
+                        <div class="input-field col s4 full-width-sm" ng-repeat="personalPreferences in personalPreferences" ng-cloak>
+                        <input type="checkbox" ng-checked="(user.personalPreferences.indexOf({{personalPreferences.personalId}}) > -1)" value="{{personalPreferences.personalId}}" ng-model="personalPreferences.selected" name="personalPreferences" class="filled-in" id="{{'personal'+personalPreferences.personalId}}" ng-click="personalPref(personalPreferences)"/>
+                        <label for="{{'personal'+personalPreferences.personalId}}">{{personalPreferences.personalPreferences}}</label>
+                        </div>
+                    </div> -->
+
+                    <div class="row">
+                      <div class="input-field col s6 full-width-sm">
+                        <div class="input-field">
+                          <select id="jewelryTypes" class="select-dropdown2" name="jewelryTypes" ng-model="jewelryTypes" ng-options="jewelryTypes.personalId as jewelryTypes.personalPreferences for jewelryTypes in
+                          personalPreferencesJewelryTypes | filter:{ppType: 1}" multiple>
+                            
+                            <option value="" disabled>Select</option>
+                          </select>
+                          <label class="label1">Jewelry Types</label>
+                        </div>
+                      </div>
+                      <div class="input-field col s6 full-width-sm">
+                        <div class="input-field">
+                          <select class="select-dropdown2" id="jewelryDesign" name="jewelryDesign" ng-model="jewelryDesign" ng-options="jewelryDesign.personalId as jewelryDesign.personalPreferences for jewelryDesign in
+                          personalPreferencesJewelryDesign | filter:{ppType: 2}" multiple>
+                            <option value="" disabled>Select</option>
+                          </select>
+                          <label class="label1">Jewelry Design</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="input-field col s6 full-width-sm">
+                        <div class="input-field">
+                          <select class="select-dropdown2" id="jewelryStyle" name="jewelryStyle" ng-model="jewelryStyle" ng-options="jewelryStyle.personalId as jewelryStyle.personalPreferences for jewelryStyle in
+                          personalPreferencesJewelryStyle | filter:{ppType: 3}" multiple>
+                            <option value="" disabled>Select</option>
+                          </select>
+                          <label class="label1">Jewelry Style</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <br>
+
+
+
+                <div class="row">
+                  <div class="col m12 l4">
+                    <div class="input-field">
+                      <h6>JEWELRY COMPONENTS</h6>
+                      <p class="para2">Please check one or more of the following:</p>
+                    </div>
+                  </div>
+                  <div class="col m12 l8 s12">
+                    <div class="row">
+                      <div class="input-field col s6 full-width-sm">
+                        <div class="input-field">
+                        
+                          <select class="select-dropdown2"  id="metal" name="metal" ng-model="metal" ng-options="metal.value as metal.name for metal in metals" multiple>
+                            <option value="" disabled>Select</option>
+                          </select>
+                          <label class="label1">Metals</label>
+                        </div>
+                      </div>
+                      <div class="input-field col s6 full-width-sm">
+                        <div class="input-field">
+                          <select class="select-dropdown2"  id="gemstone" name="gemstone" ng-model="gemstone" ng-options="gemstone.value as gemstone.name for gemstone in gemstones" multiple>
+                            <option value="" disabled>Select</option>
+                          </select>
+                          <label class="label1">Gemstones</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="input-field col s6 full-width-sm">
+                        <div class="input-field">
+                          <select class="select-dropdown2"  id="diamond" name="diamond" ng-model="diamond" ng-options="diamond.value as diamond.name for diamond in diamonds" multiple>
+                            <option value="" disabled>Select</option>
+                          </select>
+                          <label class="label1">Diamonds</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>       
+            <div class="clearfix"></div>         
+          </div><div class="clearfix"></div>
+<br>
+<br>
+
+<div class="center footer-buttons">
+<a href="consumer-details.html" class="btn-large btn-default waves-effect waves-light">CANCEL</a> 
+          <button class="btn-large btn-large1 btn-large2 waves-effect waves-light" type="submit">UPDATE DETAILS</button>
+<!--          <a href="#modal-detail" class="btn-large btn-large1 btn-large2 waves-effect waves-light modal-trigger"></a>-->
+    
+
+</div>
+       
+            
+
+        
+
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="clearfix"></div>
+<footer-element></footer-element>
+
+<div class="loader-overlay" ng-show="fullPageBlockLoading" loading><span class="loader-inner">Processing<div class="clearfix"></div><img src="../img/loader-1.gif"></span></div>
+
+<!--  Scripts--> 
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyChSJaAZLMucDhIM_vJD4zSE474kwBPGHA&signed_in=false&libraries=places&callback=initAutocomplete" async defer></script> 
+<script src="../js/app/customJs/common.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+  $('select').material_select();
+
+  //datepicker for date of birth
+  $('.datepicker').pickadate({
+      max: new Date(),
+      selectMonths: true, // Creates a dropdown to control months
+      selectYears: 100,
+      format: 'mmmm d, yyyy',
+      onClose: function() {
+            $('#datepickfocus').focus();
+      }
+    });
+  
+});
+</script>
+
+</body>
+
+</html>

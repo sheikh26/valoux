@@ -1,0 +1,280 @@
+<!--component properties section starts-->
+<div id="metalPopup" class="MatModal-container" ng-init="" style="display: none;">
+  <div class="MatModal-inner"> <span class="MatRound"></span>
+    <div class="MatModal-content">
+      <div class="mid-con">
+        <div class="row component-head">
+          <div class="col s12 m5 l5 component-head-l">ADD COMPONENT PROPERTIES</div>
+          <div class="col s12 m7 l7 component-head-r">ITEM NAME
+              <div class="item-name">{{itemName}} - {{propertyItem.componentName}} <a href="javascript:void(0)" ng-click="closePropertyPopup()" target="_parent" class="close-btn2 waves-effect waves-light tooltipped" data-tooltip="CANCEL" data-delay="50" data-position="bottom"></a></div>
+          </div>
+        </div>
+        <div class="head-space">
+          <div class="row">
+            <div class="col s12 m3 l2 mobile-components-link">
+              <div class="sub-components-link">
+                <h6>SUB COMPONENTS</h6>
+                <ul class="tabs">
+                  <li class="tab"><a href="javascript:void(0);" ng-click="showPropertyTab(1);" ng-class="propertyTab.showProperty? 'active' :''"><span class="sub-component-icon6">&nbsp;</span><span class="link-txt">Metals</span></a></li>
+                  <li class="tab"><a href="javascript:void(0);" ng-click="showPropertyTab(2);" ng-class="propertyTab.showImages? 'active' :''"><span class="sub-component-icon2">&nbsp;</span><span class="link-txt">Photo</span></a></li>
+                  <li class="tab"><a href="javascript:void(0);" ng-click="showPropertyTab(3);" ng-class="propertyTab.showReceipt? 'active' :''"><span class="sub-component-icon3">&nbsp;</span><span class="link-txt">Receipt</span></a></li>
+                  <li class="tab"><a href="javascript:void(0);" ng-click="showPropertyTab(4);" ng-class="propertyTab.showCertificate? 'active' :''"><span class="sub-component-icon4">&nbsp;</span><span class="link-txt">Certificate</span></a></li>
+                </ul>
+                
+              </div>
+            </div>
+            <div class="col s12 m9 l10">
+              <div class="row">
+                  <div class="error-msg" ng-if="propertyFormError">
+                        <div class="disp-cell">
+                        <i class="fa fa-exclamation-triangle"></i>
+                        </div> 
+                        <div class="disp-cell">
+                        <span>{{propertyErrorMessage}}</span>
+                        </div>
+                    </div>
+      
+                    <div class="success-msg mt-10 mb-10" ng-if="propertyFormSuccess">
+                        <div class="disp-cell">
+                        <i class="fa fa-thumbs-o-up"></i>
+                        </div> 
+                        <div class="disp-cell">
+                        <span>{{propertySuccessMessage}}</span>
+                        </div>
+                        <div class="clear"></div>
+                   </div>
+                <div ng-show="propertyTab.showProperty" class="col s12 m12 l11 component-r-panel"> 
+                    <form autofocus-form name="metalForm" ng-submit="metalForm.$valid && addupdateItemComponentProperties()" novalidate>
+                  
+                  <div class="row row2-marb0">
+                    <div class="col s12 m6 l6">
+                      <div class="col-l1">
+                        <div class="row">
+                          <div class="input-field col s12 m12 l12">
+                              <select ng-model="propertyAttribute.metalsType" name="metalsType" ng-change="changeMatelType()" ng-options="metalTypeObj.value as metalTypeObj.name for metalTypeObj in metalType"  required>
+                              <option value="" >Select</option>
+                            </select>
+                            <label class="label-7">Type <sup>*</sup><img alt="" class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                            <label class="error" ng-show="metalForm.$submitted || (metalForm.metalsType.$dirty && metalForm.metalsType.$invalid)">
+                                <label class="error-msg-form" ng-show="metalForm.metalsType.$error.required">Type is required.</label>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                      <div class="col s12 m6 l6" ng-show="propertyAttribute.metalsType==1 || propertyAttribute.metalsType==2 || propertyAttribute.metalsType==3">
+                      <div class="col-r1">
+                          <div class="row">
+                          <div class="input-field col s12 m12 l12"> 
+                              <select id="matelPurityType" ng-model="propertyAttribute.purity" name="matelPurityType" ng-change="getMetalSpecifyPrice()" ng-options="purityTypeObj.value as purityTypeObj.name for purityTypeObj in purityType | filter: changeMatelTypePurity(propertyAttribute.metalsType)" ng-required="propertyAttribute.metalsType==1 || propertyAttribute.metalsType==2 || propertyAttribute.metalsType==3">
+                              <option value="" >Select</option>
+                            </select>
+                            <label class="label-7">Purity <sup>*</sup><img alt="" class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                            <label class="error" ng-show="metalForm.$submitted || (metalForm.metalsType.$dirty && metalForm.metalsType.$invalid)">
+                                <label class="error-msg-form" ng-show="metalForm.matelPurityType.$error.required">Purity is required.</label>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col s12 m6 l6" ng-show="propertyAttribute.metalsType==12">
+                      <div class="col-r1">
+                        <div class="input-field col s12">
+                            <input ng-class="propertyAttribute.typeSpecified?'active':''" ng-model="propertyAttribute.typeSpecified" ng-required="propertyAttribute.metalsType==12" id="Specified" name="metaltypeSpecified" type="text" maxlength="80">
+                            <label ng-class="propertyAttribute.typeSpecified?'active':''" for="Specified" class="label-7">Type – Specified <sup>*</sup><img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                            <label class="error" ng-show="metalForm.$submitted || (metalForm.metaltypeSpecified.$dirty && metalForm.metaltypeSpecified.$invalid)">
+                                <label class="error-msg-form" ng-show="metalForm.metaltypeSpecified.$error.required">Type specified is required.</label>
+                            </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row row2-marb0">
+                    <div class="col s12 m6 l6" ng-show="propertyAttribute.metalsType==1">
+                        <div class="col-l1">
+                          <div class="input-field col s12">
+                              <select ng-model="propertyAttribute.color" name="metalColor" id="metalColor"  ng-options="metalColorObj.value as metalColorObj.name for metalColorObj in metalColor" ng-required="propertyAttribute.metalsType==1">
+                                <option value="">Select</option>
+                            </select>
+                            <label class="label-7">Color <sup>*</sup><img src="../img/icon-info.jpg" class="icon-info tooltip tooltipstered"></label>
+                            <label class="error" ng-show="metalForm.$submitted || (metalForm.metalColor.$dirty && metalForm.metalColor.$invalid)">
+                                <label class="error-msg-form" ng-show="metalForm.metalColor.$error.required">Color is required.</label>
+                            </label>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="col s12 m6 l6">
+                      <div class="col-l1">
+                        <div class="row">
+                          <div class="input-field col s12 m12 l12">
+                              <input ng-class="propertyAttribute.weight?'active':''" ng-blur="getMetalSpecifyPrice()" ng-model="propertyAttribute.weight" name="metalWeight" id="metalWeight" type="text" limit-double5 ng-pattern="/^(([0-9]*)|(([0-9]*)\.([0-9]*)))$/" required maxlength="10">
+                            <label ng-class="propertyAttribute.weight?'active':''" for="metalWeight" class="label-7">Weight <sup>*</sup><sup class="sml-txt">(g)</sup><img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                            <label class="error" ng-show="metalForm.$submitted ||  metalForm.metalWeight.$touched || (metalForm.metalWeight.$dirty && metalForm.metalWeight.$invalid)">
+                                    <label class="error-msg-form" ng-show="metalForm.metalWeight.$error.pattern">Invalid Number.</label>
+                                    <label class="error-msg-form" ng-show="metalForm.metalWeight.$error.tooLong">Number too long.</label>
+                                    <label class="error-msg-form" ng-show="metalForm.metalWeight.$error.required">Weight is required.</label>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                       
+                       
+                   </div>
+                  <div class="row row2-marb0">
+                    <div class="col s12 m6 l6">
+                      <div class="col-l1">
+                           <div class="input-field col s12">
+                               <input ng-class="propertyAttribute.measurements?'active':''" ng-model="propertyAttribute.measurements" id="measurements" name="metalMeasurements" type="text" ng-pattern="/^([0-9 .xX]*)$/" maxlength="20">
+                          <label ng-class="propertyAttribute.measurements?'active':''" for="measurements" class="label-7 label-mart">Measurements <sup class="sml-txt">(l x w x d (mm))</sup><img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                          <label class="error" ng-show="metalForm.$submitted ||  metalForm.metalMeasurements.$touched || (metalForm.metalMeasurements.$dirty && metalForm.metalMeasurements.$invalid)">
+                                    <label class="error-msg-form" ng-show="metalForm.metalMeasurements.$error.pattern">Invalid Number.</label>
+                                    <label class="error-msg-form" ng-show="metalForm.metalMeasurements.$error.tooLong">Number too long.</label>
+                            </label>
+                        </div>
+                   
+                      </div>
+                    </div>
+                    
+                    
+                    <div class="col s12 m6 l6">
+                        <div class="col-l1">
+                        <div class="row">
+                          <div class="input-field col s12 m12 l12">
+                            <select ng-model="propertyAttribute.typeDetermined" ng-options="typeDeterminedObj.value as typeDeterminedObj.name for typeDeterminedObj in typeDetermined">
+                              <option value="" >Select</option>
+                            </select>
+                            <label class="label-7">Type Determined<img alt="" class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                          </div>
+                        </div>
+                      </div>
+                      
+                    </div>
+                  </div>
+                    <div class="row" ng-show="!isAgentLogin">
+                          <div class="col s12">
+                              <div class="component-price-main">
+                          <div class="component-price">
+                              <span class="head-8">Suggested Retail Price: {{propertyAttribute.priceProperty.marketValue | currency}} (per unit)</span>
+                          </div>
+                              </div>
+                          </div>
+                      </div>
+                    <div class="row" ng-show="isAgentLogin">
+                      <div class="col s12">
+                        <div class="component-price-main">
+                          <div class="component-price">
+                              <span class="head-8">Market Suggested Price: - ${{propertyAttribute.priceProperty.marketValue}} * {{propertyItem.componentQuantity}}qty = ${{(propertyAttribute.priceProperty.marketValue * propertyItem.componentQuantity)|number:2}}</span>
+                              <div class="clearfix"></div>
+                              <div class="row">
+                                  <div class="col s12 divider-row">&nbsp;</div>
+                                    
+                              </div>
+                            <div class="row row2-marb0 purchased-price">
+                              
+                              <div class="row">
+                                <div class="col s12 m6 l6">
+                                  <div class="col-l1"> <span class="head7">PRICE ADJUSTMENT</span>
+                                    <div class="row">
+<!--                                     <div class="col s2 select-dropdown3">
+                                        <select ng-model="propertyAttribute.priceProperty.generalPriceAdjustmentOperator" ng-options="masterAdjustmentOperatorObj.value as masterAdjustmentOperatorObj.name for masterAdjustmentOperatorObj in masterAdjustmentOperator">
+                                        </select>
+                                      </div>-->
+                                      <div class="col s6 select-dropdown3">
+                                          <input ng-model="propertyAttribute.priceProperty.generalPriceOperatorValue" name="metalGeneralPriceOperatorValue" ng-keyup="calculateFinalPrice()" ng-pattern="/^[-+]?[0-9]*\.?[0-9]?(\d{1,8})$/" type="text" placeholder="Amount" maxlength="10">
+                                        <label class="error" ng-show="diamondForm.$submitted ||  diamondForm.metalGeneralPriceOperatorValue.$touched || (diamondForm.metalGeneralPriceOperatorValue.$dirty && diamondForm.metalGeneralPriceOperatorValue.$invalid)">
+                                            <label class="error-msg-form" ng-show="diamondForm.metalGeneralPriceOperatorValue.$error.pattern">Invalid Amount.</label>
+                                        </label>
+                                      </div>
+                                      <div class="col s6">
+                                        <select ng-model="propertyAttribute.priceProperty.generalPriceAdjustmentType" ng-change="calculateFinalPrice();"  ng-options="masterAdjustmentTypeObj.value as masterAdjustmentTypeObj.name for masterAdjustmentTypeObj in masterAdjustmentType">
+                                        </select>
+                                      </div>
+                                    </div>
+                                    <label class="label1 head6">Notes <span class="note-txt">(optional)</span></label>
+                                    <div class="row">
+                                      <div class="col s12 col-pdnone">
+                                        <textarea ng-model="propertyAttribute.priceProperty.generalPriceAdjustmentNotes" class="materialize-textarea textarea-2" placeholder="Enter here"></textarea>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col s12 m6 l6 brand-adjust-con">
+                                  <div class="col-r1"> <span class="head7">BRAND ADJUSTMENT</span>
+                                    <div class="row">
+<!--                                      <div class="col s2 select-dropdown3">
+                                        <select ng-model="propertyAttribute.priceProperty.brandPriceAdjustmentOperator" ng-options="masterAdjustmentOperatorObj.value as masterAdjustmentOperatorObj.name for masterAdjustmentOperatorObj in masterAdjustmentOperator">
+
+                                        </select>
+                                      </div>-->
+                                      <div class="col s6 select-dropdown3">
+                                          <input type="text" ng-model="propertyAttribute.priceProperty.brandPriceOperatorValue" name="metalBrandPriceOperatorValue" ng-keyup="calculateFinalPrice()" ng-pattern="/^[-+]?[0-9]*\.?[0-9]?(\d{1,8})$/" placeholder="Amount" maxlength="10">
+                                          <label class="error" ng-show="diamondForm.$submitted ||  diamondForm.metalBrandPriceOperatorValue.$touched || (diamondForm.metalBrandPriceOperatorValue.$dirty && diamondForm.metalBrandPriceOperatorValue.$invalid)">
+                                            <label class="error-msg-form" ng-show="diamondForm.metalBrandPriceOperatorValue.$error.pattern">Invalid Amount.</label>
+                                        </label>
+                                      </div>
+                                      <div class="col s6">
+                                        <select ng-model="propertyAttribute.priceProperty.brandPriceAdjustmentType" ng-change="calculateFinalPrice();"  ng-options="masterAdjustmentTypeObj.value as masterAdjustmentTypeObj.name for masterAdjustmentTypeObj in masterAdjustmentType">
+                                        </select>
+                                      </div>
+                                    </div>
+                                    <label class="label1 head6">Notes <span class="note-txt">(optional)</span></label>
+                                    <div class="row">
+                                      <div class="col s12 col-pdnone">
+                                        <textarea ng-model="propertyAttribute.priceProperty.brandPriceAdjustmentNotes" class="materialize-textarea textarea-2" placeholder="Enter here"></textarea>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="clearfix"></div>
+                              <div class="col s12 m6 l6">
+                                <div class="col-l1">
+                                    <strong>Purchased price <img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></strong>
+                                    <input ng-model="propertyAttribute.priceProperty.purchasePrice" name="metalPurchasedPrice" ng-change="calculateFinalPrice();" id="metalPurchasedPrice" type="text" class="active" ng-pattern="/^(([0-9]*)|(([0-9]*)\.([0-9]*)))$/" maxlength="15">
+                                    <label class="error" ng-show="metalForm.$submitted ||  metalForm.metalPurchasedPrice.$touched || (metalForm.metalPurchasedPrice.$dirty && metalForm.metalPurchasedPrice.$invalid)">
+                                        <label class="error-msg-form" ng-show="metalForm.metalPurchasedPrice.$error.pattern">Invalid Number.</label>
+                                    </label>
+                                </div>
+                              </div>
+<!--                              <div class="col s12 m6 l6">
+                                  <div class="col-l1"> 
+                                      <strong>Market Value</strong>
+                                  <input type="text" ng-model="propertyAttribute.priceProperty.marketValue">
+                                </div>
+                              </div>-->
+                            </div>
+                            <div class="row">
+                              <div class="col s12">
+                                <div class="component-price-foot">
+                                  <div class="row">
+                                    <div class="col s12 final-price">
+                                        <button type="submit" class="ok-btn2 waves-effect waves-light tooltipped pull-right" data-tooltip="SUBMIT" data-delay="50" data-position="top"><img src="../img/icon-ok1.png"/></button>
+<!--                                        <a href="item-added-successfully.html" target="_parent" class="ok-btn2 waves-effect waves-light tooltipped pull-right" data-tooltip="SUBMIT" data-delay="50" data-position="top">
+                                            <img src="../img/icon-ok2.png"/></a> -->
+                                        Final Price <span class="price-txt">${{propertyAttribute.priceProperty.finalPrice}} * {{propertyItem.componentQuantity}}qty = ${{(propertyAttribute.priceProperty.finalPrice * propertyItem.componentQuantity)|number:2}}</span> 
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  <div class="center" ng-if="!isAgentLogin">
+                        <button type="submit" class="ok-btn2 waves-effect waves-light tooltipped" data-tooltip="SUBMIT" data-delay="50" data-position="top"><img src="../img/icon-ok1.png"/></button>
+<!--                        <a href="item-added-successfully.html" target="_parent" class="ok-btn2 waves-effect waves-light tooltipped" data-tooltip="SUBMIT" data-delay="50" data-position="top"><img src="../img/icon-ok2.png"/></a>-->
+                    </div>
+               </form>
+                </div>
+                <!--component-tab ends--> 
+                 <div ng-include="'include/property-uploader.html'"></div>
+              </div>
+            </div>
+          </div>
+        </div></div>
+    </div>
+  </div>
+</div>
+<!--component properties section ends-->

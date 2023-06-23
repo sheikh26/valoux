@@ -1,0 +1,64 @@
+button.btn-large2 {padding: 0rem 3.5rem !important;}
+button.btn-large1{  background: #ff6100 none repeat scroll 0 0; border-radius: 2px; box-shadow: none; color: #fff; font-family: "Montserrat-Regular"; font-size: 1.125rem; font-weight: bold; margin: 0.5rem 5px 0; padding: 0rem 2rem; text-transform: none;}
+button.btn-large1:hover{ background:#FF6100; box-shadow: 0 0 0 1px rgba(255,255,255,1), 0 0 0 3px #FF6100;}
+#map{width:230px;height:180px;}
+.error{left: 0 !important; top: 2.3rem !important; width: 100% !important;}
+.error-msg-form { line-height: 14px;    margin-top: 2px; color: #f44336 !important; font-size: 12px !important; font-weight: 600 !important; text-transform: initial !important;}
+.error.select-error .error-msg-form { left:0px;}
+.error.txtarea-error { margin-top:-15px;}
+.error-msg-form2{margin-top: 9px !important;}
+.modal .modal-footer .btn1 {border: none;}
+a.not-found{z-index: 1;}
+.plus-icon-grid{top: -40px !important; }
+.margin-row{margin-bottom: 35px;}
+.loader-overlay { position: fixed; top:0; left:0; background-image:url(../img/loader-overlay-bg.png); width:100%; height:100%; z-index:999999;}
+.loader-inner { position:fixed; top:50%; left:50%; background-color:#fff; padding:15px 30px 20px 30px;
+
+-webkit-box-shadow: 0 0 30px 10px #ccc;
+box-shadow: 0 0 30px 10px #ccc;
+margin-left:-115px;
+margin-top:-30px;
+border-radius:10px; -moz-border-radius:10px; -webkit-border-radius:10px;
+color:#4A708E; font-size:16px; text-align:center;
+} 
+.pac-logo{ z-index: 1 !important;}
+.footer-active ul > .active > a{ background-image: none;color: #ff6100 !important;}
+.loader-inner img { display:block; margin-top:15px;}
+.loader-overlay { position: fixed; top:0; left:0; background-image:url(../img/loader-overlay-bg.png); width:100%; height:100%; z-index:999999;}
+input[type="text"]:focus:not([readonly]), input[type="password"]:focus:not([readonly]), input[type="email"]:focus:not([readonly]), input[type="url"]:focus:not([readonly]), input[type="time"]:focus:not([readonly]), input[type="date"]:focus:not([readonly]), input[type="datetime-local"]:focus:not([readonly]), input[type="tel"]:focus:not([readonly]), input[type="number"]:focus:not([readonly]),  textarea.materialize-textarea:focus:not([readonly]){ border-bottom:2px solid #293249 !important;box-shadow:none !important;}
+input.invalid[type="text"], input.invalid[type="text"]:focus, input.invalid[type="password"], input.invalid[type="password"]:focus, input.invalid[type="email"], input.invalid[type="email"]:focus, input.invalid[type="url"], input.invalid[type="url"]:focus, input.invalid[type="time"], input.invalid[type="time"]:focus, input.invalid[type="date"], input.invalid[type="date"]:focus, input.invalid[type="datetime-local"], input.invalid[type="datetime-local"]:focus, input.invalid[type="tel"], input.invalid[type="tel"]:focus, input.invalid[type="number"], input.invalid[type="number"]:focus,  textarea.materialize-textarea.invalid, textarea.materialize-textarea.invalid:focus{ /*border-bottom:none !important;*/box-shadow: none !important;}
+input.ng-valid[type="text"], input.ng-valid[type="text"]:focus, input.ng-valid[type="password"], input.ng-valid[type="password"]:focus, input.ng-valid[type="email"], input.ng-valid[type="email"]:focus, input.ng-valid[type="url"], input.ng-valid[type="url"]:focus, input.ng-valid[type="time"], input.ng-valid[type="time"]:focus, input.ng-valid[type="date"], input.ng-valid[type="date"]:focus, input.ng-valid[type="datetime-local"], input.ng-valid[type="datetime-local"]:focus, input.ng-valid[type="tel"], input.ng-valid[type="tel"]:focus, input.ng-valid[type="number"], input.ng-valid[type="number"]:focus, textarea.materialize-textarea.ng-valid, textarea.materialize-textarea.ng-valid:focus{ border-bottom:2px solid #4caf50 !important;}
+input.ng-invalid[type="text"], input.ng-invalid[type="text"]:focus, input.ng-invalid[type="password"], input.ng-invalid[type="password"]:focus, input.ng-invalid[type="email"], input.ng-invalid[type="email"]:focus, input.ng-invalid[type="url"], input.ng-invalid[type="url"]:focus, input.ng-invalid[type="time"], input.ng-invalid[type="time"]:focus, input.ng-invalid[type="date"], input.ng-invalid[type="date"]:focus, input.ng-invalid[type="datetime-local"], input.ng-invalid[type="datetime-local"]:focus, input.ng-invalid[type="tel"], input.ng-invalid[type="tel"]:focus, input.ng-invalid[type="number"], input.ng-invalid[type="number"]:focus,  textarea.materialize-textarea.ng-invalid, textarea.materialize-textarea.ng-invalid:focus{ border-bottom:2px solid #f44336 !important;}
+input.ng-pristine[type="text"], input.ng-pristine[type="password"], input.ng-pristine[type="email"], input.ng-pristine[type="url"], input.ng-pristine[type="time"], input.ng-pristine[type="date"], input.ng-pristine[type="datetime-local"], input.ng-pristine[type="tel"], input.ng-pristine[type="number"], textarea.materialize-textarea.ng-pristine{  border-bottom:1px solid #9e9e9e !important;}
+//.select-wrapper span.caret ~ input.select-dropdown{ border-bottom:1px solid red !important;}
+//.select-wrapper select.ng-invalid ~ input.select-dropdown{ border-bottom:1px solid red !important;}
+.select-wrapper input.select-dropdown ~ select.ng-invalid { border-bottom:1px solid red !important;}
+.delete-icon { margin-top:15px; display:inline-block;}
+.row.input-field.label10 { margin-bottom:-20px;}
+/*.hide{display: none}*/
+.location_disable{ opacity: .5;}
+button:focus {
+    background-color: #e85700 !important;
+    color: #fff !important;
+    outline: medium none;
+}
+input[type="text"]:focus:not([readonly]) + label, input[type="password"]:focus:not([readonly]) + label, input[type="email"]:focus:not([readonly]) + label, input[type="url"]:focus:not([readonly]) + label, input[type="time"]:focus:not([readonly]) + label, input[type="date"]:focus:not([readonly]) + label, input[type="datetime-local"]:focus:not([readonly]) + label, input[type="tel"]:focus:not([readonly]) + label, input[type="number"]:focus:not([readonly]) + label, input[type="search"]:focus:not([readonly]) + label, textarea.materialize-textarea:focus:not([readonly]) + label
+{ color:#666666;}
+.sponsor-ad img { height:142px;}
+
+@media (max-width: 767px) {
+	button.btn-large1{margin: 0rem 5px 0rem;  vertical-align: bottom;}
+}
+@media (max-width: 700px) {
+.pad-top2.padded-row { padding-top:25px;}
+}
+@media (max-width: 479px) {
+.pad-top2.padded-row { padding-top:40px;}
+.error-msg-form{ float: left;font-size: 11px !important;line-height: 13px;}
+.error-reset1 {margin-top: 31px;}
+button.btn-large1{width: 100%;   margin: 10px 0px 0px;}
+button.btn-large2 {   width: 90%;padding: 0rem !important;  margin: 5px 0px 0px;}
+}
+@media (max-width: 320px) {
+    .btn-foot-con button.btn-large1 { padding-left:10px; padding-right:10px; margin-top:0px;}
+}

@@ -1,0 +1,320 @@
+<div class="header-collection">&nbsp;</div>
+<div class="clearfix"></div>
+<div class="graybox graybox-padt0" ng-cloak>
+<div class="container container-collection" ng-init="collectionsDetail()">
+    <div class="row">
+      <div class="col s12">
+        <div class="page-header">
+          <h6 class="pull-left">COLLECTION DETAIL </h6>
+          <div class="rightbox rightbox4">
+            <div class="view-list" ng-if="isAgentLogin" ng-init="initConsumerInformation()">
+              <div class="searchbox-left searchbox-left1"><i class="txt13">View items by:</i>
+              <select id="viewedItemsBy" ng-change="storeConsumerInfoDropdown(viewItemBy)" name="viewItemsBy" ng-model="viewItemBy" ng-options="viewItemsBy.consumerPublicKey as (viewItemsBy.firstName + ' ' + viewItemsBy.middleName + ' ' + viewItemsBy.lastName) for viewItemsBy in viewByConsumer">
+              <option value="">Consumer name</option>
+              </select>
+            <a data-position="bottom" data-delay="50" data-tooltip="Invite new consumer &amp; add a collection." class="user tooltipped" href="javascript:;" ng-click="inviteNewConsumerAgent()" data-tooltip-id="15eadc9e-637d-0dde-bcc6-563b27ddd274"><i aria-hidden="true" class="fa fa-user-plus"></i></a>
+            </div>
+            </div>
+          <span>
+          <a ng-if="!isAgentLogin" target="_self" href="collection.html"><img src="../img/icon-listing.png" alt=""/> LISTING </a>
+          <a ng-if="isAgentLogin" target="_self" href="collection-agent.html"><img src="../img/icon-listing.png" alt=""/> LISTING </a>
+          </span>  <span><!-- <a href="javascript:;"><img src="../img/arrow-previous.png" alt=""/> PREVIOUS</a></span> <a href="javascript:;">NEXT <img src="../img/arrow-next.png" alt=""/></a> --></div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s12">
+        <div class="whitebox1 whitebox1-nopad">
+        <div class="header-bg-1 margbtn0" ng-if="agentHeaderEnable">
+        <!-- <a data-tooltip="Add New Item" data-delay="50" data-position="bottom" class="icon-big-plus waves-effect waves-light tooltipped" href="collection-agent.html#/add"><img alt="" src="../img/icon-plus-big.png"></a> -->
+            <div class="agent-left-con">
+        <div class="pic-con2"><img fallback-src="../img/profile-pic-default.jpg" ng-src="../valoximage/consumerimageuploaded/{{consumerList.imageUrl}}" alt=""></div>
+        
+        <span>{{consumerList.firstName}}  {{consumerList.middleName}} {{consumerList.lastName}}</span> 
+        </div>
+        
+        <a class="back-btn2" href="collection-agent.html#/"><img src="../img/arrow-previous.png" alt="">Back</a>
+      </div>
+
+
+          <div class="row">
+            <div class="col m12 l12">
+              <div class="card-panel card-panel3 card-panel3-box-shadow">
+                <div class="row">
+                  <div class="col s12 m3 l3">
+
+                    <div class="img-box2"> <img fallback-src="../img/not-found-collection.jpg"  ng-src="../valoximage/imageuploaded/{{storeCollection.cImages[0].imageUrl}}" alt=""/> </div>
+                  </div>
+                  <div class="col m6 l6 s12">
+                    <div class="card-content"> <span class="card-title">{{storeCollection.cName}} <!--<a href="javascript:;" class="heart tooltipped" data-position="bottom" data-delay="50" data-tooltip="Favorite" data-tooltip-id="a692dac5-310a-2e68-7547-8d453dc46794">&nbsp;</a>-->
+                      <div class="clearfix"></div>
+                      <small>ID#  {{storeCollection.cId}}</small></span>
+                      <div class="card-para"><p ng-bind-html="storeCollection.cDescription | newLine"></p></div>
+                      <div class="row-grey-gradient" ng-if="storeCollection.cStatus == 3 || isAgentLogin">
+                        <div class="grey-gradient">
+                          <ul>
+                              <li ng-if="storeCollection.cStatus == 3">
+                              <label>Collection Value</label>
+                              ${{storeCollection.appraisedValue | number:2}}
+                            </li>
+                            <li ng-if="storeCollection.cStatus!= 3">
+                              <label>Collection Value</label>
+                              ${{storeCollection.finalPrice | number:2}}
+                            </li>
+                            <li>
+                              <label>Market Value</label>
+                              ${{storeCollection.marketValue | number:2}}
+                              <small>{{storeCollection.marketValueDate | marketDateFormat}} <i ng-if="storeCollection.marketValueDate">at</i> {{storeCollection.marketValueDate | marketTimeFormat}}</small></li>
+                            <li ng-if="storeCollection.cStatus == 3"> <label>Change</label>
+                            <span ng-if="storeCollection.priceChange == 3">{{storeCollection.changePercentage | number:2}}% </span> 
+                              <span class="green-text" ng-if="storeCollection.priceChange == 1">{{storeCollection.changePercentage | number:2}}% <i class="fa fa-sort-asc"></i></span> 
+                          <span class="red-text" ng-if="storeCollection.priceChange == 2">{{storeCollection.changePercentage | number:2}}% <i class="fa fa-sort-desc"></i></span> 
+                            </li>
+                            
+                            <li ng-if="storeCollection.cStatus == 3">
+                              <label>Last Appraised</label>
+                              <span ng-if="storeCollection.lastAppraisedDate">{{storeCollection.lastAppraisedDate | myDateFormat}}</span>
+                              <span ng-if="!storeCollection.lastAppraisedDate">--</span> <img class="img2" alt="" src="../img/ribbon.png"></li>
+                            <!-- <li><span class="green-label">+50%</span></li>-->
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col s12 m3 l3">
+				  
+                    <div class="card-panel3-box-shadow-right" ng-show="storeCollection.consumerPublicKey == userKey || isAgentLogin" >
+                      <div class="collection-icons">
+                        <ul class="collection">
+                          <li ng-if="isAgentLogin && storeCollection.appraisalFlag" class="collection-item"><span class="disp-cell"><img src="../img/icon-appraisal.png" alt=""></span> <span class="disp-cell"><a href="javascript:;" ng-click="addAppraisalInCollection(storeCollection.cId, button, storeCollection.consumerPublicKey)" class="">ADD TO APPRAISAL</a></span></li>
+                          <li ng-if="!isAgentLogin" class="collection-item"><span class="disp-cell"><img src="../img/icon-appraisal.png" alt=""></span> <span class="disp-cell"><a href="javascript:;" ng-click="addAppraisalInCollection(storeCollection.cId, button, storeCollection.consumerPublicKey)" class="">ADD TO APPRAISAL</a></span></li>
+                          <li ng-hide="storeCollection.cStatus == 3" ng-if="isAgentLogin && storeCollection.itemFlag" class="collection-item"><span class="disp-cell"><img src="../img/icon-add-component.png" alt=""></span> <span class="disp-cell"><a ng-click="collectionAddItem(storeCollection.cId, viewItemBy)" href="javascript:;" class="">ADD NEW ITEMS</a></span></li>
+                          <li ng-hide="storeCollection.cStatus == 3" ng-if="!isAgentLogin" class="collection-item"><span class="disp-cell"><img src="../img/icon-add-component.png" alt=""></span> <span class="disp-cell"><a ng-click="collectionAddItem(storeCollection.cId, viewItemBy)" href="javascript:;" class="">ADD NEW ITEMS</a></span></li>
+                          <li ng-hide="storeCollection.cStatus == 3" ng-if="!isAgentLogin" class="collection-item"><span class="disp-cell"><img src="../img/icon-edit.png" alt=""></span> <span class="disp-cell"><a href="collection.html#/edit/{{storeCollection.cId}}">EDIT COLLECTION</a></span></li>
+
+                          <li ng-hide="storeCollection.cStatus == 3" ng-if="!isAgentLogin" class="collection-item"><span class="disp-cell"><img src="../img/ico-delete.png" alt=""></span> <span class="disp-cell"><a href="javascript:;" ng-click="deleteCollectionByDetails(storeCollection.cId,'')">DELETE COLLECTION</a></span></li>
+
+                          <li ng-hide="storeCollection.cStatus == 3" ng-if="isAgentLogin" class="collection-item"><span class="disp-cell"><img src="../img/icon-edit.png" alt=""></span> <span class="disp-cell"><a href="collection-agent.html#/edit/{{storeCollection.cId}}">EDIT COLLECTION</a></span></li>
+                          <li ng-hide="storeCollection.cStatus == 3" ng-if="isAgentLogin" class="collection-item"><span class="disp-cell"><img src="../img/ico-delete.png" alt=""></span> <span class="disp-cell"><a href="javascript:;" ng-click="deleteCollectionByDetails(storeCollection.cId,storeCollection.consumerPublicKey)">DELETE COLLECTION</a></span></li>
+
+                          <li ng-if="!isAgentLogin" class="collection-item"><span class="disp-cell"><img alt="" src="../img/icon-share.png"></span> <span class="disp-cell"><a class=""  href="javascript:;" ng-click="setShareId(storeCollection.cId,2)">SHARE </a></span></li>
+                          <!--<li ng-if="!isAgentLogin" class="collection-item"><span class="disp-cell"><img alt="" src="../img/icon-share-with.png"></span> <span class="disp-cell"><a class="" href="javascript:;">SHARED WITH <big>0</big></a></span> </li>-->
+                        </ul>
+                      </div>
+                       <div class="collection-icons-xs">
+                        <ul class="collection border-left" ng-show="storeCollection.consumerPublicKey == userKey || isAgentLogin">
+
+                          <li ng-if="isAgentLogin && storeCollection.appraisalFlag" class="collection-item"><span class="disp-cell"><a class="tooltipped modal-trigger" data-position="bottom" data-delay="50" data-tooltip="ADD TO APPRAISAL" ng-click="addAppraisalInCollection(storeCollection.cId, button, storeCollection.consumerPublicKey)" href="javascript:;"><img src="../img/icon-appraisal.png" alt=""></a></span> </li>
+
+                          <li ng-if="!isAgentLogin && storeCollection.appraisalFlag" class="collection-item"><span class="disp-cell"><a class="tooltipped modal-trigger" data-position="bottom" data-delay="50" data-tooltip="ADD TO APPRAISAL" ng-click="addAppraisalInCollection(storeCollection.cId, button, storeCollection.consumerPublicKey)" href="javascript:;"><img src="../img/icon-appraisal.png" alt=""></a></span> </li>
+
+                          <li ng-hide="storeCollection.cStatus == 3" ng-if="!isAgentLogin || storeCollection.itemFlag" class="collection-item"><span class="disp-cell"><a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="ADD NEW ITEMS" ng-click="collectionAddItem(storeCollection.cId, viewItemBy)" href="javascript:;"><img src="../img/icon-add-component.png" alt=""></a></span></li>
+
+
+                          <li ng-hide="storeCollection.cStatus == 3" ng-if="isAgentLogin" class="collection-item"><span class="disp-cell"><a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="EDIT COLLECTION" href="collection.html#/edit/{{storeCollection.cId}}"><img src="../img/icon-edit.png" alt=""></a></span> </li>
+
+
+                          <li ng-hide="storeCollection.cStatus == 3" ng-if="!isAgentLogin" class="collection-item"><span class="disp-cell"><a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="EDIT COLLECTION" href="collection.html#/edit/{{storeCollection.cId}}"><img src="../img/icon-edit.png" alt=""></a></span> </li>
+
+                          <li ng-hide="storeCollection.cStatus == 3" ng-if="!isAgentLogin" class="collection-item"><span class="disp-cell"><a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="DELETE COLLECTION" href="javascript:;" ng-click="deleteCollectionByDetails(storeCollection.cId,'')"><img src="../img/ico-delete.png" alt=""></a></span> </li>
+
+                          <li ng-hide="storeCollection.cStatus == 3" ng-if="isAgentLogin" class="collection-item"><span class="disp-cell"><a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="DELETE COLLECTION" href="javascript:;" ng-click="deleteCollectionByDetails(storeCollection.cId,storeCollection.consumerPublicKey)"><img src="../img/ico-delete.png" alt=""></a></span> </li>
+                          <!-- <li ng-if="isAgentLogin" class="collection-item"><span class="disp-cell"><a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="EDIT COLLECTION" href="collection-agent.html#/edit/{{storeCollection.cId}}"><img src="../img/icon-edit.png" alt=""></a></span> </li> -->
+
+                          <li ng-if="!isAgentLogin" class="collection-item"><span class="disp-cell"><a class="tooltipped " data-position="bottom" data-delay="50" ng-click="setShareId(storeCollection.cId,2)" data-tooltip="SHARE" href="javascript:;"><img alt="" src="../img/icon-share.png"></a></span> </li>
+                          <!-- <li class="collection-item"><span class="disp-cell"><a class="tooltipped modal-trigger" data-position="bottom" data-delay="50" data-tooltip="SHARED WITH" href="#modal-sharewith"><img alt="" src="img/icon-share-with.png"></a></span> </li> -->
+                        </ul>
+                      </div> 
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="box2 box4">
+            <div class="modal-header">
+            <h4 class="no-data1" ng-if="noItem">ITEM LIST</h4>
+              <h4 ng-if="!noItem">ITEM LIST <span class="small-sub-head">- You have added <b>{{itemDetails.length || 0}}</b> items to this collection.</span> </h4>
+              <div ng-show="storeCollection.consumerPublicKey == userKey || isAgentLogin">
+              <a ng-hide="storeCollection.cStatus == 3"  ng-click="collectionAddItem(storeCollection.cId, viewItemBy)" class="icon-big-plus tooltipped" data-tooltip="Add New Item" data-delay="50" data-position="bottom" href="javascript:;"><img alt="" src="../img/icon-plus-big.png"></a></div> </div>
+
+            <div class="box4-content">
+            <div ng-if="noItem">
+              <div id="demo">
+            <ul>
+              <li>
+                <div class="row">
+                  <div class="col m12 l12 s12">
+                    
+                      <div class="dashboard-nodata-wrap no-data detail-noitem">
+           <label>NO JEWELRY ITEM AVAILABLE</label>
+              <!--   <p>  
+             You have not added any Jewelry Item yet  <br>
+please click below to add new Item.
+</p> -->
+<!-- <a href="javascript:;" ng-click="collectionAddItem(storeCollection.cId)" class="btn3">Add Item</a> -->
+
+</div>
+                      
+                    
+                  </div>
+                </div>
+              </li>
+
+            </ul>
+          </div>
+            </div>
+              <div class="modal-content mCustomScrollbar itembox1-scroll3" ng-show="getItemList">
+                
+                <div class="row your-items-list" ng-repeat="itemDetail in itemDetails">
+                    <div class="welcomebox" ng-show="itemDetail.consumerPublicKey == userKey || isAgentLogin"><a ng-hide="storeCollection.cStatus == 3" class="trash-btn tooltipped" data-tooltip="Delete" data-delay="50" data-position="bottom" ng-click="removeItemCollectionsDetail(storeCollection.cId, itemDetail.itemId, $index)"  href="javascript:;"><img alt="" src="../img/icon-trash.jpg"></a></div>
+                             <div class="col m2  s12">
+                    <div class="img-con1"><img fallback-src="../img/not-found-item.jpg"  ng-src="../valoximage/imageuploaded/{{itemDetail.itemImages[0].itemImagePath}}" alt=""/></div>
+                  </div>
+                  <div class="col m6 l6 s12"><span class="title1">
+
+                  <a ng-if="isAgentLogin" href="item-agent.html#/detail/{{itemDetail.itemId}}">{{itemDetail.name | limitTo: 40 }} {{itemDetail.name.length < 40 ? '' : '...'}}</a> 
+                  <a ng-if="!isAgentLogin" href="item.html#/detail/{{itemDetail.itemId}}">{{itemDetail.name | limitTo: 40 }} {{itemDetail.name.length < 40 ? '' : '...'}}</a> 
+                  <!--<a data-tooltip="Favorite" data-delay="50" data-position="bottom" class="heart tooltipped" href="javascript:;">&nbsp;</a>-->&nbsp;<small>ID#  {{itemDetail.itemId}}</small></span>
+                    <p>{{itemDetail.sdescription | limitTo: 200 }} {{itemDetail.sdescription.length < 200 ? '' : '...'}}</p>
+                    
+                  </div>
+                  <div class="col m4 l4  s12" ng-if="itemDetail.itemStatus == 3 || isAgentLogin">
+                 
+                    <div class="grey-gradient">
+                      <ul>
+                        <li ng-if="itemDetail.itemStatus == 3">
+                          <label>Appraised Value</label>
+                          <span>${{itemDetail.appraisedValue | number:2}}</span>
+                          
+                          </li>
+                          <li ng-if="itemDetail.itemStatus != 3">
+                          <label>Final Price</label>
+                          <span>${{itemDetail.finalPrice | number:2}}</span>
+                          
+                          </li>
+                          
+                          <li ng-if="itemDetail.itemStatus != 3">
+                          <label>Market Value</label>
+                          <span>${{itemDetail.marketValue | number:2}}</span>
+                          
+                          </li>
+                        <li ng-if="itemDetail.itemStatus == 3"> <label>Change</label>
+                        <span  ng-if="itemDetail.priceChange == 3">{{itemDetail.changePercentage | number:2}}%</span> 
+                        <span class="red-text" ng-if="itemDetail.priceChange == 2">{{itemDetail.changePercentage | number:2}}% <i class="fa fa-sort-desc"></i></span> 
+                          <span class="green-text" ng-if="itemDetail.priceChange == 1">{{itemDetail.changePercentage | number:2}}% <i class="fa fa-sort-asc"></i></span> </li>
+                      </ul>
+                    </div> 
+                      
+                     
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+             <div class="modal-header">
+              <h4 class="no-data1" ng-show="appraisalListInCollectiondetails.length == 0">APPRAISAL LIST <!-- <span class="small-sub-head">- Collection is associated with  <b>0</b> appraisals.</span> --> </h4>
+              <h4 class="no-data1" ng-show="appraisalListInCollectiondetails.length > 0">APPRAISAL LIST  <span class="small-sub-head">- Collection is associated with  <b>{{appraisalListInCollectiondetails.length}}</b> appraisals.</span> </h4>
+              <div ng-show="storeCollection.consumerPublicKey == userKey || isAgentLogin">
+              <a ng-hide="storeCollection.cStatus == 3" class="icon-big-plus tooltipped" data-tooltip="Add New Appraisal" data-delay="50" data-position="bottom" href="javascript:;" ng-click="addAppraisalInCollectionDetail(storeCollection.cId, button, storeCollection.consumerPublicKey)"><img alt="" src="../img/icon-plus-big.png"></a></div> </div> 
+             <div class="box4-content" ng-show="appraisalListInCollectiondetails.length == 0">
+             <div>
+              <div id="demo">
+            <ul>
+              <li>
+                <div class="row">
+                  <div class="col m12 l12 s12">
+                    
+                      <div class="dashboard-nodata-wrap no-data detail-noitem">
+           <label>NO APPRAISAL ITEM AVAILABLE</label>
+                <!-- <p>  
+             You have not added any appraisal Item yet  <br>
+please click below to add new appraisal.
+</p> -->
+<!-- <a href="javascript:;" ng-click="addAppraisalInCollectionDetail(storeCollection.cId)" class="btn3">Add Appraisal</a> -->
+
+</div>
+                      
+                    
+                  </div>
+                </div>
+              </li>
+
+            </ul>
+          </div>
+            </div>
+            </div>
+            <div class="box4-content" ng-show="appraisalListInCollectiondetails.length > 0">
+               <div class="modal-content mCustomScrollbar itembox1-scroll4 appraisal-list1">
+                <div class="row your-items-list" ng-repeat="appraisalListInCollectiondetail in appraisalListInCollectiondetails">
+                    <div ng-hide="appraisalListInCollectiondetail.appraisalStatus == 3" class="welcomebox"> <a class="trash-btn tooltipped" ng-show="appraisalListInCollectiondetail.consumerPublicKey == userKey  || isAgentLogin"  data-tooltip="Delete" data-delay="50" data-position="bottom" ng-click="deleteAppraisalInCollectionDetails(appraisalListInCollectiondetail.appraisalId, $index)"  href="javascript:;"><img alt="" src="../img/icon-trash.jpg"> </a></div>
+                
+                  <div class="col m2  s12" ng-if="appraisalListInCollectiondetail.collectionList[0].cImages.length > 0" ng-repeat="appraisalImages in appraisalListInCollectiondetail.collectionList | limitTo : 1">
+                  
+                    <div class="img-con1" ><img fallback-src="../img/not-found-appraisal.jpg" ng-src="../valoximage/imageuploaded/{{appraisalImages.cImages[0].imageUrl}}" alt=""/></div>
+                    </div>
+                    
+                      <div  class="col m2  s12" ng-if="appraisalListInCollectiondetail.collectionList[0].cImages.length == 0" ng-repeat="appraisalItemImages in appraisalListInCollectiondetail.appraisalItemsList | limitTo : 1">
+                    
+                  
+                    <div class="img-con1"><img fallback-src="../img/not-found-appraisal.jpg" ng-src="../valoximage/imageuploaded/{{appraisalItemImages.itemImages[0].itemImagePath}}" alt=""/></div>
+                    </div>  
+
+                    <div  class="col m2  s12" ng-if="appraisalListInCollectiondetail.collectionList[0].cImages.length == 0 && appraisalListInCollectiondetail.appraisalItemsList.length == 0">
+                    <div class="img-con1" ><img src="../img/not-found-appraisal.jpg" alt=""/></div>
+                    </div>  
+                    
+
+                  
+                  <div class="col m10 s12">
+                  <div class="table-col"><span class="title1"><a ng-if="!isAgentLogin" href="appraisal.html#/detail/{{appraisalListInCollectiondetail.appraisalId}}">{{appraisalListInCollectiondetail.name | limitTo: 40 }} {{appraisalListInCollectiondetail.name.length < 40 ? '' : '...'}}</a> 
+                  <a ng-if="isAgentLogin" href="appraisal-agent.html#/detail/{{appraisalListInCollectiondetail.appraisalId}}">{{appraisalListInCollectiondetail.name | limitTo: 40 }} {{appraisalListInCollectiondetail.name.length < 40 ? '' : '...'}}</a> 
+
+                   <!--<a data-tooltip="Favorite" data-delay="50" data-position="bottom" class="heart tooltipped" href="javascript:;">&nbsp;</a>-->&nbsp;<small>ID#  {{appraisalListInCollectiondetail.appraisalId}}</small></span>
+                    <p>{{appraisalListInCollectiondetail.shortDescription | limitTo: 200 }} {{appraisalListInCollectiondetail.shortDescription.length < 200 ? '' : '...'}}</p>
+                    </div>
+                    
+                       <div class="total-box-wrap" ng-if="appraisalListInCollectiondetail.appraisalStatus == 3"> <div class="total-box">Last Appraised <b> <img src="../img/icon-appraised.png" alt="" class="img-absmiddle"/> &nbsp;{{appraisalListInCollectiondetail.lastAppraisedDate | myDateFormat}}</b></div>
+  
+
+                      </div> 
+                      
+
+                </div> 
+                </div>
+                
+                  </div>
+                </div> 
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+<collection-popup></collection-popup>
+<!-- custom scrollbar plugin --> 
+
+<script type="text/javascript">
+  
+  $(document).ready(function(){
+    setTimeout(function(){ 
+    $('.dropdown-button').dropdown({
+      inDuration: 300,
+      outDuration: 225,
+      constrain_width: false, // Does not change width of dropdown to that of the activator
+      hover: false, // Activate on hover
+      gutter: 0, // Spacing from edge
+      belowOrigin: false, // Displays dropdown below the button
+      alignment: 'left' // Displays dropdown with edge aligned to the left of button
+    }
+  );
+    }, 500);
+  $('.mCustomScrollbar').mCustomScrollbar();
+
+});
+</script>
+
+<share></share>
+<thankyoushare></thankyoushare>

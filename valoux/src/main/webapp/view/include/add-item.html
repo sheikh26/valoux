@@ -1,0 +1,488 @@
+<div class="container" ng-init="initAddEditStore()" ng-cloak>
+<div class="row">
+      <div class="col s12">
+        <div class="page-header">
+            <h1 ng-if="!store.itemId && !isAgentLogin" class="pull-left">Add New Item</h1>
+            <h1 ng-if="isAgentLogin && !inviteNewConsumer" class="pull-left">Add New Item & Invite New Consumer</h1>
+             <h1 ng-hide="store.itemId" ng-if="isAgentLogin && inviteNewConsumer" class="pull-left">Add New Item</h1> 
+            <h1 ng-if="store.itemId" class="pull-left">Edit Item</h1>
+            <div class="rightbox2">
+          <div class="view-list" ng-init="initConsumerInformation()" ng-show="isAgentLogin && inviteNewConsumer">
+              <div class="searchbox-left searchbox-left1"><i class="txt13">Select Consumer:</i><br>
+              <select id="viewedItemsBy" ng-change="storeConsumerInfoDropdown(viewItemBy)" name="viewItemsBy" ng-model="viewItemBy" ng-options="viewItemsBy.consumerPublicKey as (viewItemsBy.firstName + ' ' + viewItemsBy.middleName + ' ' + viewItemsBy.lastName) for viewItemsBy in viewByConsumer">
+              <option value="">Consumer name</option>
+              </select>
+           
+            </div>
+            </div>
+            <a ng-hide="inviteNewConsumerHide" ng-if="isAgentLogin && inviteNewConsumer" href="javascript:;" ng-click="inviteNewConsumerAgent()"  target="_self" class="add-new"><img src="../img/icon-plus.png" alt="" > Invite consumer</a>
+        </div>
+        </div>
+      </div>
+    </div>
+      <div class="row" >
+      
+      <div class="header-bg-1" ng-if="isAgentLogin && inviteNewConsumer">
+        <!-- <a data-tooltip="Add New Item" data-delay="50" data-position="bottom" class="icon-big-plus waves-effect waves-light tooltipped" href="collection-agent.html#/add"><img alt="" src="../img/icon-plus-big.png"></a> -->
+            <div class="agent-left-con">
+        <div class="pic-con2"><img fallback-src="../img/profile-pic-default.jpg" ng-src="../valoximage/consumerimageuploaded/{{consumerList.imageUrl}}" alt=""></div>
+        
+        <span>{{consumerList.firstName}}  {{consumerList.middleName}} {{consumerList.lastName}}</span> 
+        </div>
+        
+        <a class="back-btn2" ng-click='cancelAgent()' href="javascript:;"><img src="../img/arrow-previous.png" alt="">BACK</a>
+      </div>
+      <div class="header-bg-1" ng-if="isAgentLogin && !inviteNewConsumer">
+        <!-- <a data-tooltip="Add New Item" data-delay="50" data-position="bottom" class="icon-big-plus waves-effect waves-light tooltipped" href="collection-agent.html#/add"><img alt="" src="../img/icon-plus-big.png"></a> -->
+            <div class="agent-left-con">
+        
+        
+        </div>
+        
+        <a class="back-btn2" ng-click='cancelAgent()' href="javascript:;" ><img src="../img/arrow-previous.png" alt="">BACK</a>
+      </div>
+        <div class="whitebox1 whitebox1-pdt-0" ng-init="getStore()">
+            
+          <div class="box1 box1-margin">
+            <div class="col s12 m8 l8">
+                <form class="col s12" name="formAddItem" id="formAddItem" ng-submit="formAddItem.$valid && submitAddEditItem()" autofocus-form  novalidate> 
+              <div class="row">
+                  <div class="col m12 s12">
+            
+                    <div class="error-msg ng-clock" ng-if="formError">
+                        <div class="disp-cell">
+                        <i class="fa fa-exclamation-triangle"></i>
+                        </div> 
+                        <div class="disp-cell">
+                        <span>{{errorMessage}}</span>
+                        </div>
+                    </div>
+
+                   <div class="success-msg mt-10 mb-10 ng-clock" ng-if="formSuccess">
+                        <div class="disp-cell">
+                        <i class="fa fa-exclamation-triangle"></i>
+                        </div> 
+                        <div class="disp-cell">
+                        <span>{{successMessage}}</span>
+                        </div>
+                        <div class="clear"></div>
+                  </div> 
+
+                  </div>
+                <div class="col s12">
+                  <div class="step-1">STEP - <b>1</b></div>
+                </div>
+              </div>
+              <div class="row" ng-if="isAgentLogin && !inviteNewConsumer">
+                <div class="input-field col s6 full-width-sm">      
+                  <input id="fname" name="fname" ng-model="store.fname" type="text" required>
+                  <label for="fname" class="">First name <sup>*</sup></label>
+                  <label class="error" ng-show="formAddItem.$submitted || (formAddItem.fname.$dirty && formAddItem.fname.$invalid)">
+                  <label class="error-msg-form" ng-show="formAddItem.fname.$error.required">First name is required.</label>
+                  </label>
+                </div> <div class="input-field col s6 full-width-sm">
+
+                <input id="lname" name="lname" ng-model="store.lname" type="text" required>
+                  <label for="lname" class="">Last name <sup>*</sup></label>
+                  <label class="error" ng-show="formAddItem.$submitted || (formAddItem.lname.$dirty && formAddItem.lname.$invalid)">
+                  <label class="error-msg-form" ng-show="formAddItem.lname.$error.required">Last name is required.</label>
+                  </label>
+                </div></div>
+                  <div class="row" ng-if="isAgentLogin && !inviteNewConsumer">
+                <div class="input-field col s12 full-width-sm">
+                  <input id="emailId" isemail-Exists name="emailId" ng-model="store.emailId" type="email" ng-pattern="/^[\w-]+(\.[\w-]+)*@([a-z0-9-]+(\.[a-z0-9-]+)*?\.[a-z]{2,6}|(\d{1,3}\.){3}\d{1,3})(:\d{4})?$/i" required maxlength="100">
+                  <label for="emailId" class="">Email address <sup>*</sup></label>
+                  <label class="error" ng-show="formAddItem.$submitted ||  formAddItem.emailId.$touched || (formAddItem.emailId.$dirty && formAddItem.emailId.$invalid)">
+                  <label  class="error-msg-form" ng-show="formAddItem.emailId.$error.required">Email is required.</label>
+                  <label class="error-msg-form" ng-show="formAddItem.emailId.$error.pattern">Invalid email.</label>
+                  <label class="error-msg-form" ng-show="formAddItem.emailId.$pending.emailId">Checking if this email is available...</label>
+                  <label class="error-msg-form" ng-show="formAddItem.emailId.$error.emailId">Email already exists.</label>
+
+                  </label>
+                </div>
+              </div>
+
+              <div class="row" ng-if="!isAgentLogin || agentSession">
+                <div class="input-field col s12 full-width-sm">
+                    <input id="name" name="name" isitemname-Exists="store.itemId" ng-model-options="{ updateOn: 'blur' }" ng-model="store.name" type="text" required maxlength="80">
+                  <label ng-class="class" for="name">Item name <sup>*</sup></label>
+                <label class="error" ng-show="formAddItem.$submitted || formAddItem.name.$touched || (formAddItem.name.$dirty && formAddItem.name.$invalid)">
+                    <label class="error-msg-form" ng-show="formAddItem.name.$error.required">Item name is required.</label>
+                    <label class="error-msg-form" ng-show="formAddItem.name.$pending.name">Checking item name is available...</label>
+                    <label class="error-msg-form" ng-show="formAddItem.name.$error.name">Item name already exists.</label>
+                </label>
+                </div>
+              </div>
+              <div class="row" ng-if="isAgentLogin && !agentSession">
+                <div class="input-field col s12 full-width-sm">
+                    <input id="name" name="name" ng-model="store.name" type="text" required maxlength="80">
+                  <label ng-class="class" for="name">Item name <sup>*</sup></label>
+                <label class="error" ng-show="formAddItem.$submitted  || (formAddItem.name.$dirty && formAddItem.name.$invalid)">
+                    <label class="error-msg-form" ng-show="formAddItem.name.$error.required">Item name is required.</label>
+                    
+                </label>
+                </div>
+              </div>
+              
+              <div class="row">
+                <div class="input-field col s12"> <span for="sdescription">Description<sup>*</sup></span> <span class="character">Upto {{store.sdescription.length || 0}}/1000 characters</span>
+                  <div class="clearfix"></div>
+                  <textarea maxlength="1000" id="sdescription" name="sdescription" ng-model="store.sdescription" required class="materialize-textarea textarea1" placeholder=""></textarea>
+                  <br>
+                </div>
+                  <label class="error col s12 txtarea-error" ng-show="formAddItem.$submitted || (formAddItem.sdescription.$dirty && formAddItem.sdescription.$invalid)">
+                    <label class="error-msg-form" ng-show="formAddItem.sdescription.$error.required">Description is required.</label>
+                </label>
+              </div>
+              <div class="row">
+                <div class="input-field col s6 full-width-sm">
+                  <div class="input-field">
+                      <select name="designType" id="designType" ng-model="store.designType" ng-options="designType.value as designType.name for designType in allDesignType" required>
+                      <option value="" >Select</option>
+                    </select>
+                    <label class="label1">Design type<sup>*</sup></label>
+                    <label class="error select-error" ng-show="formAddItem.$submitted || formAddItem.designType.$touched || (formAddItem.designType.$dirty && formAddItem.designType.$invalid)">
+                    <label class="error-msg-form" ng-show="formAddItem.designType.$error.required">Design type is required.</label>
+                   </label>
+                  </div>
+                </div>
+                <div class="input-field col s6 full-width-sm radio-btm-space"> 
+                    <span for="first_name" class="label4">Jewelry Gender<sup>*</sup> <img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." data-delay="50" data-position="top" src="../img/icon-info.jpg"/></span>
+                  <div class="row radio-box">
+                    <div class="col s4">
+                        <input ng-model="store.jewelryGender" value="1" name="group1" type="radio" id="male" />
+                      <label for="male">Male</label>
+                    </div>
+                    <div class="col s8">
+                      <input ng-model="store.jewelryGender" value="2" name="group1" type="radio" id="female" />
+                      <label for="female">Female </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s6 full-width-sm">
+                  <div class="input-field">
+                      <select name="quantity" id="quantity" ng-model="store.quantity" ng-options="quantityVal for quantityVal in quantityArray" required>
+                      <option value="" >Select</option>
+                    </select>
+                    <label class="label1">Quantity<sup>*</sup><img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." data-delay="50" data-position="top" src="../img/icon-info.jpg"/></label>
+                    <label class="error select-error" ng-show="formAddItem.$submitted || formAddItem.quantity.$touched || (formAddItem.quantity.$dirty && formAddItem.quantity.$invalid)">
+                    <label class="error-msg-form" ng-show="formAddItem.quantity.$error.required">Quantity is required.</label>
+                   </label>
+                  </div>
+                </div>
+                <div class="input-field col s6 full-width-sm">
+                  <div class="input-field">
+                    <select name="itemType" id="itemType" ng-model="store.itemType" ng-options="allItemTypes.itemTypeId as allItemTypes.itemType for allItemTypes in allItemType" required>
+                      <option value="">Select</option>
+                     
+                    </select>
+                    <label class="label1">Type <sup>*</sup><img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." data-delay="50" data-position="top" src="../img/icon-info.jpg"/></label>
+                    <label class="error select-error" ng-show="formAddItem.$submitted || formAddItem.itemType.$touched || (formAddItem.itemType.$dirty && formAddItem.itemType.$invalid)">
+                    <label class="error-msg-form" ng-show="formAddItem.itemType.$error.required">Item Type is required.</label>
+                   </label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12 full-width-sm">
+                  <div class="input-field select-wrapper2">
+                    <label class="label1 label-lh">Store name <img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." data-delay="50" data-position="top" src="../img/icon-info.jpg"/><span class="txt12">(From where the Item was purchased. If the store is not available please select 'Add new store')</span></label>
+                    <br> 
+<!--                            <a href="javascript:void(0);" slide-toggle="#gray-address1" slide-toggle-duration="500" ng-click="showNewStore()" class="not-found">Not found?</a> -->
+                                <div class="padded-row pad-top2 label-mart">
+                                    <div angucomplete-alt
+                                      id="ex7"
+                                      placeholder="Search Store"
+                                      pause="100"
+                                      selected-object="storeSelected"
+                                      local-data="stores"
+                                      local-search="setAddnewOption"
+                                      search-fields="storeName"
+                                      title-field="storeName"
+                                      description-field="gaddress"
+                                      minlength="1"
+                                      input-class="form-control form-control-small"
+                                      match-class="highlight"
+                                      initial-value="storeInitialValue">
+                                      >
+                                    </div>
+                                    <a class="close-btn close-btn-small close-clear close-clear2 tooltipped" data-tooltip="DELETE" data-delay="50" data-position="bottom" ng-click="clearStore()" href="javascript:void(0);">&nbsp;</a>
+                                </div>
+                  </div>
+                </div>
+<!--                  <div ng-show="formAddItem.$submitted && !isNewStore && !storeId" class="col s12 full-width-sm" style="margin-top: -20px;">
+                            <label class="error">
+                                <label class="error-msg-form" >Please select store.</label>
+                            </label>
+                            </div>-->
+              </div>
+              
+                <div class="gray-accord" id="gray-address1">
+                        <div class="row">
+                            <div class="input-field col s12 full-width-sm">
+                                <input id="location" name="store_location"  ng-disabled="!required" ng-model="storeData.store_location" type="text" maxlength="250">
+                                <label for="location" class="active" ng-class="store_location ? 'active' : ''">Store<img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." data-delay="50" data-position="top" src="../img/icon-info.jpg"/></label>
+<!--                        <a href="javascript:;" slide-toggle="#gray-address" slide-toggle-duration="500" class="not-found">Not found?</a> -->
+                        <!-- <label class="error" ng-show="formAddItem.$submitted || formAddItem.store_location.$touched || (formAddItem.store_location.$dirty && formAddItem.store_location.$invalid)">
+		            <label class="error-msg-form" ng-show="formAddItem.store_location.$error.required">Location is required.</label>
+		            </label> -->
+                        </div>
+                            
+                        </div>
+                        
+                        <div class="row">
+                  <div class="col s12">   <div class="row">
+                      <div class="input-field col s6 full-width-sm">
+                          <input id="Store" name="store_name" ng-disabled="!required"  ng-model="storeData.store_name" type="text" ng-required='required' maxlength="200">
+                        <label for="Store" class="">Enter store name *</label>
+                        <label class="error" ng-show="formAddItem.$submitted || formAddItem.store_name.$touched || (formAddItem.store_name.$dirty && formAddItem.store_name.$invalid)">
+		            <label class="error-msg-form" ng-show="formAddItem.store_name.$error.required">Store name is required.</label>
+		        </label>
+                        </div>
+                       <div class="input-field col s6 full-width-sm">
+                          
+                                    <input id="store_phone" name="storePhoneNumber" ng-disabled="!required" ng-model="storeData.storePhoneNumber"  ng-minlength="10"  maxlength="20"  type="text">
+                        <label for="store_phone">Store phone</label>              
+                       <label class="error" ng-show="formAddItem.storePhoneNumber.$touched || (formAddItem.storePhoneNumber.$dirty && formAddItem.storePhoneNumber.$invalid)">
+                  <!-- <label class="error-msg-form" ng-show="formAddItem.storePhoneNumber.$error.pattern">Invalid phone number.</label> ng-pattern="/^\d+$/" -->
+                  <label class="error-msg-form" ng-show="formAddItem.storePhoneNumber.$error.minlength || formAddItem.storePhoneNumber.$error.pattern">Invalid phone number.</label>
+                  </label>
+                        
+                          
+                        
+                        </div>         
+                                      
+                    </div></div> 
+                    
+                      </div>
+                    <div><div class="row">
+                  <div class="col s12">   
+                      <div class="row">
+
+                      <div class="input-field col s6 full-width-sm">
+                       <input type="text"  id="addressLine1" ng-disabled="!required" ng-model="storeData.addressLine1" ng-keyup="isGoogleAddress()" name="addressLine1" ng-required='required' maxlength="145">
+                        <label class="" for="addressLine1">Address 1 *</label>
+                        <label class="error" ng-show="formAddItem.$submitted || formAddItem.addressLine1.$touched || (formAddItem.addressLine1.$dirty && formAddItem.addressLine1.$invalid)">
+		            <label class="error-msg-form" ng-show="formAddItem.addressLine1.$error.required">Address 1 is required.</label>
+		            </label>
+                        </div>
+                        <div class="input-field col s6 full-width-sm">
+                       <input type="text" id="addressLine2" ng-disabled="!required" ng-model="storeData.addressLine2" name="addressLine2" maxlength="145">
+                        <label class="" for="addressLine2">Apartment/Floor/Business</label>
+                        
+                        </div>
+                                      
+                    </div>
+                  </div> 
+                    </div> 
+                   <div class="row">
+                   <div class="col m12">
+                       <div class="row">
+                        <div class="input-field col s6 full-width-sm">
+                         <input type="text" id="city" ng-model="storeData.city" ng-disabled="!required" ng-keyup="isGoogleAddress()" name="city" ng-required='required' maxlength="30">
+                        <label class="" for="city">City *</label>
+                        <label class="error" ng-show="formAddItem.$submitted || formAddItem.city.$touched || (formAddItem.city.$dirty && formAddItem.city.$invalid)">
+		            <label class="error-msg-form" ng-show="formAddItem.city.$error.required">City is required.</label>
+		            </label>
+                        </div>
+                      
+                       <div class="input-field col s6 full-width-sm">
+                         <input type="text" id="state" ng-model="storeData.state" ng-disabled="!required" ng-keyup="isGoogleAddress()" name="state" ng-required='required' maxlength="30">
+                        <label class="" for="state">State *</label>
+                        <label class="error" ng-show="formAddItem.$submitted || formAddItem.state.$touched || (formAddItem.state.$dirty && formAddItem.state.$invalid)">
+		            <label class="error-msg-form" ng-show="formAddItem.state.$error.required">State is required.</label>
+		            </label>
+                        </div>
+                        <div class="input-field col s6 full-width-sm">
+                         <input type="text" id="zipCode" ng-model="storeData.zipCode" ng-disabled="!required" ng-keyup="isGoogleAddress()" name="zipCode" ng-required='required' maxlength="12">
+                        <label class="" for="zipCode">Zip *</label>
+                        <label class="error" ng-show="formAddItem.$submitted || formAddItem.zipCode.$touched || (formAddItem.zipCode.$dirty && formAddItem.zipCode.$invalid)">
+		            <label class="error-msg-form" ng-show="formAddItem.zipCode.$error.required">Zip is required.</label>
+		            </label>
+                        </div>
+                           
+                        <div class="input-field col s6 full-width-sm">
+                        <input type="text" id="country" ng-model="storeData.country" ng-disabled="!required" ng-keyup="isGoogleAddress()" name="country" ng-required='required' maxlength="30">
+                        <label class="" for="country">Country *</label>
+                        <label class="error" ng-show="formAddItem.$submitted || formAddItem.country.$touched || (formAddItem.country.$dirty && formAddItem.country.$invalid)">
+		            <label class="error-msg-form" ng-show="formAddItem.country.$error.required">Country is required.</label>
+		            </label>
+                        </div>
+                      </div>
+                   </div>
+                    
+                      </div></div>
+                    </div>
+              <div class="row">
+                <div class="input-field col s6 full-width-sm"> <span class="label1 label5">
+                        Item receipt 
+                        <span class="txt12">(Optional)</span>
+                        <img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." data-delay="50" data-position="top" src="../img/icon-info.jpg"/>   
+                    </span>
+                  <div class="clearfix"></div>
+                  <div class="file-field">
+                    <div class="btn"> <span>BROWSE</span>
+                        <input id="fileuploadReceipt" type="file" title="" custom-on-change="uploadItemReceipt" accept="image/jpg,image/png,image/jpeg,image/gif">
+                    </div>
+                    <div class="file-path-wrapper">
+                      <input class="file-path" type="text" disabled placeholder="">
+                    </div>
+                      <a ng-show="store.itemReceiptName" href="javascript:void(0);" ng-click="clearReceipt()" data-position="bottom" data-delay="50" data-tooltip="DELETE" href="javascript:;" class="close-btn close-btn-small close-clear close-clear1 tooltipped">&nbsp;</a>
+                      <label ng-show="inValidReceipt" class="error" >
+                        <label class="error-msg-form" style="left:0px !important">{{ inValidReceiptText }}</label>
+                      </label>
+                  </div>
+                  <div ng-if="itemAllData.itemReceiptId" class="row">
+                      <div class="col s12">
+                        <ul class="uploaded-thumb">
+                          <li><span class="upload-thumb"><img src="../valoximage/imageuploaded/{{itemAllData.itemReceiptPath}}"/></span>
+                            <div class="clearfix"></div>
+                            <a href="javascript:void(0);" ng-click="removeItemimages(store.itemId,itemAllData.itemReceiptId,$event)" class="tooltipped" data-tooltip="DELETE" data-delay="50" data-position="bottom"><img src="../img/ico-delete.png"/></a> </li>
+                        </ul>
+                      </div>
+                    </div>
+                </div>
+                <div class="input-field col s6 full-width-sm"> <span class="label1 label5">
+                        Item certificate <span class="txt12">(Optional)</span>
+                        <img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." data-delay="50" data-position="top" src="../img/icon-info.jpg"/>
+                    </span>
+                  <div class="clearfix"></div>
+                  <div class="file-field">
+                    <div class="btn"> <span>BROWSE</span>
+                        <input id="fileuploadCertificate" type="file" title="" custom-on-change="uploadItemCertificate" accept="image/jpg,image/png,image/jpeg,image/gif">
+                    </div>
+                    <div class="file-path-wrapper">
+                      <input class="file-path" disabled type="text" placeholder="">
+                    </div>
+                      <a ng-show="store.itemCertificateName" href="javascript:void(0);" ng-click="clearCertificate()" data-position="bottom" data-delay="50" data-tooltip="DELETE" href="javascript:;" class="close-btn close-btn-small close-clear close-clear1 tooltipped">&nbsp;</a>
+                      <label ng-show="inValidCertificate" class="error" >
+                        <label class="error-msg-form" style="left:0px !important">{{ inValidCertificateText }}</label>
+                      </label>
+                  </div>
+                  <div ng-if="itemAllData.itemCertificateId" class="row">
+                      <div class="col s12">
+                        <ul class="uploaded-thumb">
+                          <li><span class="upload-thumb"><img src="../valoximage/imageuploaded/{{itemAllData.itemCertificatePath}}"/></span>
+                            <div class="clearfix"></div>
+                            <a href="javascript:void(0);" ng-click="removeItemimages(store.itemId,itemAllData.itemCertificateId,$event)" class="tooltipped" data-tooltip="DELETE" data-delay="50" data-position="bottom"><img src="../img/ico-delete.png"/></a> </li>
+                        </ul>
+                      </div>
+                    </div>
+                </div>
+              </div>
+                <div class="row input-field label10"><span class="label1 label5 col s12">Item Image(s) in <span class="txt12">(<i>File type</i>: jpg, png, Size: 2 MB max)</span><img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam." data-delay="50" data-position="top" src="../img/icon-info.jpg"/></span>
+                </div>
+                <div class="row input-field" ng-repeat="imgCnt in counterImage">
+                    
+                <div class="file-field col s10 m8 l9">
+                  <div class="btn"> <span>BROWSE</span>
+                      <input id="uploadImgfield_{{$index}}" type="file" title="" custom-on-change="uploadItemImages" element-Id ="{{$index}}" accept="image/jpg,image/png,image/jpeg,image/gif">
+                  </div>
+                  <div class="file-path-wrapper">
+                    <input class="file-path" type="text" placeholder="" disabled>
+                  </div>
+                    <div class="close-clear">
+                        <a ng-show="store.itemImages" class="tooltipped trash" data-position="bottom" data-delay="50" data-tooltip="DELETE" href="javascript:void(0);" ng-click="removeImage($index)"><img width="10" height="12" alt="" src="../img/icon-trash.jpg"> </a>
+                    </div>
+                    <label ng-show="inValidimg[$index]" class="error" >
+                        <label class="error-msg-form">{{ inValidimgText[$index] }}</label>
+                    </label>
+                </div>
+                  <div ng-if="$first" class="col s12 m4 l3"> <a href="javascript:void(0);" ng-click="addMoreImage()" class="addmore-btn" > <img src="../img/icon-plus.jpg" alt=""/> Add more </a></div>
+                <!--      <div ng-if="$first" class="col s2 m3"><a data-position="bottom" data-delay="50" data-tooltip="CLEAR" class="tooltipped delete-icon" href="javascript:void(0);" ng-click="removeImage($index)" >CLEAR</a></div>
+                    <div ng-if="!$first" class="col s2 m3"><a data-position="bottom" data-delay="50" data-tooltip="DELETE" class="tooltipped delete-icon" href="javascript:void(0);" ng-click="removeImage($index)" ><img src="../img/ico-delete.png"></a></div>-->
+                </div>
+                <div class="clearfix"></div>
+                <div class="row input-field" ng-if="store.itemId && itemImages.length>0">
+                    <div class="col s12">
+                      <ul class="uploaded-thumb">
+                        <li ng-repeat="img in itemImages">
+                            <span class="upload-thumb"><img src="../valoximage/imageuploaded/{{img.itemImagePath}}"/></span>
+                          <div class="clearfix"></div>
+                          <a href="javascript:void(0);" ng-click="removeItemimages(store.itemId,img.imageId,$event)" class="tooltipped" data-tooltip="DELETE" data-delay="50" data-position="bottom"><img src="../img/ico-delete.png"/></a> 
+                        </li>
+                      </ul>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+              <br>
+              <br>
+              
+              
+                            
+              <div class="whitebox1-footer-wrap"><div class="center whitebox1-footer btn-con"> 
+                      <a ng-if="!isAgentLogin" href="javascript:void(0);" ng-click="cancel()" class="btn-large btn-default waves-effect waves-light">CANCEL</a> 
+                    <a ng-if="isAgentLogin" href="javascript:;" ng-click="cancelAgent()" class="btn-large btn-default waves-effect waves-light">CANCEL</a> 
+                    <button ng-if="!store.itemId" type="submit" class="btn-large btn-large1 waves-effect waves-light">CREATE ITEM</button>
+                    <button ng-if="store.itemId" type="submit" class="btn-large btn-large1 waves-effect waves-light">UPDATE ITEM</button>
+      <!--              <a href="item-added.html" ></a> -->
+                  
+                  </div></div>
+              </form>
+            </div>
+            <!--right panel starts-->
+            <div ng-if="!store.itemId" class="col s12 m4 l4 card-panel-gray1-padl ideabox-2-hide">
+              <div class="row">
+                <div class="col s12">
+                  <div class="card-panel-gray1 compo-box right-panel-white">
+                    <div class="ideabox-2">
+                      <div class="center"><img class="idea-img" src="../img/ideabox.jpg" alt=""/></div>
+                      <p>Lorem Ipsum is simply dummy text industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s.</p>
+                      <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+             
+             
+              <div ng-if="store.itemId" class="col s12 m5 l4">
+                <div class="row resp-row">
+                  <div class="col s12">
+                    <div class="compo-box right-panel">
+                      <div class="step-1">STEP - <b>2</b></div>
+                      <!--add-now-components starts-->
+                    
+                      <!--add-now-components ends--> 
+                      
+                      <!--components select starts-->
+                      <component-rightpanel></component-rightpanel>
+                      <!--components select ends--> 
+                      
+                      <!--components add starts-->
+                      
+                      <!--components add ends--> 
+                      
+                      <!--components added starts-->
+                      
+                      <!--components added ends--> 
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--right panel ends--> 
+             
+            <div class="clearfix"></div>
+          </div>
+          
+        </div>
+  
+
+    </div>
+    
+    
+    
+</div>
+<component-popups></component-popups>
+<itemprice-adjustment></itemprice-adjustment>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('select').material_select();
+    // Tooltip
+    $('.tooltip').tooltipster();
+    
+  });
+</script>

@@ -1,0 +1,285 @@
+<div class="container" ng-init="itemAddedSuccess()" ng-cloak>
+ <item-popup></item-popup>
+<div class="row">
+      <div class="col s12">
+        <div class="page-header">
+          <h1 class="pull-left" >{{itemSuccessmsg}}</h1>
+          <div class="rightbox2">
+          <div class="view-list" ng-init="initConsumerInformation()" ng-show="isAgentLogin && inviteNewConsumer">
+              <div class="searchbox-left searchbox-left1"><i class="txt13">Select Consumer:</i><br>
+              <select id="viewedItemsBy" ng-change="storeConsumerInfoDropdown(viewItemBy)" name="viewItemsBy" ng-model="viewItemBy" ng-options="viewItemsBy.consumerPublicKey as (viewItemsBy.firstName + ' ' + viewItemsBy.middleName + ' ' + viewItemsBy.lastName) for viewItemsBy in viewByConsumer">
+              <option value="">Consumer name</option>
+              </select>
+           <a data-position="bottom" data-delay="50" data-tooltip="Invite new consumer &amp; add an item." class="user tooltipped" href="javascript:;" ng-click="inviteNewConsumerAgent()" data-tooltip-id="15eadc9e-637d-0dde-bcc6-563b27ddd274"><i aria-hidden="true" class="fa fa-user-plus"></i></a>
+            </div>
+            </div>
+            
+        </div>
+        </div>
+      </div>
+    </div>
+<div class="row">
+      <div class="col s12">
+      <div class="header-bg-1" ng-if="isAgentLogin && inviteNewConsumer">
+        <!-- <a data-tooltip="Add New Item" data-delay="50" data-position="bottom" class="icon-big-plus waves-effect waves-light tooltipped" href="collection-agent.html#/add"><img alt="" src="../img/icon-plus-big.png"></a> -->
+            <div class="agent-left-con">
+        <div class="pic-con2"><img fallback-src="../img/profile-pic-default.jpg" ng-src="../valoximage/consumerimageuploaded/{{consumerList.imageUrl}}" alt=""></div>
+        
+        <span>{{consumerList.firstName}}  {{consumerList.middleName}} {{consumerList.lastName}}</span> 
+        </div>
+        
+        <a class="back-btn2" href="item-agent.html#/"><img src="../img/arrow-previous.png" alt="">BACK</a>
+      </div>
+        <div class="whitebox1 padb0 whitebox2 step2-con whitebox1-pdt-0">
+        
+      <!-- <div class="header-bg-1" ng-if="isAgentLogin && !inviteNewConsumer">
+        <a data-tooltip="Add New Item" data-delay="50" data-position="bottom" class="icon-big-plus waves-effect waves-light tooltipped" href="collection-agent.html#/add"><img alt="" src="../img/icon-plus-big.png"></a>
+            <div class="agent-left-con">
+        
+        
+        </div>
+        
+        <a class="back-btn2" href="item-agent.html#/" ><img src="../img/arrow-previous.png" alt="">BACK</a>
+      </div> -->
+          <div class="item-detail-con">
+            <div class="row"> 
+              <!--left product section starts-->
+              <div class="col s12 m8 l8"> 
+                
+                <!--responsive steps section starts-->
+                <!-- <div class="row resp-step-con">
+                  <div class="col s12"> <span><img src="../img/right-tick.png"/> Step 1</span><a ng-click="scrollToStep('step2')" class="anchorLink" href="javascript:;" id="anchor2">Step 2 <img src="../img/down-arrow.png"/></a> </div>
+                </div> -->
+                <!--responsive steps section ends-->
+                
+                <div class="row">
+                  <div class="col l4 prod-thumb"> 
+                    <!--product gallery starts-->
+                    <div id="gallery" class="simplegallery">
+                        <div ng-if="itemData.itemImages && itemData.itemImages.length>0" class="content item-con2">
+                          <img ng-class="$index>0 ? 'row-hide' : ''"  ng-repeat="itemsImg in itemData.itemImages" src="../valoximage/imageuploaded/{{itemsImg.itemImagePath}}" class="responsive-img image_{{$index+1}}" alt="" /> 
+                      </div>
+                        <div ng-if="!itemData.itemImages || itemData.itemImages.length<=0" class="content item-con2">
+                          <img src="../img/not-found-item.jpg" class="responsive-img image_1" alt="" /> 
+                      </div>
+                      <div class="clear"></div>
+                      <div class="thumbnail item-thumb gallery-cutom-thumb">
+                        <ul>
+                            <li class="thumb" ng-repeat="itemsImg in itemData.itemImages"> 
+                                <a href="javascript:void(0);" rel="{{$index+1}}"><img src="../valoximage/imageuploaded/{{itemsImg.itemImagePath}}" id="thumb_{{$index+1}}" alt="" /> </a> 
+                            </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <!--product gallery ends--> 
+                  </div>
+                  <div class="col l8 m12 s12">
+                    <div class="item-box">
+                      <div class="item-head">
+                        <h3>{{itemData.name}}</h3>
+                        <small>ID#  {{itemData.itemId}}</small> <span class="quick-links">
+                            <a href="javascript:;" class="tooltipped" data-tooltip="ADD TO APPRAISAL" data-delay="50" ng-click="addAppraisalInItem(itemData.itemId, itemData.consumerPublicKey)" data-position="bottom"><img src="../img/icon-appraisal-1.png"/></a> 
+                            <a href="javascript:;" class="tooltipped" data-tooltip="ADD TO COLLECTION" ng-click="ItemAddcollection(itemData.itemId, itemData.consumerPublicKey)" data-delay="50" data-position="bottom"><img src="../img/icon-add-collection.png"/></a> 
+                            <a ng-if="!isAgentLogin" class="tooltipped"  href="javascript:;" ng-click="setShareId(itemData.itemId,1)" data-tooltip="SHARE" data-delay="50" data-position="bottom"><img src="../img/icon-add-share.png"/></a> 
+                            <a ng-hide="itemData.itemStatus == 3" ng-if="isAgentLogin" href="item-agent.html#/edit/{{itemData.itemId}}" class="tooltipped" data-tooltip="EDIT" data-delay="50" data-position="bottom"><img src="../img/icon-edit2.png"/></a>
+                            <a ng-hide="itemData.itemStatus == 3" ng-if="!isAgentLogin" href="item.html#/edit/{{itemData.itemId}}" class="tooltipped" data-tooltip="EDIT" data-delay="50" data-position="bottom"><img src="../img/icon-edit2.png"/></a>
+
+                            <a ng-hide="itemData.itemStatus == 3" ng-if="!isAgentLogin" class="tooltipped" href="javascript:;" data-tooltip="DELETE" ng-click="deleteItemBydetail(itemData.itemId,'')" data-delay="50" data-position="bottom"><img src="../img/ico-delete.png"/></a>
+                              <a ng-hide="itemData.itemStatus == 3" ng-if="isAgentLogin" class="tooltipped" href="javascript:;" data-tooltip="DELETE" ng-click="deleteItemBydetail(itemData.itemId,itemData.consumerPublicKey)" data-delay="50" data-position="bottom"><img src="../img/ico-delete.png"/></a>
+                            </span> </div>
+                      <p ng-bind-html="itemData.sdescription | newLine"></p>
+                      
+                    </div>
+                  </div>
+                </div>
+                <div class="row item-footer item-footer-mart0">
+                  <div class="col s12 col1">
+                    <div class="item-other-detail item-other-detail-vis">
+                      <div class="row row-2">
+                        <div class="col s12 l8">
+                          <div class="item-detail-inner"><span class="head3">OTHER DETAILS <img src="../img/icon-other-details.png"/></span>
+                            <div class="row">
+                              <div class="col s4"><span class="sml-head1">Design type</span>{{designTypetext}}</div>
+                              <div class="col s4"><span class="sml-head1">Quantity</span>{{itemData.quantity}}</div>
+                              <div ng-if="itemData.itemReceiptPath" class="col s4"><span class="sml-head1">Item receipt</span>
+                                  <a href="../valoximage/imageuploaded/{{itemData.itemReceiptPath}}" target="_blank" class="a3"><img class="v-mid" src="../img/icon-receipt.png"/>&nbsp; View</a>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col s4"><span class="sml-head1">Jewelry gender</span>
+                                  <span ng-if="itemData.jewelryGender==1">Male</span>  
+                                  <span ng-if="itemData.jewelryGender==2">Female</span> 
+                              </div>
+                              <div class="col s4"><span class="sml-head1">Type</span>{{itemData.itemTypeName}}</div>
+                              <div ng-if="itemData.itemCertificatePath" class="col s4"><span class="sml-head1">Item certificate</span>
+                                  <a href="../valoximage/imageuploaded/{{itemData.itemCertificatePath}}" target="_blank" class="a3"><img class="v-mid" src="../img/icon-certificate.png"/>&nbsp; View</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                          <div ng-if="itemData.storeData" class="col s12 l4 store-details">
+                          <div class="store-details-in"> <span class="head3">STORE DETAILS <img src="../img/icon-store-details.png"/></span>
+                            <div class="row">
+                              <div class="col s12"><span class="sml-head1">Store name</span><a class="a3">{{itemData.storeData.storeName}}</a></div>
+                            </div>
+                            <div class="row">
+                              <div class="col s12"><span class="sml-head1">Location</span>
+                               <span class="txt13">{{concateAddress(itemData.storeData.storeAddress)}}
+                               </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--left product section ends--> 
+              <!--right panel starts-->
+
+              <div class="col s12 m4 l4">
+                <div class="row resp-row">
+                  <div class="col s12">
+                    <div class="compo-box right-panel">
+                      <div class="step-1">STEP - <b>2</b></div>
+                      <!--add-now-components starts-->
+                    
+                      <!--add-now-components ends--> 
+                      
+                      <!--components select starts-->
+                      <component-rightpanel></component-rightpanel>
+                      <!--components select ends--> 
+                      
+                      <!--components add starts-->
+                      
+                      <!--components add ends--> 
+                      
+                      <!--components added starts-->
+                      
+                      <!--components added ends--> 
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--right panel ends--> 
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+<component-popups></component-popups>
+
+<!-- Modal for Component Price start here -->
+<div id="modal-item-price" class="modal modal-component-price">
+  <div class="modal-header"> <a href="javascript:;" class="modal-action modal-close close-btn tooltipped" data-position="bottom" data-delay="50" data-tooltip="Close">&nbsp;</a> </div>
+  <div class="modal-content">
+      <form autofocus-form name="ItemPriceForm" ng-submit="ItemPriceForm.$valid && addedUpdateItemPriceAdjustment(store.itemId)" class="form2" novalidate>
+          <div class="component-price-main" ng-init="getItemPriceProperties(store.itemId);">
+      <div class="component-price"> 
+            <span class="head-8">Market Suggested Price: - ${{itemInfo.priceProperty.marketValue|number:2}} * {{store.quantity}}qty = ${{(itemInfo.priceProperty.marketValue * store.quantity)|number:2}}</span>
+            <div class="clearfix"></div>
+            <div class="row">
+                <div class="col s12 divider-row">&nbsp;</div>
+
+            </div>
+        
+        <div class="row">
+          <div class="col s12 m6 l6">
+              <span class="head7">PRICE ADJUSTMENT</span>
+            <div class="row">
+              <div class="col s6 select-dropdown3">
+                <input ng-model="itemInfo.priceProperty.generalPriceOperatorValue" ng-keyup="calculateItemFinalPrice()" name="itemGeneralPriceOperatorValue" ng-pattern="/^[-+]?[0-9]*\.?[0-9]?(\d{1,8})$/" type="text" placeholder="Amount" maxlength="10">
+                <label class="error" ng-show="ItemPriceForm.$submitted ||  ItemPriceForm.itemGeneralPriceOperatorValue.$touched || (ItemPriceForm.itemGeneralPriceOperatorValue.$dirty && ItemPriceForm.itemGeneralPriceOperatorValue.$invalid)">
+                    <label class="error-msg-form" ng-show="ItemPriceForm.itemGeneralPriceOperatorValue.$error.pattern">Invalid Amount.</label>
+                </label>
+              </div>
+              <div class="col s6 pert-col">
+                <select ng-model="itemInfo.priceProperty.generalPriceAdjustmentType" ng-change="calculateItemFinalPrice();" ng-options="masterAdjustmentTypeObj.value as masterAdjustmentTypeObj.name for masterAdjustmentTypeObj in masterAdjustmentType">
+                </select>
+              </div>
+            </div>
+            <label class="label1 head6">Notes <span class="note-txt">(optional)</span></label>
+            <div class="row">
+              <div class="col s12 col-pdnone">
+                <textarea ng-model="itemInfo.priceProperty.generalPriceAdjustmentNotes" class="materialize-textarea textarea-2" placeholder="Enter here"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="col s12 m6 l6 brand-adj"> <span class="head7">BRAND ADJUSTMENT</span>
+            <div class="row">
+              <div class="col s6 select-dropdown3">
+                <input ng-model="itemInfo.priceProperty.brandPriceOperatorValue" ng-keyup="calculateItemFinalPrice()" name="itemBrandPriceOperatorValue" ng-pattern="/^[-+]?[0-9]*\.?[0-9]?(\d{1,8})$/" type="text" placeholder="Amount" maxlength="10">
+                <label class="error" ng-show="ItemPriceForm.$submitted ||  ItemPriceForm.itemBrandPriceOperatorValue.$touched || (ItemPriceForm.itemBrandPriceOperatorValue.$dirty && ItemPriceForm.itemBrandPriceOperatorValue.$invalid)">
+                    <label class="error-msg-form" ng-show="ItemPriceForm.itemBrandPriceOperatorValue.$error.pattern">Invalid Amount.</label>
+                </label>
+              </div>
+              <div class="col s6 pert-col">
+                <select ng-model="itemInfo.priceProperty.brandPriceAdjustmentType" ng-change="calculateItemFinalPrice();" ng-options="masterAdjustmentTypeObj.value as masterAdjustmentTypeObj.name for masterAdjustmentTypeObj in masterAdjustmentType">
+                </select>
+              </div>
+            </div>
+            <label class="label1 head6">Notes <span class="note-txt">(optional)</span></label>
+            <div class="row">
+              <div class="col s12 col-pdnone">
+                <textarea ng-model="itemInfo.priceProperty.brandPriceAdjustmentNotes" class="materialize-textarea textarea-2" placeholder="Enter here"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row purchased-price">
+            <div class="col s12 m6 l6">
+              <div class="col-l1">
+                  <strong>Purchased price <img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></strong>
+                  <input ng-model="itemInfo.priceProperty.purchasePrice" ng-keyup="calculateItemFinalPrice()" name="itemPurchasedPrice" id="itemPurchasedPrice" type="text" class="active" ng-pattern="/^(([0-9]*)|(([0-9]*)\.([0-9]*)))$/" maxlength="15">
+                  <label class="error" ng-show="ItemPriceForm.$submitted ||  ItemPriceForm.itemPurchasedPrice.$touched || (ItemPriceForm.itemPurchasedPrice.$dirty && ItemPriceForm.itemPurchasedPrice.$invalid)">
+                      <label class="error-msg-form" ng-show="ItemPriceForm.itemPurchasedPrice.$error.pattern">Invalid Number.</label>
+                      
+                  </label>
+              </div>
+            </div>
+        </div>
+
+      </div>
+      <div class="component-price-foot">
+        <div class="row">
+          <div class="col s12 final-price">
+              <button type="submit" class="ok-btn2 waves-effect waves-light tooltipped pull-right" data-tooltip="SUBMIT" data-delay="50" data-position="top"><img src="../img/icon-ok1.png"/></button>
+<!--                                        <a href="item-added-successfully.html" target="_parent" class="ok-btn2 waves-effect waves-light tooltipped pull-right" data-tooltip="SUBMIT" data-delay="50" data-position="top">
+                    <img src="../img/icon-ok2.png"/></a> -->
+                Final Price <span class="price-txt">${{itemInfo.priceProperty.finalPrice|number:2}} * {{store.quantity}}qty = ${{(itemInfo.priceProperty.finalPrice * store.quantity)|number:2}}</span> 
+          </div>
+        </div>
+      </div>
+    </div>
+   </form>
+  </div>
+</div>
+<!-- Modal for  Component Price end here -->
+
+<script src="../js/extLib/simplegallery.min.js"></script>
+<script>
+$(document).ready(function() {
+  $('.tooltipped').tooltip({delay: 50});
+  setInterval(function() {
+     $("#step2").animate({
+      right: "0"
+    }, 
+    {
+      duration: 1000
+    });
+   }, 500);
+});
+  setTimeout(function(){
+  $('#gallery').simplegallery({
+    galltime : 1000,
+    gallcontent: '.content',
+    gallthumbnail: '.thumbnail',
+    gallthumb: '.thumb'
+});
+},2000);
+ </script>
+ <share></share>
+<thankyoushare></thankyoushare>

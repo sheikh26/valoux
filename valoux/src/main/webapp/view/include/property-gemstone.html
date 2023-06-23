@@ -1,0 +1,229 @@
+<!--component properties section starts-->
+<div id="gemstonePopup" class="MatModal-container" ng-init="" style="display: none;">
+  <div class="MatModal-inner"> <span class="MatRound"></span>
+    <div class="MatModal-content">
+      <div class="mid-con">
+        <div class="row component-head">
+          <div class="col s12 m5 l5 component-head-l">ADD COMPONENT PROPERTIES</div>
+          <div class="col s12 m7 l7 component-head-r">ITEM NAME
+              <div class="item-name">{{itemName}} - {{propertyItem.componentName}} <a href="javascript:void(0)" ng-click="closePropertyPopup()" target="_parent" class="close-btn2 waves-effect waves-light tooltipped" data-tooltip="CANCEL" data-delay="50" data-position="bottom"></a></div>
+          </div>
+        </div>
+         <div class="head-space">
+          <div class="row">
+            <div class="col s12 m3 l2 mobile-components-link">
+              <div class="sub-components-link">
+                <h6>SUB COMPONENTS</h6>
+                <ul class="tabs">
+                  <li class="tab"><a href="javascript:void(0);" ng-click="showPropertyTab(1);" ng-class="propertyTab.showProperty? 'active' :''"><span class="sub-component-icon5">&nbsp;</span><span class="link-txt">Gemstones</span></a></li>
+                  <li class="tab"><a href="javascript:void(0);" ng-click="showPropertyTab(2);" ng-class="propertyTab.showImages? 'active' :''"><span class="sub-component-icon2">&nbsp;</span><span class="link-txt">Photo</span></a></li>
+                  <li class="tab"><a href="javascript:void(0);" ng-click="showPropertyTab(3);" ng-class="propertyTab.showReceipt? 'active' :''"><span class="sub-component-icon3">&nbsp;</span><span class="link-txt">Receipt</span></a></li>
+                  <li class="tab"><a href="javascript:void(0);" ng-click="showPropertyTab(4);" ng-class="propertyTab.showCertificate? 'active' :''"><span class="sub-component-icon4">&nbsp;</span><span class="link-txt">Certificate</span></a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="col s12 m9 l10">
+              <div class="row">
+                  <div class="error-msg" ng-if="propertyFormError">
+                        <div class="disp-cell">
+                        <i class="fa fa-exclamation-triangle"></i>
+                        </div> 
+                        <div class="disp-cell">
+                        <span>{{propertyErrorMessage}}</span>
+                        </div>
+                    </div>
+      
+                    <div class="success-msg mt-10 mb-10" ng-if="propertyFormSuccess">
+                        <div class="disp-cell">
+                        <i class="fa fa-thumbs-o-up"></i>
+                        </div> 
+                        <div class="disp-cell">
+                        <span>{{propertySuccessMessage}}</span>
+                        </div>
+                        <div class="clear"></div>
+                   </div>
+                <div ng-show="propertyTab.showProperty" class="col s12 m12 l11 component-r-panel"> 
+                    <form autofocus-form name="gemstoneForm" ng-submit="gemstoneForm.$valid && addupdateItemComponentProperties()" novalidate>
+                  <!--component-tab starts-->
+                  <div>
+                    <div class="row row2-marb0">
+                      <div class="col l12 shape-con">
+                        <div class="col s12">
+                          <label class="label-7">Shape <sup>*</sup> <img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                          <ul>
+                              <li ng-repeat="diamondShapeObj in componentShape | filter: { componentType: 2}" ng-class="propertyAttribute.shape==diamondShapeObj.value?'active':''">
+                                  <a href="javascript:void(0)" ng-click="changePropertyShape(diamondShapeObj.value)" class="tooltipped" data-tooltip="{{diamondShapeObj.name}}" data-delay="50" data-position="bottom"><img alt="Diamond Oval" src="../img/{{diamondShapeObj.img}}"/></a>
+                              </li>
+                          </ul>
+                          <input type="hidden" name="hdnGemShape" ng-model="propertyAttribute.shape" required>
+                          <label class="error" ng-show="gemstoneForm.$submitted || (gemstoneForm.hdnGemShape.$dirty && gemstoneForm.hdnGemShape.$invalid)">
+                                <label class="error-msg-form" ng-show="gemstoneForm.hdnGemShape.$error.required">Shape is required.</label>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row row2-marb0">
+<!--                      <div class="col s12 m6 l6">
+                        <div class="col-l1">
+                          <div class="input-field col s12">
+                            <input ng-model="propertyAttribute.marketValue" id="Market-value2" type="text" class="validate">
+                            <label for="Market-value2" class="label-7">Market Value</label>
+                          </div>
+                        </div>
+                      </div>-->
+                      <div class="col s12 m6 l6">
+                        <div class="col-r1">
+                          <div class="input-field col s12">
+                            <select ng-model="propertyAttribute.gemstonesType" name="gemstonesType" ng-options="gemstoneTypeObj.value as gemstoneTypeObj.name group by gemstoneTypeObj.group for gemstoneTypeObj in gemstoneType" required>
+                              <option value="" >Select</option>
+                            </select>
+                            <label class="label-7">Type <sup>*</sup><img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                            <label class="error" ng-show="gemstoneForm.$submitted || (gemstoneForm.gemstonesType.$dirty && gemstoneForm.gemstonesType.$invalid)">
+                                <label class="error-msg-form" ng-show="gemstoneForm.gemstonesType.$error.required">Type is required.</label>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col s12 m6 l6">
+                        <div class="col-l1">
+                          <div class="col s12">
+                            <label class="label-7">Placement <img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                            <div class="clearfix"></div>
+                            <div class="row radio-box">
+                              <div class="col s6">
+                                <p>
+                                    <input ng-model="propertyAttribute.placement" value="1" name="gemPlacement" type="radio" id="gemPlacement1" />
+                                  <label for="gemPlacement1">Mounted</label>
+                                </p>
+                              </div>
+                              <div class="col s6">
+                                <p>
+                                  <input ng-model="propertyAttribute.placement" value="2" name="gemPlacement" type="radio" id="gemPlacement2" />
+                                  <label for="gemPlacement2">Unmounted</label>
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col s12 m12 l6">
+                        <div class="col-r1">
+                          <div class="input-field col s12">
+                            <select ng-model="propertyAttribute.cut" ng-options="gemstoneCutsObj.value as gemstoneCutsObj.name for gemstoneCutsObj in gemstoneCuts">
+                              <option value="" >Select</option>
+                            </select>
+                            <label class="label-7">Cut <img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col s12 m12 l6">
+                        <div class="col-r1">
+                          <div class="input-field col s12">
+                            <select ng-model="propertyAttribute.enhancement" ng-options="enhancementObj.value as enhancementObj.name for enhancementObj in enhancement">
+                              <option value="" >Select</option>
+                            </select>
+                            <label class="label-7">Enhancement <img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row row2-marb0">
+                      <div class="col s12 m6 l6">
+                      <div class="col-r1">
+                        <div class="input-field col s12">
+                          <select ng-model="propertyAttribute.origin" ng-options="allCountriesObj.countryId as allCountriesObj.countryName for allCountriesObj in allCountries">
+                            <option value="" >Select</option>
+                          </select>
+                          <label class="label-7">Origin<img alt="" class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                        </div>
+                      </div>
+                    </div>
+                      <div class="col s12 m6 l6">
+                        <div class="col-l1">
+                          <div class="row">
+                            <div class="input-field col s12 m6 l6">
+                              <input ng-class="propertyAttribute.weight?'active':''" ng-model="propertyAttribute.weight"  name="gemstoneWeight" id="gemstoneWeight" type="text" limit-double5 ng-pattern="/^(([0-9]*)|(([0-9]*)\.([0-9]*)))$/" maxlength="10">
+                              <label ng-class="propertyAttribute.weight?'active':''" for="gemstoneWeight" class="label-7">Weight <sup class="sml-txt">(ct)</sup><img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                              <label class="error" ng-show="gemstoneForm.$submitted ||  gemstoneForm.gemstoneWeight.$touched || (gemstoneForm.gemstoneWeight.$dirty && gemstoneForm.gemstoneWeight.$invalid)">
+                                    <label class="error-msg-form" ng-show="gemstoneForm.gemstoneWeight.$error.pattern">Invalid Number.</label>
+                                    <label class="error-msg-form" ng-show="gemstoneForm.gemstoneWeight.$error.tooLong">Number too long.</label>
+                              </label>
+                            </div>
+                            <div class="input-field col s12 m6 l6">
+                              <input ng-class="propertyAttribute.measurements?'active':''" ng-model="propertyAttribute.measurements" name="gemstoneMeasurements" id="gemstoneMeasurements" type="text" ng-pattern="/^([0-9 .xX]*)$/" maxlength="20">
+                              <label ng-class="propertyAttribute.measurements?'active':''" for="gemstoneMeasurements" class="label-7 label-mart">Measurements <sup class="sml-txt">(l x w x d (mm))</sup> <img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                              <label class="error" ng-show="gemstoneForm.$submitted ||  gemstoneForm.gemstoneMeasurements.$touched || (gemstoneForm.gemstoneMeasurements.$dirty && gemstoneForm.gemstoneMeasurements.$invalid)">
+                                    <label class="error-msg-form" ng-show="gemstoneForm.gemstoneMeasurements.$error.pattern">Invalid Number.</label>
+                                    <label class="error-msg-form" ng-show="gemstoneForm.gemstoneMeasurements.$error.tooLong">Number too long.</label>
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col s12 m12"> <b class="col s12">Inclusions (Applies to All Stones)</b></div>
+                    </div>
+                    <div class="row row2-marb0">
+                      <div class="col s12 m12 l6">
+                        <div class="col-l1">
+                          <div class="input-field col s12">
+                            <select class="select-dropdown2" ng-model="propertyAttribute.externalInclusions" ng-options="externalInclusionsObj.value as externalInclusionsObj.name for externalInclusionsObj in externalInclusions" multiple>
+                              <option value="" disabled >Select</option>
+                            </select>
+                            <label class="label-7">External
+                              Inclusions<img class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col s12 m12 l6">
+                        <div class="col-l1">
+                          <div class="input-field col s12">
+                              <select class="select-dropdown2" ng-model="propertyAttribute.internalInclusions" name="gemInternalInclusions" ng-options="internalInclusionsObj.value as internalInclusionsObj.name for internalInclusionsObj in internalInclusions" required multiple>
+                              <option value="" disabled >Select</option>
+                            </select>
+                            <label class="label-7">Internal Inclusions <sup>*</sup><img alt="" class="icon-info tooltip" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." src="../img/icon-info.jpg"/></label>
+                            <label class="error" ng-show="gemstoneForm.$submitted || (gemstoneForm.gemInternalInclusions.$dirty && gemstoneForm.gemInternalInclusions.$invalid)">
+                                <label class="error-msg-form" ng-show="gemstoneForm.gemInternalInclusions.$error.required">Internal Inclusions is required.</label>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row row2-marb0" ng-if="isAgentLogin">
+                    <div class="col s12 m6 l6">
+                      <div class="col-r1">
+                        <div class="input-field col s12">
+                            <input ng-class="propertyAttribute.priceProperty.purchasePrice?'active':''" ng-model="propertyAttribute.priceProperty.purchasePrice" id="pearlPurchasedPrice" name="pearlPurchasedPrice" type="text" ng-pattern="/^(([0-9]*)|(([0-9]*)\.([0-9]*)))$/">
+                          <label ng-class="propertyAttribute.priceProperty.purchasePrice?'active':''" for="pearlLength" class="label-7">Purchased price</label>
+                          <label class="error" ng-show="pearlForm.$submitted ||  pearlForm.pearlPurchasedPrice.$touched || (pearlForm.pearlPurchasedPrice.$dirty && pearlForm.pearlPurchasedPrice.$invalid)">
+                                <label class="error-msg-form" ng-show="gemstoneForm.pearlPurchasedPrice.$error.pattern">Invalid Number.</label>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    
+                  </div>
+                    <div class="center">
+                        <button type="submit" class="ok-btn2 waves-effect waves-light tooltipped" data-tooltip="SUBMIT" data-delay="50" data-position="top"><img src="../img/icon-ok1.png"/></button>
+<!--                        <a href="item-added-successfully.html" target="_parent" class="ok-btn2 waves-effect waves-light tooltipped" data-tooltip="SUBMIT" data-delay="50" data-position="top"><img src="../img/icon-ok2.png"/></a>-->
+                    </div>
+                  </div>
+                  </form>
+                  <!--component-tab ends--> 
+                  
+                </div>
+                 
+                <div ng-include="'include/property-uploader.html'"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--component properties section ends-->
